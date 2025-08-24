@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Page
+    x:Class="ServerAppDesktop.Bedrock.Pages.AboutPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:ServerAppDesktop.Bedrock.Pages"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d">
+
+    <ScrollViewer>
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
+            <StackPanel Orientation="Horizontal" Spacing="8" Grid.Row="0" 
+                VerticalAlignment="Top" Padding="16,12">
+                <FontIcon Glyph="&#xE946;" FontWeight="SemiBold" FontSize="28"/>
+                <TextBlock Text="Acerca de Server App Desktop" TextWrapping="Wrap" Style="{ThemeResource TitleTextBlockStyle}" />
+            </StackPanel>
+
+            <StackPanel Padding="100" Grid.Row="1" Spacing="20">
+                <StackPanel>
+                    <TextBlock HorizontalAlignment="Center" Style="{ThemeResource TitleTextBlockStyle}" Text="Server App Desktop" />
+                    <TextBlock HorizontalAlignment="Center" Style="{ThemeResource SubtitleTextBlockStyle}" Text="Versión 1.0 Preview 2" Margin="0,0,0,8"/>
+                </StackPanel>
+                <Image Margin="20" Source="/Assets/AppIcon.png" Width="100" Height="100" HorizontalAlignment="Center" />
+                <TextBlock TextWrapping="Wrap" FontSize="16">
+                    Server App Desktop es una aplicación avanzada de escritorio para Windows, construida con precisión quirúrgica y alto rendimiento.
+                    Desarrollada, depurada y empaquetada manualmente en laptop local, probada y validada en entornos virtualizados con VMware Workstation.
+                </TextBlock>
+                <TextBlock TextWrapping="Wrap" FontSize="16">
+                    Cada línea fue escrita por mí, Prof Minecraft — arquitecto de alto rendimiento, explorador de entornos virtuales y domador de ensambladores.
+                    Este proyecto es más que código: es un manifiesto digital hecho con pulso de ingeniería y alma de depurador técnico. ;)
+                </TextBlock>
+            </StackPanel>
+        </Grid>
+    </ScrollViewer>
+</Page>

@@ -1,0 +1,270 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Page
+    x:Class="ServerAppDesktop.InitialSettings.InitialSettingsMainPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:ServerAppDesktop.InitialSettings"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d">
+
+    <!-- Transiciones de la página -->
+    <Page.Transitions>
+        <TransitionCollection>
+            <ReorderThemeTransition />
+        </TransitionCollection>
+    </Page.Transitions>
+
+    <!-- 🧱 Distribución principal con 3 filas -->
+    <Grid x:Name="LayoutRoot">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*" /> <!-- Contenido principal -->
+            <RowDefinition Height="Auto" />
+            <!-- Botón final -->
+        </Grid.RowDefinitions>
+
+        <!-- 🧩 Sección central con estilo Configuración -->
+        <ScrollViewer x:Name="MainScrollView" Grid.Row="0">
+            <StackPanel Padding="24,10" Spacing="20">
+
+                <!-- 🎉 Mensaje de bienvenida -->
+                <TextBlock Text="¡Bienvenido!"
+                           Style="{ThemeResource TitleLargeTextBlockStyle}"
+                           HorizontalAlignment="Center"
+                           TextWrapping="Wrap" />
+
+                <!-- 🎮 Selección de edición -->
+                <Border CornerRadius="{ThemeResource ControlCornerRadius}" Background="{ThemeResource CardBackgroundFillColorDefaultBrush}" Padding="16">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="Auto" />
+                        </Grid.ColumnDefinitions>
+
+                        <Grid Grid.Column="0">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
+
+                            <FontIcon Grid.Column="0"
+                             
+                              Glyph="&#xE74C;"
+                              Margin="0,0,8,0" />
+
+                            <StackPanel Grid.Column="1">
+                                <TextBlock Text="Edición de Minecraft"
+                                   Style="{ThemeResource BodyStrongTextBlockStyle}"
+                                   TextWrapping="Wrap" />
+                                <TextBlock Text="Esta es primordial para ejecutar el programa adecuado"
+                                   Style="{ThemeResource CaptionTextBlockStyle}"
+                                   TextWrapping="Wrap" />
+                            </StackPanel>
+                        </Grid>
+
+                        <ComboBox x:Name="ServerTypeRadio" Margin="0,0,5,0"  Grid.Column="1" Width="200" SelectedIndex="0" VerticalAlignment="Center">
+                            <ComboBoxItem Content="Minecraft Bedrock" />
+                            <ComboBoxItem Content="Minecraft Java" />
+                        </ComboBox>
+                    </Grid>
+                </Border>
+
+                <!-- 📂 Ruta al servidor -->
+                <Border CornerRadius="{ThemeResource ControlCornerRadius}" Background="{ThemeResource CardBackgroundFillColorDefaultBrush}" Padding="16">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="Auto" />
+                        </Grid.ColumnDefinitions>
+
+                        <Grid Grid.Column="0">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
+
+                            <FontIcon Grid.Column="0"
+             
+              Glyph="&#xEDA2;" Margin="0,0,8,0" />
+
+                            <StackPanel Grid.Column="1">
+                                <TextBlock Text="Selecciona la ruta al servidor:"
+                   Style="{ThemeResource BaseTextBlockStyle}"
+                   TextWrapping="Wrap" />
+                                <TextBlock Text="Es donde se encuentra la instalación del servidor"
+                   Style="{ThemeResource CaptionTextBlockStyle}"
+                   TextWrapping="Wrap" />
+                            </StackPanel>
+                        </Grid>
+
+                        <StackPanel Grid.Column="1" Orientation="Horizontal" Spacing="8" VerticalAlignment="Center">
+                            <TextBox x:Name="ServerFolderPathText" IsReadOnly="True" PlaceholderText="La ruta será mostrada aquí" MinWidth="200" TextWrapping="Wrap" />
+                            <Button x:Name="ServerFolderPicker" Style="{ThemeResource AccentButtonStyle}">
+                                <StackPanel Orientation="Horizontal" Spacing="8">
+                                    <FontIcon Glyph="&#xE8DA;" />
+                                    <TextBlock Text="Seleccionar" />
+                                </StackPanel>
+                            </Button>
+                        </StackPanel>
+                    </Grid>
+                </Border>
+
+                <!-- ⚙️ Ejecutable del servidor -->
+                <Border CornerRadius="{ThemeResource ControlCornerRadius}" Background="{ThemeResource CardBackgroundFillColorDefaultBrush}" Padding="16">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="Auto" />
+                        </Grid.ColumnDefinitions>
+
+                        <Grid Grid.Column="0">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
+
+                            <FontIcon Grid.Column="0"
+             
+              Glyph="&#xE943;" Margin="0,0,8,0" />
+
+                            <StackPanel Grid.Column="1">
+                                <TextBlock Text="Selecciona el ejecutable del servidor:"
+                   Style="{ThemeResource BaseTextBlockStyle}"
+                   TextWrapping="Wrap" />
+                                <TextBlock Text="Debe coincidir con la versión del launcher"
+                   Style="{ThemeResource CaptionTextBlockStyle}"
+                   TextWrapping="Wrap" />
+                            </StackPanel>
+                        </Grid>
+
+                        <StackPanel Grid.Column="1" Orientation="Horizontal" Spacing="8" VerticalAlignment="Center">
+                            <TextBox x:Name="ExecutablePathText" IsReadOnly="True" PlaceholderText="El archivo será mostrado aquí" MinWidth="200" TextWrapping="Wrap" />
+                            <Button x:Name="ExecutablePicker" Style="{ThemeResource AccentButtonStyle}">
+                                <StackPanel Orientation="Horizontal" Spacing="8">
+                                    <FontIcon Glyph="&#xE8DA;" />
+                                    <TextBlock Text="Seleccionar" />
+                                </StackPanel>
+                            </Button>
+                        </StackPanel>
+                    </Grid>
+                </Border>
+
+                <!-- 🌐 IP del servidor -->
+                <Border CornerRadius="{ThemeResource ControlCornerRadius}" Background="{ThemeResource CardBackgroundFillColorDefaultBrush}" Padding="16">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="Auto" />
+                        </Grid.ColumnDefinitions>
+
+                        <Grid Grid.Column="0">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
+
+                            <FontIcon Grid.Column="0"
+             
+              Glyph="&#xE774;" Margin="0,0,8,0" />
+
+                            <StackPanel Grid.Column="1">
+                                <TextBlock Text="Selecciona la IP del servidor:"
+                   Style="{ThemeResource BaseTextBlockStyle}"
+                   TextWrapping="Wrap" />
+                                <TextBlock Text="Usualmente se asigna de forma automática"
+                   Style="{ThemeResource CaptionTextBlockStyle}"
+                   TextWrapping="Wrap" />
+                            </StackPanel>
+                        </Grid>
+
+                        <StackPanel Grid.Column="1" Orientation="Horizontal" Spacing="8" VerticalAlignment="Center">
+                            <TextBox x:Name="ServerIpText" IsReadOnly="True" PlaceholderText="La IP será la de tu conexión" MinWidth="200" TextWrapping="Wrap" />
+                            <CheckBox x:Name="AutoIpCheckBox" Content="IP de la conexión" IsChecked="True" />
+                        </StackPanel>
+                    </Grid>
+                </Border>
+
+                <!-- 🔌 Puerto del servidor -->
+                <Border CornerRadius="{ThemeResource ControlCornerRadius}" Background="{ThemeResource CardBackgroundFillColorDefaultBrush}" Padding="16">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="Auto" />
+                        </Grid.ColumnDefinitions>
+
+                        <Grid Grid.Column="0">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
+
+                            <FontIcon Grid.Column="0"
+             
+              Glyph="&#xE8D4;" Margin="0,0,8,0" />
+
+                            <StackPanel Grid.Column="1">
+                                <TextBlock Text="Selecciona el puerto para el servidor:"
+                   Style="{ThemeResource BaseTextBlockStyle}"
+                   TextWrapping="Wrap" />
+                                <TextBlock Text="Puede extraerse del archivo .properties"
+                   Style="{ThemeResource CaptionTextBlockStyle}"
+                   TextWrapping="Wrap" />
+                            </StackPanel>
+                        </Grid>
+
+                        <StackPanel Grid.Column="1" Orientation="Horizontal" Spacing="8" VerticalAlignment="Center">
+                            <TextBox x:Name="ServerPortText" IsReadOnly="True" PlaceholderText="El puerto será mostrado aquí" MinWidth="200" TextWrapping="Wrap" />
+                            <CheckBox x:Name="AutoPortCheckBox" Content="Puerto del archivo .properties" IsChecked="True" />
+                        </StackPanel>
+                    </Grid>
+                </Border>
+
+                <!-- 🚀 Toggle de inicio automático -->
+                <Border CornerRadius="{ThemeResource ControlCornerRadius}" Background="{ThemeResource CardBackgroundFillColorDefaultBrush}" Padding="16">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="Auto" />
+                        </Grid.ColumnDefinitions>
+
+                        <Grid Grid.Column="0">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
+
+                            <FontIcon Grid.Column="0"
+             
+              Glyph="&#xE78B;" Margin="0,0,8,0" />
+
+                            <StackPanel Grid.Column="1">
+                                <TextBlock Text="Ejecutar servidor antes de iniciar"
+                   Style="{ThemeResource BodyTextBlockStyle}"
+                   TextWrapping="Wrap" />
+                                <TextBlock Text="No recomendable si puede fallar la carga del launcher"
+                   Style="{ThemeResource CaptionTextBlockStyle}"
+                   TextWrapping="Wrap" />
+                            </StackPanel>
+                        </Grid>
+
+                        <ToggleSwitch Grid.Column="1" IsOn="False" VerticalAlignment="Center" />
+                    </Grid>
+                </Border>
+            </StackPanel>
+        </ScrollViewer>
+
+        <!-- ✅ Botón inferior para finalizar configuración -->
+        <Button Grid.Row="1" Margin="30"
+                Style="{ThemeResource AccentButtonStyle}"
+                VerticalAlignment="Bottom"
+                HorizontalAlignment="Center"
+                MinWidth="220"
+                x:Name="FinishButton"
+                Click="Iniciar_App">
+            <StackPanel Orientation="Horizontal" Spacing="8">
+                <FontIcon Glyph="&#xE8FC;" />
+                <TextBlock Text="Completar configuración" TextWrapping="Wrap"/>
+            </StackPanel>
+        </Button>
+    </Grid>
+</Page>
