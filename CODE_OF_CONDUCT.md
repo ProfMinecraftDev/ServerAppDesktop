@@ -1,7 +1,7 @@
 ﻿# 📜 Código de Conducta - ServerAppDesktop
 
 ## 🎯 Nuestro Compromiso
-Nos comprometemos a mantener un ambiente **respetuoso e inclusivo** para todos los colaboradores, sin importar su experiencia, identidad o背景.
+Nos comprometemos a mantener un ambiente **respetuoso e inclusivo** para todos los colaboradores, sin importar su experiencia, identidad o lugar.
 
 ## ✅ Comportamiento Esperado
 - **Lenguaje respetuoso** e inclusivo
@@ -40,5 +40,6 @@ Este Código de Conducta está adaptado del [Contributor Covenant][cc].
 <div align="center">
 
 ¡Construyamos juntos una comunidad awesome! 🚀
+
 
 </div>
