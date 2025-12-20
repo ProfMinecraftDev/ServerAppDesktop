@@ -275,16 +275,10 @@ ServerAppDesktop/
 
 ## 🗺️ Roadmap y Próximas Funcionalidades
 
-### 🎯 Version 1.0 (Próximo Release)
+### 🎯 Version 1.0.0 (Release estable)
 - [ ] **📊 Dashboard de Métricas**: CPU, RAM, y estadísticas del servidor en tiempo real
 - [ ] **🔌 Plugin Manager**: Sistema de plugins para extender funcionalidades
-- [ ] **🌐 Remote Management**: Gestión remota vía API REST
 - [ ] **📝 Advanced Logging**: Sistema de logs estructurado con filtros
-
-### 🔮 Version 2.0 (Visión a Largo Plazo)
-- [ ] **🏗️ Multi-Server**: Gestión de múltiples servidores simultáneamente
-- [ ] **📈 Analytics**: Analíticas avanzadas y reportes de rendimiento
-- [ ] **🔐 Enterprise Features**: Características para entornos empresariales
 
 ---
 
