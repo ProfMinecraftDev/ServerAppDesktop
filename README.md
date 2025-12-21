@@ -63,3 +63,32 @@
 - Todo guardado en JSON con patrón legible.
 - Persistente en `%LocalAppData%\Server App Desktop\Settings\Settings.json` editable.
 - Instalación Per-User y Per-Machine.
+
+## Instalación y Configuración
+
+### Prerrequisitos
+- **OS**: Windows 10 Version 2004 (19041) o superior
+- **Hardware**: x64, x86, o ARM64
+- **Visual Studio**: 2022 versión 17.8+ con carga de trabajo "WinUI Application Development"
+
+### Instalación desde Release
+1. **Descarga el instalador**: `ServerAppDesktop-User-Setup-1.0-Pre2.exe`
+2. **Ejecuta como administrador** para una instalación completa **(NO OBLIGATORIO)**
+3. **Sigue el asistente** de configuración inicial al primer arranque
+
+### Compilación desde Código Fuente
+
+```powershell
+# 1. Clonar el repositorio
+git clone https://github.com/ProfMinecraftDev/ServerAppDesktop.git
+cd ServerAppDesktop
+
+# 2. Restaurar dependencias
+dotnet restore src/ServerAppDesktop.csproj
+
+# 3. Compilar en modo Debug
+dotnet build src/ServerAppDesktop.csproj -c Debug
+
+# 4. Compilar para Release (con optimizaciones)
+dotnet publish src/ServerAppDesktop.csproj -c Release -r win-x64 --self-contained
+```
