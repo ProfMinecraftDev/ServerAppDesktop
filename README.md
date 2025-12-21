@@ -1,4 +1,4 @@
-![Server App Desktop hero image](docs/images/header.png)
+![Server App Desktop hero image](docs/images/Header.png)
 
 <h1 align="center">
     Server App Desktop
