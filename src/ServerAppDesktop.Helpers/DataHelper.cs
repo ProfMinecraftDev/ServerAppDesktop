@@ -7,6 +7,7 @@ namespace ServerAppDesktop.Helpers
         public static readonly string AppName = "Server App Desktop";
         public static readonly string WindowTitle = "Server App Desktop (Preview)";
         public static readonly string WindowSubtitle = string.Empty;
+        public static readonly bool RunAsAdmin = false;
         public static readonly bool DebugMode =
 #if DEBUG
                 true;
@@ -16,12 +17,18 @@ namespace ServerAppDesktop.Helpers
 
         static DataHelper()
         {
-            bool admin = false;
+            RunAsAdmin = false;
 
             var identity = WindowsIdentity.GetCurrent();
             var principal = new WindowsPrincipal(identity);
-            admin = principal.IsInRole(WindowsBuiltInRole.Administrator);
+            RunAsAdmin = principal.IsInRole(WindowsBuiltInRole.Administrator);
 
+            if (DebugMode)
+                WindowSubtitle = ResourceHelper.GetString("DebugModeIndicator");
+            else if (RunAsAdmin)
+                WindowSubtitle = ResourceHelper.GetString("AdminModeIndicator");
+            else if (RunAsAdmin && DebugMode)
+                WindowSubtitle = ResourceHelper.GetString("AdminDebugModeIndicator");
         }
     }
 }
