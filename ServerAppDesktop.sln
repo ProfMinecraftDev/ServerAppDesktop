@@ -1,8 +1,10 @@
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 18
-VisualStudioVersion = 18.0.11222.15 d18.0
+VisualStudioVersion = 18.0.11222.15
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ServerAppDesktop", "src\ServerAppDesktop\ServerAppDesktop.csproj", "{3A7EEBE6-A714-4631-8D5D-CA7E90045F91}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ServerAppDesktop.Helpers", "src\ServerAppDesktop.Helpers\ServerAppDesktop.Helpers.csproj", "{225A24E8-206C-24E8-D1CF-B33473191406}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -26,6 +28,18 @@ Global
 		{3A7EEBE6-A714-4631-8D5D-CA7E90045F91}.Release|x64.Build.0 = Release|x64
 		{3A7EEBE6-A714-4631-8D5D-CA7E90045F91}.Release|x86.ActiveCfg = Release|x86
 		{3A7EEBE6-A714-4631-8D5D-CA7E90045F91}.Release|x86.Build.0 = Release|x86
+		{225A24E8-206C-24E8-D1CF-B33473191406}.Debug|ARM64.ActiveCfg = Debug|x64
+		{225A24E8-206C-24E8-D1CF-B33473191406}.Debug|ARM64.Build.0 = Debug|x64
+		{225A24E8-206C-24E8-D1CF-B33473191406}.Debug|x64.ActiveCfg = Debug|x64
+		{225A24E8-206C-24E8-D1CF-B33473191406}.Debug|x64.Build.0 = Debug|x64
+		{225A24E8-206C-24E8-D1CF-B33473191406}.Debug|x86.ActiveCfg = Debug|x64
+		{225A24E8-206C-24E8-D1CF-B33473191406}.Debug|x86.Build.0 = Debug|x64
+		{225A24E8-206C-24E8-D1CF-B33473191406}.Release|ARM64.ActiveCfg = Release|x64
+		{225A24E8-206C-24E8-D1CF-B33473191406}.Release|ARM64.Build.0 = Release|x64
+		{225A24E8-206C-24E8-D1CF-B33473191406}.Release|x64.ActiveCfg = Release|x64
+		{225A24E8-206C-24E8-D1CF-B33473191406}.Release|x64.Build.0 = Release|x64
+		{225A24E8-206C-24E8-D1CF-B33473191406}.Release|x86.ActiveCfg = Release|x64
+		{225A24E8-206C-24E8-D1CF-B33473191406}.Release|x86.Build.0 = Release|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

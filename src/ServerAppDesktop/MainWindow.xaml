@@ -7,5 +7,21 @@
     xmlns:local="using:ServerAppDesktop"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:winex="using:WinUIEx"
-    Title="ServerAppDesktop"
-    mc:Ignorable="d" />
+    Title="{x:Bind WindowTitle, Mode=OneTime}"
+    mc:Ignorable="d">
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+
+        <TitleBar Title="{x:Bind WindowTitle, Mode=OneTime}" Grid.Row="0">
+            <TitleBar.IconSource>
+                <ImageIconSource ImageSource="/Assets/AppIcon-16.png" />
+            </TitleBar.IconSource>
+        </TitleBar>
+    </Grid>
+
+</winex:WindowEx>
