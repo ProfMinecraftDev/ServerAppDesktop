@@ -32,6 +32,20 @@
 - Se está organizando la App en proyectos separados (Ejecutable-Librería1-Libreria2-Libreria3) para mejor claridad en pruebas (sobre todo las unitarias).
 - Utilizamos Dependency Injection (DI) del paquete `Microsoft.Extensions.Hosting` para mejor obtención de servicios.
 - Reducimos cantidad de variables para evitar tanta sobrecarga en la memoria.
+- **Estructura de directorios:**
+    ```
+    ServerAppDesktop
+    |   ServerAppDesktop.sln            # Solución
+    |
+    +---installer                       
+    |   \---Assets                      # Archivos de instalador
+    \---src
+        +---ServerAppDesktop            # Proyecto principal, UI y ViewModels
+        +---ServerAppDesktop.Controls   # Controles personalizados
+        +---ServerAppDesktop.Helpers    # Helpers
+        +---ServerAppDesktop.Models     # Modelos (datos puros)
+        \---ServerAppDesktop.Services   # Servicios (Lógica completa)
+    ```
 
 ## Características
 
@@ -44,3 +58,8 @@
 - Manejo de archivos de tu servidor (Borrar, Copiar, Mover, Renombrar, Backup y Edición).
 - Envío de comentarios (feedback) para mejorar.
 - Cumplimiento de normas Fluent Design.
+
+### Configuración
+- Todo guardado en JSON con patrón legible.
+- Persistente en `%LocalAppData%\Server App Desktop\Settings\Settings.json` editable.
+- Instalación Per-User y Per-Machine.
