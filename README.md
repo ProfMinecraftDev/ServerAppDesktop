@@ -72,7 +72,7 @@
 - **Visual Studio**: 2022 versión 17.8+ con carga de trabajo "WinUI Application Development"
 
 ### Instalación desde Release
-1. **Descarga el instalador**: `ServerAppDesktop-User-Setup-1.0-Pre2.exe`
+1. **Descarga el instalador**: `ServerAppDesktop-Setup-1.0.0.3-Preview.exe`
 2. **Ejecuta como administrador** para una instalación completa **(NO OBLIGATORIO)**
 3. **Sigue el asistente** de configuración inicial al primer arranque
 
