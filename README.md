@@ -1,4 +1,4 @@
-![Server App Desktop hero image](docs/images/header.png)
+![Server App Desktop hero image](docs/images/Header.png)
 
 <h1 align="center">
     Server App Desktop
@@ -32,6 +32,20 @@
 - Se está organizando la App en proyectos separados (Ejecutable-Librería1-Libreria2-Libreria3) para mejor claridad en pruebas (sobre todo las unitarias).
 - Utilizamos Dependency Injection (DI) del paquete `Microsoft.Extensions.Hosting` para mejor obtención de servicios.
 - Reducimos cantidad de variables para evitar tanta sobrecarga en la memoria.
+- **Estructura de directorios:**
+    ```
+    ServerAppDesktop
+    |   ServerAppDesktop.sln            # Solución
+    |
+    +---installer                       
+    |   \---Assets                      # Archivos de instalador
+    \---src
+        +---ServerAppDesktop            # Proyecto principal, UI y ViewModels
+        +---ServerAppDesktop.Controls   # Controles personalizados
+        +---ServerAppDesktop.Helpers    # Helpers
+        +---ServerAppDesktop.Models     # Modelos (datos puros)
+        \---ServerAppDesktop.Services   # Servicios (Lógica completa)
+    ```
 
 ## Características
 
@@ -44,3 +58,37 @@
 - Manejo de archivos de tu servidor (Borrar, Copiar, Mover, Renombrar, Backup y Edición).
 - Envío de comentarios (feedback) para mejorar.
 - Cumplimiento de normas Fluent Design.
+
+### Configuración
+- Todo guardado en JSON con patrón legible.
+- Persistente en `%LocalAppData%\Server App Desktop\Settings\Settings.json` editable.
+- Instalación Per-User y Per-Machine.
+
+## Instalación y Configuración
+
+### Prerrequisitos
+- **OS**: Windows 10 Version 2004 (19041) o superior
+- **Hardware**: x64, x86, o ARM64
+- **Visual Studio**: 2022 versión 17.8+ con carga de trabajo "WinUI Application Development"
+
+### Instalación desde Release
+1. **Descarga el instalador**: `ServerAppDesktop-Setup-1.0.0.3-Preview.exe`
+2. **Ejecuta como administrador** para una instalación completa **(NO OBLIGATORIO)**
+3. **Sigue el asistente** de configuración inicial al primer arranque
+
+### Compilación desde Código Fuente
+
+```powershell
+# 1. Clonar el repositorio
+git clone https://github.com/ProfMinecraftDev/ServerAppDesktop.git
+cd ServerAppDesktop
+
+# 2. Restaurar dependencias
+dotnet restore src/ServerAppDesktop.csproj
+
+# 3. Compilar en modo Debug
+dotnet build src/ServerAppDesktop.csproj -c Debug
+
+# 4. Compilar para Release (con optimizaciones)
+dotnet publish src/ServerAppDesktop.csproj -c Release -r win-x64 --self-contained
+```
