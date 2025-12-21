@@ -2,3 +2,5 @@
 /src/ServerAppDesktop/obj
 /src/ServerAppDesktop/bin
 /src/ServerAppDesktop/ServerAppDesktop.csproj.user
+/src/ServerAppDesktop.Helpers/bin
+/src/ServerAppDesktop.Helpers/obj
