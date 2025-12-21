@@ -1,7 +1,7 @@
-# 📋 Guía para Contribuir - ServerAppDesktop
+# 📋 Guía para Contribuir - Server App Desktop
 
 ## 🎯 ¡Gracias por querer contribuir!
-Apreciamos tu interés en mejorar ServerAppDesktop. Sigue estas pautas para que tu contribución sea aceptada.
+Apreciamos tu interés en mejorar Server App Desktop. Sigue estas pautas para que tu contribución sea aceptada.
 
 ## 🚀 Antes de Empezar
 
@@ -32,7 +32,7 @@ git checkout -b fix/tu-fix
 
 ### 3. 💻 Desarrolla tu Contribución
 
-#### Estructura del Proyecto:
+#### Estructura del Proyecto (ejemplo):
 ```
 src/
 ├── Bedrock/          # Páginas principales
@@ -147,11 +147,11 @@ Fixes # [número de issue]
 ```bash
 # Windows 10 - Versión mínima
 OS: Windows 10 2004 (19041)
-.NET: 9.0
+.NET: 10.0
 
 # Windows 11 - Latest
-OS: Windows 11 24H2
-.NET: 9.0
+OS: Windows 11 25H2
+.NET: 10.0
 ```
 
 ## 📚 Documentación
@@ -185,6 +185,4 @@ Todas las contribuciones válidas serán:
 
 ---
 
-**¡Gracias por hacer ServerAppDesktop mejor!** 🚀
-
-*Última actualización: Septiembre 2025*
+**¡Gracias por hacer Server App Desktop mejor!** 🚀

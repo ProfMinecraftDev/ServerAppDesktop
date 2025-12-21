@@ -1,4 +1,3 @@
-
 # Código de Conducta convenido para Contribuyentes
 
 ## Nuestro compromiso
@@ -83,4 +82,5 @@ Las Guías de Impacto en la Comunidad están inspiradas en la [escalera de aplic
 
 Para respuestas a las preguntas frecuentes de este código de conducta, consulta las FAQ en
 https://www.contributor-covenant.org/faq. Hay traducciones disponibles en https://www.contributor-covenant.org/translations
+
 
