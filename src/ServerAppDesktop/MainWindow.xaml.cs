@@ -16,7 +16,7 @@ namespace ServerAppDesktop
             InitializeComponent();
             ExtendsContentIntoTitleBar = true;
 
-            IntPtr hwnd = WindowHelper.GetWindowHandle();
+            IntPtr hwnd = this.GetWindowHandle();
             if (hwnd != IntPtr.Zero)
             {
                 var windowId = Win32Interop.GetWindowIdFromWindow(hwnd);
