@@ -44,6 +44,7 @@
         +---ServerAppDesktop.Controls   # Controles personalizados
         +---ServerAppDesktop.Helpers    # Helpers
         +---ServerAppDesktop.Models     # Modelos (datos puros)
+        +---ServerAppDesktop.Converters # Converters
         \---ServerAppDesktop.Services   # Servicios (Lógica completa)
     ```
 
