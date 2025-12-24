@@ -15,7 +15,7 @@ namespace ServerAppDesktop
         {
             InitializeComponent();
             this.CenterOnScreen();
-            var grid = Content as Grid ?? throw new NullReferenceException("Grid no est· o no se ha cargado.");
+            var grid = Content as Grid ?? throw new NullReferenceException("Grid no est√° o no se ha cargado.");
             grid.DataContext = ViewModel;
 
             ExtendsContentIntoTitleBar = true;
