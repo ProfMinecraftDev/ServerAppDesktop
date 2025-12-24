@@ -84,11 +84,11 @@ git clone https://github.com/ProfMinecraftDev/ServerAppDesktop.git
 cd ServerAppDesktop
 
 # 2. Restaurar dependencias
-dotnet restore src/ServerAppDesktop.csproj
+dotnet restore ServerAppDesktop.sln
 
 # 3. Compilar en modo Debug
-dotnet build src/ServerAppDesktop.csproj -c Debug
+dotnet build ServerAppDesktop.sln -c Debug
 
 # 4. Compilar para Release (con optimizaciones)
-dotnet publish src/ServerAppDesktop.csproj -c Release -r win-x64 --self-contained
+dotnet publish ServerAppDesktop.sln -c Release -r win-x64 --self-contained
 ```
