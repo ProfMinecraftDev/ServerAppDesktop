@@ -126,4 +126,49 @@
   <data name="DebugModeIndicator" xml:space="preserve">
     <value>Depuración (Dev)</value>
   </data>
+  <data name="FeedbackDialog_CloseButton" xml:space="preserve">
+    <value>Entendido</value>
+  </data>
+  <data name="FeedbackDialog_Description" xml:space="preserve">
+    <value>Queremos escucharte. Cuéntanos qué piensas de Server App Desktop y cómo podemos hacerlo aún mejor.</value>
+  </data>
+  <data name="FeedbackDialog_SendButton" xml:space="preserve">
+    <value>Enviar un comentario</value>
+  </data>
+  <data name="FeedbackDialog_Title" xml:space="preserve">
+    <value>Enviar comentarios</value>
+  </data>
+  <data name="MenuFlyoutItem_Administator.Text" xml:space="preserve">
+    <value>Ejecutando como administrador</value>
+  </data>
+  <data name="MenuFlyoutItem_RestartApp.Text" xml:space="preserve">
+    <value>Reiniciar aplicación</value>
+  </data>
+  <data name="MenuFlyoutItem_SendFeedback.Text" xml:space="preserve">
+    <value>Enviar comentarios</value>
+  </data>
+  <data name="MenuFlyoutItem_Warning.Text" xml:space="preserve">
+    <value>Advertencia de funciones</value>
+  </data>
+  <data name="WarningDialog_CloseButton" xml:space="preserve">
+    <value>Entendido</value>
+  </data>
+  <data name="WarningDialog_Title" xml:space="preserve">
+    <value>Advertencia</value>
+  </data>
+  <data name="WarningDialog_Description" xml:space="preserve">
+    <value>¡Estamos construyendo nuevas funciones! Algunas características de Server App Desktop todavía están en desarrollo y podrían cambiar pronto.</value>
+  </data>
+  <data name="AdminDialog_Title" xml:space="preserve">
+    <value>Ejecución como administrador</value>
+  </data>
+  <data name="AdminDialog_Description" xml:space="preserve">
+    <value>Server App Desktop se está ejecutando con privilegios de administrador. Algunas funciones pueden afectar el sistema.</value>
+  </data>
+  <data name="AdminDialog_Close" xml:space="preserve">
+    <value>Entendido</value>
+  </data>
+  <data name="DebugBannerMessage.Text" xml:space="preserve">
+    <value>Modo de depuración (Dev)</value>
+  </data>
 </root>

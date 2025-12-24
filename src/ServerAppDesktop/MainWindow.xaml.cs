@@ -1,6 +1,7 @@
 using Microsoft.UI;
 using Microsoft.UI.Windowing;
-using ServerAppDesktop.Helpers;
+using Microsoft.UI.Xaml.Controls;
+using ServerAppDesktop.ViewModels;
 using System;
 using WinUIEx;
 
@@ -8,12 +9,15 @@ namespace ServerAppDesktop
 {
     public sealed partial class MainWindow : WindowEx
     {
-        public string WindowTitle => DataHelper.WindowTitle;
-        public string WindowSubtitle => DataHelper.WindowSubtitle;
+        public MainViewModel ViewModel => App.GetRequiredService<MainViewModel>();
 
         public MainWindow()
         {
             InitializeComponent();
+            this.CenterOnScreen();
+            var grid = Content as Grid ?? throw new NullReferenceException("Grid no está o no se ha cargado.");
+            grid.DataContext = ViewModel;
+
             ExtendsContentIntoTitleBar = true;
 
             IntPtr hwnd = this.GetWindowHandle();

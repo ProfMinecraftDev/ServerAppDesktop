@@ -4,11 +4,11 @@ namespace ServerAppDesktop.Helpers
 {
     public static partial class DataHelper
     {
-        public static readonly string AppName = "Server App Desktop";
-        public static readonly string WindowTitle = "Server App Desktop (Preview)";
-        public static readonly string WindowSubtitle = string.Empty;
-        public static readonly bool RunAsAdmin = false;
-        public static readonly bool DebugMode =
+        public static string AppName { get; } = "Server App Desktop";
+        public static string WindowTitle { get; } = "Server App Desktop (Preview)";
+        public static string WindowSubtitle { get; } = string.Empty;
+        public static bool RunAsAdmin { get; } = false;
+        public static bool DebugMode { get; } =
 #if DEBUG
                 true;
 #else

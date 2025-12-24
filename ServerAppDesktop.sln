@@ -6,6 +6,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ServerAppDesktop", "src\Ser
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ServerAppDesktop.Helpers", "src\ServerAppDesktop.Helpers\ServerAppDesktop.Helpers.csproj", "{225A24E8-206C-24E8-D1CF-B33473191406}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ServerAppDesktop.Converters", "src\ServerAppDesktop.Converters\ServerAppDesktop.Converters.csproj", "{B7408DC0-5EE1-5AC8-54EC-BD5596BB3A0D}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|ARM64 = Debug|ARM64
@@ -40,6 +42,18 @@ Global
 		{225A24E8-206C-24E8-D1CF-B33473191406}.Release|x64.Build.0 = Release|x64
 		{225A24E8-206C-24E8-D1CF-B33473191406}.Release|x86.ActiveCfg = Release|x64
 		{225A24E8-206C-24E8-D1CF-B33473191406}.Release|x86.Build.0 = Release|x64
+		{B7408DC0-5EE1-5AC8-54EC-BD5596BB3A0D}.Debug|ARM64.ActiveCfg = Debug|x64
+		{B7408DC0-5EE1-5AC8-54EC-BD5596BB3A0D}.Debug|ARM64.Build.0 = Debug|x64
+		{B7408DC0-5EE1-5AC8-54EC-BD5596BB3A0D}.Debug|x64.ActiveCfg = Debug|x64
+		{B7408DC0-5EE1-5AC8-54EC-BD5596BB3A0D}.Debug|x64.Build.0 = Debug|x64
+		{B7408DC0-5EE1-5AC8-54EC-BD5596BB3A0D}.Debug|x86.ActiveCfg = Debug|x64
+		{B7408DC0-5EE1-5AC8-54EC-BD5596BB3A0D}.Debug|x86.Build.0 = Debug|x64
+		{B7408DC0-5EE1-5AC8-54EC-BD5596BB3A0D}.Release|ARM64.ActiveCfg = Release|x64
+		{B7408DC0-5EE1-5AC8-54EC-BD5596BB3A0D}.Release|ARM64.Build.0 = Release|x64
+		{B7408DC0-5EE1-5AC8-54EC-BD5596BB3A0D}.Release|x64.ActiveCfg = Release|x64
+		{B7408DC0-5EE1-5AC8-54EC-BD5596BB3A0D}.Release|x64.Build.0 = Release|x64
+		{B7408DC0-5EE1-5AC8-54EC-BD5596BB3A0D}.Release|x86.ActiveCfg = Release|x64
+		{B7408DC0-5EE1-5AC8-54EC-BD5596BB3A0D}.Release|x86.Build.0 = Release|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

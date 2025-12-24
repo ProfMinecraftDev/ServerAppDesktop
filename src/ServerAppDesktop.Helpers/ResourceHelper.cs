@@ -1,6 +1,6 @@
 ﻿using Microsoft.Windows.ApplicationModel.Resources;
 
-namespace ServerAppDesktop
+namespace ServerAppDesktop.Helpers
 {
     public sealed partial class ResourceHelper
     {
