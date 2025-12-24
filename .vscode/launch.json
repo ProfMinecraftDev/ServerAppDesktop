@@ -1,0 +1,37 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+      {
+        "name": "Server App Desktop (Unpackaged)",
+        "type": "coreclr",
+        "targetArchitecture": "x86_64",
+        "request": "launch",
+        "program": "${workspaceFolder}/src/ServerAppDesktop/bin/x64/Debug/net10.0-windows10.0.26100.0/win-x64/ServerAppDesktop.exe",
+        "preLaunchTask": "Build: solution",
+        "args": [],
+        "cwd": "${workspaceFolder}",
+        "console": "internalConsole",
+        "env": {
+          "DOTNET_ENVIRONMENT": "Development",
+          "DEBUG_MODE": "true"
+        }
+      },
+      {
+        "name": "Server App Desktop (Unpackaged + Native Debug)",
+        "type": "coreclr",
+        "request": "launch",
+        "targetArchitecture": "x86_64",
+        "program": "${workspaceFolder}/bin/x64/Debug/net10.0-windows10.0.26100.0/ServerAppDesktop.exe",
+        "preLaunchTask": "Build: solution",
+        "args": [],
+        "cwd": "${workspaceFolder}",
+        "console": "internalConsole",
+        "env": {
+          "DOTNET_ENVIRONMENT": "Development",
+          "DEBUG_MODE": "true"
+        },
+        "justMyCode": false
+      }
+    ]
+  }
+  

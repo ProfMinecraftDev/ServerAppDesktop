@@ -4,12 +4,13 @@
 		<TargetPlatformMinVersion>10.0.19041.0</TargetPlatformMinVersion>
 		<RootNamespace>ServerAppDesktop.Converters</RootNamespace>
 		<Platforms>x64</Platforms>
+		<Platform>x64</Platform>
 		<WindowsPackageType>None</WindowsPackageType>
 		<WindowsAppSDKWinUI>true</WindowsAppSDKWinUI>
 		<UseWinUI>true</UseWinUI>
 		<EnableMsixTooling>true</EnableMsixTooling>
 		<Nullable>enable</Nullable>
-		<AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+		<RuntimeIdentifier>win-x64</RuntimeIdentifier>
 	</PropertyGroup>
 
 	<ItemGroup>

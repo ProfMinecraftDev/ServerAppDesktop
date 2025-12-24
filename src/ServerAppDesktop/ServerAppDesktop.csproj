@@ -6,12 +6,14 @@
 		<RootNamespace>ServerAppDesktop</RootNamespace>
 		<ApplicationManifest>app.manifest</ApplicationManifest>
 		<Platforms>x64</Platforms>
+		<Platform>x64</Platform>
 		<WindowsPackageType>None</WindowsPackageType>
 		<WindowsAppSDKWinUI>true</WindowsAppSDKWinUI>
 		<UseWinUI>true</UseWinUI>
 		<EnableMsixTooling>true</EnableMsixTooling>
 		<Nullable>enable</Nullable>
 		<DefaultLanguage>es-MX</DefaultLanguage>
+		<RuntimeIdentifier>win-x64</RuntimeIdentifier>
 	</PropertyGroup>
 
 	<ItemGroup>

@@ -1,0 +1,20 @@
+{
+    "profiles": {
+        "Server App Desktop (Unpackaged)": {
+          "commandName": "Project",
+          "environmentVariables": {
+            "DOTNET_ENVIRONMENT": "Development",
+            "DEBUG_MODE": "true"
+          }
+        },
+        "Server App Desktop (Unpackaged + Native Debug)": {
+          "commandName": "Project",
+          "nativeDebugging" : true,
+          "environmentVariables": {
+            "DOTNET_ENVIRONMENT": "Development",
+            "DEBUG_MODE": "true"
+          }
+        }
+    }
+  }
+  
