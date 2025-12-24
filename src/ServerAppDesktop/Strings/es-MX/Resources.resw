@@ -165,7 +165,7 @@
   <data name="AdminDialog_Description" xml:space="preserve">
     <value>Server App Desktop se está ejecutando con privilegios de administrador. Algunas funciones pueden afectar el sistema.</value>
   </data>
-  <data name="AdminDialog_Close" xml:space="preserve">
+  <data name="AdminDialog_CloseButton" xml:space="preserve">
     <value>Entendido</value>
   </data>
   <data name="DebugBannerMessage.Text" xml:space="preserve">
