@@ -1,8 +1,10 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.UI.Xaml;
+using Microsoft.UI.Xaml.Media.Animation;
 using ServerAppDesktop.Helpers;
 using ServerAppDesktop.ViewModels;
+using ServerAppDesktop.Views;
 using System;
 
 namespace ServerAppDesktop
@@ -34,7 +36,7 @@ namespace ServerAppDesktop
             return Host.Services.GetRequiredService<T>();
         }
 
-        protected override void OnLaunched(LaunchActivatedEventArgs args)
+        protected override async void OnLaunched(LaunchActivatedEventArgs args)
         {
             if (MainWindow == null)
             {
@@ -42,6 +44,20 @@ namespace ServerAppDesktop
                 MainWindow.Activate();
             }
             MainWindow.Activate();
+
+            bool isConnected = await NetworkHelper.IsInternetAvailableAsync();
+            MainWindow.ViewModel.IsConnectedToInternet = isConnected;
+
+            bool needsToShowOOBE = false;
+
+            if (needsToShowOOBE)
+            {
+                MainWindow.contentFrame.Navigate(typeof(OOBEView), null, new DrillInNavigationTransitionInfo());
+            }
+            else
+            {
+                MainWindow.contentFrame.Navigate(typeof(MainView), null, new DrillInNavigationTransitionInfo());
+            }
         }
     }
 }

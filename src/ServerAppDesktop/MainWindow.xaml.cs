@@ -1,8 +1,11 @@
 using Microsoft.UI;
 using Microsoft.UI.Windowing;
+using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
+using ServerAppDesktop.Helpers;
 using ServerAppDesktop.ViewModels;
 using System;
+using System.Threading.Tasks;
 using WinUIEx;
 
 namespace ServerAppDesktop
@@ -31,6 +34,37 @@ namespace ServerAppDesktop
                 appWindow.SetIcon("Assets/AppIcon.ico");
                 appWindow.SetTaskbarIcon("Assets/AppIcon.ico");
                 appWindow.SetTitleBarIcon("Assets/AppIcon.ico");
+            }
+        }
+
+        private async void reconnectButton_Click(object sender, RoutedEventArgs e)
+        {
+            reconnectButton.IsEnabled = false;
+            noInternetInfoBar.Severity = InfoBarSeverity.Informational;
+            noInternetInfoBar.IsClosable = false;
+            noInternetInfoBar.Title = ResourceHelper.GetString("InternetConnection_Reconnecting_Title");
+            noInternetInfoBar.Message = ResourceHelper.GetString("InternetConnection_Reconnecting_Message");
+
+            bool result = await NetworkHelper.IsInternetAvailableAsync();
+
+            if (result)
+            {
+                noInternetInfoBar.IsClosable = false;
+                reconnectButton.Visibility = Visibility.Collapsed;
+                noInternetInfoBar.Title = ResourceHelper.GetString("InternetConnection_Reconnected_Title");
+                noInternetInfoBar.Message = ResourceHelper.GetString("InternetConnection_Reconnected_Message");
+                noInternetInfoBar.Severity = InfoBarSeverity.Success;
+                await Task.Delay(3000);
+                ViewModel.IsConnectedToInternet = true;
+            }
+            else
+            {
+                noInternetInfoBar.IsClosable = true;
+                noInternetInfoBar.Title = ResourceHelper.GetString("InternetConnection_FailedToReconnect_Title");
+                noInternetInfoBar.Message = ResourceHelper.GetString("InternetConnection_FailedToReconnect_Message");
+                noInternetInfoBar.Severity = InfoBarSeverity.Error;
+                reconnectButton.IsEnabled = true;
+                reconnectButton.Style = (Style)Application.Current.Resources["CriticalButtonStyle"];
             }
         }
     }

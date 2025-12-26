@@ -20,11 +20,11 @@
     <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
     <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
     <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
-        <value>[base64 mime encoded serialized .NET Framework object]</value>
+      <value>[base64 mime encoded serialized .NET Framework object]</value>
     </data>
     <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
-        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
-        <comment>This is a comment</comment>
+      <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+      <comment>This is a comment</comment>
     </data>
                 
     There are any number of "resheader" rows that contain simple 
@@ -170,5 +170,201 @@
   </data>
   <data name="DebugBannerMessage.Text" xml:space="preserve">
     <value>Modo de depuración (Dev)</value>
+  </data>
+  <data name="OOBEView_WelcomeText.Text" xml:space="preserve">
+    <value>Bienvenido a Server App Desktop!</value>
+  </data>
+  <data name="AppearanceHeader.Text" xml:space="preserve">
+    <value>Apariencia</value>
+  </data>
+  <data name="BackdropSettingsCard.Header" xml:space="preserve">
+    <value>Fondo</value>
+  </data>
+  <data name="MicaBackdropItem.Content" xml:space="preserve">
+    <value>Mica</value>
+  </data>
+  <data name="MicaAltBackdropItem.Content" xml:space="preserve">
+    <value>Mica Alt</value>
+  </data>
+  <data name="DesktopAcrylicBackdropItem.Content" xml:space="preserve">
+    <value>Acrílico de escritorio</value>
+  </data>
+  <data name="ThemeSettingsCard.Header" xml:space="preserve">
+    <value>Tema</value>
+  </data>
+  <data name="SystemThemeItem.Content" xml:space="preserve">
+    <value>Sistema</value>
+  </data>
+  <data name="LightThemeItem.Content" xml:space="preserve">
+    <value>Claro</value>
+  </data>
+  <data name="DarkThemeItem.Content" xml:space="preserve">
+    <value>Oscuro</value>
+  </data>
+  <data name="ServerHeader.Text" xml:space="preserve">
+    <value>Servidor</value>
+  </data>
+  <data name="EditionSettingsCard.Header" xml:space="preserve">
+    <value>Edición de Minecraft</value>
+  </data>
+  <data name="EditionSettingsCard.Description" xml:space="preserve">
+    <value>Configura los ajustes del servidor de Minecraft.</value>
+  </data>
+  <data name="BedrockEditionItem.Content" xml:space="preserve">
+    <value>Minecraft Bedrock</value>
+  </data>
+  <data name="JavaEditionItem.Content" xml:space="preserve">
+    <value>Minecraft Java</value>
+  </data>
+  <data name="PathSettingsCard.Header" xml:space="preserve">
+    <value>Ruta del servidor</value>
+  </data>
+  <data name="PathSettingsCard.Description" xml:space="preserve">
+    <value>Especifica la ruta del servidor.</value>
+  </data>
+  <data name="NoPathSelectedText.Text" xml:space="preserve">
+    <value>Ninguna ruta seleccionada.</value>
+  </data>
+  <data name="BrowsePathButtonText.Text" xml:space="preserve">
+    <value>Examinar</value>
+  </data>
+  <data name="ExecutableSettingsCard.Header" xml:space="preserve">
+    <value>Ejecutable del servidor</value>
+  </data>
+  <data name="ExecutableSettingsCard.Description" xml:space="preserve">
+    <value>Especifica el ejecutable del servidor para poderse lanzar.</value>
+  </data>
+  <data name="NoFileSelectedText.Text" xml:space="preserve">
+    <value>Ningún archivo seleccionado.</value>
+  </data>
+  <data name="BrowseExeButtonText.Text" xml:space="preserve">
+    <value>Examinar</value>
+  </data>
+  <data name="PortSettingsCard.Header" xml:space="preserve">
+    <value>Puerto</value>
+  </data>
+  <data name="PortSettingsCard.Description" xml:space="preserve">
+    <value>Especifica el puerto del servidor.</value>
+  </data>
+  <data name="UsePropertiesCheckBox.Content" xml:space="preserve">
+    <value>Usar el de archivo .properties</value>
+  </data>
+  <data name="ServerPortNumberBox.PlaceholderText" xml:space="preserve">
+    <value>Puerto de servidor</value>
+  </data>
+  <data name="DescriptionSettingsCard.Header" xml:space="preserve">
+    <value>Descripción del servidor</value>
+  </data>
+  <data name="DescriptionSettingsCard.Description" xml:space="preserve">
+    <value>Ponle una descripción que puede aparecer en la lista de servidores agregados.</value>
+  </data>
+  <data name="ServerDescriptionTextBox.PlaceholderText" xml:space="preserve">
+    <value>Descripción del servidor</value>
+  </data>
+  <data name="StartupHeader.Text" xml:space="preserve">
+    <value>Inicio</value>
+  </data>
+  <data name="AutoStartSettingsCard.Header" xml:space="preserve">
+    <value>Auto-inicio de servidor</value>
+  </data>
+  <data name="AutoStartSettingsCard.Description" xml:space="preserve">
+    <value>Inicia tu servidor mientras la app carga (Advertencia: la función está en desarrollo)</value>
+  </data>
+  <data name="AutoStartToggleSwitch.OnContent" xml:space="preserve">
+    <value>Activado</value>
+  </data>
+  <data name="AutoStartToggleSwitch.OffContent" xml:space="preserve">
+    <value>Desactivado</value>
+  </data>
+  <data name="AttentionInfoBar.Title" xml:space="preserve">
+    <value>Atención</value>
+  </data>
+  <data name="AttentionInfoBar.Message" xml:space="preserve">
+    <value>Completa todos los campos antes de iniciar</value>
+  </data>
+  <data name="GoButton.Content" xml:space="preserve">
+    <value>Vamos</value>
+  </data>
+  <data name="OOBEView_WelcomeDialog_Title" xml:space="preserve">
+    <value>Bienvenido</value>
+  </data>
+  <data name="OOBEView_WelcomeDialog_Description" xml:space="preserve">
+    <value>¡Bienvenido a ServerAppDesktop!
+
+Esta aplicación ha sido creada para ayudarte a gestionar tu servidor de Minecraft de manera clara y sencilla, ya sea en su edición Bedrock o Java. Aquí podrás configurar la apariencia de la interfaz, definir la ruta y el ejecutable del servidor, ajustar el puerto de conexión y personalizar la descripción que verán tus jugadores. Todo está organizado en pasos simples para que avances sin complicaciones técnicas.
+
+Además, cuentas con funciones como el auto-inicio del servidor y opciones de personalización que harán tu experiencia más cómoda y adaptada a tu estilo. La idea es que, al terminar esta configuración inicial, tengas un entorno listo para funcionar y preparado para crecer junto con tu comunidad.
+
+Este es el comienzo de tu viaje: un espacio donde cada ajuste se convierte en parte de tu altar digital. Explora con calma, disfruta el proceso y prepárate para levantar tu servidor con confianza.
+</value>
+  </data>
+  <data name="OOBEView_WelcomeDialog_Close" xml:space="preserve">
+    <value>Comencemos!</value>
+  </data>
+  <data name="BackdropSettingsCard.Description" xml:space="preserve">
+    <value>Selecciona el fondo para la ventana para mejores efectos visuales.</value>
+  </data>
+  <data name="ThemeSettingsCard.Description" xml:space="preserve">
+    <value>Selecciona el tema para tu app para una apariencia única.</value>
+  </data>
+  <data name="NoInternetInfoBar.Title" xml:space="preserve">
+    <value>Advertencia</value>
+  </data>
+  <data name="NoInternetInfoBar.Message" xml:space="preserve">
+    <value>No estás conectado a internet, es posible que algunas funciones no estén disponibles.</value>
+  </data>
+  <data name="ReconnectButtonText.Text" xml:space="preserve">
+    <value>Reconectar</value>
+  </data>
+  <data name="InternetConnection_Reconnecting_Title" xml:space="preserve">
+    <value>Espera</value>
+  </data>
+  <data name="InternetConnection_Reconnecting_Message" xml:space="preserve">
+    <value>Estamos reconectándonos a internet.</value>
+  </data>
+  <data name="InternetConnection_Reconnected_Message" xml:space="preserve">
+    <value>Se restableció la conexión a internet</value>
+  </data>
+  <data name="InternetConnection_Reconnected_Title" xml:space="preserve">
+    <value>Éxito</value>
+  </data>
+  <data name="InternetConnection_FailedToReconnect_Title" xml:space="preserve">
+    <value>Error</value>
+  </data>
+  <data name="InternetConnection_FailedToReconnect_Message" xml:space="preserve">
+    <value>No se puedo reconectar a internet</value>
+  </data>
+  <data name="AboutNavItem.ToolTipService.ToolTip" xml:space="preserve">
+    <value>Acerca de la app</value>
+  </data>
+  <data name="SystemInfoNavItem.ToolTipService.ToolTip" xml:space="preserve">
+    <value>Información del sistema</value>
+  </data>
+  <data name="WhatsNewNavItem.ToolTipService.ToolTip" xml:space="preserve">
+    <value>Novedades de Server App Desktop</value>
+  </data>
+  <data name="HomeNavItem.Content" xml:space="preserve">
+    <value>Inicio</value>
+  </data>
+  <data name="HomeNavItem.ToolTipService.ToolTip" xml:space="preserve">
+    <value>Inicio</value>
+  </data>
+  <data name="PerformanceNavItem.Content">
+    <value>Rendimiento</value>
+  </data>
+  <data name="PerformanceNavItem.ToolTipService.ToolTip">
+    <value>Rendimiento</value>
+  </data>
+  <data name="TerminalNavItem.Content">
+    <value>Terminal</value>
+  </data>
+  <data name="TerminalNavItem.ToolTipService.ToolTip">
+    <value>Terminal</value>
+  </data>
+  <data name="FilesNavItem.Content">
+    <value>Archivos</value>
+  </data>
+  <data name="FilesNavItem.ToolTipService.ToolTip">
+    <value>Archivos</value>
   </data>
 </root>

@@ -1,9 +1,7 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
-using Microsoft.UI.Composition.SystemBackdrops;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
-using Microsoft.UI.Xaml.Media;
 using ServerAppDesktop.Helpers;
 using System;
 using System.Diagnostics;
@@ -24,7 +22,7 @@ namespace ServerAppDesktop.ViewModels
         private bool _canGoBack = false;
 
         [ObservableProperty]
-        private SystemBackdrop _windowBackdrop = new MicaBackdrop { Kind = MicaKind.Base };
+        private bool _isConnectedToInternet = true;
 
         [RelayCommand]
         private void RestartApp()
