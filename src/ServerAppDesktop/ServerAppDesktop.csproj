@@ -17,6 +17,14 @@
 	</PropertyGroup>
 	<ItemGroup>
 	  <None Remove="Views\MainView.xaml" />
+	  <None Remove="Views\Pages\AboutPage.xaml" />
+	  <None Remove="Views\Pages\FilesPage.xaml" />
+	  <None Remove="Views\Pages\HomePage.xaml" />
+	  <None Remove="Views\Pages\PerformancePage.xaml" />
+	  <None Remove="Views\Pages\SettingsPage.xaml" />
+	  <None Remove="Views\Pages\SystemInfoPage.xaml" />
+	  <None Remove="Views\Pages\TerminalPage.xaml" />
+	  <None Remove="Views\Pages\WhatsNewPage.xaml" />
 	</ItemGroup>
 
 	<ItemGroup>
@@ -36,10 +44,59 @@
 	<ItemGroup>
 	  <ProjectReference Include="..\ServerAppDesktop.Converters\ServerAppDesktop.Converters.csproj" />
 	  <ProjectReference Include="..\ServerAppDesktop.Helpers\ServerAppDesktop.Helpers.csproj" />
+	  <ProjectReference Include="..\ServerAppDesktop.Services\ServerAppDesktop.Services.csproj" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <Page Update="Views\Pages\SettingsPage.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </Page>
+	</ItemGroup>
+
+	<ItemGroup>
+	  <Page Update="Views\Pages\AboutPage.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </Page>
+	</ItemGroup>
+
+	<ItemGroup>
+	  <Page Update="Views\Pages\SystemInfoPage.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </Page>
+	</ItemGroup>
+
+	<ItemGroup>
+	  <Page Update="Views\Pages\WhatsNewPage.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </Page>
+	</ItemGroup>
+
+	<ItemGroup>
+	  <Page Update="Views\Pages\FilesPage.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </Page>
+	</ItemGroup>
+
+	<ItemGroup>
+	  <Page Update="Views\Pages\TerminalPage.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </Page>
+	</ItemGroup>
+
+	<ItemGroup>
+	  <Page Update="Views\Pages\PerformancePage.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </Page>
 	</ItemGroup>
 
 	<ItemGroup>
 	  <Page Update="Views\MainView.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </Page>
+	</ItemGroup>
+
+	<ItemGroup>
+	  <Page Update="Views\Pages\HomePage.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </Page>
 	</ItemGroup>

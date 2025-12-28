@@ -3,7 +3,9 @@ using Microsoft.UI.Windowing;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using ServerAppDesktop.Helpers;
+using ServerAppDesktop.Services;
 using ServerAppDesktop.ViewModels;
+using ServerAppDesktop.Views;
 using System;
 using System.Threading.Tasks;
 using WinUIEx;
@@ -67,5 +69,14 @@ namespace ServerAppDesktop
                 reconnectButton.Style = (Style)Application.Current.Resources["CriticalButtonStyle"];
             }
         }
-    }
+
+        private void TitleBar_BackRequested(Microsoft.UI.Xaml.Controls.TitleBar sender, object args)
+        {
+            if (ViewModel.CanGoBack)
+            {
+                var navigationService = App.GetRequiredService<INavigationService>();
+                navigationService.GoBack();
+			}
+		}
+	}
 }

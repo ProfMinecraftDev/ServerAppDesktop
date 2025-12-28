@@ -1,163 +1,164 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <winex:WindowEx
-    x:Class="ServerAppDesktop.MainWindow"
-    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-    xmlns:helpers="using:ServerAppDesktop.Helpers"
-    xmlns:local="using:ServerAppDesktop"
-    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:toolkitExtensions="using:CommunityToolkit.WinUI"
-    xmlns:vm="using:ServerAppDesktop.ViewModels"
-    xmlns:winex="using:WinUIEx"
-    Title="{x:Bind helpers:DataHelper.WindowTitle, Mode=OneTime}"
-    Width="800"
-    Height="600"
-    MinWidth="400"
-    MinHeight="300"
-    mc:Ignorable="d">
+	x:Class="ServerAppDesktop.MainWindow"
+	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+	xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+	xmlns:helpers="using:ServerAppDesktop.Helpers"
+	xmlns:local="using:ServerAppDesktop"
+	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+	xmlns:toolkitExtensions="using:CommunityToolkit.WinUI"
+	xmlns:vm="using:ServerAppDesktop.ViewModels"
+	xmlns:winex="using:WinUIEx"
+	Title="{x:Bind helpers:DataHelper.WindowTitle, Mode=OneTime}"
+	Width="800"
+	Height="600"
+	MinWidth="400"
+	MinHeight="300"
+	mc:Ignorable="d">
 
-    <winex:WindowEx.SystemBackdrop>
-        <MicaBackdrop Kind="Base" />
-    </winex:WindowEx.SystemBackdrop>
+	<winex:WindowEx.SystemBackdrop>
+		<MicaBackdrop Kind="Base" />
+	</winex:WindowEx.SystemBackdrop>
 
-    <Grid d:DataContext="{d:DesignInstance vm:MainViewModel, IsDesignTimeCreatable=True}">
-        <Grid.RowDefinitions>
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="*" />
-            <RowDefinition Height="Auto" />
-        </Grid.RowDefinitions>
+	<Grid d:DataContext="{d:DesignInstance vm:MainViewModel, IsDesignTimeCreatable=True}">
+		<Grid.RowDefinitions>
+			<RowDefinition Height="Auto" />
+			<RowDefinition Height="Auto" />
+			<RowDefinition Height="*" />
+			<RowDefinition Height="Auto" />
+		</Grid.RowDefinitions>
 
-        <TitleBar
-            Title="{x:Bind helpers:DataHelper.WindowTitle, Mode=OneTime}"
-            Grid.Row="0"
-            IconSource="{toolkitExtensions:BitmapIconSource Source=/Assets/AppIcon-16.png}"
-            IsBackButtonVisible="{x:Bind ViewModel.CanGoBack, Mode=OneWay}"
-            IsPaneToggleButtonVisible="False"
-            Subtitle="{x:Bind helpers:DataHelper.WindowSubtitle, Mode=OneTime}">
-            <TitleBar.RightHeader>
-                <Button
-                    Height="48"
-                    Background="Transparent"
-                    BorderThickness="0"
-                    CornerRadius="0">
-                    <FontIcon Glyph="&#xE712;" />
-                    <Button.Flyout>
-                        <MenuFlyout Placement="Bottom">
-                            <MenuFlyoutItem
-                                x:Uid="MenuFlyoutItem_Warning"
-                                Command="{x:Bind ViewModel.ShowWarningCommand}"
-                                CommandParameter="{x:Bind Content}"
-                                Icon="{toolkitExtensions:FontIcon Glyph=&#xE7BA;}" />
-                            <MenuFlyoutSeparator />
-                            <MenuFlyoutItem
-                                x:Uid="MenuFlyoutItem_SendFeedback"
-                                Command="{x:Bind ViewModel.SendFeedbackCommand}"
-                                CommandParameter="{x:Bind Content}"
-                                Icon="{toolkitExtensions:FontIcon Glyph=&#xED15;}" />
-                            <MenuFlyoutItem
-                                x:Uid="MenuFlyoutItem_RestartApp"
-                                Command="{x:Bind ViewModel.RestartAppCommand}"
-                                Icon="{toolkitExtensions:SymbolIcon Symbol=Refresh}" />
-                            <MenuFlyoutSeparator Visibility="{Binding RunAsAdmin, Mode=OneTime, Converter={StaticResource BoolToVisibilityConverter}}" />
-                            <MenuFlyoutItem
-                                x:Uid="MenuFlyoutItem_Administator"
-                                Command="{x:Bind ViewModel.ShowAdminWarningCommand}"
-                                CommandParameter="{x:Bind Content}"
-                                Icon="{toolkitExtensions:SymbolIcon Symbol=Admin}"
-                                Visibility="{Binding RunAsAdmin, Mode=OneTime, Converter={StaticResource BoolToVisibilityConverter}}" />
-                        </MenuFlyout>
-                    </Button.Flyout>
-                </Button>
-            </TitleBar.RightHeader>
-        </TitleBar>
+		<TitleBar
+			Title="{x:Bind helpers:DataHelper.WindowTitle, Mode=OneTime}"
+			Grid.Row="0"
+			BackRequested="TitleBar_BackRequested"
+			IconSource="{toolkitExtensions:BitmapIconSource Source=/Assets/AppIcon-16.png}"
+			IsBackButtonVisible="{x:Bind ViewModel.CanGoBack, Mode=OneWay}"
+			IsPaneToggleButtonVisible="False"
+			Subtitle="{x:Bind helpers:DataHelper.WindowSubtitle, Mode=OneTime}">
+			<TitleBar.RightHeader>
+				<Button
+					Height="48"
+					Background="Transparent"
+					BorderThickness="0"
+					CornerRadius="0">
+					<FontIcon Glyph="&#xE712;" />
+					<Button.Flyout>
+						<MenuFlyout Placement="Bottom">
+							<MenuFlyoutItem
+								x:Uid="MenuFlyoutItem_Warning"
+								Command="{x:Bind ViewModel.ShowWarningCommand}"
+								CommandParameter="{x:Bind Content}"
+								Icon="{toolkitExtensions:FontIcon Glyph=&#xE7BA;}" />
+							<MenuFlyoutSeparator />
+							<MenuFlyoutItem
+								x:Uid="MenuFlyoutItem_SendFeedback"
+								Command="{x:Bind ViewModel.SendFeedbackCommand}"
+								CommandParameter="{x:Bind Content}"
+								Icon="{toolkitExtensions:FontIcon Glyph=&#xED15;}" />
+							<MenuFlyoutItem
+								x:Uid="MenuFlyoutItem_RestartApp"
+								Command="{x:Bind ViewModel.RestartAppCommand}"
+								Icon="{toolkitExtensions:SymbolIcon Symbol=Refresh}" />
+							<MenuFlyoutSeparator Visibility="{Binding RunAsAdmin, Mode=OneTime, Converter={StaticResource BoolToVisibilityConverter}}" />
+							<MenuFlyoutItem
+								x:Uid="MenuFlyoutItem_Administator"
+								Command="{x:Bind ViewModel.ShowAdminWarningCommand}"
+								CommandParameter="{x:Bind Content}"
+								Icon="{toolkitExtensions:SymbolIcon Symbol=Admin}"
+								Visibility="{Binding RunAsAdmin, Mode=OneTime, Converter={StaticResource BoolToVisibilityConverter}}" />
+						</MenuFlyout>
+					</Button.Flyout>
+				</Button>
+			</TitleBar.RightHeader>
+		</TitleBar>
 
-        <StackPanel Grid.Row="1" Spacing="4">
-            <InfoBar
-                x:Name="noInternetInfoBar"
-                x:Uid="NoInternetInfoBar"
-                IsClosable="True"
-                IsOpen="{Binding IsConnectedToInternet, Mode=OneWay, Converter={StaticResource BoolNegationConverter}}"
-                Severity="Warning">
-                <InfoBar.ActionButton>
-                    <Button
-                        x:Name="reconnectButton"
-                        Click="reconnectButton_Click"
-                        Style="{StaticResource CautionButtonStyle}">
-                        <StackPanel Orientation="Horizontal" Spacing="8">
-                            <FontIcon Glyph="&#xE895;" />
-                            <TextBlock x:Uid="ReconnectButtonText" />
-                        </StackPanel>
-                    </Button>
-                </InfoBar.ActionButton>
-            </InfoBar>
-        </StackPanel>
+		<StackPanel Grid.Row="1" Spacing="4">
+			<InfoBar
+				x:Name="noInternetInfoBar"
+				x:Uid="NoInternetInfoBar"
+				IsClosable="True"
+				IsOpen="{Binding IsConnectedToInternet, Mode=OneWay, Converter={StaticResource BoolNegationConverter}}"
+				Severity="Warning">
+				<InfoBar.ActionButton>
+					<Button
+						x:Name="reconnectButton"
+						Click="reconnectButton_Click"
+						Style="{StaticResource CautionButtonStyle}">
+						<StackPanel Orientation="Horizontal" Spacing="8">
+							<FontIcon Glyph="&#xE895;" />
+							<TextBlock x:Uid="ReconnectButtonText" />
+						</StackPanel>
+					</Button>
+				</InfoBar.ActionButton>
+			</InfoBar>
+		</StackPanel>
 
-        <Frame
-            x:Name="contentFrame"
-            Grid.Row="2"
-            x:FieldModifier="public">
-            <StackPanel
-                HorizontalAlignment="Center"
-                VerticalAlignment="Center"
-                Spacing="16">
-                <StackPanel
-                    HorizontalAlignment="Center"
-                    VerticalAlignment="Center"
-                    Orientation="Horizontal"
-                    Spacing="8">
-                    <Image VerticalAlignment="Center" Source="/Assets/AppIcon-128.png" />
-                    <StackPanel VerticalAlignment="Center" Spacing="4">
-                        <TextBlock
-                            HorizontalAlignment="Left"
-                            VerticalAlignment="Center"
-                            FontSize="36"
-                            FontWeight="ExtraBlack"
-                            Text="{x:Bind helpers:DataHelper.AppName, Mode=OneTime}" />
-                        <Border
-                            Padding="20,5"
-                            HorizontalAlignment="Left"
-                            VerticalAlignment="Center"
-                            Background="#FFCB00"
-                            CornerRadius="6">
-                            <TextBlock
-                                FontSize="20"
-                                FontWeight="Bold"
-                                Foreground="Black"
-                                Text="PREVIEW" />
-                        </Border>
-                    </StackPanel>
-                </StackPanel>
-                <ProgressBar
-                    Width="500"
-                    HorizontalAlignment="Center"
-                    VerticalAlignment="Center"
-                    IsIndeterminate="True" />
-            </StackPanel>
-        </Frame>
+		<Frame
+			x:Name="contentFrame"
+			Grid.Row="2"
+			x:FieldModifier="public">
+			<StackPanel
+				HorizontalAlignment="Center"
+				VerticalAlignment="Center"
+				Spacing="16">
+				<StackPanel
+					HorizontalAlignment="Center"
+					VerticalAlignment="Center"
+					Orientation="Horizontal"
+					Spacing="8">
+					<Image VerticalAlignment="Center" Source="/Assets/AppIcon-128.png" />
+					<StackPanel VerticalAlignment="Center" Spacing="4">
+						<TextBlock
+							HorizontalAlignment="Left"
+							VerticalAlignment="Center"
+							FontSize="36"
+							FontWeight="ExtraBlack"
+							Text="{x:Bind helpers:DataHelper.AppName, Mode=OneTime}" />
+						<Border
+							Padding="20,5"
+							HorizontalAlignment="Left"
+							VerticalAlignment="Center"
+							Background="#FFCB00"
+							CornerRadius="6">
+							<TextBlock
+								FontSize="20"
+								FontWeight="Bold"
+								Foreground="Black"
+								Text="PREVIEW" />
+						</Border>
+					</StackPanel>
+				</StackPanel>
+				<ProgressBar
+					Width="500"
+					HorizontalAlignment="Center"
+					VerticalAlignment="Center"
+					IsIndeterminate="True" />
+			</StackPanel>
+		</Frame>
 
-        <Border
-            Grid.Row="3"
-            Padding="4"
-            HorizontalAlignment="Stretch"
-            Background="{ThemeResource AccentFillColorDefaultBrush}"
-            Visibility="{Binding DebugMode, Mode=OneTime, Converter={StaticResource BoolToVisibilityConverter}}">
-            <StackPanel
-                HorizontalAlignment="Center"
-                Orientation="Horizontal"
-                Spacing="4">
-                <FontIcon
-                    VerticalAlignment="Center"
-                    Foreground="{ThemeResource TextOnAccentAAFillColorPrimaryBrush}"
-                    Glyph="&#xEBE8;" />
-                <TextBlock
-                    x:Uid="DebugBannerMessage"
-                    VerticalAlignment="Center"
-                    FontFamily="Cascadia Code, Consolas, Lucida Console, monospace"
-                    Foreground="{ThemeResource TextOnAccentAAFillColorPrimaryBrush}" />
-            </StackPanel>
-        </Border>
-    </Grid>
+		<Border
+			Grid.Row="3"
+			Padding="4"
+			HorizontalAlignment="Stretch"
+			Background="{ThemeResource AccentFillColorDefaultBrush}"
+			Visibility="{Binding DebugMode, Mode=OneTime, Converter={StaticResource BoolToVisibilityConverter}}">
+			<StackPanel
+				HorizontalAlignment="Center"
+				Orientation="Horizontal"
+				Spacing="4">
+				<FontIcon
+					VerticalAlignment="Center"
+					Foreground="{ThemeResource TextOnAccentAAFillColorPrimaryBrush}"
+					Glyph="&#xEBE8;" />
+				<TextBlock
+					x:Uid="DebugBannerMessage"
+					VerticalAlignment="Center"
+					FontFamily="Cascadia Code, Consolas, Lucida Console, monospace"
+					Foreground="{ThemeResource TextOnAccentAAFillColorPrimaryBrush}" />
+			</StackPanel>
+		</Border>
+	</Grid>
 
 </winex:WindowEx>

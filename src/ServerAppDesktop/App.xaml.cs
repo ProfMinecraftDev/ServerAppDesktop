@@ -6,6 +6,7 @@ using ServerAppDesktop.Helpers;
 using ServerAppDesktop.ViewModels;
 using ServerAppDesktop.Views;
 using System;
+using ServerAppDesktop.Services;
 
 namespace ServerAppDesktop
 {
@@ -23,7 +24,8 @@ namespace ServerAppDesktop
                 .ConfigureServices((context, services) =>
                 {
                     services.AddSingleton<MainViewModel>();
-                })
+                    services.AddSingleton<INavigationService, NavigationService>();
+				})
                 .Build();
         }
 

@@ -20,11 +20,11 @@
     <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
     <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
     <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
-      <value>[base64 mime encoded serialized .NET Framework object]</value>
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
     </data>
     <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
-      <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
-      <comment>This is a comment</comment>
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
     </data>
                 
     There are any number of "resheader" rows that contain simple 
@@ -334,7 +334,10 @@ Este es el comienzo de tu viaje: un espacio donde cada ajuste se convierte en pa
   <data name="InternetConnection_FailedToReconnect_Message" xml:space="preserve">
     <value>No se puedo reconectar a internet</value>
   </data>
-  <data name="AboutNavItem.ToolTipService.ToolTip" xml:space="preserve">
+	<data name="SettingsNavItem.ToolTipService.ToolTip" xml:space="preserve">
+    <value>Configuración</value>
+  </data>
+	<data name="AboutNavItem.ToolTipService.ToolTip" xml:space="preserve">
     <value>Acerca de la app</value>
   </data>
   <data name="SystemInfoNavItem.ToolTipService.ToolTip" xml:space="preserve">
@@ -349,22 +352,46 @@ Este es el comienzo de tu viaje: un espacio donde cada ajuste se convierte en pa
   <data name="HomeNavItem.ToolTipService.ToolTip" xml:space="preserve">
     <value>Inicio</value>
   </data>
-  <data name="PerformanceNavItem.Content">
+  <data name="PerformanceNavItem.Content" xml:space="preserve">
     <value>Rendimiento</value>
   </data>
-  <data name="PerformanceNavItem.ToolTipService.ToolTip">
+  <data name="PerformanceNavItem.ToolTipService.ToolTip" xml:space="preserve">
     <value>Rendimiento</value>
   </data>
-  <data name="TerminalNavItem.Content">
+  <data name="TerminalNavItem.Content" xml:space="preserve">
     <value>Terminal</value>
   </data>
-  <data name="TerminalNavItem.ToolTipService.ToolTip">
+  <data name="TerminalNavItem.ToolTipService.ToolTip" xml:space="preserve">
     <value>Terminal</value>
   </data>
-  <data name="FilesNavItem.Content">
+  <data name="FilesNavItem.Content" xml:space="preserve">
     <value>Archivos</value>
   </data>
-  <data name="FilesNavItem.ToolTipService.ToolTip">
+  <data name="FilesNavItem.ToolTipService.ToolTip" xml:space="preserve">
     <value>Archivos</value>
+  </data>
+  <data name="Page_Home_Title.Text" xml:space="preserve">
+    <value>Inicio</value>
+  </data>
+  <data name="Page_Performance_Title.Text" xml:space="preserve">
+    <value>Rendimiento</value>
+  </data>
+  <data name="Page_Terminal_Title.Text" xml:space="preserve">
+    <value>Terminal</value>
+  </data>
+  <data name="Page_Files_Title.Text" xml:space="preserve">
+    <value>Archivos</value>
+  </data>
+  <data name="Page_WhatsNew_Title.Text" xml:space="preserve">
+    <value>Novedades de Server App Desktop</value>
+  </data>
+  <data name="Page_SystemInfo_Title.Text" xml:space="preserve">
+    <value>Información del Sistema</value>
+  </data>
+  <data name="Page_About_Title.Text" xml:space="preserve">
+    <value>Acerca de la Aplicación</value>
+  </data>
+  <data name="Page_Settings_Title.Text" xml:space="preserve">
+    <value>Configuración</value>
   </data>
 </root>
