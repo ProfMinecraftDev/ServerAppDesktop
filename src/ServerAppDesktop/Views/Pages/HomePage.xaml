@@ -3,12 +3,39 @@
 	x:Class="ServerAppDesktop.Views.Pages.HomePage"
 	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
 	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+	xmlns:controls="using:ServerAppDesktop.Controls"
 	xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
 	xmlns:local="using:ServerAppDesktop.Views.Pages"
 	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+	xmlns:toolkitExtension="using:CommunityToolkit.WinUI"
 	mc:Ignorable="d">
 
 	<StackPanel>
 		<TextBlock x:Uid="Page_Home_Title" Style="{StaticResource PageTitleTextBlockStyle}" />
+		<Grid
+			Padding="36"
+			HorizontalAlignment="Stretch"
+			ColumnSpacing="16"
+			RowSpacing="16">
+			<Grid.ColumnDefinitions>
+				<ColumnDefinition Width="*" />
+				<ColumnDefinition Width="*" />
+			</Grid.ColumnDefinitions>
+			<Grid.RowDefinitions>
+				<RowDefinition Height="Auto" />
+			</Grid.RowDefinitions>
+			<controls:InfoCard
+				Title="Edición de servidor"
+				Grid.Row="0"
+				Grid.Column="0"
+				Description="Ninguno"
+				Icon="{toolkitExtension:FontIcon Glyph=&#xE8B8;}" />
+			<controls:InfoCard
+				Title="Estado"
+				Grid.Row="0"
+				Grid.Column="1"
+				Description="Ninguno"
+				Icon="{toolkitExtension:FontIcon Glyph=&#xE8B8;}" />
+		</Grid>
 	</StackPanel>
 </Page>

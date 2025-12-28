@@ -8,3 +8,5 @@
 /src/ServerAppDesktop.Converters/obj
 /src/ServerAppDesktop.Services/obj
 /src/ServerAppDesktop.Services/bin
+/src/ServerAppDesktop.Controls/obj
+/src/ServerAppDesktop.Controls/bin
