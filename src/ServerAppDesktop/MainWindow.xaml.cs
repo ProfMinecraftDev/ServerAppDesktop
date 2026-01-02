@@ -1,3 +1,5 @@
+using System;
+using System.Threading.Tasks;
 using Microsoft.UI;
 using Microsoft.UI.Windowing;
 using Microsoft.UI.Xaml;
@@ -5,9 +7,6 @@ using Microsoft.UI.Xaml.Controls;
 using ServerAppDesktop.Helpers;
 using ServerAppDesktop.Services;
 using ServerAppDesktop.ViewModels;
-using ServerAppDesktop.Views;
-using System;
-using System.Threading.Tasks;
 using WinUIEx;
 
 namespace ServerAppDesktop
@@ -76,7 +75,7 @@ namespace ServerAppDesktop
             {
                 var navigationService = App.GetRequiredService<INavigationService>();
                 navigationService.GoBack();
-			}
-		}
-	}
+            }
+        }
+    }
 }

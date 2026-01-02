@@ -1,12 +1,12 @@
-﻿using Microsoft.Extensions.DependencyInjection;
+﻿using System;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Media.Animation;
 using ServerAppDesktop.Helpers;
+using ServerAppDesktop.Services;
 using ServerAppDesktop.ViewModels;
 using ServerAppDesktop.Views;
-using System;
-using ServerAppDesktop.Services;
 
 namespace ServerAppDesktop
 {
@@ -25,7 +25,7 @@ namespace ServerAppDesktop
                 {
                     services.AddSingleton<MainViewModel>();
                     services.AddSingleton<INavigationService, NavigationService>();
-				})
+                })
                 .Build();
         }
 
