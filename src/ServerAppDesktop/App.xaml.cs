@@ -23,8 +23,11 @@ namespace ServerAppDesktop
                 .CreateDefaultBuilder()
                 .ConfigureServices((context, services) =>
                 {
-                    services.AddSingleton<MainViewModel>();
+                    services.AddTransient<UpdateHelper>(sp => new UpdateHelper("ProfMinecraftDev", "ServerAppDesktop"));
+
                     services.AddSingleton<INavigationService, NavigationService>();
+
+                    services.AddSingleton<MainViewModel>();
                 })
                 .Build();
         }
@@ -51,6 +54,20 @@ namespace ServerAppDesktop
             MainWindow.ViewModel.IsConnectedToInternet = isConnected;
 
             bool needsToShowOOBE = false;
+
+            if (isConnected)
+            {
+                var mainViewModel = GetRequiredService<MainViewModel>();
+                var updateHelper = GetRequiredService<UpdateHelper>();
+                mainViewModel.UpdateResult = await updateHelper.GetLatestExeAsync(DataHelper.AppVersionTag, true);
+
+                if (mainViewModel.UpdateResult.IsNewVersion)
+                {
+                    var dialog = MainWindow.updateDialog;
+
+                    var result = await dialog.ShowAsync();
+                }
+            }
 
             if (needsToShowOOBE)
             {

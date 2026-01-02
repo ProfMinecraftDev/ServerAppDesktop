@@ -12,6 +12,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ServerAppDesktop.Services",
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ServerAppDesktop.Controls", "src\ServerAppDesktop.Controls\ServerAppDesktop.Controls.csproj", "{7C1FE85E-2144-5FD4-35E2-B560E065B11B}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ServerAppDesktop.Models", "src\ServerAppDesktop.Models\ServerAppDesktop.Models.csproj", "{5A6B8CA5-DFE5-EEE2-5F77-4FB15841B7C7}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
@@ -38,6 +40,10 @@ Global
 		{7C1FE85E-2144-5FD4-35E2-B560E065B11B}.Debug|x64.Build.0 = Debug|x64
 		{7C1FE85E-2144-5FD4-35E2-B560E065B11B}.Release|x64.ActiveCfg = Release|x64
 		{7C1FE85E-2144-5FD4-35E2-B560E065B11B}.Release|x64.Build.0 = Release|x64
+		{5A6B8CA5-DFE5-EEE2-5F77-4FB15841B7C7}.Debug|x64.ActiveCfg = Debug|x64
+		{5A6B8CA5-DFE5-EEE2-5F77-4FB15841B7C7}.Debug|x64.Build.0 = Debug|x64
+		{5A6B8CA5-DFE5-EEE2-5F77-4FB15841B7C7}.Release|x64.ActiveCfg = Release|x64
+		{5A6B8CA5-DFE5-EEE2-5F77-4FB15841B7C7}.Release|x64.Build.0 = Release|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

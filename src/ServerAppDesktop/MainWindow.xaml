@@ -7,6 +7,7 @@
 	xmlns:helpers="using:ServerAppDesktop.Helpers"
 	xmlns:local="using:ServerAppDesktop"
 	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+	xmlns:toolkit="using:CommunityToolkit.WinUI.Controls"
 	xmlns:toolkitExtensions="using:CommunityToolkit.WinUI"
 	xmlns:vm="using:ServerAppDesktop.ViewModels"
 	xmlns:winex="using:WinUIEx"
@@ -159,6 +160,18 @@
 					Foreground="{ThemeResource TextOnAccentAAFillColorPrimaryBrush}" />
 			</StackPanel>
 		</Border>
+
+		<ContentDialog
+			x:Name="updateDialog"
+			Title="Nueva actualización"
+			x:FieldModifier="public"
+			CloseButtonText="Recordarme mas tarde"
+			PrimaryButtonStyle="{StaticResource AccentButtonStyle}"
+			PrimaryButtonText="Descargar">
+			<ScrollViewer>
+				<toolkit:MarkdownTextBlock Config="{x:Bind toolkit:MarkdownConfig.Default}" Text="{x:Bind ViewModel.UpdateResult.Notes, Mode=OneWay}" />
+			</ScrollViewer>
+		</ContentDialog>
 	</Grid>
 
 </winex:WindowEx>

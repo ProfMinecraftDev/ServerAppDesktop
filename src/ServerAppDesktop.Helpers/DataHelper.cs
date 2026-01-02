@@ -7,6 +7,8 @@ namespace ServerAppDesktop.Helpers
     {
         public static string MutexIdentifier { get; } = "ServerAppDesktop_Unique_Mutex_Identifier_123456789";
         public static string AppName { get; } = "Server App Desktop";
+        public static string AppVersion { get; } = "1.0.0.3 (Preview)";
+        public static string AppVersionTag { get; } = "v1.0.0.3-Preview";
         public static string WindowTitle { get; } = "Server App Desktop (Preview)";
         public static string WindowSubtitle { get; private set; } = string.Empty;
 

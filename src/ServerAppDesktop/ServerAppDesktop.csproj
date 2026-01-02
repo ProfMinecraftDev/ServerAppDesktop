@@ -14,6 +14,7 @@
 		<Nullable>enable</Nullable>
 		<DefaultLanguage>es-MX</DefaultLanguage>
 		<RuntimeIdentifier>win-x64</RuntimeIdentifier>
+		<AllowUnsafeBlocks>true</AllowUnsafeBlocks>
 	</PropertyGroup>
 	<ItemGroup>
 	  <None Remove="Views\MainView.xaml" />
@@ -32,6 +33,7 @@
 	</ItemGroup>
 
 	<ItemGroup>
+		<PackageReference Include="CommunityToolkit.Labs.WinUI.Controls.MarkdownTextBlock" Version="0.1.251217-build.2433" />
 		<PackageReference Include="CommunityToolkit.Mvvm" Version="8.4.0" />
 		<PackageReference Include="CommunityToolkit.WinUI.Controls.SettingsControls" Version="8.2.251219" />
 		<PackageReference Include="CommunityToolkit.WinUI.Extensions" Version="8.2.251219" />
@@ -45,6 +47,7 @@
 	  <ProjectReference Include="..\ServerAppDesktop.Controls\ServerAppDesktop.Controls.csproj" />
 	  <ProjectReference Include="..\ServerAppDesktop.Converters\ServerAppDesktop.Converters.csproj" />
 	  <ProjectReference Include="..\ServerAppDesktop.Helpers\ServerAppDesktop.Helpers.csproj" />
+	  <ProjectReference Include="..\ServerAppDesktop.Models\ServerAppDesktop.Models.csproj" />
 	  <ProjectReference Include="..\ServerAppDesktop.Services\ServerAppDesktop.Services.csproj" />
 	</ItemGroup>
 

@@ -10,3 +10,5 @@
 /src/ServerAppDesktop.Services/bin
 /src/ServerAppDesktop.Controls/obj
 /src/ServerAppDesktop.Controls/bin
+/src/ServerAppDesktop.Models/obj
+/src/ServerAppDesktop.Models/bin

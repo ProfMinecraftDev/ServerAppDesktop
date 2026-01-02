@@ -6,6 +6,7 @@ using CommunityToolkit.Mvvm.Input;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using ServerAppDesktop.Helpers;
+using ServerAppDesktop.Models;
 using ServerAppDesktop.Services;
 using Windows.System;
 
@@ -13,9 +14,9 @@ namespace ServerAppDesktop.ViewModels
 {
     public sealed partial class MainViewModel : ObservableObject
     {
-		private readonly INavigationService _navService;
+        private readonly INavigationService _navService;
 
-		[ObservableProperty]
+        [ObservableProperty]
         private bool _debugMode = DataHelper.DebugMode;
 
         [ObservableProperty]
@@ -27,12 +28,16 @@ namespace ServerAppDesktop.ViewModels
         [ObservableProperty]
         private bool _isConnectedToInternet = true;
 
-		public MainViewModel(INavigationService navService) { 
-            _navService = navService; 
-            _navService.CanGoBackChanged += (canGoBack) => CanGoBack = canGoBack; 
+        [ObservableProperty]
+        private UpdateResult? _updateResult;
+
+        public MainViewModel(INavigationService navService)
+        {
+            _navService = navService;
+            _navService.CanGoBackChanged += (canGoBack) => CanGoBack = canGoBack;
         }
 
-		[RelayCommand]
+        [RelayCommand]
         private void RestartApp()
         {
             Process.Start(Environment.ProcessPath ?? throw new InvalidOperationException("La ruta del proceso no se pudo determinar."));
