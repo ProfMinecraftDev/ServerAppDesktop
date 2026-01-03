@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Diagnostics;
+using System.Linq;
 using System.Threading.Tasks;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
-using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using ServerAppDesktop.Helpers;
 using ServerAppDesktop.Models;
@@ -29,12 +29,27 @@ namespace ServerAppDesktop.ViewModels
         private bool _isConnectedToInternet = true;
 
         [ObservableProperty]
-        private UpdateResult? _updateResult;
+        private ReleaseInfo? _releaseInfo;
+
+        [ObservableProperty]
+        private bool _downloadingAnUpdate = false;
+
+        [ObservableProperty]
+        private string _updateDownloadProgress = "";
+
+        [ObservableProperty]
+        private double _downloadProgressValue = 0;
 
         public MainViewModel(INavigationService navService)
         {
             _navService = navService;
             _navService.CanGoBackChanged += (canGoBack) => CanGoBack = canGoBack;
+
+            UpdateHelper.DownloadProgress += (progress, value) =>
+            {
+                UpdateDownloadProgress = progress;
+                DownloadProgressValue = value;
+            };
         }
 
         [RelayCommand]
@@ -45,57 +60,41 @@ namespace ServerAppDesktop.ViewModels
         }
 
         [RelayCommand]
-        private async Task SendFeedback(FrameworkElement content)
+        private void ShowFeedbackDialog(ContentDialog dialog)
+        {
+            _ = dialog.ShowAsync();
+        }
+
+        [RelayCommand]
+        private void SendFeedback()
         {
             var uri = new Uri("https://github.com/ProfMinecraftDev/ServerAppDesktop/issues");
-
-            var dialog = new ContentDialog
-            {
-                Title = ResourceHelper.GetString("FeedbackDialog_Title"),
-                Content = ResourceHelper.GetString("FeedbackDialog_Description"),
-                PrimaryButtonText = ResourceHelper.GetString("FeedbackDialog_SendButton"),
-                PrimaryButtonStyle = Application.Current.Resources["AccentButtonStyle"] as Style,
-                CloseButtonText = ResourceHelper.GetString("FeedbackDialog_CloseButton"),
-                XamlRoot = content.XamlRoot,
-                RequestedTheme = content.RequestedTheme
-            };
-
-            var result = await dialog.ShowAsync();
-            if (result != ContentDialogResult.Primary)
-                return;
-
             _ = Launcher.LaunchUriAsync(uri);
-            return;
         }
 
         [RelayCommand]
-        private void ShowWarning(FrameworkElement content)
+        private void ShowWarning(ContentDialog dialog)
         {
-            var dialog = new ContentDialog
-            {
-                Title = ResourceHelper.GetString("WarningDialog_Title"),
-                Content = ResourceHelper.GetString("WarningDialog_Description"),
-                CloseButtonText = ResourceHelper.GetString("WarningDialog_CloseButton"),
-                XamlRoot = content.XamlRoot,
-                RequestedTheme = content.RequestedTheme
-            };
-
             _ = dialog.ShowAsync();
         }
 
         [RelayCommand]
-        private void ShowAdminWarning(FrameworkElement content)
+        private void ShowAdminWarning(ContentDialog dialog)
         {
-            var dialog = new ContentDialog
-            {
-                Title = ResourceHelper.GetString("AdminDialog_Title"),
-                Content = ResourceHelper.GetString("AdminDialog_Description"),
-                CloseButtonText = ResourceHelper.GetString("AdminDialog_CloseButton"),
-                XamlRoot = content.XamlRoot,
-                RequestedTheme = content.RequestedTheme
-            };
-
             _ = dialog.ShowAsync();
+        }
+
+        [RelayCommand]
+        private async Task DownloadUpdateAsync()
+        {
+            DownloadingAnUpdate = true;
+            bool sucessDownload = await UpdateHelper.DownloadUpdateAsync(ReleaseInfo?.Assets.FirstOrDefault(a => a.Name.EndsWith(".exe")) ?? new Asset());
+            if (sucessDownload)
+            {
+                UpdateDownloadProgress = ResourceHelper.GetString("UpdateInfoBar_PreparedToApply");
+                await Task.Delay(10000);
+                DownloadingAnUpdate = !sucessDownload;
+            }
         }
     }
 }

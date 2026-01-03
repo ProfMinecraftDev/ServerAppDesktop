@@ -50,13 +50,13 @@
 							<MenuFlyoutItem
 								x:Uid="MenuFlyoutItem_Warning"
 								Command="{x:Bind ViewModel.ShowWarningCommand}"
-								CommandParameter="{x:Bind Content}"
+								CommandParameter="{x:Bind warningDialog}"
 								Icon="{toolkitExtensions:FontIcon Glyph=&#xE7BA;}" />
 							<MenuFlyoutSeparator />
 							<MenuFlyoutItem
 								x:Uid="MenuFlyoutItem_SendFeedback"
-								Command="{x:Bind ViewModel.SendFeedbackCommand}"
-								CommandParameter="{x:Bind Content}"
+								Command="{x:Bind ViewModel.ShowFeedbackDialogCommand}"
+								CommandParameter="{x:Bind feedbackDialog}"
 								Icon="{toolkitExtensions:FontIcon Glyph=&#xED15;}" />
 							<MenuFlyoutItem
 								x:Uid="MenuFlyoutItem_RestartApp"
@@ -66,7 +66,7 @@
 							<MenuFlyoutItem
 								x:Uid="MenuFlyoutItem_Administator"
 								Command="{x:Bind ViewModel.ShowAdminWarningCommand}"
-								CommandParameter="{x:Bind Content}"
+								CommandParameter="{x:Bind adminDialog}"
 								Icon="{toolkitExtensions:SymbolIcon Symbol=Admin}"
 								Visibility="{Binding RunAsAdmin, Mode=OneTime, Converter={StaticResource BoolToVisibilityConverter}}" />
 						</MenuFlyout>
@@ -93,6 +93,15 @@
 						</StackPanel>
 					</Button>
 				</InfoBar.ActionButton>
+			</InfoBar>
+			<InfoBar
+				x:Uid="UpdateInfoBar"
+				Title="Descargando una actualización, puede tardar unos minutos"
+				IsClosable="False"
+				IsOpen="{x:Bind ViewModel.DownloadingAnUpdate, Mode=OneWay}"
+				Message="{x:Bind ViewModel.UpdateDownloadProgress, Mode=OneWay}"
+				Severity="Informational">
+				<ProgressBar Value="{x:Bind ViewModel.DownloadProgressValue, Mode=OneWay}" />
 			</InfoBar>
 		</StackPanel>
 
@@ -161,17 +170,26 @@
 			</StackPanel>
 		</Border>
 
+		<ContentDialog x:Name="warningDialog" x:Uid="WarningDialog" />
 		<ContentDialog
 			x:Name="updateDialog"
-			Title="Nueva actualización"
+			x:Uid="UpdateDialog"
 			x:FieldModifier="public"
-			CloseButtonText="Recordarme mas tarde"
-			PrimaryButtonStyle="{StaticResource AccentButtonStyle}"
-			PrimaryButtonText="Descargar">
+			PrimaryButtonCommand="{x:Bind ViewModel.DownloadUpdateCommand}"
+			PrimaryButtonStyle="{StaticResource AccentButtonStyle}">
 			<ScrollViewer>
-				<toolkit:MarkdownTextBlock Config="{x:Bind toolkit:MarkdownConfig.Default}" Text="{x:Bind ViewModel.UpdateResult.Notes, Mode=OneWay}" />
+				<toolkit:MarkdownTextBlock Config="{x:Bind toolkit:MarkdownConfig.Default}" Text="{x:Bind ViewModel.ReleaseInfo.Notes, Mode=OneWay}" />
 			</ScrollViewer>
 		</ContentDialog>
+		<ContentDialog
+			x:Name="adminDialog"
+			x:Uid="AdminDialog"
+			CloseButtonStyle="{StaticResource AccentButtonStyle}" />
+		<ContentDialog
+			x:Name="feedbackDialog"
+			x:Uid="FeedbackDialog"
+			PrimaryButtonCommand="{x:Bind ViewModel.SendFeedbackCommand}"
+			PrimaryButtonStyle="{StaticResource AccentButtonStyle}" />
 	</Grid>
 
 </winex:WindowEx>

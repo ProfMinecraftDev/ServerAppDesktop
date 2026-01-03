@@ -126,16 +126,16 @@
   <data name="DebugModeIndicator" xml:space="preserve">
     <value>Depuración (Dev)</value>
   </data>
-  <data name="FeedbackDialog_CloseButton" xml:space="preserve">
+  <data name="FeedbackDialog.CloseButtonText" xml:space="preserve">
     <value>Entendido</value>
   </data>
-  <data name="FeedbackDialog_Description" xml:space="preserve">
+  <data name="FeedbackDialog.Content" xml:space="preserve">
     <value>Queremos escucharte. Cuéntanos qué piensas de Server App Desktop y cómo podemos hacerlo aún mejor.</value>
   </data>
-  <data name="FeedbackDialog_SendButton" xml:space="preserve">
+  <data name="FeedbackDialog.PrimaryButtonText" xml:space="preserve">
     <value>Enviar un comentario</value>
   </data>
-  <data name="FeedbackDialog_Title" xml:space="preserve">
+  <data name="FeedbackDialog.Title" xml:space="preserve">
     <value>Enviar comentarios</value>
   </data>
   <data name="MenuFlyoutItem_Administator.Text" xml:space="preserve">
@@ -150,22 +150,22 @@
   <data name="MenuFlyoutItem_Warning.Text" xml:space="preserve">
     <value>Advertencia de funciones</value>
   </data>
-  <data name="WarningDialog_CloseButton" xml:space="preserve">
+  <data name="WarningDialog.CloseButtonText" xml:space="preserve">
     <value>Entendido</value>
   </data>
-  <data name="WarningDialog_Title" xml:space="preserve">
+  <data name="WarningDialog.Title" xml:space="preserve">
     <value>Advertencia</value>
   </data>
-  <data name="WarningDialog_Description" xml:space="preserve">
+  <data name="WarningDialog.Content" xml:space="preserve">
     <value>¡Estamos construyendo nuevas funciones! Algunas características de Server App Desktop todavía están en desarrollo y podrían cambiar pronto.</value>
   </data>
-  <data name="AdminDialog_Title" xml:space="preserve">
+  <data name="AdminDialog.Title" xml:space="preserve">
     <value>Ejecución como administrador</value>
   </data>
-  <data name="AdminDialog_Description" xml:space="preserve">
+  <data name="AdminDialog.Content" xml:space="preserve">
     <value>Server App Desktop se está ejecutando con privilegios de administrador. Algunas funciones pueden afectar el sistema.</value>
   </data>
-  <data name="AdminDialog_CloseButton" xml:space="preserve">
+  <data name="AdminDialog.CloseButtonText" xml:space="preserve">
     <value>Entendido</value>
   </data>
   <data name="DebugBannerMessage.Text" xml:space="preserve">
@@ -334,10 +334,10 @@ Este es el comienzo de tu viaje: un espacio donde cada ajuste se convierte en pa
   <data name="InternetConnection_FailedToReconnect_Message" xml:space="preserve">
     <value>No se puedo reconectar a internet</value>
   </data>
-	<data name="SettingsNavItem.ToolTipService.ToolTip" xml:space="preserve">
+  <data name="SettingsNavItem.ToolTipService.ToolTip" xml:space="preserve">
     <value>Configuración</value>
   </data>
-	<data name="AboutNavItem.ToolTipService.ToolTip" xml:space="preserve">
+  <data name="AboutNavItem.ToolTipService.ToolTip" xml:space="preserve">
     <value>Acerca de la app</value>
   </data>
   <data name="SystemInfoNavItem.ToolTipService.ToolTip" xml:space="preserve">
@@ -393,5 +393,20 @@ Este es el comienzo de tu viaje: un espacio donde cada ajuste se convierte en pa
   </data>
   <data name="Page_Settings_Title.Text" xml:space="preserve">
     <value>Configuración</value>
+  </data>
+  <data name="UpdateDialog.Title" xml:space="preserve">
+    <value>Nueva actualización disponible</value>
+  </data>
+  <data name="UpdateDialog.CloseButtonText" xml:space="preserve">
+    <value>Recordarme más tarde</value>
+  </data>
+  <data name="UpdateDialog.PrimaryButtonText" xml:space="preserve">
+    <value>Descargar e instalar</value>
+  </data>
+  <data name="UpdateInfoBar_PreparedToApply" xml:space="preserve">
+    <value>Actualización descargada, se instalará al cerrar</value>
+  </data>
+  <data name="UpdateInfoBar.Title" xml:space="preserve">
+    <value>Se está descargando una actualización, puede tardar unos minutos</value>
   </data>
 </root>

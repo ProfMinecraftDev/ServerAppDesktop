@@ -1,27 +1,27 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Text.Json.Serialization;
 
 namespace ServerAppDesktop.Models
 {
     public class ReleaseInfo
     {
-        public string TagName { get; set; } = "";
-        public string Name { get; set; } = "";
-        public string Body { get; set; } = "";
-        public DateTime PublishedAt { get; set; } = DateTime.MinValue;
-        public bool Prerelease { get; set; } = false;
-        public List<Asset> Assets { get; set; } = new();
+        [JsonPropertyName("tag_name")]
+        public string VersionTag { get; set; } = "";
 
-        public Asset GetExeAsset()
-        {
-            return Assets.Find(a => a.Name.EndsWith(".exe", StringComparison.OrdinalIgnoreCase))
-                   ?? new Asset();
-        }
-    }
+        [JsonPropertyName("name")]
+        public string Version { get; set; } = "";
 
-    public class Asset
-    {
-        public string Name { get; set; } = "";
-        public string BrowserDownloadUrl { get; set; } = "";
+        [JsonPropertyName("prerelease")]
+        public bool IsPreRelease { get; set; } = false;
+
+        [JsonPropertyName("body")]
+        public string Notes { get; set; } = "";
+
+        [JsonPropertyName("published_at")]
+        public DateTime PublishedAt { get; set; }
+
+        [JsonPropertyName("assets")]
+        public List<Asset> Assets { get; set; } = [];
     }
 }

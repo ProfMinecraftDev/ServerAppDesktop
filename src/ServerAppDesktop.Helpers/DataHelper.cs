@@ -11,6 +11,9 @@ namespace ServerAppDesktop.Helpers
         public static string AppVersionTag { get; } = "v1.0.0.3-Preview";
         public static string WindowTitle { get; } = "Server App Desktop (Preview)";
         public static string WindowSubtitle { get; private set; } = string.Empty;
+        public static string GitHubUsername { get; } = "ProfMinecraftDev";
+        public static string GitHubRepository { get; } = "ServerAppDesktop";
+        public static bool UpdateChannel { get; } = true; // false = release stable, true = preview
 
         public static bool RunAsAdmin { get; private set; }
         public static bool DebugMode { get; } =
