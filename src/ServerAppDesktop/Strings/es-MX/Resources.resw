@@ -141,6 +141,21 @@
   <data name="MenuFlyoutItem_Administator.Text" xml:space="preserve">
     <value>Ejecutando como administrador</value>
   </data>
+  <data name="MenuFlyoutItem_StartServer.Text" xml:space="preserve">
+    <value>Iniciar servidor</value>
+  </data>
+  <data name="MenuFlyoutItem_RestartServer.Text" xml:space="preserve">
+    <value>Reiniciar servidor</value>
+  </data>
+  <data name="MenuFlyoutItem_ExitApp.Text" xml:space="preserve">
+    <value>Salir</value>
+  </data>
+  <data name="MenuFlyoutItem_ShowWindow.Text" xml:space="preserve">
+    <value>Mostrar ventana</value>
+  </data>
+  <data name="MenuFlyoutItem_StopServer.Text" xml:space="preserve">
+    <value>Detener servidor</value>
+  </data>
   <data name="MenuFlyoutItem_RestartApp.Text" xml:space="preserve">
     <value>Reiniciar aplicación</value>
   </data>
