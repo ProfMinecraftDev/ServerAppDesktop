@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.UI.Dispatching;
 using Microsoft.UI.Xaml;
@@ -12,8 +13,10 @@ namespace ServerAppDesktop
     public static class EntryPoint
     {
         [STAThread]
-        static async Task Main(string[] args)
+        static async Task Main(string[] _args)
         {
+            string[] args = [.. _args.Select(s => s.ToLowerInvariant())];
+
             ComWrappersSupport.InitializeComWrappers();
 
             if (await WindowHelper.IsRedirectedAsync())

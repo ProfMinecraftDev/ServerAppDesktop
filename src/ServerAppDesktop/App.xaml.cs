@@ -49,21 +49,19 @@ namespace ServerAppDesktop
         protected override async void OnLaunched(LaunchActivatedEventArgs args)
         {
             MainWindow = new MainWindow();
+            AppInstance.GetCurrent().Activated += (s, e) =>
+            {
+                MainWindow.DispatcherQueue.TryEnqueue(() =>
+                {
+                    WindowHelper.ShowAndFocus(MainWindow.AppWindow);
+                });
+            };
 
             if (!trayOnly)
             {
-                AppInstance.GetCurrent().Activated += (s, e) =>
-                {
-                    MainWindow.DispatcherQueue.TryEnqueue(() =>
-                    {
-                        WindowHelper.ShowAndFocus(MainWindow.AppWindow);
-                        MainWindow.Activate();
-                    });
-                };
                 MainWindow.Activate();
             }
 
-            // resto de lógica (updates, OOBE, etc.) solo si hay ventana
             if (MainWindow != null)
             {
                 bool isConnected = await NetworkHelper.IsInternetAvailableAsync();
