@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<tb:TaskbarIcon
+	x:Class="ServerAppDesktop.TrayIcon"
+	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+	xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+	xmlns:local="using:ServerAppDesktop"
+	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+	xmlns:tb="using:H.NotifyIcon"
+	xmlns:toolkitExtensions="using:CommunityToolkit.WinUI"
+	xmlns:vm="using:ServerAppDesktop.ViewModels"
+	d:DataContext="{d:DesignInstance vm:TrayViewModel,
+									 IsDesignTimeCreatable=True}"
+	ContextMenuMode="SecondWindow"
+	IconSource="/Assets/AppIcon.ico"
+	LeftClickCommand="{Binding ShowWindowCommand}"
+	NoLeftClickDelay="True"
+	ToolTipText="Server App Desktop (Preview)"
+	Visibility="Visible"
+	mc:Ignorable="d">
+	<tb:TaskbarIcon.ContextFlyout>
+		<MenuFlyout>
+			<MenuFlyoutItem x:Uid="MenuFlyoutItem_StartServer" Icon="{toolkitExtensions:SymbolIcon Symbol=Play}" />
+			<MenuFlyoutItem x:Uid="MenuFlyoutItem_StopServer" Icon="{toolkitExtensions:SymbolIcon Symbol=Stop}" />
+			<MenuFlyoutItem x:Uid="MenuFlyoutItem_RestartServer" Icon="{toolkitExtensions:SymbolIcon Symbol=Refresh}" />
+			<MenuFlyoutSeparator />
+			<MenuFlyoutItem
+				x:Uid="MenuFlyoutItem_SendFeedback"
+				Command="{Binding SendFeedbackCommand}"
+				Icon="{toolkitExtensions:FontIcon Glyph=&#xED15;}" />
+			<MenuFlyoutItem
+				x:Uid="MenuFlyoutItem_RestartApp"
+				Command="{Binding RestartAppCommand}"
+				Icon="{toolkitExtensions:SymbolIcon Symbol=Refresh}" />
+			<MenuFlyoutItem
+				x:Uid="MenuFlyoutItem_ShowWindow"
+				Command="{Binding ShowWindowCommand}"
+				Icon="{toolkitExtensions:SymbolIcon Symbol=NewWindow}" />
+			<MenuFlyoutSeparator />
+			<MenuFlyoutItem IsEnabled="False" Text="Server App Desktop 1.0.0.3 (Preview)" />
+			<MenuFlyoutSeparator />
+			<MenuFlyoutItem
+				x:Uid="MenuFlyoutItem_ExitApp"
+				Command="{Binding ExitAppCommand}"
+				Icon="{toolkitExtensions:FontIcon Glyph=&#xE7E8;}" />
+		</MenuFlyout>
+	</tb:TaskbarIcon.ContextFlyout>
+</tb:TaskbarIcon>

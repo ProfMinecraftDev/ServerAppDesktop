@@ -15,17 +15,25 @@
 		<DefaultLanguage>es-MX</DefaultLanguage>
 		<RuntimeIdentifier>win-x64</RuntimeIdentifier>
 		<AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+		<HasPackageAndNonPackageMode>true</HasPackageAndNonPackageMode>
+		<StartupObject>ServerAppDesktop.EntryPoint</StartupObject>
+		<PreBuildEvent>
+			powershell.exe -NoProfile -Command &quot;if (Get-Process ServerAppDesktop -ErrorAction SilentlyContinue) { TASKKILL /F /IM "ServerAppDesktop.exe" /T }&quot;
+		</PreBuildEvent>
 	</PropertyGroup>
 	<ItemGroup>
-	  <None Remove="Views\MainView.xaml" />
-	  <None Remove="Views\Pages\AboutPage.xaml" />
-	  <None Remove="Views\Pages\FilesPage.xaml" />
-	  <None Remove="Views\Pages\HomePage.xaml" />
-	  <None Remove="Views\Pages\PerformancePage.xaml" />
-	  <None Remove="Views\Pages\SettingsPage.xaml" />
-	  <None Remove="Views\Pages\SystemInfoPage.xaml" />
-	  <None Remove="Views\Pages\TerminalPage.xaml" />
-	  <None Remove="Views\Pages\WhatsNewPage.xaml" />
+		<None Remove="MainWindow.xaml" />
+		<None Remove="TrayIcon.xaml" />
+		<None Remove="Views\MainView.xaml" />
+		<None Remove="Views\OOBEView.xaml" />
+		<None Remove="Views\Pages\AboutPage.xaml" />
+		<None Remove="Views\Pages\FilesPage.xaml" />
+		<None Remove="Views\Pages\HomePage.xaml" />
+		<None Remove="Views\Pages\PerformancePage.xaml" />
+		<None Remove="Views\Pages\SettingsPage.xaml" />
+		<None Remove="Views\Pages\SystemInfoPage.xaml" />
+		<None Remove="Views\Pages\TerminalPage.xaml" />
+		<None Remove="Views\Pages\WhatsNewPage.xaml" />
 	</ItemGroup>
 
 	<ItemGroup>
@@ -33,75 +41,105 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<PackageReference Include="CommunityToolkit.Labs.WinUI.Controls.MarkdownTextBlock" Version="0.1.251217-build.2433" />
-		<PackageReference Include="CommunityToolkit.Mvvm" Version="8.4.0" />
-		<PackageReference Include="CommunityToolkit.WinUI.Controls.SettingsControls" Version="8.2.251219" />
-		<PackageReference Include="CommunityToolkit.WinUI.Extensions" Version="8.2.251219" />
-		<PackageReference Include="Microsoft.Extensions.Hosting" Version="10.0.1" />
-		<PackageReference Include="Microsoft.Windows.SDK.BuildTools" Version="10.0.26100.7175" />
-		<PackageReference Include="Microsoft.WindowsAppSDK" Version="1.8.251106002" />
-		<PackageReference Include="WinUIEx" Version="2.9.0" />
+		<PackageReference Include="CommunityToolkit.Labs.WinUI.Controls.MarkdownTextBlock"
+						  Version="0.1.251217-build.2433" />
+		<PackageReference Include="CommunityToolkit.Mvvm"
+						  Version="8.4.0" />
+		<PackageReference Include="CommunityToolkit.WinUI.Controls.SettingsControls"
+						  Version="8.2.251219" />
+		<PackageReference Include="CommunityToolkit.WinUI.UI.Controls"
+						  Version="7.1.2" />
+		<PackageReference Include="CommunityToolkit.WinUI.Extensions"
+						  Version="8.2.251219" />
+		<PackageReference Include="H.NotifyIcon.WinUI"
+						  Version="2.4.1" />
+		<PackageReference Include="Microsoft.Extensions.Hosting"
+						  Version="10.0.1" />
+		<PackageReference Include="Microsoft.Windows.SDK.BuildTools"
+						  Version="10.0.26100.7175" />
+		<PackageReference Include="Microsoft.WindowsAppSDK"
+						  Version="1.8.251106002" />
+		<PackageReference Include="WinUIEx"
+						  Version="2.9.0" />
 	</ItemGroup>
 
 	<ItemGroup>
-	  <ProjectReference Include="..\ServerAppDesktop.Controls\ServerAppDesktop.Controls.csproj" />
-	  <ProjectReference Include="..\ServerAppDesktop.Converters\ServerAppDesktop.Converters.csproj" />
-	  <ProjectReference Include="..\ServerAppDesktop.Helpers\ServerAppDesktop.Helpers.csproj" />
-	  <ProjectReference Include="..\ServerAppDesktop.Models\ServerAppDesktop.Models.csproj" />
-	  <ProjectReference Include="..\ServerAppDesktop.Services\ServerAppDesktop.Services.csproj" />
+		<ProjectReference Include="..\ServerAppDesktop.Controls\ServerAppDesktop.Controls.csproj" />
+		<ProjectReference Include="..\ServerAppDesktop.Converters\ServerAppDesktop.Converters.csproj" />
+		<ProjectReference Include="..\ServerAppDesktop.Helpers\ServerAppDesktop.Helpers.csproj" />
+		<ProjectReference Include="..\ServerAppDesktop.Models\ServerAppDesktop.Models.csproj" />
+		<ProjectReference Include="..\ServerAppDesktop.Services\ServerAppDesktop.Services.csproj" />
 	</ItemGroup>
 
 	<ItemGroup>
-	  <Page Update="Views\Pages\SettingsPage.xaml">
-	    <Generator>MSBuild:Compile</Generator>
-	  </Page>
+		<Page Update="MainWindow.xaml">
+			<Generator>MSBuild:Compile</Generator>
+		</Page>
 	</ItemGroup>
 
 	<ItemGroup>
-	  <Page Update="Views\Pages\AboutPage.xaml">
-	    <Generator>MSBuild:Compile</Generator>
-	  </Page>
+		<Page Update="TrayIcon.xaml">
+			<Generator>MSBuild:Compile</Generator>
+		</Page>
 	</ItemGroup>
 
 	<ItemGroup>
-	  <Page Update="Views\Pages\SystemInfoPage.xaml">
-	    <Generator>MSBuild:Compile</Generator>
-	  </Page>
+		<Page Update="Views\Pages\SettingsPage.xaml">
+			<Generator>MSBuild:Compile</Generator>
+		</Page>
 	</ItemGroup>
 
 	<ItemGroup>
-	  <Page Update="Views\Pages\WhatsNewPage.xaml">
-	    <Generator>MSBuild:Compile</Generator>
-	  </Page>
+		<Page Update="Views\Pages\AboutPage.xaml">
+			<Generator>MSBuild:Compile</Generator>
+		</Page>
 	</ItemGroup>
 
 	<ItemGroup>
-	  <Page Update="Views\Pages\FilesPage.xaml">
-	    <Generator>MSBuild:Compile</Generator>
-	  </Page>
+		<Page Update="Views\Pages\SystemInfoPage.xaml">
+			<Generator>MSBuild:Compile</Generator>
+		</Page>
 	</ItemGroup>
 
 	<ItemGroup>
-	  <Page Update="Views\Pages\TerminalPage.xaml">
-	    <Generator>MSBuild:Compile</Generator>
-	  </Page>
+		<Page Update="Views\Pages\WhatsNewPage.xaml">
+			<Generator>MSBuild:Compile</Generator>
+		</Page>
 	</ItemGroup>
 
 	<ItemGroup>
-	  <Page Update="Views\Pages\PerformancePage.xaml">
-	    <Generator>MSBuild:Compile</Generator>
-	  </Page>
+		<Page Update="Views\Pages\FilesPage.xaml">
+			<Generator>MSBuild:Compile</Generator>
+		</Page>
 	</ItemGroup>
 
 	<ItemGroup>
-	  <Page Update="Views\MainView.xaml">
-	    <Generator>MSBuild:Compile</Generator>
-	  </Page>
+		<Page Update="Views\Pages\TerminalPage.xaml">
+			<Generator>MSBuild:Compile</Generator>
+		</Page>
 	</ItemGroup>
 
 	<ItemGroup>
-	  <Page Update="Views\Pages\HomePage.xaml">
-	    <Generator>MSBuild:Compile</Generator>
-	  </Page>
+		<Page Update="Views\Pages\PerformancePage.xaml">
+			<Generator>MSBuild:Compile</Generator>
+		</Page>
+	</ItemGroup>
+
+	<ItemGroup>
+		<Page Update="Views\MainView.xaml">
+			<Generator>MSBuild:Compile</Generator>
+		</Page>
+	</ItemGroup>
+
+	<ItemGroup>
+		<Page Update="Views\OOBEView.xaml">
+			<Generator>MSBuild:Compile</Generator>
+		</Page>
+	</ItemGroup>
+
+	<ItemGroup>
+		<Page Update="Views\Pages\HomePage.xaml">
+			<Generator>MSBuild:Compile</Generator>
+		</Page>
 	</ItemGroup>
 </Project>
