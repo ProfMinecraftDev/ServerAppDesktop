@@ -17,10 +17,10 @@
 						BorderBrush="{TemplateBinding BorderBrush}"
 						BorderThickness="{TemplateBinding BorderThickness}"
 						CornerRadius="{TemplateBinding CornerRadius}">
-						<Grid>
+						<Grid ColumnSpacing="12">
 							<Grid.ColumnDefinitions>
 								<ColumnDefinition Width="*" />
-								<ColumnDefinition Width="2*" />
+								<ColumnDefinition Width="*" />
 							</Grid.ColumnDefinitions>
 
 							<Grid
@@ -29,10 +29,11 @@
 								ColumnSpacing="12">
 								<Grid.ColumnDefinitions>
 									<ColumnDefinition Width="Auto" />
-									<ColumnDefinition Width="Auto" />
+									<ColumnDefinition Width="*" />
 								</Grid.ColumnDefinitions>
 								<ContentPresenter
 									Grid.Column="0"
+									HorizontalAlignment="Right"
 									VerticalAlignment="Center"
 									Content="{TemplateBinding Icon}"
 									Foreground="{ThemeResource AccentTextFillColorPrimaryBrush}"
@@ -41,7 +42,7 @@
 									Grid.Column="1"
 									VerticalAlignment="Center"
 									Style="{StaticResource BodyStrongTextBlockStyle}"
-									Text="Título"
+									Text="{TemplateBinding Title}"
 									TextWrapping="WrapWholeWords" />
 							</Grid>
 
@@ -49,7 +50,7 @@
 								Grid.Column="1"
 								VerticalAlignment="Center"
 								Foreground="{ThemeResource TextFillColorSecondaryBrush}"
-								Text="Descripción"
+								Text="{TemplateBinding Description}"
 								TextWrapping="WrapWholeWords" />
 						</Grid>
 					</Border>
@@ -59,8 +60,7 @@
 	</Style>
 	<Style BasedOn="{StaticResource DefaultInfoCardStyle}" TargetType="local:InfoCard" />
 
-
-	<Style TargetType="local:SquareCard">
+	<Style x:Key="DefaultSquareCardStyle" TargetType="local:SquareCard">
 		<Setter Property="Template">
 			<Setter.Value>
 				<ControlTemplate TargetType="local:SquareCard">
@@ -126,4 +126,5 @@
 			</Setter.Value>
 		</Setter>
 	</Style>
+	<Style BasedOn="{StaticResource DefaultSquareCardStyle}" TargetType="local:SquareCard" />
 </ResourceDictionary>

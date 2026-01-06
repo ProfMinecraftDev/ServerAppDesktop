@@ -7,7 +7,8 @@
 	xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
 	xmlns:local="using:ServerAppDesktop.Views.Pages"
 	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-	xmlns:toolkitExtension="using:CommunityToolkit.WinUI"
+	xmlns:toolkitExtensions="using:CommunityToolkit.WinUI"
+	xmlns:toolkitUIControls="using:CommunityToolkit.WinUI.UI.Controls"
 	mc:Ignorable="d">
 
 	<StackPanel>
@@ -17,25 +18,77 @@
 			HorizontalAlignment="Stretch"
 			ColumnSpacing="16"
 			RowSpacing="16">
-			<Grid.ColumnDefinitions>
-				<ColumnDefinition Width="*" />
-				<ColumnDefinition Width="*" />
-			</Grid.ColumnDefinitions>
 			<Grid.RowDefinitions>
 				<RowDefinition Height="Auto" />
+				<RowDefinition Height="Auto" />
 			</Grid.RowDefinitions>
-			<controls:InfoCard
-				Title="Edición de servidor"
+			<StackPanel
 				Grid.Row="0"
-				Grid.Column="0"
-				Description="Ninguno"
-				Icon="{toolkitExtension:FontIcon Glyph=&#xE8B8;}" />
-			<controls:InfoCard
-				Title="Estado"
-				Grid.Row="0"
-				Grid.Column="1"
-				Description="Ninguno"
-				Icon="{toolkitExtension:FontIcon Glyph=&#xE8B8;}" />
+				HorizontalAlignment="Center"
+				Orientation="Horizontal"
+				Spacing="12"
+				XYFocusKeyboardNavigation="Enabled">
+				<Button>
+					<StackPanel Orientation="Horizontal" Spacing="8">
+						<SymbolIcon Symbol="Play" />
+						<TextBlock Text="Iniciar" />
+					</StackPanel>
+				</Button>
+				<Button>
+					<StackPanel Orientation="Horizontal" Spacing="8">
+						<SymbolIcon Symbol="Stop" />
+						<TextBlock Text="Detener" />
+					</StackPanel>
+				</Button>
+				<Button>
+					<StackPanel Orientation="Horizontal" Spacing="8">
+						<SymbolIcon Symbol="Refresh" />
+						<TextBlock Text="Reiniciar" />
+					</StackPanel>
+				</Button>
+			</StackPanel>
+			<ScrollView Grid.Row="1">
+				<Grid
+					MaxWidth="1200"
+					Margin="0,36,0,0"
+					ChildrenTransitions="{StaticResource DefaultLayoutTransitions}"
+					ColumnSpacing="16"
+					RowSpacing="16">
+					<Grid.ColumnDefinitions>
+						<ColumnDefinition Width="*" />
+						<ColumnDefinition Width="*" />
+					</Grid.ColumnDefinitions>
+					<Grid.RowDefinitions>
+						<RowDefinition Height="Auto" />
+						<RowDefinition Height="Auto" />
+						<RowDefinition Height="Auto" />
+					</Grid.RowDefinitions>
+					<controls:InfoCard
+						Title="Edición de servidor"
+						Grid.Row="0"
+						Grid.Column="0"
+						Description="Ninguno"
+						Icon="{toolkitExtensions:FontIcon Glyph=&#xE7FC;}" />
+					<controls:InfoCard
+						Title="Versión de servidor"
+						Grid.Row="0"
+						Grid.Column="1"
+						Description="Ninguno"
+						Icon="{toolkitExtensions:FontIcon Glyph=&#xE74C;}" />
+					<controls:InfoCard
+						Title="Ruta del servidor"
+						Grid.Row="1"
+						Grid.Column="0"
+						Description="Ninguno"
+						Icon="{toolkitExtensions:SymbolIcon Symbol=SyncFolder}" />
+					<controls:InfoCard
+						Title="Ejecutable del servidor"
+						Grid.Row="1"
+						Grid.Column="1"
+						Description="Ninguno"
+						Icon="{toolkitExtensions:FontIcon Glyph=&#xE943;}" />
+				</Grid>
+			</ScrollView>
 		</Grid>
 	</StackPanel>
 </Page>
