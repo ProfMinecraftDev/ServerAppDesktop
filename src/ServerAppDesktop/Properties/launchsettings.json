@@ -1,20 +1,36 @@
 {
-    "profiles": {
-        "Server App Desktop (Unpackaged)": {
-          "commandName": "Project",
-          "environmentVariables": {
-            "DOTNET_ENVIRONMENT": "Development",
-            "DEBUG_MODE": "true"
-          }
-        },
-        "Server App Desktop (Unpackaged + Native Debug)": {
-          "commandName": "Project",
-          "nativeDebugging" : true,
-          "environmentVariables": {
-            "DOTNET_ENVIRONMENT": "Development",
-            "DEBUG_MODE": "true"
-          }
-        }
+  "profiles": {
+    "Server App Desktop (Unpackaged)": {
+      "commandName": "Project",
+      "environmentVariables": {
+        "DOTNET_ENVIRONMENT": "Development",
+        "DEBUG_MODE": "true"
+      }
+    },
+    "Server App Desktop (Unpackaged + Tray Only)": {
+      "commandName": "Project",
+      "commandLineArgs": "--tray-only",
+      "environmentVariables": {
+        "DOTNET_ENVIRONMENT": "Development",
+        "DEBUG_MODE": "true"
+      }
+    },
+    "Server App Desktop (Unpackaged + Native Debug)": {
+      "commandName": "Project",
+      "environmentVariables": {
+        "DOTNET_ENVIRONMENT": "Development",
+        "DEBUG_MODE": "true"
+      },
+      "nativeDebugging": true
+    },
+    "Server App Desktop (Unpackaged + Native Debug + Tray Only)": {
+      "commandName": "Project",
+      "commandLineArgs": "-to",
+      "environmentVariables": {
+        "DOTNET_ENVIRONMENT": "Development",
+        "DEBUG_MODE": "true"
+      },
+      "nativeDebugging": true
     }
   }
-  
+}
