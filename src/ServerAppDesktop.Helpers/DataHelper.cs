@@ -1,11 +1,10 @@
 using System.Security.Principal;
-using System.Threading;
 
 namespace ServerAppDesktop.Helpers
 {
     public static partial class DataHelper
     {
-        public static string MutexIdentifier { get; } = "ServerAppDesktop_Unique_Mutex_Identifier_123456789";
+        public static string WindowIdentifier { get; } = "ServerAppDesktop_Unique_Window_Identifier_123456789";
         public static string AppName { get; } = "Server App Desktop";
         public static string AppVersion { get; } = "1.0.0.3 (Preview)";
         public static string AppVersionTag { get; } = "v1.0.0.3-Preview";
@@ -22,8 +21,6 @@ namespace ServerAppDesktop.Helpers
 #else
             false;
 #endif
-
-        public static Mutex? AppMutex { get; set; }
 
         static DataHelper()
         {
