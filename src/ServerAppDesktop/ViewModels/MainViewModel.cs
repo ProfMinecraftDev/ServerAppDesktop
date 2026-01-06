@@ -60,17 +60,29 @@ namespace ServerAppDesktop.ViewModels
         }
 
         [RelayCommand]
-        private void ShowFeedbackDialog(ContentDialog dialog) => _ = dialog.ShowAsync();
+        private void ShowFeedbackDialog(ContentDialog dialog)
+        {
+            _ = dialog.ShowAsync();
+        }
 
         [RelayCommand]
-        private void SendFeedback() =>
-            _ = Launcher.LaunchUriAsync(new Uri("https://github.com/ProfMinecraftDev/ServerAppDesktop/issues"));
+        private void SendFeedback()
+        {
+            var uri = new Uri("https://github.com/ProfMinecraftDev/ServerAppDesktop/issues");
+            _ = Launcher.LaunchUriAsync(uri);
+        }
 
         [RelayCommand]
-        private void ShowWarning(ContentDialog dialog) => _ = dialog.ShowAsync();
+        private void ShowWarning(ContentDialog dialog)
+        {
+            _ = dialog.ShowAsync();
+        }
 
         [RelayCommand]
-        private void ShowAdminWarning(ContentDialog dialog) => _ = dialog.ShowAsync();
+        private void ShowAdminWarning(ContentDialog dialog)
+        {
+            _ = dialog.ShowAsync();
+        }
 
         [RelayCommand]
         private async Task DownloadUpdateAsync()

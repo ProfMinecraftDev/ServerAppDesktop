@@ -59,7 +59,6 @@ namespace ServerAppDesktop.Helpers
 
         public static async Task<bool> DownloadUpdateAsync(Asset updateFile)
         {
-            CleanOldUpdates();
             string tempFolder = Path.Combine(Path.GetTempPath(), "ServerAppDesktop_Updates");
             if (!Directory.Exists(tempFolder))
                 Directory.CreateDirectory(tempFolder);
@@ -92,7 +91,7 @@ namespace ServerAppDesktop.Helpers
                 if (totalBytes != -1)
                 {
                     double percentage = (double)totalRead / totalBytes * 100;
-                    string progressText = $"{percentage:F0}% ({totalRead / 1048576.0:0.##} MB / {totalBytes / 1048576.0:0.##} MB)";
+                    string progressText = $"{percentage:F0}% ({totalRead / 1048576.0:F2} MB / {totalBytes / 1048576.0:F2} MB)";
                     DownloadProgress?.Invoke(progressText, percentage);
                 }
             }
@@ -100,9 +99,7 @@ namespace ServerAppDesktop.Helpers
             await fileStream.FlushAsync();
             fileStream.Close();
 
-            bool hashResult = await CompareHash(tempPath, updateFile.SHA256);
-
-            if (hashResult)
+            if (await CompareHash(tempPath, updateFile.SHA256))
             {
                 RegisterInstallationOnExit(tempPath, tempFolder);
                 return true;
@@ -141,7 +138,7 @@ namespace ServerAppDesktop.Helpers
             byte[] hashBytes = await sha256.ComputeHashAsync(stream);
             string sha256LocalFile = Convert.ToHexString(hashBytes).ToLowerInvariant();
 
-            return sha256LocalFile == hashToCompare.ToLower();
+            return sha256LocalFile != hashToCompare.ToLower();
         }
 
         public static void CleanOldUpdates()

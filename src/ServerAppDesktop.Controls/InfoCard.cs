@@ -1,7 +1,7 @@
-using System;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Media;
+using System;
 
 namespace ServerAppDesktop.Controls
 {
@@ -29,7 +29,7 @@ namespace ServerAppDesktop.Controls
         }
 
         public static readonly DependencyProperty DescriptionProperty =
-            DependencyProperty.Register(nameof(Description), typeof(string), typeof(InfoCard), new PropertyMetadata(string.Empty));
+            DependencyProperty.Register(nameof(Title), typeof(string), typeof (InfoCard), new PropertyMetadata(string.Empty));
         public string Description
         {
             get => (string)GetValue(DescriptionProperty);
@@ -51,6 +51,6 @@ namespace ServerAppDesktop.Controls
             BorderBrush = Application.Current.Resources.TryGetValue("CardStrokeColorDefaultBrush", out var borderBrushResource) && borderBrushResource is Brush borderBrush
                 ? borderBrush
                 : throw new InvalidOperationException("Unable to find border brush.");
-        }
-    }
+		}
+	}
 }
