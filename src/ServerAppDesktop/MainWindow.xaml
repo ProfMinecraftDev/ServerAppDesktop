@@ -18,6 +18,7 @@
 	MinHeight="300"
 	mc:Ignorable="d">
 
+
 	<winex:WindowEx.SystemBackdrop>
 		<MicaBackdrop Kind="Base" />
 	</winex:WindowEx.SystemBackdrop>
@@ -43,7 +44,8 @@
 					Height="48"
 					Background="Transparent"
 					BorderThickness="0"
-					CornerRadius="0">
+					CornerRadius="0"
+					FontSize="16">
 					<FontIcon Glyph="&#xE712;" />
 					<Button.Flyout>
 						<MenuFlyout Placement="Bottom">

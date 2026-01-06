@@ -3,6 +3,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Media.Animation;
+using Microsoft.Windows.AppLifecycle;
 using ServerAppDesktop.Helpers;
 using ServerAppDesktop.Services;
 using ServerAppDesktop.ViewModels;
@@ -15,9 +16,11 @@ namespace ServerAppDesktop
         public static MainWindow? MainWindow { get; private set; } = null;
         public static IHost? Host { get; private set; } = null;
 
-        public App()
+        private readonly bool trayOnly = false;
+
+        public App(bool trayOnly = false)
         {
-            WindowHelper.EnsureSingleInstance();
+            this.trayOnly = trayOnly;
             InitializeComponent();
             Host = Microsoft.Extensions.Hosting.Host
                 .CreateDefaultBuilder()
@@ -26,8 +29,12 @@ namespace ServerAppDesktop
                     services.AddSingleton<INavigationService, NavigationService>();
 
                     services.AddSingleton<MainViewModel>();
+                    services.AddTransient<TrayViewModel>();
                 })
                 .Build();
+
+            var trayIcon = new TrayIcon();
+            trayIcon.ForceCreate();
         }
 
         public static T GetRequiredService<T>() where T : notnull
@@ -41,44 +48,53 @@ namespace ServerAppDesktop
 
         protected override async void OnLaunched(LaunchActivatedEventArgs args)
         {
-            if (MainWindow == null)
+            MainWindow = new MainWindow();
+
+            if (!trayOnly)
             {
-                MainWindow = new MainWindow();
+                AppInstance.GetCurrent().Activated += (s, e) =>
+                {
+                    MainWindow.DispatcherQueue.TryEnqueue(() =>
+                    {
+                        WindowHelper.ShowAndFocus(MainWindow.AppWindow);
+                        MainWindow.Activate();
+                    });
+                };
                 MainWindow.Activate();
             }
-            MainWindow.Activate();
 
-            UpdateHelper.CleanOldUpdates();
-
-            bool isConnected = await NetworkHelper.IsInternetAvailableAsync();
-            MainWindow.ViewModel.IsConnectedToInternet = isConnected;
-
-            bool needsToShowOOBE = false;
-
-            if (isConnected)
+            // resto de lógica (updates, OOBE, etc.) solo si hay ventana
+            if (MainWindow != null)
             {
+                bool isConnected = await NetworkHelper.IsInternetAvailableAsync();
+                MainWindow.ViewModel.IsConnectedToInternet = isConnected;
+
                 var mainViewModel = GetRequiredService<MainViewModel>();
-                mainViewModel.ReleaseInfo = await UpdateHelper.GetUpdateAsync(
-                    DataHelper.GitHubUsername,
-                    DataHelper.GitHubRepository,
-                    DataHelper.AppVersionTag,
-                    DataHelper.UpdateChannel
+                if (isConnected)
+                {
+                    mainViewModel.ReleaseInfo = await UpdateHelper.GetUpdateAsync(
+                        DataHelper.GitHubUsername,
+                        DataHelper.GitHubRepository,
+                        DataHelper.AppVersionTag,
+                        DataHelper.UpdateChannel
                     );
 
-                if (mainViewModel.ReleaseInfo != null)
-                {
-                    _ = MainWindow.updateDialog.ShowAsync();
+                    if (mainViewModel.ReleaseInfo != null)
+                    {
+                        _ = MainWindow.updateDialog.ShowAsync();
+                    }
+                    else
+                        UpdateHelper.CleanOldUpdates();
                 }
-            }
 
-            if (needsToShowOOBE)
-            {
-                MainWindow.contentFrame.Navigate(typeof(OOBEView), null, new DrillInNavigationTransitionInfo());
-            }
-            else
-            {
-                MainWindow.contentFrame.Navigate(typeof(MainView), null, new DrillInNavigationTransitionInfo());
+                bool needsToShowOOBE = false;
+                MainWindow.contentFrame.Navigate(
+                    needsToShowOOBE ? typeof(OOBEView) : typeof(MainView),
+                    null,
+                    new DrillInNavigationTransitionInfo()
+                );
             }
         }
+
     }
 }

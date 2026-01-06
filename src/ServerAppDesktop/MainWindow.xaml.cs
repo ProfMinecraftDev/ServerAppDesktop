@@ -7,6 +7,7 @@ using Microsoft.UI.Xaml.Controls;
 using ServerAppDesktop.Helpers;
 using ServerAppDesktop.Services;
 using ServerAppDesktop.ViewModels;
+using Windows.System;
 using WinUIEx;
 
 namespace ServerAppDesktop
@@ -19,11 +20,26 @@ namespace ServerAppDesktop
         {
             InitializeComponent();
             this.CenterOnScreen();
+
             var grid = Content as Grid ?? throw new NullReferenceException("Grid no está o no se ha cargado.");
             grid.DataContext = ViewModel;
+            grid.KeyDown += (s, e) =>
+            {
+                var vKey = e.Key;
+                if (vKey == VirtualKey.Escape && PresenterKind == AppWindowPresenterKind.FullScreen)
+                {
+                    PresenterKind = AppWindowPresenterKind.Default;
+                    return;
+                }
+
+                if (vKey == VirtualKey.F11)
+                {
+                    OnF11Invoked();
+                    return;
+                }
+            };
 
             ExtendsContentIntoTitleBar = true;
-
             IntPtr hwnd = this.GetWindowHandle();
             if (hwnd != IntPtr.Zero)
             {
@@ -35,6 +51,11 @@ namespace ServerAppDesktop
                 appWindow.SetIcon("Assets/AppIcon.ico");
                 appWindow.SetTaskbarIcon("Assets/AppIcon.ico");
                 appWindow.SetTitleBarIcon("Assets/AppIcon.ico");
+                appWindow.Closing += (_, e) =>
+                {
+                    e.Cancel = true;
+                    this.Hide();
+                };
             }
         }
 
@@ -75,6 +96,20 @@ namespace ServerAppDesktop
             {
                 var navigationService = App.GetRequiredService<INavigationService>();
                 navigationService.GoBack();
+            }
+        }
+
+        private void OnF11Invoked()
+        {
+            if (PresenterKind != AppWindowPresenterKind.FullScreen)
+            {
+                PresenterKind = AppWindowPresenterKind.FullScreen;
+                return;
+            }
+            else if (PresenterKind == AppWindowPresenterKind.FullScreen)
+            {
+                PresenterKind = AppWindowPresenterKind.Default;
+                return;
             }
         }
     }
