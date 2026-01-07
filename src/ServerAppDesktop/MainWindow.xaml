@@ -14,7 +14,7 @@
 	Title="{x:Bind helpers:DataHelper.WindowTitle, Mode=OneTime}"
 	Width="800"
 	Height="600"
-	MinWidth="400"
+	MinWidth="550"
 	MinHeight="300"
 	mc:Ignorable="d">
 
@@ -46,7 +46,7 @@
 					BorderThickness="0"
 					CornerRadius="0"
 					FontSize="16">
-					<FontIcon Glyph="&#xE712;" />
+					<FontIcon FontSize="16" Glyph="&#xE712;" />
 					<Button.Flyout>
 						<MenuFlyout Placement="Bottom">
 							<MenuFlyoutItem
@@ -65,6 +65,10 @@
 								Command="{x:Bind ViewModel.RestartAppCommand}"
 								Icon="{toolkitExtensions:SymbolIcon Symbol=Refresh}" />
 							<MenuFlyoutSeparator Visibility="{Binding RunAsAdmin, Mode=OneTime, Converter={StaticResource BoolToVisibilityConverter}}" />
+							<MenuFlyoutItem
+								x:Uid="MenuFlyoutItem_ExitApp"
+								Command="{x:Bind ViewModel.ExitAppCommand}"
+								Icon="{toolkitExtensions:FontIcon Glyph=&#xE7E8;}" />
 							<MenuFlyoutItem
 								x:Uid="MenuFlyoutItem_Administator"
 								Command="{x:Bind ViewModel.ShowAdminWarningCommand}"

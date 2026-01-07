@@ -3,12 +3,76 @@
 	x:Class="ServerAppDesktop.Views.Pages.PerformancePage"
 	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
 	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+	xmlns:controls="using:ServerAppDesktop.Controls"
 	xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
 	xmlns:local="using:ServerAppDesktop.Views.Pages"
 	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+	xmlns:toolkitExtensions="using:CommunityToolkit.WinUI"
 	mc:Ignorable="d">
 
-	<StackPanel>
-		<TextBlock x:Uid="Page_Performance_Title" Style="{StaticResource PageTitleTextBlockStyle}" />
-	</StackPanel>
+
+	<Grid>
+		<Grid.RowDefinitions>
+			<RowDefinition Height="Auto" />
+			<RowDefinition Height="*" />
+		</Grid.RowDefinitions>
+
+		<TextBlock
+			x:Uid="Page_Performance_Title"
+			Grid.Row="0"
+			Margin="36,40,36,0"
+			Style="{StaticResource PageTitleTextBlockStyle}" />
+
+		<ScrollViewer Grid.Row="1" MaxWidth="1200">
+
+			<Grid
+				ChildrenTransitions="{StaticResource DefaultLayoutTransitions}"
+				ColumnSpacing="16"
+				RowSpacing="16">
+
+				<Grid.ColumnDefinitions>
+					<ColumnDefinition Width="*" />
+					<ColumnDefinition Width="*" />
+				</Grid.ColumnDefinitions>
+
+				<Grid.RowDefinitions>
+					<RowDefinition Height="Auto" />
+					<RowDefinition Height="Auto" />
+					<RowDefinition Height="Auto" />
+				</Grid.RowDefinitions>
+
+				<controls:InfoCard
+					Title="CPU"
+					Grid.Row="0"
+					Grid.Column="0"
+					Description="Ninguno"
+					Icon="{toolkitExtensions:FontIcon Glyph=&#xE950;}" />
+				<controls:InfoCard
+					Title="RAM"
+					Grid.Row="0"
+					Grid.Column="1"
+					Description="Ninguno"
+					Icon="{toolkitExtensions:FontIcon Glyph=&#xE964;}" />
+				<controls:InfoCard
+					Title="Red"
+					Grid.Row="1"
+					Grid.Column="0"
+					Description="Ninguno"
+					Icon="{toolkitExtensions:FontIcon Glyph=&#xE701;}" />
+				<controls:InfoCard
+					Title="Disco"
+					Grid.Row="1"
+					Grid.Column="1"
+					Description="Ninguno"
+					Icon="{toolkitExtensions:FontIcon Glyph=&#xE958;}" />
+				<controls:SquareCard
+					Grid.Row="2"
+					Grid.ColumnSpan="2"
+					Description="0"
+					Header="Jugadores"
+					Icon="{toolkitExtensions:FontIcon Glyph=&#xE902;}"
+					Subtitle="En desarrollo" />
+			</Grid>
+		</ScrollViewer>
+	</Grid>
 </Page>

@@ -32,7 +32,7 @@ namespace ServerAppDesktop.ViewModels
         private void ShowWindow()
         {
             if (App.MainWindow != null)
-                WindowHelper.ShowAndFocus(App.MainWindow.AppWindow);
+                WindowHelper.ShowAndFocus(App.MainWindow);
         }
     }
 }

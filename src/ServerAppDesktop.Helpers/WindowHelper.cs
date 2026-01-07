@@ -1,24 +1,19 @@
 ﻿using System;
 using System.Threading.Tasks;
-using Microsoft.UI.Windowing;
+using Microsoft.UI.Xaml;
 using Microsoft.Windows.AppLifecycle;
 
 namespace ServerAppDesktop.Helpers
 {
     public static class WindowHelper
     {
-        public static void ShowAndFocus(AppWindow appWindow)
+        public static void ShowAndFocus(Window window)
         {
-            if (appWindow == null)
+            if (window == null)
                 return;
 
-            appWindow.Show();
-
-            if (appWindow.Presenter is OverlappedPresenter presenter)
-            {
-                presenter.IsAlwaysOnTop = true;
-                presenter.IsAlwaysOnTop = false; // Quitar el "siempre encima" inmediatamente
-            }
+            window.AppWindow.Show();
+            window.Activate();
         }
 
         public static async Task<bool> IsRedirectedAsync()

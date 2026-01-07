@@ -53,7 +53,7 @@ namespace ServerAppDesktop
             {
                 MainWindow.DispatcherQueue.TryEnqueue(() =>
                 {
-                    WindowHelper.ShowAndFocus(MainWindow.AppWindow);
+                    WindowHelper.ShowAndFocus(MainWindow);
                 });
             };
 

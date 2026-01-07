@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using ServerAppDesktop.Helpers;
 using ServerAppDesktop.Models;
@@ -83,6 +84,13 @@ namespace ServerAppDesktop.ViewModels
                 await Task.Delay(10000);
                 DownloadingAnUpdate = !sucessDownload;
             }
+        }
+
+        [RelayCommand]
+        private void ExitApp()
+        {
+            Application.Current.Exit();
+            Environment.Exit(0);
         }
     }
 }
