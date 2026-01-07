@@ -8,7 +8,14 @@
 	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 	mc:Ignorable="d">
 
-	<StackPanel>
-		<TextBlock x:Uid="Page_Terminal_Title" Style="{StaticResource PageTitleTextBlockStyle}" />
-	</StackPanel>
+	<Grid>
+		<Grid.RowDefinitions>
+			<RowDefinition Height="Auto" />
+			<RowDefinition Height="*" />
+		</Grid.RowDefinitions>
+		<TextBlock
+			x:Uid="Page_Terminal_Title"
+			Grid.Row="0"
+			Style="{StaticResource PageTitleTextBlockStyle}" />
+	</Grid>
 </Page>
