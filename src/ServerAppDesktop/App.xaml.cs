@@ -1,9 +1,13 @@
 ﻿using System;
+using System.IO;
+using H.NotifyIcon;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Media.Animation;
 using Microsoft.Windows.AppLifecycle;
+using Microsoft.Windows.AppNotifications.Builder;
+using ServerAppDesktop.Controls;
 using ServerAppDesktop.Helpers;
 using ServerAppDesktop.Services;
 using ServerAppDesktop.ViewModels;
@@ -15,6 +19,7 @@ namespace ServerAppDesktop
     {
         public static MainWindow? MainWindow { get; private set; } = null;
         public static IHost? Host { get; private set; } = null;
+        public static TaskbarIcon? TrayIcon { get; private set; } = null;
 
         private readonly bool trayOnly = false;
 
@@ -29,12 +34,10 @@ namespace ServerAppDesktop
                     services.AddSingleton<INavigationService, NavigationService>();
 
                     services.AddSingleton<MainViewModel>();
+                    services.AddTransient<OOBEViewModel>();
                     services.AddTransient<TrayViewModel>();
                 })
                 .Build();
-
-            var trayIcon = new TrayIcon();
-            trayIcon.ForceCreate();
         }
 
         public static T GetRequiredService<T>() where T : notnull
@@ -49,18 +52,17 @@ namespace ServerAppDesktop
         protected override async void OnLaunched(LaunchActivatedEventArgs args)
         {
             MainWindow = new MainWindow();
+
             AppInstance.GetCurrent().Activated += (s, e) =>
-            {
-                MainWindow.DispatcherQueue.TryEnqueue(() =>
                 {
-                    WindowHelper.ShowAndFocus(MainWindow);
-                });
-            };
+                    MainWindow.DispatcherQueue.TryEnqueue(() =>
+                    {
+                        WindowHelper.ShowAndFocus(MainWindow);
+                    });
+                };
 
             if (!trayOnly)
-            {
                 MainWindow.Activate();
-            }
 
             if (MainWindow != null)
             {
@@ -79,13 +81,26 @@ namespace ServerAppDesktop
 
                     if (mainViewModel.ReleaseInfo != null)
                     {
-                        _ = MainWindow.updateDialog.ShowAsync();
+                        if (!trayOnly)
+                            _ = MainWindow.updateDialog.ShowAsync();
+                        var newUpdateNotification = new WindowsNotification
+                        {
+                            Title = "Nueva actualización disponible",
+                            Messsage = $"La versión {mainViewModel.ReleaseInfo.Version} te espera",
+                            SoundEvent = AppNotificationSoundEvent.IM,
+                            NotificationScenario = AppNotificationScenario.Reminder,
+                            HeroImagerUri = new Uri(Path.Combine(AppContext.BaseDirectory, "Assets", "HeroImage.png")),
+                            AppLogoUri = new Uri(Path.Combine(AppContext.BaseDirectory, "Assets", "AppIcon.ico")),
+                            Duration = AppNotificationDuration.Long,
+                            TimeStamp = DateTime.Now
+                        };
+                        newUpdateNotification.ShowNotification();
                     }
                     else
                         UpdateHelper.CleanOldUpdates();
                 }
 
-                bool needsToShowOOBE = false;
+                bool needsToShowOOBE = !SettingsHelper.ExistsConfigurationFile();
                 MainWindow.contentFrame.Navigate(
                     needsToShowOOBE ? typeof(OOBEView) : typeof(MainView),
                     null,

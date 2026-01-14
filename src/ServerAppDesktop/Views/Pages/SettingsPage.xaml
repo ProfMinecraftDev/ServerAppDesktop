@@ -6,9 +6,235 @@
 	xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
 	xmlns:local="using:ServerAppDesktop.Views.Pages"
 	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+	xmlns:toolkitControls="using:CommunityToolkit.WinUI.Controls"
+	xmlns:toolkitExtensions="using:CommunityToolkit.WinUI"
+	NavigationCacheMode="Required"
 	mc:Ignorable="d">
 
-	<StackPanel>
-		<TextBlock x:Uid="Page_Settings_Title" Style="{StaticResource PageTitleTextBlockStyle}" />
-	</StackPanel>
+	<Grid>
+		<Grid.RowDefinitions>
+			<RowDefinition Height="Auto" />
+			<RowDefinition Height="*" />
+		</Grid.RowDefinitions>
+		<TextBlock
+			x:Uid="Page_Settings_Title"
+			Grid.Row="0"
+			Style="{StaticResource PageTitleTextBlockStyle}" />
+
+		<ScrollViewer
+			Grid.Row="1"
+			Padding="36"
+			VerticalScrollBarVisibility="Auto"
+			VerticalScrollMode="Auto">
+			<StackPanel ChildrenTransitions="{StaticResource DefaultLayoutTransitions}" Spacing="{StaticResource SettingsCardSpacing}">
+				<TextBlock x:Uid="AppearanceHeader" Style="{StaticResource SettingsSectionHeaderTextBlockStyle}" />
+
+				<toolkitControls:SettingsCard x:Uid="BackdropSettingsCard" HeaderIcon="{toolkitExtensions:FontIcon Glyph=&#xF156;}">
+					<ComboBox Width="170" SelectedIndex="0">
+						<ComboBoxItem x:Uid="MicaBackdropItem" />
+						<ComboBoxItem x:Uid="MicaAltBackdropItem" />
+						<ComboBoxItem x:Uid="DesktopAcrylicBackdropItem" />
+					</ComboBox>
+				</toolkitControls:SettingsCard>
+
+				<toolkitControls:SettingsCard x:Uid="ThemeSettingsCard" HeaderIcon="{toolkitExtensions:FontIcon Glyph=&#xE790;}">
+					<ComboBox Width="150" SelectedIndex="0">
+						<ComboBoxItem x:Uid="SystemThemeItem" />
+						<ComboBoxItem x:Uid="LightThemeItem" />
+						<ComboBoxItem x:Uid="DarkThemeItem" />
+					</ComboBox>
+				</toolkitControls:SettingsCard>
+
+				<StackPanel>
+					<toolkitControls:SettingsCard
+						x:Uid="LanguageCard"
+						BorderThickness="1,1,1,0"
+						CornerRadius="4,4,0,0"
+						HeaderIcon="{toolkitExtensions:FontIcon Glyph=&#xF2B7;}">
+						<ComboBox Width="250" SelectedIndex="0" />
+					</toolkitControls:SettingsCard>
+					<InfoBar
+						x:Uid="HelpTranslateBar"
+						BorderThickness="1,0,1,1"
+						CornerRadius="0,0,4,4"
+						IsClosable="False"
+						IsOpen="True"
+						Severity="Informational" />
+				</StackPanel>
+
+				<TextBlock x:Uid="ServerHeader" Style="{StaticResource SettingsSectionHeaderTextBlockStyle}" />
+
+				<toolkitControls:SettingsCard x:Uid="EditionSettingsCard" HeaderIcon="{toolkitExtensions:FontIcon Glyph=&#xE7FC;}">
+					<ComboBox Width="200" SelectedIndex="0">
+						<ComboBoxItem x:Uid="BedrockEditionItem" />
+						<ComboBoxItem x:Uid="JavaEditionItem" />
+					</ComboBox>
+				</toolkitControls:SettingsCard>
+
+				<toolkitControls:SettingsCard x:Uid="PathSettingsCard" HeaderIcon="{toolkitExtensions:FontIcon Glyph=&#xEDA2;}">
+					<StackPanel Orientation="Horizontal" Spacing="8">
+						<TextBlock x:Uid="NoPathSelectedText" VerticalAlignment="Center" />
+						<Button
+							x:Uid="BrowsePathButton"
+							VerticalAlignment="Center"
+							Style="{StaticResource AccentButtonStyle}">
+							<StackPanel Orientation="Horizontal" Spacing="8">
+								<FontIcon Glyph="&#xE8DA;" />
+								<TextBlock x:Uid="BrowsePathButtonText" />
+							</StackPanel>
+						</Button>
+					</StackPanel>
+				</toolkitControls:SettingsCard>
+
+				<toolkitControls:SettingsCard x:Uid="ExecutableSettingsCard" HeaderIcon="{toolkitExtensions:FontIcon Glyph=&#xE943;}">
+					<StackPanel Orientation="Horizontal" Spacing="8">
+						<TextBlock x:Uid="NoFileSelectedText" VerticalAlignment="Center" />
+						<Button
+							x:Uid="BrowseExeButton"
+							VerticalAlignment="Center"
+							Style="{StaticResource AccentButtonStyle}">
+							<StackPanel Orientation="Horizontal" Spacing="8">
+								<FontIcon Glyph="&#xE8E5;" />
+								<TextBlock x:Uid="BrowseExeButtonText" />
+							</StackPanel>
+						</Button>
+					</StackPanel>
+				</toolkitControls:SettingsCard>
+
+				<toolkitControls:SettingsCard x:Uid="PortSettingsCard" HeaderIcon="{toolkitExtensions:FontIcon Glyph=&#xE839;}">
+					<StackPanel Orientation="Horizontal" Spacing="8">
+						<CheckBox x:Name="UsePortPropertiesCheckBox" x:Uid="UsePropertiesCheckBox" />
+						<NumberBox
+							x:Uid="ServerPortNumberBox"
+							Width="200"
+							LargeChange="100"
+							Maximum="65535"
+							Minimum="1"
+							SmallChange="1"
+							Visibility="{x:Bind UsePortPropertiesCheckBox.IsChecked, Mode=OneWay, Converter={StaticResource BoolNegationToVisibilityConverter}}" />
+					</StackPanel>
+				</toolkitControls:SettingsCard>
+
+				<toolkitControls:SettingsCard x:Uid="DescriptionSettingsCard" HeaderIcon="{toolkitExtensions:FontIcon Glyph=&#xE932;}">
+					<TextBox
+						x:Uid="ServerDescriptionTextBox"
+						MinWidth="100"
+						TextWrapping="Wrap" />
+				</toolkitControls:SettingsCard>
+
+				<toolkitControls:SettingsCard x:Uid="RamLimitCard" HeaderIcon="{toolkitExtensions:FontIcon Glyph=&#xE964;}">
+					<NumberBox
+						Width="200"
+						LargeChange="128"
+						Minimum="1"
+						SmallChange="16"
+						SpinButtonPlacementMode="Inline"
+						Value="1024" />
+				</toolkitControls:SettingsCard>
+
+				<toolkitControls:SettingsCard x:Uid="DifficultyCard" HeaderIcon="{toolkitExtensions:FontIcon Glyph=&#xE912;}">
+					<ComboBox Width="150" SelectedIndex="0">
+						<ComboBoxItem Content="Pacífico" />
+						<ComboBoxItem Content="Fácil" />
+						<ComboBoxItem Content="Normal" />
+						<ComboBoxItem Content="Difícil" />
+					</ComboBox>
+				</toolkitControls:SettingsCard>
+
+				<toolkitControls:SettingsCard x:Uid="AllowCommandsCard" HeaderIcon="{toolkitExtensions:FontIcon Glyph=&#xE756;}">
+					<ToggleSwitch />
+				</toolkitControls:SettingsCard>
+
+				<toolkitControls:SettingsCard x:Uid="MaxPlayersCard" HeaderIcon="{toolkitExtensions:FontIcon Glyph=&#xEBDA;}">
+					<NumberBox
+						Width="200"
+						Minimum="1"
+						SpinButtonPlacementMode="Inline"
+						Value="10" />
+				</toolkitControls:SettingsCard>
+
+				<toolkitControls:SettingsCard x:Uid="OnlineModeCard" HeaderIcon="{toolkitExtensions:FontIcon Glyph=&#xE93E;}">
+					<ToggleSwitch IsOn="True" />
+				</toolkitControls:SettingsCard>
+
+				<toolkitControls:SettingsCard x:Uid="LanVisibilityCard" HeaderIcon="{toolkitExtensions:FontIcon Glyph=&#xE704;}">
+					<ToggleSwitch IsOn="True" />
+				</toolkitControls:SettingsCard>
+
+				<toolkitControls:SettingsCard x:Uid="ViewDistanceCard" HeaderIcon="{toolkitExtensions:FontIcon Glyph=&#xE81E;}">
+					<NumberBox
+						Width="200"
+						Maximum="96"
+						Minimum="5"
+						SpinButtonPlacementMode="Inline"
+						Value="32" />
+				</toolkitControls:SettingsCard>
+
+				<toolkitControls:SettingsCard x:Uid="TickDistanceCard" HeaderIcon="{toolkitExtensions:FontIcon Glyph=&#xE8B0;}">
+					<NumberBox
+						Width="200"
+						Maximum="12"
+						Minimum="4"
+						SpinButtonPlacementMode="Inline"
+						Value="4" />
+				</toolkitControls:SettingsCard>
+
+				<toolkitControls:SettingsCard x:Uid="LevelNameCard" HeaderIcon="{toolkitExtensions:FontIcon Glyph=&#xE8AC;}">
+					<TextBox Width="200" />
+				</toolkitControls:SettingsCard>
+
+				<toolkitControls:SettingsCard x:Uid="DefaultPlayerPermCard" HeaderIcon="{toolkitExtensions:FontIcon Glyph=&#xECA7;}">
+					<ComboBox SelectedIndex="1">
+						<ComboBoxItem Content="Bedrock: visitor (sin interacción)" />
+						<ComboBoxItem Content="Bedrock: member (jugador normal)" />
+						<ComboBoxItem Content="Bedrock: operator (administrador)" />
+						<ComboBoxItem Content="Java: 1 (comandos básicos)" />
+						<ComboBoxItem Content="Java: 2 (administración)" />
+						<ComboBoxItem Content="Java: 3 (servidor)" />
+						<ComboBoxItem Content="Java: 4 (todos los comandos)" />
+					</ComboBox>
+				</toolkitControls:SettingsCard>
+
+				<toolkitControls:SettingsCard x:Uid="TextureRequiredCard" HeaderIcon="{toolkitExtensions:FontIcon Glyph=&#xE7C5;}">
+					<ToggleSwitch IsOn="False" />
+				</toolkitControls:SettingsCard>
+
+				<toolkitControls:SettingsCard x:Uid="ChatRestrictionCard" HeaderIcon="{toolkitExtensions:FontIcon Glyph=&#xE8BD;}">
+					<ComboBox SelectedIndex="0">
+						<ComboBoxItem Content="Ninguno" />
+						<ComboBoxItem Content="Descartado" />
+						<ComboBoxItem Content="Deshabilitado" />
+					</ComboBox>
+				</toolkitControls:SettingsCard>
+
+				<toolkitControls:SettingsCard x:Uid="PlayerInteractionCard" HeaderIcon="{toolkitExtensions:FontIcon Glyph=&#xEDA4;}">
+					<ToggleSwitch IsOn="False" />
+				</toolkitControls:SettingsCard>
+
+				<toolkitControls:SettingsCard x:Uid="ForceGamemodeCard" HeaderIcon="{toolkitExtensions:FontIcon Glyph=&#xE727;}">
+					<ToggleSwitch IsOn="False" />
+				</toolkitControls:SettingsCard>
+
+				<TextBlock x:Uid="StartupHeader" Style="{StaticResource SettingsSectionHeaderTextBlockStyle}" />
+
+				<toolkitControls:SettingsCard x:Uid="StartupWindowsCard">
+					<toolkitControls:SettingsCard.HeaderIcon>
+						<PathIcon Data="{StaticResource Windows11IconPath}" />
+					</toolkitControls:SettingsCard.HeaderIcon>
+					<ToggleSwitch IsOn="False" />
+				</toolkitControls:SettingsCard>
+
+				<toolkitControls:SettingsCard x:Uid="CloseTrayCard" HeaderIcon="{toolkitExtensions:FontIcon Glyph=&#xE944;}">
+					<ToggleSwitch IsOn="True" />
+				</toolkitControls:SettingsCard>
+
+				<toolkitControls:SettingsCard x:Uid="AutoStartSettingsCard" HeaderIcon="{toolkitExtensions:FontIcon Glyph=&#xE78B;}">
+					<StackPanel Orientation="Horizontal" Spacing="8">
+						<InfoBadge Style="{StaticResource CautionIconInfoBadgeStyle}" />
+						<ToggleSwitch x:Uid="AutoStartToggleSwitch" />
+					</StackPanel>
+				</toolkitControls:SettingsCard>
+			</StackPanel>
+		</ScrollViewer>
+	</Grid>
 </Page>

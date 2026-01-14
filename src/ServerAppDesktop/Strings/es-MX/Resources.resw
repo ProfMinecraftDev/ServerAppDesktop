@@ -195,25 +195,25 @@
   <data name="BackdropSettingsCard.Header" xml:space="preserve">
     <value>Fondo</value>
   </data>
-  <data name="MicaBackdropItem.Content" xml:space="preserve">
+  <data name="MicaBackdropItem" xml:space="preserve">
     <value>Mica</value>
   </data>
-  <data name="MicaAltBackdropItem.Content" xml:space="preserve">
+  <data name="MicaAltBackdropItem" xml:space="preserve">
     <value>Mica Alt</value>
   </data>
-  <data name="DesktopAcrylicBackdropItem.Content" xml:space="preserve">
+  <data name="DesktopAcrylicBackdropItem" xml:space="preserve">
     <value>Acrílico de escritorio</value>
   </data>
   <data name="ThemeSettingsCard.Header" xml:space="preserve">
     <value>Tema</value>
   </data>
-  <data name="SystemThemeItem.Content" xml:space="preserve">
+  <data name="SystemThemeItem" xml:space="preserve">
     <value>Sistema</value>
   </data>
-  <data name="LightThemeItem.Content" xml:space="preserve">
+  <data name="LightThemeItem" xml:space="preserve">
     <value>Claro</value>
   </data>
-  <data name="DarkThemeItem.Content" xml:space="preserve">
+  <data name="DarkThemeItem" xml:space="preserve">
     <value>Oscuro</value>
   </data>
   <data name="ServerHeader.Text" xml:space="preserve">
@@ -225,10 +225,10 @@
   <data name="EditionSettingsCard.Description" xml:space="preserve">
     <value>Configura los ajustes del servidor de Minecraft.</value>
   </data>
-  <data name="BedrockEditionItem.Content" xml:space="preserve">
+  <data name="BedrockEditionItem" xml:space="preserve">
     <value>Minecraft Bedrock</value>
   </data>
-  <data name="JavaEditionItem.Content" xml:space="preserve">
+  <data name="JavaEditionItem" xml:space="preserve">
     <value>Minecraft Java</value>
   </data>
   <data name="PathSettingsCard.Header" xml:space="preserve">
@@ -236,9 +236,6 @@
   </data>
   <data name="PathSettingsCard.Description" xml:space="preserve">
     <value>Especifica la ruta del servidor.</value>
-  </data>
-  <data name="NoPathSelectedText.Text" xml:space="preserve">
-    <value>Ninguna ruta seleccionada.</value>
   </data>
   <data name="BrowsePathButtonText.Text" xml:space="preserve">
     <value>Examinar</value>
@@ -249,7 +246,13 @@
   <data name="ExecutableSettingsCard.Description" xml:space="preserve">
     <value>Especifica el ejecutable del servidor para poderse lanzar.</value>
   </data>
-  <data name="NoFileSelectedText.Text" xml:space="preserve">
+  <data name="NoFileSelectedText" xml:space="preserve">
+    <value>Ningún archivo seleccionado.</value>
+  </data>
+  <data name="NoPathSelectedText" xml:space="preserve">
+    <value>Ninguna ruta seleccionada</value>
+  </data>
+  <data name="FileSelectedText" xml:space="preserve">
     <value>Ningún archivo seleccionado.</value>
   </data>
   <data name="BrowseExeButtonText.Text" xml:space="preserve">
@@ -300,20 +303,7 @@
   <data name="GoButton.Content" xml:space="preserve">
     <value>Vamos</value>
   </data>
-  <data name="OOBEView_WelcomeDialog_Title" xml:space="preserve">
-    <value>Bienvenido</value>
-  </data>
-  <data name="OOBEView_WelcomeDialog_Description" xml:space="preserve">
-    <value>¡Bienvenido a ServerAppDesktop!
-
-Esta aplicación ha sido creada para ayudarte a gestionar tu servidor de Minecraft de manera clara y sencilla, ya sea en su edición Bedrock o Java. Aquí podrás configurar la apariencia de la interfaz, definir la ruta y el ejecutable del servidor, ajustar el puerto de conexión y personalizar la descripción que verán tus jugadores. Todo está organizado en pasos simples para que avances sin complicaciones técnicas.
-
-Además, cuentas con funciones como el auto-inicio del servidor y opciones de personalización que harán tu experiencia más cómoda y adaptada a tu estilo. La idea es que, al terminar esta configuración inicial, tengas un entorno listo para funcionar y preparado para crecer junto con tu comunidad.
-
-Este es el comienzo de tu viaje: un espacio donde cada ajuste se convierte en parte de tu altar digital. Explora con calma, disfruta el proceso y prepárate para levantar tu servidor con confianza.
-</value>
-  </data>
-  <data name="OOBEView_WelcomeDialog_Close" xml:space="preserve">
+  <data name="WelcomeOOBEDialog.CloseButtonText" xml:space="preserve">
     <value>Comencemos!</value>
   </data>
   <data name="BackdropSettingsCard.Description" xml:space="preserve">
@@ -322,32 +312,11 @@ Este es el comienzo de tu viaje: un espacio donde cada ajuste se convierte en pa
   <data name="ThemeSettingsCard.Description" xml:space="preserve">
     <value>Selecciona el tema para tu app para una apariencia única.</value>
   </data>
-  <data name="NoInternetInfoBar.Title" xml:space="preserve">
+  <data name="InternetInfoBar_Warning_Title" xml:space="preserve">
     <value>Advertencia</value>
   </data>
-  <data name="NoInternetInfoBar.Message" xml:space="preserve">
+  <data name="InternetInfoBar_Warning_Message" xml:space="preserve">
     <value>No estás conectado a internet, es posible que algunas funciones no estén disponibles.</value>
-  </data>
-  <data name="ReconnectButtonText.Text" xml:space="preserve">
-    <value>Reconectar</value>
-  </data>
-  <data name="InternetConnection_Reconnecting_Title" xml:space="preserve">
-    <value>Espera</value>
-  </data>
-  <data name="InternetConnection_Reconnecting_Message" xml:space="preserve">
-    <value>Estamos reconectándonos a internet.</value>
-  </data>
-  <data name="InternetConnection_Reconnected_Message" xml:space="preserve">
-    <value>Se restableció la conexión a internet</value>
-  </data>
-  <data name="InternetConnection_Reconnected_Title" xml:space="preserve">
-    <value>Éxito</value>
-  </data>
-  <data name="InternetConnection_FailedToReconnect_Title" xml:space="preserve">
-    <value>Error</value>
-  </data>
-  <data name="InternetConnection_FailedToReconnect_Message" xml:space="preserve">
-    <value>No se puedo reconectar a internet</value>
   </data>
   <data name="SettingsNavItem.ToolTipService.ToolTip" xml:space="preserve">
     <value>Configuración</value>
@@ -423,5 +392,381 @@ Este es el comienzo de tu viaje: un espacio donde cada ajuste se convierte en pa
   </data>
   <data name="UpdateInfoBar.Title" xml:space="preserve">
     <value>Se está descargando una actualización, puede tardar unos minutos</value>
+  </data>
+  <data name="String_Yes" xml:space="preserve">
+    <value>Sí</value>
+  </data>
+  <data name="String_No" xml:space="preserve">
+    <value>No</value>
+  </data>
+  <data name="StartServerText.Text" xml:space="preserve">
+    <value>Iniciar</value>
+  </data>
+  <data name="RestartServerText.Text" xml:space="preserve">
+    <value>Reiniciar</value>
+  </data>
+  <data name="StopServerText.Text" xml:space="preserve">
+    <value>Detener</value>
+  </data>
+  <data name="StartServerButton.ToolTipService.ToolTip" xml:space="preserve">
+    <value>Inicia el servidor</value>
+  </data>
+  <data name="RestartServerButton.ToolTipService.ToolTip" xml:space="preserve">
+    <value>Reinicia el servidor</value>
+  </data>
+  <data name="StopServerButton.ToolTipService.ToolTip" xml:space="preserve">
+    <value>Detiene el servidor</value>
+  </data>
+  <data name="ServerEditionCard.Title" xml:space="preserve">
+    <value>Edición de servidor</value>
+  </data>
+  <data name="ServerVersionCard.Title" xml:space="preserve">
+    <value>Versión de servidor</value>
+  </data>
+  <data name="ServerPathCard.Title" xml:space="preserve">
+    <value>Ruta del servidor</value>
+  </data>
+  <data name="ServerExecutableCard.Title" xml:space="preserve">
+    <value>Ejecutable del servidor</value>
+  </data>
+  <data name="ServerIPCard.Header" xml:space="preserve">
+    <value>IP del servidor</value>
+  </data>
+  <data name="ServerPortCard.Header" xml:space="preserve">
+    <value>Puerto</value>
+  </data>
+  <data name="ActiveWorldCard.Title" xml:space="preserve">
+    <value>Mundo activo</value>
+  </data>
+  <data name="CPUCard.Title" xml:space="preserve">
+    <value>CPU</value>
+  </data>
+  <data name="RAMCard.Title" xml:space="preserve">
+    <value>Memoria RAM</value>
+  </data>
+  <data name="NetworkCard.Title" xml:space="preserve">
+    <value>Red</value>
+  </data>
+  <data name="DiskCard.Title" xml:space="preserve">
+    <value>Disco</value>
+  </data>
+  <data name="PlayersCard.Header" xml:space="preserve">
+    <value>Jugadores</value>
+  </data>
+  <data name="PlayersCard.Subtitle" xml:space="preserve">
+    <value>En desarrollo</value>
+  </data>
+  <data name="OutputTitle.Text" xml:space="preserve">
+    <value>Salida</value>
+  </data>
+  <data name="CopyOutputBtn.Label" xml:space="preserve">
+    <value>Copiar salida</value>
+  </data>
+  <data name="CopyOutputBtn.ToolTipService.ToolTip" xml:space="preserve">
+    <value>Copia la salida al portapapeles</value>
+  </data>
+  <data name="ClearOutputBtn.Label" xml:space="preserve">
+    <value>Limpiar salida</value>
+  </data>
+  <data name="ClearOutputBtn.ToolTipService.ToolTip" xml:space="preserve">
+    <value>Limpia la salida (usarla cuando es muy extensa)</value>
+  </data>
+  <data name="CommandInput.PlaceholderText" xml:space="preserve">
+    <value>Escribe un comando</value>
+  </data>
+  <data name="CommandInput.ToolTipService.ToolTip" xml:space="preserve">
+    <value>Escribe un comando ej: say Hola</value>
+  </data>
+  <data name="SendCommandText.Text" xml:space="preserve">
+    <value>Enviar</value>
+  </data>
+  <data name="SendCommandBtn.ToolTipService.ToolTip" xml:space="preserve">
+    <value>Envía el comando al servidor</value>
+  </data>
+  <data name="DiskLabel.Text" xml:space="preserve">
+    <value>Disco local ({0})</value>
+  </data>
+  <data name="DiskAvailableText.Text" xml:space="preserve">
+    <value>{0} disponible de {1}</value>
+  </data>
+  <data name="NewFileBtn.Label" xml:space="preserve">
+    <value>Nuevo</value>
+  </data>
+  <data name="NewFolderItem.Text" xml:space="preserve">
+    <value>Carpeta</value>
+  </data>
+  <data name="NewFileItem.Text" xml:space="preserve">
+    <value>Archivo</value>
+  </data>
+  <data name="RefreshBtn.Label" xml:space="preserve">
+    <value>Actualizar</value>
+  </data>
+  <data name="BackupBtn.Label" xml:space="preserve">
+    <value>Respaldo</value>
+  </data>
+  <data name="OpenFolderBtn.Label" xml:space="preserve">
+    <value>Abrir carpeta</value>
+  </data>
+  <data name="ColName.Content" xml:space="preserve">
+    <value>Nombre</value>
+  </data>
+  <data name="ColSize.Content" xml:space="preserve">
+    <value>Tamaño</value>
+  </data>
+  <data name="ColDate.Content" xml:space="preserve">
+    <value>Fecha de modificación</value>
+  </data>
+  <data name="ColEditable.Content" xml:space="preserve">
+    <value>Editable</value>
+  </data>
+  <data name="CutBtn.ToolTipService.ToolTip" xml:space="preserve">
+    <value>Cortar</value>
+  </data>
+  <data name="CopyBtn.ToolTipService.ToolTip" xml:space="preserve">
+    <value>Copiar</value>
+  </data>
+  <data name="PasteBtn.ToolTipService.ToolTip" xml:space="preserve">
+    <value>Pegar</value>
+  </data>
+  <data name="RenameBtn.ToolTipService.ToolTip" xml:space="preserve">
+    <value>Renombrar</value>
+  </data>
+  <data name="DeleteBtn.ToolTipService.ToolTip" xml:space="preserve">
+    <value>Eliminar</value>
+  </data>
+  <data name="RepairBtn.ToolTipService.ToolTip" xml:space="preserve">
+    <value>Reparar</value>
+  </data>
+  <data name="FlyoutCut.Text" xml:space="preserve">
+    <value>Cortar</value>
+  </data>
+  <data name="FlyoutCopy.Text" xml:space="preserve">
+    <value>Copiar</value>
+  </data>
+  <data name="FlyoutPaste.Text" xml:space="preserve">
+    <value>Pegar</value>
+  </data>
+  <data name="FlyoutRename.Text" xml:space="preserve">
+    <value>Renombrar</value>
+  </data>
+  <data name="FlyoutDelete.Text" xml:space="preserve">
+    <value>Eliminar</value>
+  </data>
+  <data name="FlyoutProps.Text" xml:space="preserve">
+    <value>Propiedades</value>
+  </data>
+  <data name="WhatsNew_NoInternetTitle.Text" xml:space="preserve">
+    <value>No estás conectado a internet</value>
+  </data>
+  <data name="WhatsNew_NoInternetDesc.Text" xml:space="preserve">
+    <value>No se pudieron cargar las novedades de Server App Desktop</value>
+  </data>
+  <data name="RefreshNewsBtn.ToolTipService.ToolTip" xml:space="preserve">
+    <value>Intentar cargar las novedades de nuevo</value>
+  </data>
+  <data name="RefreshNewsText.Text" xml:space="preserve">
+    <value>Actualizar</value>
+  </data>
+  <data name="LoadingNewsText.Text" xml:space="preserve">
+    <value>Cargando novedades</value>
+  </data>
+  <data name="SysCPU.Title" xml:space="preserve">
+    <value>CPU</value>
+  </data>
+  <data name="SysGPU.Title" xml:space="preserve">
+    <value>GPU</value>
+  </data>
+  <data name="SysMemory.Title" xml:space="preserve">
+    <value>Memoria</value>
+  </data>
+  <data name="SysModel.Title" xml:space="preserve">
+    <value>Equipo</value>
+  </data>
+  <data name="SysOS.Title" xml:space="preserve">
+    <value>Versión de Windows</value>
+  </data>
+  <data name="SysLicense.Title" xml:space="preserve">
+    <value>Licencia</value>
+  </data>
+  <data name="ActiveProcess.Header" xml:space="preserve">
+    <value>Proceso activo</value>
+  </data>
+  <data name="ActiveProcess.Subtitle" xml:space="preserve">
+    <value>PID 0000</value>
+  </data>
+  <data name="SysStorage.Header" xml:space="preserve">
+    <value>Almacenamiento</value>
+  </data>
+  <data name="SysStorage.Subtitle" xml:space="preserve">
+    <value>SSD</value>
+  </data>
+  <data name="ActiveUser.Title" xml:space="preserve">
+    <value>Usuario activo</value>
+  </data>
+  <data name="AboutAppItem.Text" xml:space="preserve">
+    <value>Acerca de</value>
+  </data>
+  <data name="AboutLicensesItem.Text" xml:space="preserve">
+    <value>Licencias de terceros</value>
+  </data>
+  <data name="AppDescription1.Text" xml:space="preserve">
+    <value>Server App Desktop es una aplicación avanzada de escritorio para Windows, construida con precisión quirúrgica y alto rendimiento. Desarrollada, depurada y empaquetada manualmente en laptop local, probada y validada en entornos virtualizados con VMware Workstation.</value>
+  </data>
+  <data name="AppDescription2.Text" xml:space="preserve">
+    <value>Cada línea fue escrita por mí, Prof Minecraft — arquitecto de alto rendimiento, explorador de entornos virtuales y domador de ensambladores. Este proyecto es más que código: es un manifiesto digital hecho con pulso de ingeniería y alma de depurador técnico. ;)</value>
+  </data>
+  <data name="AppDescription3.Text" xml:space="preserve">
+    <value>Construida con WinUI 3, C# y Visual Studio. Integración con GitHub para control de versiones y despliegue continuo.</value>
+  </data>
+  <data name="AppDescription4.Text" xml:space="preserve">
+    <value>Server App Desktop no es solo software: es un manifiesto de ingeniería. Cada bug corregido se convierte en un capítulo de la saga técnica.</value>
+  </data>
+  <data name="GitHubLink.ToolTipService.ToolTip" xml:space="preserve">
+    <value>Ver repositorio oficial en GitHub</value>
+  </data>
+  <data name="GitHubLinkText.Text" xml:space="preserve">
+    <value>Código fuente</value>
+  </data>
+  <data name="LicensesHeader.Text" xml:space="preserve">
+    <value>Licencias de Terceros</value>
+  </data>
+  <data name="LicensesSubheader.Text" xml:space="preserve">
+    <value>Server App Desktop no sería una realidad sin las siguientes librerías</value>
+  </data>
+  <data name="LanguageCard.Header" xml:space="preserve">
+    <value>Idioma</value>
+  </data>
+  <data name="LanguageCard.Description" xml:space="preserve">
+    <value>¡Traduce Server App Desktop con el idioma de tu preferencia!</value>
+  </data>
+  <data name="HelpTranslateBar.Title" xml:space="preserve">
+    <value>Ayuda a traducir</value>
+  </data>
+  <data name="HelpTranslateBar.Message" xml:space="preserve">
+    <value>Haz que Server App Desktop llegue a más personas.</value>
+  </data>
+  <data name="RamLimitCard.Header" xml:space="preserve">
+    <value>Límite de RAM (Minecraft Java)</value>
+  </data>
+  <data name="RamLimitCard.Description" xml:space="preserve">
+    <value>Esto se usa para limitar el uso de memoria RAM (se mide en MB)</value>
+  </data>
+  <data name="DifficultyCard.Header" xml:space="preserve">
+    <value>Dificultad de juego</value>
+  </data>
+  <data name="DifficultyCard.Description" xml:space="preserve">
+    <value>Escoge bien ya que será pacífico hasta difícil</value>
+  </data>
+  <data name="AllowCommandsCard.Header" xml:space="preserve">
+    <value>Permitir comandos</value>
+  </data>
+  <data name="AllowCommandsCard.Description" xml:space="preserve">
+    <value>Habilita los comandos (conocido como trampas) para el servidor</value>
+  </data>
+  <data name="MaxPlayersCard.Header" xml:space="preserve">
+    <value>Máximo de jugadores</value>
+  </data>
+  <data name="MaxPlayersCard.Description" xml:space="preserve">
+    <value>Número máximo de jugadores permitidos en el servidor.</value>
+  </data>
+  <data name="OnlineModeCard.Header" xml:space="preserve">
+    <value>Modo Online</value>
+  </data>
+  <data name="OnlineModeCard.Description" xml:space="preserve">
+    <value>Autenticación obligatoria en Xbox Live (Bedrock) o Mojang (Java).</value>
+  </data>
+  <data name="LanVisibilityCard.Header" xml:space="preserve">
+    <value>Visibilidad LAN</value>
+  </data>
+  <data name="LanVisibilityCard.Description" xml:space="preserve">
+    <value>Permite descubrir el servidor en la red local.</value>
+  </data>
+  <data name="ViewDistanceCard.Header" xml:space="preserve">
+    <value>Distancia de visión</value>
+  </data>
+  <data name="ViewDistanceCard.Description" xml:space="preserve">
+    <value>Número máximo de chunks visibles.</value>
+  </data>
+  <data name="TickDistanceCard.Header" xml:space="preserve">
+    <value>Distancia de tick</value>
+  </data>
+  <data name="TickDistanceCard.Description" xml:space="preserve">
+    <value>Chunks alrededor del jugador que reciben actualizaciones (Bedrock).</value>
+  </data>
+  <data name="LevelNameCard.Header" xml:space="preserve">
+    <value>Nombre del mundo</value>
+  </data>
+  <data name="LevelNameCard.Description" xml:space="preserve">
+    <value>Nombre del nivel/mundo.</value>
+  </data>
+  <data name="DefaultPlayerPermCard.Header" xml:space="preserve">
+    <value>Permisos por defecto</value>
+  </data>
+  <data name="DefaultPlayerPermCard.Description" xml:space="preserve">
+    <value>Nivel de permisos para nuevos jugadores.</value>
+  </data>
+  <data name="TextureRequiredCard.Header" xml:space="preserve">
+    <value>Textura obligatoria</value>
+  </data>
+  <data name="TextureRequiredCard.Description" xml:space="preserve">
+    <value>Forzar uso de texture packs.</value>
+  </data>
+  <data name="ChatRestrictionCard.Header" xml:space="preserve">
+    <value>Restricción de chat</value>
+  </data>
+  <data name="ChatRestrictionCard.Description" xml:space="preserve">
+    <value>Nivel de restricción aplicado al chat.</value>
+  </data>
+  <data name="PlayerInteractionCard.Header" xml:space="preserve">
+    <value>Interacción entre jugadores</value>
+  </data>
+  <data name="PlayerInteractionCard.Description" xml:space="preserve">
+    <value>Ignorar interacciones entre jugadores.</value>
+  </data>
+  <data name="ForceGamemodeCard.Header" xml:space="preserve">
+    <value>Forzar Gamemode</value>
+  </data>
+  <data name="ForceGamemodeCard.Description" xml:space="preserve">
+    <value>Forzar gamemode distinto al guardado en el mundo.</value>
+  </data>
+  <data name="StartupWindowsCard.Header" xml:space="preserve">
+    <value>Iniciar con Windows</value>
+  </data>
+  <data name="StartupWindowsCard.Description" xml:space="preserve">
+    <value>Permite que la aplicación se ejecute automáticamente al iniciar el sistema.</value>
+  </data>
+  <data name="CloseTrayCard.Header" xml:space="preserve">
+    <value>Cerrar a la bandeja del sistema</value>
+  </data>
+  <data name="CloseTrayCard.Description" xml:space="preserve">
+    <value>Al cerrar la ventana principal, la aplicación se minimiza a la bandeja del sistema.</value>
+  </data>
+  <data name="RamLimitCard.ToolTipService.ToolTip" xml:space="preserve">
+    <value>Asignar memoria RAM para el proceso Java</value>
+  </data>
+  <data name="WorldNameCard.ToolTipService.ToolTip" xml:space="preserve">
+    <value>Debe coincidir con la carpeta del mundo</value>
+  </data>
+  <data name="InternetInfoBar_Reconnected_Title" xml:space="preserve">
+    <value>Éxito</value>
+  </data>
+  <data name="InternetInfoBar_Reconnected_Message" xml:space="preserve">
+    <value>Se restableció la conexión a internet</value>
+  </data>
+  <data name="WelcomeOOBEDialog.Title" xml:space="preserve">
+    <value>Bienvenido</value>
+  </data>
+  <data name="WelcomeOOBEDialog.Content" xml:space="preserve">
+    <value>¡Bienvenido a ServerAppDesktop!
+
+Esta aplicación ha sido creada para ayudarte a gestionar tu servidor de Minecraft de manera clara y sencilla, ya sea en su edición Bedrock o Java. Aquí podrás configurar la apariencia de la interfaz, definir la ruta y el ejecutable del servidor, ajustar el puerto de conexión y personalizar la descripción que verán tus jugadores. Todo está organizado en pasos simples para que avances sin complicaciones técnicas.
+
+Además, cuentas con funciones como el auto-inicio del servidor y opciones de personalización que harán tu experiencia más cómoda y adaptada a tu estilo. La idea es que, al terminar esta configuración inicial, tengas un entorno listo para funcionar y preparado para crecer junto con tu comunidad.
+
+Este es el comienzo de tu viaje: un espacio donde cada ajuste se convierte en parte de tu altar digital. Explora con calma, disfruta el proceso y prepárate para levantar tu servidor con confianza.
+</value>
+  </data>
+  <data name="PathSelectedText" xml:space="preserve">
+    <value>Ninguna ruta seleccionada.</value>
   </data>
 </root>

@@ -8,6 +8,7 @@
 	xmlns:local="using:ServerAppDesktop.Views.Pages"
 	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 	xmlns:toolkitExtensions="using:CommunityToolkit.WinUI"
+	NavigationCacheMode="Required"
 	xmlns:toolkitUIControls="using:CommunityToolkit.WinUI.UI.Controls"
 	mc:Ignorable="d">
 
@@ -34,22 +35,22 @@
 				HorizontalAlignment="Center"
 				Orientation="Horizontal"
 				Spacing="12">
-				<Button>
+				<Button x:Uid="StartServerButton">
 					<StackPanel Orientation="Horizontal" Spacing="8">
 						<SymbolIcon Symbol="Play" />
-						<TextBlock Text="Iniciar" />
+						<TextBlock x:Uid="StartServerText" />
 					</StackPanel>
 				</Button>
-				<Button>
+				<Button x:Uid="StopServerButton">
 					<StackPanel Orientation="Horizontal" Spacing="8">
 						<SymbolIcon Symbol="Stop" />
-						<TextBlock Text="Detener" />
+						<TextBlock x:Uid="StopServerText" />
 					</StackPanel>
 				</Button>
-				<Button>
+				<Button x:Uid="RestartServerButton">
 					<StackPanel Orientation="Horizontal" Spacing="8">
 						<SymbolIcon Symbol="Refresh" />
-						<TextBlock Text="Reiniciar" />
+						<TextBlock x:Uid="RestartServerText" />
 					</StackPanel>
 				</Button>
 			</StackPanel>
@@ -77,49 +78,45 @@
 					</Grid.RowDefinitions>
 
 					<controls:InfoCard
-						Title="Edición de servidor"
+						x:Uid="ServerEditionCard"
 						Grid.Row="0"
 						Grid.Column="0"
-						Description="Ninguno"
 						Icon="{toolkitExtensions:FontIcon Glyph=&#xE7FC;}" />
-					<controls:InfoCard
-						Title="Versión de servidor"
-						Grid.Row="0"
-						Grid.Column="1"
-						Description="Ninguno"
-						Icon="{toolkitExtensions:FontIcon Glyph=&#xE74C;}" />
-					<controls:InfoCard
-						Title="Ruta del servidor"
-						Grid.Row="1"
-						Grid.Column="0"
-						Description="Ninguno"
-						Icon="{toolkitExtensions:SymbolIcon Symbol=SyncFolder}" />
-					<controls:InfoCard
-						Title="Ejecutable del servidor"
-						Grid.Row="1"
-						Grid.Column="1"
-						Description="Ninguno"
-						Icon="{toolkitExtensions:FontIcon Glyph=&#xE943;}" />
-					<controls:SquareCard
-						Grid.Row="2"
-						Grid.Column="0"
-						Description="0.0.0.0"
-						Header="IP de servidor"
-						Icon="{toolkitExtensions:FontIcon Glyph=&#xE88A;}"
-						Subtitle="IPv4" />
-					<controls:SquareCard
-						Grid.Row="2"
-						Grid.Column="1"
-						Description="0000"
-						Header="Puerto"
-						Icon="{toolkitExtensions:FontIcon Glyph=&#xEC27;}"
-						Subtitle="IPv4" />
 
 					<controls:InfoCard
-						Title="Mundo activo"
+						x:Uid="ServerVersionCard"
+						Grid.Row="0"
+						Grid.Column="1"
+						Icon="{toolkitExtensions:FontIcon Glyph=&#xE74C;}" />
+
+					<controls:InfoCard
+						x:Uid="ServerPathCard"
+						Grid.Row="1"
+						Grid.Column="0"
+						Icon="{toolkitExtensions:SymbolIcon Symbol=SyncFolder}" />
+
+					<controls:InfoCard
+						x:Uid="ServerExecutableCard"
+						Grid.Row="1"
+						Grid.Column="1"
+						Icon="{toolkitExtensions:FontIcon Glyph=&#xE943;}" />
+
+					<controls:SquareCard
+						x:Uid="ServerIPCard"
+						Grid.Row="2"
+						Grid.Column="0"
+						Icon="{toolkitExtensions:FontIcon Glyph=&#xE88A;}" />
+
+					<controls:SquareCard
+						x:Uid="ServerPortCard"
+						Grid.Row="2"
+						Grid.Column="1"
+						Icon="{toolkitExtensions:FontIcon Glyph=&#xEC27;}" />
+
+					<controls:InfoCard
+						x:Uid="ActiveWorldCard"
 						Grid.Row="3"
 						Grid.ColumnSpan="2"
-						Description="Ninguno"
 						Icon="{toolkitExtensions:FontIcon Glyph=&#xE909;}" />
 				</Grid>
 			</ScrollViewer>

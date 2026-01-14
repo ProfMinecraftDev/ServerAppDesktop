@@ -3,12 +3,103 @@
 	x:Class="ServerAppDesktop.Views.Pages.SystemInfoPage"
 	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
 	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+	xmlns:controls="using:ServerAppDesktop.Controls"
+	NavigationCacheMode="Required"
 	xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
 	xmlns:local="using:ServerAppDesktop.Views.Pages"
 	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+	xmlns:toolkitExtensions="using:CommunityToolkit.WinUI"
 	mc:Ignorable="d">
 
-	<StackPanel>
-		<TextBlock x:Uid="Page_SystemInfo_Title" Style="{StaticResource PageTitleTextBlockStyle}" />
-	</StackPanel>
+	<Grid>
+		<Grid.RowDefinitions>
+			<RowDefinition Height="Auto" />
+			<RowDefinition Height="*" />
+		</Grid.RowDefinitions>
+		<TextBlock
+			x:Uid="Page_SystemInfo_Title"
+			Grid.Row="0"
+			Style="{StaticResource PageTitleTextBlockStyle}" />
+		<ScrollViewer
+			Grid.Row="1"
+			MaxWidth="1200"
+			Margin="36">
+
+			<Grid
+				ChildrenTransitions="{StaticResource DefaultLayoutTransitions}"
+				ColumnSpacing="16"
+				RowSpacing="16">
+
+				<Grid.ColumnDefinitions>
+					<ColumnDefinition Width="*" />
+					<ColumnDefinition Width="*" />
+				</Grid.ColumnDefinitions>
+
+				<Grid.RowDefinitions>
+					<RowDefinition Height="Auto" />
+					<RowDefinition Height="Auto" />
+					<RowDefinition Height="Auto" />
+					<RowDefinition Height="Auto" />
+					<RowDefinition Height="Auto" />
+				</Grid.RowDefinitions>
+
+				<controls:InfoCard
+					x:Uid="SysCPU"
+					Grid.Row="0"
+					Grid.Column="0"
+					Icon="{toolkitExtensions:FontIcon Glyph=&#xE950;}" />
+
+				<controls:InfoCard
+					x:Uid="SysGPU"
+					Grid.Row="0"
+					Grid.Column="1"
+					Icon="{toolkitExtensions:FontIcon Glyph=&#xF211;}" />
+
+				<controls:InfoCard
+					x:Uid="SysMemory"
+					Grid.Row="1"
+					Grid.Column="0"
+					Icon="{toolkitExtensions:FontIcon Glyph=&#xE964;}" />
+
+				<controls:InfoCard
+					x:Uid="SysModel"
+					Grid.Row="1"
+					Grid.Column="1"
+					Icon="{toolkitExtensions:FontIcon Glyph=&#xE977;}" />
+
+				<controls:InfoCard
+					x:Uid="SysOS"
+					Grid.Row="2"
+					Grid.Column="0">
+					<controls:InfoCard.Icon>
+						<PathIcon Data="{StaticResource Windows11IconPath}" />
+					</controls:InfoCard.Icon>
+				</controls:InfoCard>
+
+				<controls:InfoCard
+					x:Uid="SysLicense"
+					Grid.Row="2"
+					Grid.Column="1"
+					Icon="{toolkitExtensions:FontIcon Glyph=&#xEB95;}" />
+
+				<controls:SquareCard
+					x:Uid="ActiveProcess"
+					Grid.Row="3"
+					Grid.Column="0"
+					Icon="{toolkitExtensions:FontIcon Glyph=&#xE9F5;}" />
+
+				<controls:SquareCard
+					x:Uid="SysStorage"
+					Grid.Row="3"
+					Grid.Column="1"
+					Icon="{toolkitExtensions:FontIcon Glyph=&#xEDA2;}" />
+
+				<controls:InfoCard
+					x:Uid="ActiveUser"
+					Grid.Row="4"
+					Grid.ColumnSpan="2"
+					Icon="{toolkitExtensions:FontIcon Glyph=&#xECA7;}" />
+			</Grid>
+		</ScrollViewer>
+	</Grid>
 </Page>

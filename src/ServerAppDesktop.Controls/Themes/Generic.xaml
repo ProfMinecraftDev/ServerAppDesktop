@@ -5,6 +5,7 @@
 	xmlns:converters="using:ServerAppDesktop.Converters"
 	xmlns:local="using:ServerAppDesktop.Controls">
 
+
 	<converters:NotNullToVisibilityConverter x:Key="NotNullToVisibilityConverter" />
 
 	<Style x:Key="DefaultInfoCardStyle" TargetType="local:InfoCard">
@@ -31,13 +32,15 @@
 									<ColumnDefinition Width="Auto" />
 									<ColumnDefinition Width="*" />
 								</Grid.ColumnDefinitions>
-								<ContentPresenter
+								<Viewbox
 									Grid.Column="0"
+									MaxWidth="20"
+									MaxHeight="20"
 									HorizontalAlignment="Right"
 									VerticalAlignment="Center"
-									Content="{TemplateBinding Icon}"
-									Foreground="{ThemeResource AccentTextFillColorPrimaryBrush}"
-									Visibility="{Binding Icon, RelativeSource={RelativeSource TemplatedParent}, Converter={StaticResource NotNullToVisibilityConverter}}" />
+									Visibility="{Binding Icon, RelativeSource={RelativeSource TemplatedParent}, Converter={StaticResource NotNullToVisibilityConverter}}">
+									<ContentPresenter Content="{TemplateBinding Icon}" Foreground="{ThemeResource AccentTextFillColorPrimaryBrush}" />
+								</Viewbox>
 								<TextBlock
 									Grid.Column="1"
 									VerticalAlignment="Center"
@@ -58,8 +61,6 @@
 			</Setter.Value>
 		</Setter>
 	</Style>
-	<Style BasedOn="{StaticResource DefaultInfoCardStyle}" TargetType="local:InfoCard" />
-
 	<Style x:Key="DefaultSquareCardStyle" TargetType="local:SquareCard">
 		<Setter Property="Template">
 			<Setter.Value>
@@ -80,15 +81,17 @@
 									<ColumnDefinition Width="*" />
 									<ColumnDefinition Width="*" />
 								</Grid.ColumnDefinitions>
-								<ContentPresenter
+								<Viewbox
 									Grid.Column="0"
+									MaxWidth="20"
+									MaxHeight="20"
 									HorizontalAlignment="Left"
 									VerticalAlignment="Center"
-									Content="{TemplateBinding Icon}"
-									Foreground="{ThemeResource AccentTextFillColorPrimaryBrush}"
-									Visibility="{Binding Icon, RelativeSource={RelativeSource TemplatedParent}, Converter={StaticResource NotNullToVisibilityConverter}}" />
+									Visibility="{Binding Icon, RelativeSource={RelativeSource TemplatedParent}, Converter={StaticResource NotNullToVisibilityConverter}}">
+									<ContentPresenter Content="{TemplateBinding Icon}" Foreground="{ThemeResource AccentTextFillColorPrimaryBrush}" />
+								</Viewbox>
 								<TextBlock
-									Grid.Column="2"
+									Grid.Column="1"
 									HorizontalAlignment="Right"
 									VerticalAlignment="Center"
 									Style="{StaticResource CaptionTextBlockStyle}"
@@ -126,5 +129,7 @@
 			</Setter.Value>
 		</Setter>
 	</Style>
+
+	<Style BasedOn="{StaticResource DefaultInfoCardStyle}" TargetType="local:InfoCard" />
 	<Style BasedOn="{StaticResource DefaultSquareCardStyle}" TargetType="local:SquareCard" />
 </ResourceDictionary>

@@ -7,6 +7,7 @@
 	xmlns:helpers="using:ServerAppDesktop.Helpers"
 	xmlns:local="using:ServerAppDesktop"
 	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+	xmlns:tb="using:H.NotifyIcon"
 	xmlns:toolkit="using:CommunityToolkit.WinUI.Controls"
 	xmlns:toolkitExtensions="using:CommunityToolkit.WinUI"
 	xmlns:vm="using:ServerAppDesktop.ViewModels"
@@ -30,79 +31,79 @@
 			<RowDefinition Height="*" />
 			<RowDefinition Height="Auto" />
 		</Grid.RowDefinitions>
+		<local:AppTrayIcon />
 
 		<TitleBar
 			Title="{x:Bind helpers:DataHelper.WindowTitle, Mode=OneTime}"
 			Grid.Row="0"
 			BackRequested="TitleBar_BackRequested"
 			IconSource="{toolkitExtensions:BitmapIconSource Source=/Assets/AppIcon-16.png}"
+			IsBackButtonEnabled="{x:Bind ViewModel.CanGoBack, Mode=OneWay}"
 			IsBackButtonVisible="{x:Bind ViewModel.CanGoBack, Mode=OneWay}"
 			IsPaneToggleButtonVisible="False"
 			Subtitle="{x:Bind helpers:DataHelper.WindowSubtitle, Mode=OneTime}">
 			<TitleBar.RightHeader>
-				<Button
-					Height="48"
-					Background="Transparent"
-					BorderThickness="0"
-					CornerRadius="0"
-					FontSize="16">
-					<FontIcon FontSize="16" Glyph="&#xE712;" />
-					<Button.Flyout>
-						<MenuFlyout Placement="Bottom">
-							<MenuFlyoutItem
-								x:Uid="MenuFlyoutItem_Warning"
-								Command="{x:Bind ViewModel.ShowWarningCommand}"
-								CommandParameter="{x:Bind warningDialog}"
-								Icon="{toolkitExtensions:FontIcon Glyph=&#xE7BA;}" />
-							<MenuFlyoutSeparator />
-							<MenuFlyoutItem
-								x:Uid="MenuFlyoutItem_SendFeedback"
-								Command="{x:Bind ViewModel.ShowFeedbackDialogCommand}"
-								CommandParameter="{x:Bind feedbackDialog}"
-								Icon="{toolkitExtensions:FontIcon Glyph=&#xED15;}" />
-							<MenuFlyoutItem
-								x:Uid="MenuFlyoutItem_RestartApp"
-								Command="{x:Bind ViewModel.RestartAppCommand}"
-								Icon="{toolkitExtensions:SymbolIcon Symbol=Refresh}" />
-							<MenuFlyoutSeparator Visibility="{Binding RunAsAdmin, Mode=OneTime, Converter={StaticResource BoolToVisibilityConverter}}" />
-							<MenuFlyoutItem
-								x:Uid="MenuFlyoutItem_ExitApp"
-								Command="{x:Bind ViewModel.ExitAppCommand}"
-								Icon="{toolkitExtensions:FontIcon Glyph=&#xE7E8;}" />
-							<MenuFlyoutItem
-								x:Uid="MenuFlyoutItem_Administator"
-								Command="{x:Bind ViewModel.ShowAdminWarningCommand}"
-								CommandParameter="{x:Bind adminDialog}"
-								Icon="{toolkitExtensions:SymbolIcon Symbol=Admin}"
-								Visibility="{Binding RunAsAdmin, Mode=OneTime, Converter={StaticResource BoolToVisibilityConverter}}" />
-						</MenuFlyout>
-					</Button.Flyout>
-				</Button>
+				<StackPanel Orientation="Horizontal">
+					<Button
+						Width="48"
+						Height="48"
+						Background="Transparent"
+						BorderThickness="0"
+						CornerRadius="0"
+						FontSize="16">
+						<FontIcon FontSize="16" Glyph="&#xE712;" />
+						<Button.Flyout>
+							<MenuFlyout Placement="Bottom">
+								<MenuFlyoutItem
+									x:Uid="MenuFlyoutItem_Warning"
+									Command="{x:Bind ViewModel.ShowWarningCommand}"
+									CommandParameter="{x:Bind warningDialog}"
+									Icon="{toolkitExtensions:FontIcon Glyph=&#xE7BA;}" />
+								<MenuFlyoutSeparator />
+								<MenuFlyoutItem
+									x:Uid="MenuFlyoutItem_SendFeedback"
+									Command="{x:Bind ViewModel.ShowFeedbackDialogCommand}"
+									CommandParameter="{x:Bind feedbackDialog}"
+									Icon="{toolkitExtensions:FontIcon Glyph=&#xED15;}" />
+								<MenuFlyoutItem
+									x:Uid="MenuFlyoutItem_RestartApp"
+									Command="{x:Bind ViewModel.RestartAppCommand}"
+									Icon="{toolkitExtensions:SymbolIcon Symbol=Refresh}" />
+								<MenuFlyoutSeparator Visibility="{Binding RunAsAdmin, Mode=OneTime, Converter={StaticResource BoolToVisibilityConverter}}" />
+								<MenuFlyoutItem
+									x:Uid="MenuFlyoutItem_ExitApp"
+									Command="{x:Bind ViewModel.ExitAppCommand}"
+									Icon="{toolkitExtensions:FontIcon Glyph=&#xE7E8;}" />
+								<MenuFlyoutItem
+									x:Uid="MenuFlyoutItem_Administator"
+									Command="{x:Bind ViewModel.ShowAdminWarningCommand}"
+									CommandParameter="{x:Bind adminDialog}"
+									Icon="{toolkitExtensions:SymbolIcon Symbol=Admin}"
+									Visibility="{Binding RunAsAdmin, Mode=OneTime, Converter={StaticResource BoolToVisibilityConverter}}" />
+							</MenuFlyout>
+						</Button.Flyout>
+					</Button>
+					<Button
+						x:Name="fullScreenButton"
+						Width="48"
+						Height="48"
+						Background="Transparent"
+						BorderThickness="0"
+						Content="{toolkitExtensions:FontIcon FontSize=12,
+															 Glyph=&#xE92D;}"
+						CornerRadius="0" />
+				</StackPanel>
 			</TitleBar.RightHeader>
 		</TitleBar>
 
 		<StackPanel Grid.Row="1" Spacing="4">
 			<InfoBar
-				x:Name="noInternetInfoBar"
-				x:Uid="NoInternetInfoBar"
+				x:Name="internetInfoBar"
 				IsClosable="True"
 				IsOpen="{Binding IsConnectedToInternet, Mode=OneWay, Converter={StaticResource BoolNegationConverter}}"
-				Severity="Warning">
-				<InfoBar.ActionButton>
-					<Button
-						x:Name="reconnectButton"
-						Click="reconnectButton_Click"
-						Style="{StaticResource CautionButtonStyle}">
-						<StackPanel Orientation="Horizontal" Spacing="8">
-							<FontIcon Glyph="&#xE895;" />
-							<TextBlock x:Uid="ReconnectButtonText" />
-						</StackPanel>
-					</Button>
-				</InfoBar.ActionButton>
-			</InfoBar>
+				Severity="Warning" />
 			<InfoBar
 				x:Uid="UpdateInfoBar"
-				Title="Descargando una actualización, puede tardar unos minutos"
 				IsClosable="False"
 				IsOpen="{x:Bind ViewModel.DownloadingAnUpdate, Mode=OneWay}"
 				Message="{x:Bind ViewModel.UpdateDownloadProgress, Mode=OneWay}"

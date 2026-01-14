@@ -6,9 +6,140 @@
 	xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
 	xmlns:local="using:ServerAppDesktop.Views.Pages"
 	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+	xmlns:models="using:ServerAppDesktop.Models"
+	xmlns:toolkitControls="using:CommunityToolkit.WinUI.Controls"
+	xmlns:toolkitExtensions="using:CommunityToolkit.WinUI"
 	mc:Ignorable="d">
 
-	<StackPanel>
-		<TextBlock x:Uid="Page_Files_Title" Style="{StaticResource PageTitleTextBlockStyle}" />
-	</StackPanel>
+	<Grid>
+		<Grid.RowDefinitions>
+			<RowDefinition Height="Auto" />
+			<RowDefinition Height="*" />
+		</Grid.RowDefinitions>
+		<TextBlock
+			x:Uid="Page_Files_Title"
+			Grid.Row="0"
+			Style="{StaticResource PageTitleTextBlockStyle}" />
+		<Grid Grid.Row="1" Padding="36">
+			<Grid.RowDefinitions>
+				<RowDefinition Height="Auto" />
+				<RowDefinition Height="*" />
+			</Grid.RowDefinitions>
+
+			<Border
+				Grid.Row="0"
+				Padding="12"
+				HorizontalAlignment="Left"
+				Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
+				BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
+				BorderThickness="1"
+				CornerRadius="{StaticResource ControlCornerRadius}">
+				<Grid ColumnSpacing="12">
+					<Grid.ColumnDefinitions>
+						<ColumnDefinition Width="Auto" />
+						<ColumnDefinition Width="Auto" />
+					</Grid.ColumnDefinitions>
+					<FontIcon
+						Grid.Column="0"
+						FontSize="24"
+						Glyph="&#xE958;" />
+					<Grid Grid.Column="1">
+						<Grid.RowDefinitions>
+							<RowDefinition Height="Auto" />
+							<RowDefinition Height="Auto" />
+							<RowDefinition Height="Auto" />
+						</Grid.RowDefinitions>
+						<TextBlock
+							x:Uid="DiskLabel"
+							Grid.Row="0"
+							Style="{StaticResource BodyStrongTextBlockStyle}" />
+						<ProgressBar
+							Grid.Row="1"
+							Margin="0,8"
+							Value="6.2" />
+						<TextBlock
+							x:Uid="DiskAvailableText"
+							Grid.Row="2"
+							Style="{StaticResource CaptionTextBlockStyle}" />
+					</Grid>
+				</Grid>
+			</Border>
+
+			<Grid Grid.Row="1" Margin="0,36,0,0">
+				<Grid.RowDefinitions>
+					<RowDefinition Height="Auto" />
+					<RowDefinition Height="*" />
+				</Grid.RowDefinitions>
+
+				<CommandBar
+					Grid.Row="0"
+					HorizontalAlignment="Left"
+					DefaultLabelPosition="Right">
+					<AppBarButton x:Uid="NewFileBtn" Icon="Add">
+						<AppBarButton.Flyout>
+							<MenuFlyout Placement="Bottom">
+								<MenuFlyoutItem x:Uid="NewFolderItem" Icon="{toolkitExtensions:BitmapIcon Source=/Assets/Files/NewFolder.png}" />
+								<MenuFlyoutItem x:Uid="NewFileItem" Icon="{toolkitExtensions:BitmapIcon Source=/Assets/Files/NewFile.png}" />
+							</MenuFlyout>
+						</AppBarButton.Flyout>
+					</AppBarButton>
+					<AppBarSeparator />
+					<AppBarButton x:Uid="RefreshBtn" Icon="Refresh" />
+					<AppBarSeparator />
+					<AppBarButton x:Uid="CutBtn" Icon="Cut" />
+					<AppBarButton x:Uid="CopyBtn" Icon="Copy" />
+					<AppBarButton x:Uid="PasteBtn" Icon="Paste" />
+					<AppBarSeparator />
+					<AppBarButton x:Uid="RenameBtn" Icon="Rename" />
+					<AppBarButton x:Uid="DeleteBtn" Icon="Delete" />
+					<AppBarSeparator />
+					<AppBarButton x:Uid="RepairBtn" Icon="Repair" />
+					<AppBarSeparator />
+					<AppBarButton x:Uid="BackupBtn" Icon="{toolkitExtensions:BitmapIcon Source=/Assets/Files/Backup.png}" />
+					<AppBarButton x:Uid="OpenFolderBtn" Icon="{toolkitExtensions:BitmapIcon Source=/Assets/Files/OpenFolder.png}" />
+				</CommandBar>
+
+				<Border
+					Grid.Row="1"
+					Padding="16,0"
+					Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
+					BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
+					BorderThickness="1"
+					CornerRadius="{StaticResource OverlayCornerRadius}">
+					<ListView>
+						<ListView.Header>
+							<toolkitControls:DataTable Margin="12,16,0,0">
+								<toolkitControls:DataColumn DesiredWidth="Auto" />
+								<toolkitControls:DataColumn
+									x:Uid="ColName"
+									CanResize="True"
+									DesiredWidth="3*" />
+								<toolkitControls:DataColumn
+									x:Uid="ColSize"
+									CanResize="True"
+									DesiredWidth="*" />
+								<toolkitControls:DataColumn
+									x:Uid="ColDate"
+									CanResize="True"
+									DesiredWidth="*" />
+								<toolkitControls:DataColumn x:Uid="ColEditable" DesiredWidth="Auto" />
+							</toolkitControls:DataTable>
+						</ListView.Header>
+						<ListView.ContextFlyout>
+							<MenuFlyout>
+								<MenuFlyoutItem x:Uid="FlyoutCut" Icon="Cut" />
+								<MenuFlyoutItem x:Uid="FlyoutCopy" Icon="Copy" />
+								<MenuFlyoutItem x:Uid="FlyoutPaste" Icon="Paste" />
+								<MenuFlyoutSeparator />
+								<MenuFlyoutItem x:Uid="FlyoutRename" Icon="Rename" />
+								<MenuFlyoutItem x:Uid="FlyoutDelete" Icon="Delete" />
+								<MenuFlyoutSeparator />
+								<MenuFlyoutItem x:Uid="FlyoutProps" Icon="Repair" />
+							</MenuFlyout>
+						</ListView.ContextFlyout>
+					</ListView>
+				</Border>
+			</Grid>
+		</Grid>
+	</Grid>
 </Page>

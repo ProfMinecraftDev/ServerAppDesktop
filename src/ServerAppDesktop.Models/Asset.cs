@@ -2,7 +2,7 @@ using System.Text.Json.Serialization;
 
 namespace ServerAppDesktop.Models
 {
-    public class Asset
+    public sealed class Asset
     {
         [JsonPropertyName("name")]
         public string Name { get; set; } = "";

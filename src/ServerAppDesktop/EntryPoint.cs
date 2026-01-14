@@ -13,7 +13,7 @@ namespace ServerAppDesktop
     public static class EntryPoint
     {
         [STAThread]
-        static async Task Main(string[] _args)
+        static async Task<int> Main(string[] _args)
         {
             string[] args = [.. _args.Select(s => s.ToLowerInvariant())];
 
@@ -21,17 +21,25 @@ namespace ServerAppDesktop
 
             if (await WindowHelper.IsRedirectedAsync())
             {
-                return;
+                return 0;
             }
 
             AppNotificationManager.Default.Register(DataHelper.AppName, new Uri(Path.Combine(AppContext.BaseDirectory, "Assets", "AppIcon.ico")));
 
-            Application.Start((p) =>
+            try
             {
-                var context = new DispatcherQueueSynchronizationContext(DispatcherQueue.GetForCurrentThread());
-                DispatcherQueueSynchronizationContext.SetSynchronizationContext(context);
-                new App(args.Contains("--tray-only") || args.Contains("-to"));
-            });
+                Application.Start((p) =>
+                {
+                    var context = new DispatcherQueueSynchronizationContext(DispatcherQueue.GetForCurrentThread());
+                    DispatcherQueueSynchronizationContext.SetSynchronizationContext(context);
+                    new App(args.Contains("--tray-only") || args.Contains("-to"));
+                });
+                return 0;
+            }
+            catch (Exception ex)
+            {
+                return ex.HResult;
+            }
         }
     }
 }

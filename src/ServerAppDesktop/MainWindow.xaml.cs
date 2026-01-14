@@ -1,8 +1,6 @@
 using System;
-using System.Threading.Tasks;
 using Microsoft.UI;
 using Microsoft.UI.Windowing;
-using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using ServerAppDesktop.Helpers;
 using ServerAppDesktop.Services;
@@ -20,24 +18,32 @@ namespace ServerAppDesktop
         {
             InitializeComponent();
             this.CenterOnScreen();
+            UpdateFullScreenUI(false);
+
+            NetworkHelper.ConnectionChanged += async (isConnected) =>
+            {
+                DispatcherQueue.TryEnqueue(async () =>
+                {
+                    ViewModel.IsConnectedToInternet = isConnected;
+                    if (!isConnected)
+                    {
+                        internetInfoBar.Title = ResourceHelper.GetString("InternetInfoBar_Warning_Title");
+                        internetInfoBar.Message = ResourceHelper.GetString("InternetInfoBar_Warning_Message");
+                        internetInfoBar.Severity = InfoBarSeverity.Warning;
+                    }
+                    else
+                    {
+                        internetInfoBar.Title = ResourceHelper.GetString("InternetInfoBar_Reconnected_Title");
+                        internetInfoBar.Message = ResourceHelper.GetString("InternetInfoBar_Reconnected_Message");
+                    }
+                });
+            };
+
 
             var grid = Content as Grid ?? throw new NullReferenceException("Grid no está o no se ha cargado.");
             grid.DataContext = ViewModel;
-            grid.KeyDown += (s, e) =>
-            {
-                var vKey = e.Key;
-                if (vKey == VirtualKey.Escape && PresenterKind == AppWindowPresenterKind.FullScreen)
-                {
-                    PresenterKind = AppWindowPresenterKind.Default;
-                    return;
-                }
-
-                if (vKey == VirtualKey.F11)
-                {
-                    OnF11Invoked();
-                    return;
-                }
-            };
+            grid.KeyDown += (_, e) => OnF11OrEscapeInvoked(e.Key);
+            fullScreenButton.Click += (_, _) => OnF11OrEscapeInvoked(VirtualKey.F11);
 
             ExtendsContentIntoTitleBar = true;
             IntPtr hwnd = this.GetWindowHandle();
@@ -59,34 +65,41 @@ namespace ServerAppDesktop
             }
         }
 
-        private async void reconnectButton_Click(object sender, RoutedEventArgs e)
+        private void OnF11OrEscapeInvoked(VirtualKey vKey)
         {
-            reconnectButton.IsEnabled = false;
-            noInternetInfoBar.Severity = InfoBarSeverity.Informational;
-            noInternetInfoBar.IsClosable = false;
-            noInternetInfoBar.Title = ResourceHelper.GetString("InternetConnection_Reconnecting_Title");
-            noInternetInfoBar.Message = ResourceHelper.GetString("InternetConnection_Reconnecting_Message");
+            bool isFullScreen = PresenterKind == AppWindowPresenterKind.FullScreen;
 
-            bool result = await NetworkHelper.IsInternetAvailableAsync();
-
-            if (result)
+            if (vKey == VirtualKey.F11)
             {
-                noInternetInfoBar.IsClosable = false;
-                reconnectButton.Visibility = Visibility.Collapsed;
-                noInternetInfoBar.Title = ResourceHelper.GetString("InternetConnection_Reconnected_Title");
-                noInternetInfoBar.Message = ResourceHelper.GetString("InternetConnection_Reconnected_Message");
-                noInternetInfoBar.Severity = InfoBarSeverity.Success;
-                await Task.Delay(3000);
-                ViewModel.IsConnectedToInternet = true;
+                UpdateFullScreenUI(!isFullScreen);
+            }
+            else if (vKey == VirtualKey.Escape && isFullScreen)
+            {
+                UpdateFullScreenUI(false);
+            }
+        }
+
+        private void UpdateFullScreenUI(bool fullScreen)
+        {
+            if (fullScreen && PresenterKind != AppWindowPresenterKind.FullScreen)
+            {
+                PresenterKind = AppWindowPresenterKind.FullScreen;
+                fullScreenButton.Content = new FontIcon
+                {
+                    FontSize = 12,
+                    Glyph = "\uE92C"
+                };
+                ToolTipService.SetToolTip(fullScreenButton, "Salir de pantalla completa (ESC o F11)");
             }
             else
             {
-                noInternetInfoBar.IsClosable = true;
-                noInternetInfoBar.Title = ResourceHelper.GetString("InternetConnection_FailedToReconnect_Title");
-                noInternetInfoBar.Message = ResourceHelper.GetString("InternetConnection_FailedToReconnect_Message");
-                noInternetInfoBar.Severity = InfoBarSeverity.Error;
-                reconnectButton.IsEnabled = true;
-                reconnectButton.Style = (Style)Application.Current.Resources["CriticalButtonStyle"];
+                PresenterKind = AppWindowPresenterKind.Default;
+                fullScreenButton.Content = new FontIcon
+                {
+                    FontSize = 12,
+                    Glyph = "\uE92D"
+                };
+                ToolTipService.SetToolTip(fullScreenButton, "Pantalla completa (F11)");
             }
         }
 
@@ -96,20 +109,6 @@ namespace ServerAppDesktop
             {
                 var navigationService = App.GetRequiredService<INavigationService>();
                 navigationService.GoBack();
-            }
-        }
-
-        private void OnF11Invoked()
-        {
-            if (PresenterKind != AppWindowPresenterKind.FullScreen)
-            {
-                PresenterKind = AppWindowPresenterKind.FullScreen;
-                return;
-            }
-            else if (PresenterKind == AppWindowPresenterKind.FullScreen)
-            {
-                PresenterKind = AppWindowPresenterKind.Default;
-                return;
             }
         }
     }

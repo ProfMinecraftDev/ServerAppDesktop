@@ -8,6 +8,7 @@
 	xmlns:local="using:ServerAppDesktop.Views.Pages"
 	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 	xmlns:toolkitExtensions="using:CommunityToolkit.WinUI"
+	NavigationCacheMode="Required"
 	mc:Ignorable="d">
 
 
@@ -26,7 +27,7 @@
 		<ScrollViewer
 			Grid.Row="1"
 			MaxWidth="1200"
-			Padding="36">
+			Margin="36">
 
 			<Grid
 				ChildrenTransitions="{StaticResource DefaultLayoutTransitions}"
@@ -45,36 +46,34 @@
 				</Grid.RowDefinitions>
 
 				<controls:InfoCard
-					Title="CPU"
+					x:Uid="CPUCard"
 					Grid.Row="0"
 					Grid.Column="0"
-					Description="Ninguno"
 					Icon="{toolkitExtensions:FontIcon Glyph=&#xE950;}" />
+
 				<controls:InfoCard
-					Title="RAM"
+					x:Uid="RAMCard"
 					Grid.Row="0"
 					Grid.Column="1"
-					Description="Ninguno"
 					Icon="{toolkitExtensions:FontIcon Glyph=&#xE964;}" />
+
 				<controls:InfoCard
-					Title="Red"
+					x:Uid="NetworkCard"
 					Grid.Row="1"
 					Grid.Column="0"
-					Description="Ninguno"
 					Icon="{toolkitExtensions:FontIcon Glyph=&#xE701;}" />
+
 				<controls:InfoCard
-					Title="Disco"
+					x:Uid="DiskCard"
 					Grid.Row="1"
 					Grid.Column="1"
-					Description="Ninguno"
 					Icon="{toolkitExtensions:FontIcon Glyph=&#xE958;}" />
+
 				<controls:SquareCard
+					x:Uid="PlayersCard"
 					Grid.Row="2"
 					Grid.ColumnSpan="2"
-					Description="0"
-					Header="Jugadores"
-					Icon="{toolkitExtensions:FontIcon Glyph=&#xE902;}"
-					Subtitle="En desarrollo" />
+					Icon="{toolkitExtensions:FontIcon Glyph=&#xE902;}" />
 			</Grid>
 		</ScrollViewer>
 	</Grid>

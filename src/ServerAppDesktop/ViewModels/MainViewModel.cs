@@ -1,11 +1,13 @@
 ﻿using System;
-using System.Diagnostics;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
+using Microsoft.Windows.AppLifecycle;
+using ServerAppDesktop.Controls;
 using ServerAppDesktop.Helpers;
 using ServerAppDesktop.Models;
 using ServerAppDesktop.Services;
@@ -54,11 +56,7 @@ namespace ServerAppDesktop.ViewModels
         }
 
         [RelayCommand]
-        private void RestartApp()
-        {
-            Process.Start(Environment.ProcessPath ?? throw new InvalidOperationException("La ruta del proceso no se pudo determinar."));
-            Environment.Exit(0);
-        }
+        private void RestartApp() => AppInstance.Restart("");
 
         [RelayCommand]
         private void ShowFeedbackDialog(ContentDialog dialog) => _ = dialog.ShowAsync();
@@ -81,16 +79,23 @@ namespace ServerAppDesktop.ViewModels
             if (sucessDownload)
             {
                 UpdateDownloadProgress = ResourceHelper.GetString("UpdateInfoBar_PreparedToApply");
+                var updateReadyToInstallNotification = new WindowsNotification
+                {
+                    Title = "Actualización lista para instalar",
+                    Messsage = $"La versión {ReleaseInfo?.Version} está lista para instalarse, se instalará al cerrar.",
+                    SoundEvent = Microsoft.Windows.AppNotifications.Builder.AppNotificationSoundEvent.IM,
+                    NotificationScenario = Microsoft.Windows.AppNotifications.Builder.AppNotificationScenario.Urgent,
+                    AppLogoUri = new Uri(Path.Combine(AppContext.BaseDirectory, "Assets", "Update.png")),
+                    Duration = Microsoft.Windows.AppNotifications.Builder.AppNotificationDuration.Long,
+                    TimeStamp = DateTime.Now
+                };
+                updateReadyToInstallNotification.ShowNotification();
                 await Task.Delay(10000);
                 DownloadingAnUpdate = !sucessDownload;
             }
         }
 
         [RelayCommand]
-        private void ExitApp()
-        {
-            Application.Current.Exit();
-            Environment.Exit(0);
-        }
+        private void ExitApp() => Application.Current.Exit();
     }
 }

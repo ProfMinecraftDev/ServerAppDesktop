@@ -18,12 +18,14 @@
 		<HasPackageAndNonPackageMode>true</HasPackageAndNonPackageMode>
 		<StartupObject>ServerAppDesktop.EntryPoint</StartupObject>
 		<PreBuildEvent>
-			powershell.exe -NoProfile -Command &quot;if (Get-Process ServerAppDesktop -ErrorAction SilentlyContinue) { TASKKILL /F /IM "ServerAppDesktop.exe" /T }&quot;
+			powershell.exe -NoProfile -Command "if (Get-Process ServerAppDesktop -ErrorAction SilentlyContinue) { TASKKILL /F /IM "ServerAppDesktop.exe" /T }"
 		</PreBuildEvent>
 	</PropertyGroup>
 	<ItemGroup>
+	  <Compile Remove="Views\Pages\AboutPage.AppInfoPage.xaml.cs" />
+	</ItemGroup>
+	<ItemGroup>
 		<None Remove="MainWindow.xaml" />
-		<None Remove="TrayIcon.xaml" />
 		<None Remove="Views\MainView.xaml" />
 		<None Remove="Views\OOBEView.xaml" />
 		<None Remove="Views\Pages\AboutPage.xaml" />
@@ -35,32 +37,29 @@
 		<None Remove="Views\Pages\TerminalPage.xaml" />
 		<None Remove="Views\Pages\WhatsNewPage.xaml" />
 	</ItemGroup>
+	<ItemGroup>
+	  <Page Remove="Views\Pages\AboutPage.AppInfoPage.xaml" />
+	</ItemGroup>
 
 	<ItemGroup>
 		<Manifest Include="$(ApplicationManifest)" />
 	</ItemGroup>
 
 	<ItemGroup>
-		<PackageReference Include="CommunityToolkit.Labs.WinUI.Controls.MarkdownTextBlock"
-						  Version="0.1.251217-build.2433" />
-		<PackageReference Include="CommunityToolkit.Mvvm"
-						  Version="8.4.0" />
-		<PackageReference Include="CommunityToolkit.WinUI.Controls.SettingsControls"
-						  Version="8.2.251219" />
-		<PackageReference Include="CommunityToolkit.WinUI.UI.Controls"
-						  Version="7.1.2" />
-		<PackageReference Include="CommunityToolkit.WinUI.Extensions"
-						  Version="8.2.251219" />
-		<PackageReference Include="H.NotifyIcon.WinUI"
-						  Version="2.4.1" />
-		<PackageReference Include="Microsoft.Extensions.Hosting"
-						  Version="10.0.1" />
-		<PackageReference Include="Microsoft.Windows.SDK.BuildTools"
-						  Version="10.0.26100.7175" />
-		<PackageReference Include="Microsoft.WindowsAppSDK"
-						  Version="1.8.251106002" />
-		<PackageReference Include="WinUIEx"
-						  Version="2.9.0" />
+	  <None Include="Views\Pages\AboutPages\AppInfoPage.xaml.cs" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<PackageReference Include="CommunityToolkit.Labs.WinUI.Controls.DataTable" Version="0.1.251217-build.2433" />
+		<PackageReference Include="CommunityToolkit.Labs.WinUI.Controls.MarkdownTextBlock" Version="0.1.251217-build.2433" />
+		<PackageReference Include="CommunityToolkit.Mvvm" Version="8.4.0" />
+		<PackageReference Include="CommunityToolkit.WinUI.Controls.SettingsControls" Version="8.2.251219" />
+		<PackageReference Include="CommunityToolkit.WinUI.Extensions" Version="8.2.251219" />
+		<PackageReference Include="H.NotifyIcon.WinUI" Version="2.4.1" />
+		<PackageReference Include="Microsoft.Extensions.Hosting" Version="10.0.2" />
+		<PackageReference Include="Microsoft.Windows.SDK.BuildTools" Version="10.0.26100.7463" />
+		<PackageReference Include="Microsoft.WindowsAppSDK" Version="1.8.251106002" />
+		<PackageReference Include="WinUIEx" Version="2.9.0" />
 	</ItemGroup>
 
 	<ItemGroup>
@@ -72,13 +71,22 @@
 	</ItemGroup>
 
 	<ItemGroup>
+	  <None Update="Views\Pages\AboutPages\AppInfoPage.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </None>
+	  <Page Update="Views\Pages\AboutPages\ThirdPartyLicensesPage.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </Page>
+	</ItemGroup>
+
+	<ItemGroup>
 		<Page Update="MainWindow.xaml">
 			<Generator>MSBuild:Compile</Generator>
 		</Page>
 	</ItemGroup>
 
 	<ItemGroup>
-		<Page Update="TrayIcon.xaml">
+		<Page Update="AppTrayIcon.xaml">
 			<Generator>MSBuild:Compile</Generator>
 		</Page>
 	</ItemGroup>

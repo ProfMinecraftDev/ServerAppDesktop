@@ -46,7 +46,7 @@
 			<NavigationViewItemSeparator />
 			<NavigationViewItem
 				x:Uid="SystemInfoNavItem"
-				Icon="{toolkitExtensions:FontIcon Glyph=&#xE7F4;}"
+				Icon="{toolkitExtensions:FontIcon Glyph=&#xE977;}"
 				Tag="SystemInfo" />
 			<NavigationViewItem
 				x:Uid="AboutNavItem"

@@ -4,7 +4,7 @@ using System.Text.Json.Serialization;
 
 namespace ServerAppDesktop.Models
 {
-    public class ReleaseInfo
+    public sealed class ReleaseInfo
     {
         [JsonPropertyName("tag_name")]
         public string VersionTag { get; set; } = "";
