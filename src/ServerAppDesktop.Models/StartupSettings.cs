@@ -3,6 +3,6 @@
     public sealed class StartupSettings
     {
         public bool AutoStartServer { get; set; } = false;
-        public bool CloseInSystemTray { get; set; } = false;
+        public bool CloseInSystemTray { get; set; } = true;
     }
 }

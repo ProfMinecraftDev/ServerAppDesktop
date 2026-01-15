@@ -13,6 +13,7 @@ namespace ServerAppDesktop
     public sealed partial class MainWindow : WindowEx
     {
         public MainViewModel ViewModel => App.GetRequiredService<MainViewModel>();
+        private bool CloseInSystemTray { get => DataHelper.Settings.Startup.CloseInSystemTray; }
 
         public MainWindow()
         {
@@ -59,8 +60,13 @@ namespace ServerAppDesktop
                 appWindow.SetTitleBarIcon("Assets/AppIcon.ico");
                 appWindow.Closing += (_, e) =>
                 {
-                    e.Cancel = true;
-                    this.Hide();
+                    if (CloseInSystemTray)
+                    {
+                        e.Cancel = true;
+                        this.Hide();
+                    }
+                    else
+                        TrayIcon.Dispose();
                 };
             }
         }

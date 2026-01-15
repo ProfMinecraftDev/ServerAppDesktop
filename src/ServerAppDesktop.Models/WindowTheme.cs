@@ -6,5 +6,6 @@ namespace ServerAppDesktop.Models
     {
         public string Name { get; set; } = "";
         public ElementTheme Value { get; set; }
+        public int Index { get; set; } = 0;
     }
 }

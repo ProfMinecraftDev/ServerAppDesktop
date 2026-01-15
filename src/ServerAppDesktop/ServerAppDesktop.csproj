@@ -20,15 +20,20 @@
 		<PreBuildEvent>
 			powershell.exe -NoProfile -Command "if (Get-Process ServerAppDesktop -ErrorAction SilentlyContinue) { TASKKILL /F /IM "ServerAppDesktop.exe" /T }"
 		</PreBuildEvent>
+		<ApplicationIcon>Assets\AppIcon.ico</ApplicationIcon>
+		<ApplicationVersion>1.0.0.3 (Preview)</ApplicationVersion>
+		<AssemblyTitle>Server App Desktop (Preview)</AssemblyTitle>
+		<Product>Server App Desktop</Product>
+		<FileVersion>1.0.0.3 (Preview)</FileVersion>
+		<Authors>Prof Minecraft</Authors>
+		<Description>Servidor de escritorio con interfaz WinUI 3</Description>
+		<Copyright>Copyright © 2026</Copyright>
 	</PropertyGroup>
 	<ItemGroup>
-	  <Compile Remove="Views\Pages\AboutPage.AppInfoPage.xaml.cs" />
-	</ItemGroup>
-	<ItemGroup>
 		<None Remove="MainWindow.xaml" />
+		<None Remove="AppTrayIcon.xaml" />
 		<None Remove="Views\MainView.xaml" />
 		<None Remove="Views\OOBEView.xaml" />
-		<None Remove="Views\Pages\AboutPage.xaml" />
 		<None Remove="Views\Pages\FilesPage.xaml" />
 		<None Remove="Views\Pages\HomePage.xaml" />
 		<None Remove="Views\Pages\PerformancePage.xaml" />
@@ -36,30 +41,37 @@
 		<None Remove="Views\Pages\SystemInfoPage.xaml" />
 		<None Remove="Views\Pages\TerminalPage.xaml" />
 		<None Remove="Views\Pages\WhatsNewPage.xaml" />
-	</ItemGroup>
-	<ItemGroup>
-	  <Page Remove="Views\Pages\AboutPage.AppInfoPage.xaml" />
+		<None Remove="Views\Pages\AppInfoPage.xaml" />
+		<None Remove="Views\Pages\AboutPage.xaml" />
+		<None Remove="Views\Pages\AboutPages\ThirdPartyLicensesPage.xaml" />
 	</ItemGroup>
 
 	<ItemGroup>
 		<Manifest Include="$(ApplicationManifest)" />
 	</ItemGroup>
 
-	<ItemGroup>
-	  <None Include="Views\Pages\AboutPages\AppInfoPage.xaml.cs" />
-	</ItemGroup>
 
 	<ItemGroup>
-		<PackageReference Include="CommunityToolkit.Labs.WinUI.Controls.DataTable" Version="0.1.251217-build.2433" />
-		<PackageReference Include="CommunityToolkit.Labs.WinUI.Controls.MarkdownTextBlock" Version="0.1.251217-build.2433" />
-		<PackageReference Include="CommunityToolkit.Mvvm" Version="8.4.0" />
-		<PackageReference Include="CommunityToolkit.WinUI.Controls.SettingsControls" Version="8.2.251219" />
-		<PackageReference Include="CommunityToolkit.WinUI.Extensions" Version="8.2.251219" />
-		<PackageReference Include="H.NotifyIcon.WinUI" Version="2.4.1" />
-		<PackageReference Include="Microsoft.Extensions.Hosting" Version="10.0.2" />
-		<PackageReference Include="Microsoft.Windows.SDK.BuildTools" Version="10.0.26100.7463" />
-		<PackageReference Include="Microsoft.WindowsAppSDK" Version="1.8.251106002" />
-		<PackageReference Include="WinUIEx" Version="2.9.0" />
+		<PackageReference Include="CommunityToolkit.Labs.WinUI.Controls.DataTable"
+						  Version="0.1.251217-build.2433" />
+		<PackageReference Include="CommunityToolkit.Labs.WinUI.Controls.MarkdownTextBlock"
+						  Version="0.1.251217-build.2433" />
+		<PackageReference Include="CommunityToolkit.Mvvm"
+						  Version="8.4.0" />
+		<PackageReference Include="CommunityToolkit.WinUI.Controls.SettingsControls"
+						  Version="8.2.251219" />
+		<PackageReference Include="CommunityToolkit.WinUI.Extensions"
+						  Version="8.2.251219" />
+		<PackageReference Include="H.NotifyIcon.WinUI"
+						  Version="2.4.1" />
+		<PackageReference Include="Microsoft.Extensions.Hosting"
+						  Version="10.0.2" />
+		<PackageReference Include="Microsoft.Windows.SDK.BuildTools"
+						  Version="10.0.26100.7463" />
+		<PackageReference Include="Microsoft.WindowsAppSDK"
+						  Version="1.8.251106002" />
+		<PackageReference Include="WinUIEx"
+						  Version="2.9.0" />
 	</ItemGroup>
 
 	<ItemGroup>
@@ -71,12 +83,15 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	  <None Update="Views\Pages\AboutPages\AppInfoPage.xaml">
-	    <Generator>MSBuild:Compile</Generator>
-	  </None>
-	  <Page Update="Views\Pages\AboutPages\ThirdPartyLicensesPage.xaml">
-	    <Generator>MSBuild:Compile</Generator>
-	  </Page>
+		<Page Update="Views\Pages\AboutPages\AppInfoPage.xaml">
+			<Generator>MSBuild:Compile</Generator>
+		</Page>
+	</ItemGroup>
+
+	<ItemGroup>
+		<Page Update="Views\Pages\AboutPages\ThirdPartyLicensesPage.xaml">
+			<Generator>MSBuild:Compile</Generator>
+		</Page>
 	</ItemGroup>
 
 	<ItemGroup>
@@ -98,7 +113,7 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<Page Update="Views\Pages\AboutPage.xaml">
+		<Page Update="Views\Pages\AboutPages\AboutPage.xaml">
 			<Generator>MSBuild:Compile</Generator>
 		</Page>
 	</ItemGroup>

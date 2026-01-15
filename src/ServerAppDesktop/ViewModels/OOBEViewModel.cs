@@ -9,11 +9,14 @@ using Microsoft.UI.Xaml.Media;
 using Microsoft.Windows.Storage.Pickers;
 using ServerAppDesktop.Helpers;
 using ServerAppDesktop.Models;
+using ServerAppDesktop.Services;
 
 namespace ServerAppDesktop.ViewModels
 {
     public partial class OOBEViewModel : ObservableObject
     {
+        private readonly IOOBEService _service;
+
         [ObservableProperty]
         private ObservableCollection<WindowBackdrop> _windowBackdrops = [];
 
@@ -44,19 +47,30 @@ namespace ServerAppDesktop.ViewModels
         [ObservableProperty]
         private bool canSelectExecutable = true;
 
-        public OOBEViewModel()
+        [ObservableProperty]
+        private int serverPort = 0;
+
+        [ObservableProperty]
+        private string serverDescription = "";
+
+        [ObservableProperty]
+        private bool autoStartServer = true;
+
+        public OOBEViewModel(IOOBEService _service)
         {
+            this._service = _service;
+
             WindowBackdrops =
                 [
-                    new() { Name = ResourceHelper.GetString("MicaBackdropItem"), Value = new MicaBackdrop { Kind = MicaKind.Base } },
-                    new() { Name = ResourceHelper.GetString("MicaAltBackdropItem"), Value = new MicaBackdrop { Kind = MicaKind.BaseAlt } },
-                    new() { Name = ResourceHelper.GetString("DesktopAcrylicBackdropItem"), Value = new DesktopAcrylicBackdrop() },
+                    new() { Name = ResourceHelper.GetString("MicaBackdropItem"), Value = new MicaBackdrop { Kind = MicaKind.Base }, Index = 0 },
+                    new() { Name = ResourceHelper.GetString("MicaAltBackdropItem"), Value = new MicaBackdrop { Kind = MicaKind.BaseAlt }, Index = 1 },
+                    new() { Name = ResourceHelper.GetString("DesktopAcrylicBackdropItem"), Value = new DesktopAcrylicBackdrop(), Index = 2 },
                 ];
             WindowThemes =
                 [
-                    new() { Name = ResourceHelper.GetString("SystemThemeItem"), Value = ElementTheme.Default },
-                    new() { Name = ResourceHelper.GetString("LightThemeItem"), Value = ElementTheme.Light },
-                    new() { Name = ResourceHelper.GetString("DarkThemeItem"), Value = ElementTheme.Dark }
+                    new() { Name = ResourceHelper.GetString("SystemThemeItem"), Value = ElementTheme.Default, Index = 0 },
+                    new() { Name = ResourceHelper.GetString("LightThemeItem"), Value = ElementTheme.Light, Index = 1 },
+                    new() { Name = ResourceHelper.GetString("DarkThemeItem"), Value = ElementTheme.Dark, Index = 2 }
                 ];
             MinecraftEditions =
                 [
@@ -85,10 +99,15 @@ namespace ServerAppDesktop.ViewModels
             WindowHelper.SetTheme(App.MainWindow, value.Value);
         }
 
+        partial void OnServerPortChanged(int value)
+        {
+            if (value == 0 || value > 65535)
+                ServerPort = SelectedMinecraftEdition?.Value == 0 ? 19132 : 25565;
+        }
+
         [RelayCommand]
         private async Task SelectServerPathAsync(XamlRoot xamlRoot)
         {
-            //disable the button to avoid double-clicking
             CanSelectFolder = false;
 
             var picker = new FolderPicker(xamlRoot.ContentIslandEnvironment.AppWindowId)
@@ -126,6 +145,31 @@ namespace ServerAppDesktop.ViewModels
 
             CanSelectExecutable = true;
 
+        }
+
+        [RelayCommand]
+        private void SaveOOBESettings()
+        {
+            var userSettings = new AppSettings
+            {
+                UI = new UISettings
+                {
+                    Backdrop = SelectedBackdrop?.Index ?? 0,
+                    Theme = SelectedTheme?.Index ?? 0,
+                },
+                Server = new ServerSettings
+                {
+                    Path = ServerPath,
+                    Executable = ServerExecutable,
+                    Edition = SelectedMinecraftEdition?.Value ?? 0
+                },
+                Startup = new StartupSettings
+                {
+                    AutoStartServer = AutoStartServer
+                }
+            };
+            _service.SaveUserSettings(userSettings);
+            _service.RestartApplication();
         }
     }
 }

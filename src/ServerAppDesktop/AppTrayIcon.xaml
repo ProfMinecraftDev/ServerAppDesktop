@@ -17,7 +17,7 @@
 	Visibility="Visible"
 	mc:Ignorable="d">
 	<tb:TaskbarIcon.ContextFlyout>
-		<MenuFlyout>
+		<MenuFlyout Placement="Bottom" ShowMode="Transient">
 			<MenuFlyoutItem x:Uid="MenuFlyoutItem_StartServer" Icon="{toolkitExtensions:SymbolIcon Symbol=Play}" />
 			<MenuFlyoutItem x:Uid="MenuFlyoutItem_StopServer" Icon="{toolkitExtensions:SymbolIcon Symbol=Stop}" />
 			<MenuFlyoutItem x:Uid="MenuFlyoutItem_RestartServer" Icon="{toolkitExtensions:SymbolIcon Symbol=Refresh}" />
@@ -36,6 +36,15 @@
 				Icon="{toolkitExtensions:SymbolIcon Symbol=NewWindow}" />
 			<MenuFlyoutSeparator />
 			<MenuFlyoutItem IsEnabled="False" Text="Server App Desktop 1.0.0.3 (Preview)" />
+			<MenuFlyoutSeparator />
+			<MenuFlyoutSubItem x:Uid="MenuFlyoutItem_QuickOptions" Icon="{toolkitExtensions:FontIcon Glyph=&#xE713;}">
+				<MenuFlyoutItem x:Uid="MenuFlyoutItem_OpenSettingsFile" Icon="{toolkitExtensions:SymbolIcon Symbol=Repair}" />
+				<ToggleMenuFlyoutItem x:Uid="MenuFlyoutItem_StartWithWindows" IsChecked="True">
+					<ToggleMenuFlyoutItem.Icon>
+						<PathIcon Data="{StaticResource Windows11IconPath}" />
+					</ToggleMenuFlyoutItem.Icon>
+				</ToggleMenuFlyoutItem>
+			</MenuFlyoutSubItem>
 			<MenuFlyoutSeparator />
 			<MenuFlyoutItem
 				x:Uid="MenuFlyoutItem_ExitApp"

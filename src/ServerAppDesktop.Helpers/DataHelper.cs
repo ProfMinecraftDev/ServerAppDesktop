@@ -1,12 +1,14 @@
 using System;
 using System.IO;
 using System.Security.Principal;
+using ServerAppDesktop.Models;
 
 namespace ServerAppDesktop.Helpers
 {
     public static partial class DataHelper
     {
-        public static string WindowIdentifier { get; } = "ServerAppDesktop_Unique_Window_Identifier_123456789";
+        public static AppSettings Settings { get; set; } = new();
+        public static string WindowIdentifier { get; } = "ServerAppDesktop_74af9644-d6d0-4762-84ab-c54826171600";
         public static string AppName { get; } = "Server App Desktop";
         public static string AppVersion { get; } = "1.0.0.3 (Preview)";
         public static string AppVersionTag { get; } = "v1.0.0.3-Preview";

@@ -769,4 +769,13 @@ Este es el comienzo de tu viaje: un espacio donde cada ajuste se convierte en pa
   <data name="PathSelectedText" xml:space="preserve">
     <value>Ninguna ruta seleccionada.</value>
   </data>
+  <data name="MenuFlyoutItem_StartWithWindows.Text" xml:space="preserve">
+    <value>Iniciar con Windows</value>
+  </data>
+  <data name="MenuFlyoutItem_OpenSettingsFile.Text" xml:space="preserve">
+    <value>Abrir archivo de configuración</value>
+  </data>
+  <data name="MenuFlyoutItem_QuickOptions.Text" xml:space="preserve">
+    <value>Opciones rápidas</value>
+  </data>
 </root>

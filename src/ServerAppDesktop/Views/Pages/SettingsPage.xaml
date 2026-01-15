@@ -116,10 +116,14 @@
 				</toolkitControls:SettingsCard>
 
 				<toolkitControls:SettingsCard x:Uid="DescriptionSettingsCard" HeaderIcon="{toolkitExtensions:FontIcon Glyph=&#xE932;}">
-					<TextBox
-						x:Uid="ServerDescriptionTextBox"
-						MinWidth="100"
-						TextWrapping="Wrap" />
+					<StackPanel Orientation="Horizontal" Spacing="8">
+						<CheckBox x:Name="UseDescriptionPropertiesCheckBox" x:Uid="UsePropertiesCheckBox" />
+						<TextBox
+							x:Uid="ServerDescriptionTextBox"
+							MinWidth="100"
+							TextWrapping="Wrap"
+							Visibility="{x:Bind UseDescriptionPropertiesCheckBox.IsChecked, Mode=OneWay, Converter={StaticResource BoolNegationToVisibilityConverter}}" />
+					</StackPanel>
 				</toolkitControls:SettingsCard>
 
 				<toolkitControls:SettingsCard x:Uid="RamLimitCard" HeaderIcon="{toolkitExtensions:FontIcon Glyph=&#xE964;}">

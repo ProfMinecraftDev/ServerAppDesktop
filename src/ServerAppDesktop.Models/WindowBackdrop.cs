@@ -6,5 +6,6 @@ namespace ServerAppDesktop.Models
     {
         public string Name { get; set; } = "";
         public SystemBackdrop Value { get; set; } = new MicaBackdrop();
+        public int Index { get; set; } = 0;
     }
 }

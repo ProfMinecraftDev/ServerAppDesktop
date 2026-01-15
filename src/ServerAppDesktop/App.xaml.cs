@@ -32,6 +32,7 @@ namespace ServerAppDesktop
                 .ConfigureServices((context, services) =>
                 {
                     services.AddSingleton<INavigationService, NavigationService>();
+                    services.AddTransient<IOOBEService, OOBEService>();
 
                     services.AddSingleton<MainViewModel>();
                     services.AddTransient<OOBEViewModel>();
@@ -51,7 +52,11 @@ namespace ServerAppDesktop
 
         protected override async void OnLaunched(LaunchActivatedEventArgs args)
         {
+            bool needsToShowOOBE = !SettingsHelper.ExistsConfigurationFile();
             MainWindow = new MainWindow();
+
+            if (!needsToShowOOBE)
+                SettingsHelper.LoadAndSetSettings(MainWindow);
 
             AppInstance.GetCurrent().Activated += (s, e) =>
                 {
@@ -100,7 +105,6 @@ namespace ServerAppDesktop
                         UpdateHelper.CleanOldUpdates();
                 }
 
-                bool needsToShowOOBE = !SettingsHelper.ExistsConfigurationFile();
                 MainWindow.contentFrame.Navigate(
                     needsToShowOOBE ? typeof(OOBEView) : typeof(MainView),
                     null,

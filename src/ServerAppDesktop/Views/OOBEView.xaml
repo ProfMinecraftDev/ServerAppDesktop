@@ -122,15 +122,21 @@
 							Maximum="65535"
 							Minimum="1"
 							SmallChange="1"
-							Visibility="{x:Bind UsePortPropertiesCheckBox.IsChecked, Mode=OneWay, Converter={StaticResource BoolNegationToVisibilityConverter}}" />
+							Visibility="{x:Bind UsePortPropertiesCheckBox.IsChecked, Mode=OneWay, Converter={StaticResource BoolNegationToVisibilityConverter}}"
+							Value="{x:Bind ViewModel.ServerPort, Mode=TwoWay}" />
 					</StackPanel>
 				</toolkitControls:SettingsCard>
 
 				<toolkitControls:SettingsCard x:Uid="DescriptionSettingsCard" HeaderIcon="{toolkitExtensions:FontIcon Glyph=&#xE932;}">
-					<TextBox
-						x:Uid="ServerDescriptionTextBox"
-						MinWidth="100"
-						TextWrapping="Wrap" />
+					<StackPanel Orientation="Horizontal" Spacing="8">
+						<CheckBox x:Name="UseDescriptionPropertiesCheckBox" x:Uid="UsePropertiesCheckBox" />
+						<TextBox
+							x:Uid="ServerDescriptionTextBox"
+							MinWidth="100"
+							Text="{x:Bind ViewModel.ServerDescription, Mode=TwoWay}"
+							TextWrapping="Wrap"
+							Visibility="{x:Bind UseDescriptionPropertiesCheckBox.IsChecked, Mode=OneWay, Converter={StaticResource BoolNegationToVisibilityConverter}}" />
+					</StackPanel>
 				</toolkitControls:SettingsCard>
 
 				<TextBlock x:Uid="StartupHeader" Style="{StaticResource SettingsSectionHeaderTextBlockStyle}" />
@@ -138,7 +144,7 @@
 				<toolkitControls:SettingsCard x:Uid="AutoStartSettingsCard" HeaderIcon="{toolkitExtensions:FontIcon Glyph=&#xE78B;}">
 					<StackPanel Orientation="Horizontal" Spacing="8">
 						<InfoBadge Style="{StaticResource CautionIconInfoBadgeStyle}" />
-						<ToggleSwitch x:Uid="AutoStartToggleSwitch" />
+						<ToggleSwitch x:Uid="AutoStartToggleSwitch" IsOn="{x:Bind ViewModel.AutoStartServer, Mode=TwoWay}" />
 					</StackPanel>
 				</toolkitControls:SettingsCard>
 			</StackPanel>
@@ -151,7 +157,7 @@
 			IsClosable="False"
 			IsOpen="True">
 			<InfoBar.ActionButton>
-				<Button x:Uid="GoButton" />
+				<Button x:Uid="GoButton" Command="{x:Bind ViewModel.SaveOOBESettingsCommand}" />
 			</InfoBar.ActionButton>
 		</InfoBar>
 
