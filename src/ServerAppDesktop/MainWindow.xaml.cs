@@ -25,7 +25,7 @@ namespace ServerAppDesktop
         }
 
         public MainViewModel ViewModel => App.GetRequiredService<MainViewModel>();
-        private bool CloseInSystemTray { get => DataHelper.Settings.Startup.CloseInSystemTray; }
+        private bool CloseInSystemTray { get => DataHelper.Settings?.Startup.CloseInSystemTray ?? true; }
 
         private MainWindow()
         {

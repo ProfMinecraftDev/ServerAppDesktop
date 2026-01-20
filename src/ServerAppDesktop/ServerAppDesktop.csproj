@@ -24,7 +24,7 @@
 		<ApplicationVersion>1.0.0.3 (Preview)</ApplicationVersion>
 		<AssemblyTitle>Server App Desktop (Preview)</AssemblyTitle>
 		<Product>Server App Desktop</Product>
-		<FileVersion>1.0.0.3 (Preview)</FileVersion>
+		<FileVersion>1.0.0.3-preview</FileVersion>
 		<Authors>Prof Minecraft</Authors>
 		<Description>Servidor de escritorio con interfaz WinUI 3</Description>
 		<Copyright>Copyright © 2026</Copyright>
@@ -86,81 +86,42 @@
 		<Page Update="Views\Pages\AboutPages\AppInfoPage.xaml">
 			<Generator>MSBuild:Compile</Generator>
 		</Page>
-	</ItemGroup>
-
-	<ItemGroup>
 		<Page Update="Views\Pages\AboutPages\ThirdPartyLicensesPage.xaml">
 			<Generator>MSBuild:Compile</Generator>
 		</Page>
-	</ItemGroup>
-
-	<ItemGroup>
 		<Page Update="MainWindow.xaml">
 			<Generator>MSBuild:Compile</Generator>
 		</Page>
-	</ItemGroup>
-
-	<ItemGroup>
 		<Page Update="AppTrayIcon.xaml">
 			<Generator>MSBuild:Compile</Generator>
 		</Page>
-	</ItemGroup>
-
-	<ItemGroup>
 		<Page Update="Views\Pages\SettingsPage.xaml">
 			<Generator>MSBuild:Compile</Generator>
 		</Page>
-	</ItemGroup>
-
-	<ItemGroup>
 		<Page Update="Views\Pages\AboutPages\AboutPage.xaml">
 			<Generator>MSBuild:Compile</Generator>
 		</Page>
-	</ItemGroup>
-
-	<ItemGroup>
 		<Page Update="Views\Pages\SystemInfoPage.xaml">
 			<Generator>MSBuild:Compile</Generator>
 		</Page>
-	</ItemGroup>
-
-	<ItemGroup>
 		<Page Update="Views\Pages\WhatsNewPage.xaml">
 			<Generator>MSBuild:Compile</Generator>
 		</Page>
-	</ItemGroup>
-
-	<ItemGroup>
 		<Page Update="Views\Pages\FilesPage.xaml">
 			<Generator>MSBuild:Compile</Generator>
 		</Page>
-	</ItemGroup>
-
-	<ItemGroup>
 		<Page Update="Views\Pages\TerminalPage.xaml">
 			<Generator>MSBuild:Compile</Generator>
 		</Page>
-	</ItemGroup>
-
-	<ItemGroup>
 		<Page Update="Views\Pages\PerformancePage.xaml">
 			<Generator>MSBuild:Compile</Generator>
 		</Page>
-	</ItemGroup>
-
-	<ItemGroup>
 		<Page Update="Views\MainView.xaml">
 			<Generator>MSBuild:Compile</Generator>
 		</Page>
-	</ItemGroup>
-
-	<ItemGroup>
 		<Page Update="Views\OOBEView.xaml">
 			<Generator>MSBuild:Compile</Generator>
 		</Page>
-	</ItemGroup>
-
-	<ItemGroup>
 		<Page Update="Views\Pages\HomePage.xaml">
 			<Generator>MSBuild:Compile</Generator>
 		</Page>
