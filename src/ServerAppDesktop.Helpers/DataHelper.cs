@@ -7,7 +7,7 @@ namespace ServerAppDesktop.Helpers
 {
     public static partial class DataHelper
     {
-        public static AppSettings Settings { get; set; } = new();
+        public static AppSettings? Settings { get; set; } = null;
         public static string WindowIdentifier { get; } = "ServerAppDesktop_74af9644-d6d0-4762-84ab-c54826171600";
         public static string AppName { get; } = "Server App Desktop";
         public static string AppVersion { get; } = "1.0.0.3 (Preview)";

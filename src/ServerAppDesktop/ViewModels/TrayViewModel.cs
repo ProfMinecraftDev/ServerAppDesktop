@@ -24,8 +24,8 @@ namespace ServerAppDesktop.ViewModels
         [RelayCommand]
         private void ShowWindow()
         {
-            if (App.MainWindow != null)
-                WindowHelper.ShowAndFocus(App.MainWindow);
+            if (MainWindow.Current != null)
+                WindowHelper.ShowAndFocus(MainWindow.Current);
         }
     }
 }

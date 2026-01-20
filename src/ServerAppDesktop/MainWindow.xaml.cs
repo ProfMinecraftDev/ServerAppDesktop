@@ -12,10 +12,22 @@ namespace ServerAppDesktop
 {
     public sealed partial class MainWindow : WindowEx
     {
+        private static MainWindow? _current;
+        public static new MainWindow Current
+        {
+            get
+            {
+                if (_current == null)
+                    _current = new MainWindow();
+
+                return _current;
+            }
+        }
+
         public MainViewModel ViewModel => App.GetRequiredService<MainViewModel>();
         private bool CloseInSystemTray { get => DataHelper.Settings.Startup.CloseInSystemTray; }
 
-        public MainWindow()
+        private MainWindow()
         {
             InitializeComponent();
             this.CenterOnScreen();
@@ -68,6 +80,32 @@ namespace ServerAppDesktop
                     else
                         TrayIcon.Dispose();
                 };
+            }
+        }
+
+        public void SetIcon(string iconPath)
+        {
+            IntPtr hwnd = this.GetWindowHandle();
+            if (hwnd != IntPtr.Zero)
+            {
+                var windowId = Win32Interop.GetWindowIdFromWindow(hwnd);
+                var appWindow = AppWindow.GetFromWindowId(windowId);
+                appWindow.SetIcon(iconPath);
+                appWindow.SetTaskbarIcon(iconPath);
+                appWindow.SetTitleBarIcon(iconPath);
+            }
+        }
+
+        public void SetIcon(IconId iconId)
+        {
+            IntPtr hwnd = this.GetWindowHandle();
+            if (hwnd != IntPtr.Zero)
+            {
+                var windowId = Win32Interop.GetWindowIdFromWindow(hwnd);
+                var appWindow = AppWindow.GetFromWindowId(windowId);
+                appWindow.SetIcon(iconId);
+                appWindow.SetTaskbarIcon(iconId);
+                appWindow.SetTitleBarIcon(iconId);
             }
         }
 

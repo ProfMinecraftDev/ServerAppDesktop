@@ -31,17 +31,19 @@
 			<RowDefinition Height="*" />
 			<RowDefinition Height="Auto" />
 		</Grid.RowDefinitions>
-		<local:AppTrayIcon x:Name="TrayIcon" />
+		<local:AppTrayIcon x:Name="TrayIcon" x:FieldModifier="public" />
 
 		<TitleBar
 			Title="{x:Bind helpers:DataHelper.WindowTitle, Mode=OneTime}"
 			Grid.Row="0"
 			BackRequested="TitleBar_BackRequested"
-			IconSource="{toolkitExtensions:BitmapIconSource Source=/Assets/AppIcon-16.png}"
 			IsBackButtonEnabled="{x:Bind ViewModel.CanGoBack, Mode=OneWay}"
 			IsBackButtonVisible="{x:Bind ViewModel.CanGoBack, Mode=OneWay}"
 			IsPaneToggleButtonVisible="False"
 			Subtitle="{x:Bind helpers:DataHelper.WindowSubtitle, Mode=OneTime}">
+			<TitleBar.IconSource>
+				<ImageIconSource ImageSource="/Assets/AppIcon.ico" />
+			</TitleBar.IconSource>
 			<TitleBar.RightHeader>
 				<StackPanel Orientation="Horizontal">
 					<Button
@@ -126,7 +128,7 @@
 					VerticalAlignment="Center"
 					Orientation="Horizontal"
 					Spacing="8">
-					<Image VerticalAlignment="Center" Source="/Assets/AppIcon-128.png" />
+					<ImageIcon VerticalAlignment="Center" Source="/Assets/AppIcon.ico" />
 					<StackPanel VerticalAlignment="Center" Spacing="4">
 						<TextBlock
 							HorizontalAlignment="Left"

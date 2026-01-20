@@ -17,7 +17,6 @@ namespace ServerAppDesktop
 {
     public sealed partial class App : Application
     {
-        public static MainWindow? MainWindow { get; private set; } = null;
         public static IHost? Host { get; private set; } = null;
         public static TaskbarIcon? TrayIcon { get; private set; } = null;
 
@@ -53,26 +52,25 @@ namespace ServerAppDesktop
         protected override async void OnLaunched(LaunchActivatedEventArgs args)
         {
             bool needsToShowOOBE = !SettingsHelper.ExistsConfigurationFile();
-            MainWindow = new MainWindow();
 
             if (!needsToShowOOBE)
-                SettingsHelper.LoadAndSetSettings(MainWindow);
+                SettingsHelper.LoadAndSetSettings(MainWindow.Current);
 
             AppInstance.GetCurrent().Activated += (s, e) =>
                 {
-                    MainWindow.DispatcherQueue.TryEnqueue(() =>
+                    MainWindow.Current.DispatcherQueue.TryEnqueue(() =>
                     {
-                        WindowHelper.ShowAndFocus(MainWindow);
+                        WindowHelper.ShowAndFocus(MainWindow.Current);
                     });
                 };
 
             if (!trayOnly)
-                MainWindow.Activate();
+                MainWindow.Current.Activate();
 
-            if (MainWindow != null)
+            if (MainWindow.Current != null)
             {
                 bool isConnected = await NetworkHelper.IsInternetAvailableAsync();
-                MainWindow.ViewModel.IsConnectedToInternet = isConnected;
+                MainWindow.Current.ViewModel.IsConnectedToInternet = isConnected;
 
                 var mainViewModel = GetRequiredService<MainViewModel>();
                 if (isConnected)
@@ -87,7 +85,7 @@ namespace ServerAppDesktop
                     if (mainViewModel.ReleaseInfo != null)
                     {
                         if (!trayOnly)
-                            _ = MainWindow.updateDialog.ShowAsync();
+                            _ = MainWindow.Current.updateDialog.ShowAsync();
                         var newUpdateNotification = new WindowsNotification
                         {
                             Title = "Nueva actualización disponible",
@@ -105,7 +103,7 @@ namespace ServerAppDesktop
                         UpdateHelper.CleanOldUpdates();
                 }
 
-                MainWindow.contentFrame.Navigate(
+                MainWindow.Current.contentFrame.Navigate(
                     needsToShowOOBE ? typeof(OOBEView) : typeof(MainView),
                     null,
                     new DrillInNavigationTransitionInfo()

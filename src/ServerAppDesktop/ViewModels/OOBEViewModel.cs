@@ -85,18 +85,19 @@ namespace ServerAppDesktop.ViewModels
 
         partial void OnSelectedBackdropChanged(WindowBackdrop? value)
         {
-            if (App.MainWindow == null || value?.Value == null)
+            if (MainWindow.Current == null || value?.Value == null)
                 return;
 
-            App.MainWindow.SystemBackdrop = value.Value;
+            if (MainWindow.Current.SystemBackdrop != value.Value)
+                MainWindow.Current.SystemBackdrop = value.Value;
         }
 
         partial void OnSelectedThemeChanged(WindowTheme? value)
         {
-            if (App.MainWindow == null || value?.Value == null)
+            if (MainWindow.Current == null || value?.Value == null)
                 return;
 
-            WindowHelper.SetTheme(App.MainWindow, value.Value);
+            WindowHelper.SetTheme(MainWindow.Current, value.Value);
         }
 
         partial void OnServerPortChanged(int value)
