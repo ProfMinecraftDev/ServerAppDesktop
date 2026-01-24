@@ -93,7 +93,7 @@
 					<AppBarButton x:Uid="RenameBtn" Icon="Rename" />
 					<AppBarButton x:Uid="DeleteBtn" Icon="Delete" />
 					<AppBarSeparator />
-					<AppBarButton x:Uid="RepairBtn" Icon="Repair" />
+					<AppBarButton x:Uid="PropertiesBtn" Icon="Repair" />
 					<AppBarSeparator />
 					<AppBarButton x:Uid="BackupBtn" Icon="{toolkitExtensions:BitmapIcon Source=/Assets/Files/Backup.png}" />
 					<AppBarButton x:Uid="OpenFolderBtn" Icon="{toolkitExtensions:BitmapIcon Source=/Assets/Files/OpenFolder.png}" />

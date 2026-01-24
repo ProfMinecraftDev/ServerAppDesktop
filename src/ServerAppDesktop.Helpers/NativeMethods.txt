@@ -1,0 +1,10 @@
+﻿OpenClipboard
+CloseClipboard
+EmptyClipboard
+SetClipboardData
+GlobalAlloc
+GlobalLock
+GlobalUnlock
+GlobalFree
+SetForegroundWindow
+SetCurrentProcessExplicitAppUserModelID

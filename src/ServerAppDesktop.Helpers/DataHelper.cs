@@ -8,7 +8,12 @@ namespace ServerAppDesktop.Helpers
     public static partial class DataHelper
     {
         public static AppSettings? Settings { get; set; } = null;
+
+        // ID para Preview Channel: ServerAppDesktop_74af9644-d6d0-4762-84ab-c54826171600
+        // ID para Stable Channel: ServerAppDesktop_3e2b8f4a-1c4e-4d3b-9f7a-2f4e5d6c7b8a
+        // Cambiar según el canal de actualizaciones
         public static string WindowIdentifier { get; } = "ServerAppDesktop_74af9644-d6d0-4762-84ab-c54826171600";
+
         public static string AppName { get; } = "Server App Desktop";
         public static string AppVersion { get; } = "1.0.0.3 (Preview)";
         public static string AppVersionTag { get; } = "v1.0.0.3-Preview";

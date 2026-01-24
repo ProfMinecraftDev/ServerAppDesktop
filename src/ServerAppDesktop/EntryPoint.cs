@@ -1,6 +1,7 @@
 ﻿using System;
 using System.IO;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.UI.Dispatching;
 using Microsoft.UI.Xaml;
@@ -15,23 +16,22 @@ namespace ServerAppDesktop
         [STAThread]
         static async Task<int> Main(string[] _args)
         {
+            WindowHelper.RegisterAUMID();
             string[] args = [.. _args.Select(s => s.ToLowerInvariant())];
 
             ComWrappersSupport.InitializeComWrappers();
+            AppNotificationManager.Default.NotificationInvoked += App.OnNotificationInvoked;
+            AppNotificationManager.Default.Register(DataHelper.AppName, new Uri(Path.Combine(AppContext.BaseDirectory, "Assets", "AppIcon.ico")));
 
             if (await WindowHelper.IsRedirectedAsync())
-            {
                 return 0;
-            }
-
-            AppNotificationManager.Default.Register(DataHelper.AppName, new Uri(Path.Combine(AppContext.BaseDirectory, "Assets", "AppIcon.ico")));
 
             try
             {
                 Application.Start((p) =>
                 {
                     var context = new DispatcherQueueSynchronizationContext(DispatcherQueue.GetForCurrentThread());
-                    DispatcherQueueSynchronizationContext.SetSynchronizationContext(context);
+                    SynchronizationContext.SetSynchronizationContext(context);
                     new App(args.Contains("--tray-only") || args.Contains("-to"));
                 });
                 return 0;

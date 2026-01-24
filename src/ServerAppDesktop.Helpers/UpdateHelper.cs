@@ -129,14 +129,8 @@ namespace ServerAppDesktop.Helpers
                 Verb = "runas",
             };
 
-            try
-            {
+            AppDomain.CurrentDomain.ProcessExit += (s, e) =>
                 Process.Start(startInfo);
-            }
-            catch (Exception ex)
-            {
-                File.WriteAllText(Path.Combine(tempFolder, "error.txt"), ex.Message);
-            }
         }
 
         private static async Task<bool> CompareHash(string filePath, string hashToCompare)

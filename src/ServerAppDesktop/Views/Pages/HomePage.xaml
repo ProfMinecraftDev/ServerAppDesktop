@@ -9,7 +9,6 @@
 	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 	xmlns:toolkitExtensions="using:CommunityToolkit.WinUI"
 	NavigationCacheMode="Required"
-	xmlns:toolkitUIControls="using:CommunityToolkit.WinUI.UI.Controls"
 	mc:Ignorable="d">
 
 	<Grid>
@@ -35,19 +34,28 @@
 				HorizontalAlignment="Center"
 				Orientation="Horizontal"
 				Spacing="12">
-				<Button x:Uid="StartServerButton">
+				<Button
+					x:Uid="StartServerButton"
+					Command="{x:Bind ViewModel.StartServerCommand}"
+					IsEnabled="{x:Bind ViewModel.CanStartServer, Mode=OneWay}">
 					<StackPanel Orientation="Horizontal" Spacing="8">
 						<SymbolIcon Symbol="Play" />
 						<TextBlock x:Uid="StartServerText" />
 					</StackPanel>
 				</Button>
-				<Button x:Uid="StopServerButton">
+				<Button
+					x:Uid="StopServerButton"
+					Command="{x:Bind ViewModel.StopServerCommand}"
+					IsEnabled="{x:Bind ViewModel.CanStopServer, Mode=OneWay}">
 					<StackPanel Orientation="Horizontal" Spacing="8">
 						<SymbolIcon Symbol="Stop" />
 						<TextBlock x:Uid="StopServerText" />
 					</StackPanel>
 				</Button>
-				<Button x:Uid="RestartServerButton">
+				<Button
+					x:Uid="RestartServerButton"
+					Command="{x:Bind ViewModel.RestartServerCommand}"
+					IsEnabled="{x:Bind ViewModel.CanRestartServer, Mode=OneWay}">
 					<StackPanel Orientation="Horizontal" Spacing="8">
 						<SymbolIcon Symbol="Refresh" />
 						<TextBlock x:Uid="RestartServerText" />
@@ -81,42 +89,51 @@
 						x:Uid="ServerEditionCard"
 						Grid.Row="0"
 						Grid.Column="0"
+						Description="{x:Bind ViewModel.ServerEdition, Mode=OneWay}"
 						Icon="{toolkitExtensions:FontIcon Glyph=&#xE7FC;}" />
 
 					<controls:InfoCard
 						x:Uid="ServerVersionCard"
 						Grid.Row="0"
 						Grid.Column="1"
+						Description="{x:Bind ViewModel.ServerVersion, Mode=OneWay}"
 						Icon="{toolkitExtensions:FontIcon Glyph=&#xE74C;}" />
 
 					<controls:InfoCard
 						x:Uid="ServerPathCard"
 						Grid.Row="1"
 						Grid.Column="0"
+						Description="{x:Bind ViewModel.ServerPath, Mode=OneWay}"
 						Icon="{toolkitExtensions:SymbolIcon Symbol=SyncFolder}" />
 
 					<controls:InfoCard
 						x:Uid="ServerExecutableCard"
 						Grid.Row="1"
 						Grid.Column="1"
+						Description="{x:Bind ViewModel.ServerExecutable, Mode=OneWay}"
 						Icon="{toolkitExtensions:FontIcon Glyph=&#xE943;}" />
 
 					<controls:SquareCard
 						x:Uid="ServerIPCard"
 						Grid.Row="2"
 						Grid.Column="0"
-						Icon="{toolkitExtensions:FontIcon Glyph=&#xE88A;}" />
+						Description="{x:Bind ViewModel.ServerIP, Mode=OneWay}"
+						Icon="{toolkitExtensions:FontIcon Glyph=&#xE88A;}"
+						Subtitle="{x:Bind ViewModel.ServerIPType, Mode=OneWay}" />
 
 					<controls:SquareCard
 						x:Uid="ServerPortCard"
 						Grid.Row="2"
 						Grid.Column="1"
-						Icon="{toolkitExtensions:FontIcon Glyph=&#xEC27;}" />
+						Description="{x:Bind ViewModel.ServerPort, Mode=OneWay}"
+						Icon="{toolkitExtensions:FontIcon Glyph=&#xEC27;}"
+						Subtitle="{x:Bind ViewModel.ServerPortType, Mode=OneWay}" />
 
 					<controls:InfoCard
 						x:Uid="ActiveWorldCard"
 						Grid.Row="3"
 						Grid.ColumnSpan="2"
+						Description="{x:Bind ViewModel.ActiveWorld, Mode=OneWay}"
 						Icon="{toolkitExtensions:FontIcon Glyph=&#xE909;}" />
 				</Grid>
 			</ScrollViewer>

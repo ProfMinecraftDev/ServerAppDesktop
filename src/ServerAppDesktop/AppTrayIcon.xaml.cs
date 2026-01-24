@@ -9,10 +9,11 @@ namespace ServerAppDesktop
     public sealed partial class AppTrayIcon : TaskbarIcon
     {
         public TrayViewModel ViewModel => App.GetRequiredService<TrayViewModel>();
+        public HomeViewModel HomeViewModel => App.GetRequiredService<HomeViewModel>();
+
         public AppTrayIcon()
         {
             InitializeComponent();
         }
-
     }
 }

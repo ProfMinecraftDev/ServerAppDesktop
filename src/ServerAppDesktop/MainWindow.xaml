@@ -72,7 +72,10 @@
 									Command="{x:Bind ViewModel.RestartAppCommand}"
 									Icon="{toolkitExtensions:SymbolIcon Symbol=Refresh}" />
 								<MenuFlyoutSeparator Visibility="{Binding RunAsAdmin, Mode=OneTime, Converter={StaticResource BoolToVisibilityConverter}}" />
-								<MenuFlyoutItem x:Uid="MenuFlyoutItem_OpenSettingsFile" Icon="{toolkitExtensions:SymbolIcon Symbol=Repair}" />
+								<MenuFlyoutItem
+									x:Uid="MenuFlyoutItem_OpenSettingsFile"
+									Command="{x:Bind ViewModel.OpenSettingsFileCommand}"
+									Icon="{toolkitExtensions:SymbolIcon Symbol=Repair}" />
 								<MenuFlyoutItem
 									x:Uid="MenuFlyoutItem_ExitApp"
 									Command="{x:Bind ViewModel.ExitAppCommand}"

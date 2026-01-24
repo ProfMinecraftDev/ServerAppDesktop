@@ -1,8 +1,12 @@
 ﻿using System;
 using System.Threading.Tasks;
+using H.NotifyIcon;
 using Microsoft.UI.Windowing;
 using Microsoft.UI.Xaml;
 using Microsoft.Windows.AppLifecycle;
+using Windows.Win32;
+using Windows.Win32.Foundation;
+using WinRT.Interop;
 
 namespace ServerAppDesktop.Helpers
 {
@@ -13,21 +17,34 @@ namespace ServerAppDesktop.Helpers
             if (window == null)
                 return;
 
-            window.AppWindow.Show();
+            IntPtr hWnd = WindowNative.GetWindowHandle(window);
+            PInvoke.SetForegroundWindow(new HWND(hWnd));
+            WindowExtensions.Show(window, true);
             window.Activate();
         }
 
         public static async Task<bool> IsRedirectedAsync()
         {
-            var mainInstance = AppInstance.FindOrRegisterForKey(DataHelper.WindowIdentifier);
+            // Obtenemos cómo se activó esta instancia
+            var args = AppInstance.GetCurrent().GetActivatedEventArgs();
 
-            if (!mainInstance.IsCurrent)
+            // Si la activación es por notificación, Windows App SDK a veces 
+            // crea un flujo distinto. Forzamos la búsqueda de la instancia vieja.
+            var existingInstance = AppInstance.FindOrRegisterForKey(DataHelper.WindowIdentifier);
+
+            if (!existingInstance.IsCurrent)
             {
-                var args = AppInstance.GetCurrent().GetActivatedEventArgs();
-                await mainInstance.RedirectActivationToAsync(args);
+                // Redirigimos los argumentos (incluyendo el "action=activate" que pusimos arriba)
+                await existingInstance.RedirectActivationToAsync(args);
                 return true;
             }
+
             return false;
+        }
+
+        public static void RegisterAUMID()
+        {
+            PInvoke.SetCurrentProcessExplicitAppUserModelID(DataHelper.WindowIdentifier);
         }
 
         public static void SetTheme(Window window, ElementTheme elementTheme)

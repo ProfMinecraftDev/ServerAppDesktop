@@ -12,15 +12,15 @@ namespace ServerAppDesktop
 {
     public sealed partial class MainWindow : WindowEx
     {
-        private static MainWindow? _current;
-        public static new MainWindow Current
+        private static MainWindow? _instance;
+        public static MainWindow Instance
         {
             get
             {
-                if (_current == null)
-                    _current = new MainWindow();
+                if (_instance == null)
+                    _instance = new MainWindow();
 
-                return _current;
+                return _instance;
             }
         }
 
@@ -67,15 +67,13 @@ namespace ServerAppDesktop
                 var titleBar = appWindow.TitleBar;
                 titleBar.PreferredTheme = TitleBarTheme.UseDefaultAppMode;
                 titleBar.PreferredHeightOption = TitleBarHeightOption.Tall;
-                appWindow.SetIcon("Assets/AppIcon.ico");
-                appWindow.SetTaskbarIcon("Assets/AppIcon.ico");
-                appWindow.SetTitleBarIcon("Assets/AppIcon.ico");
+                SetIcon("Assets/AppIcon.ico");
                 appWindow.Closing += (_, e) =>
                 {
                     if (CloseInSystemTray)
                     {
                         e.Cancel = true;
-                        this.Hide();
+                        H.NotifyIcon.WindowExtensions.Hide(this, true);
                     }
                     else
                         TrayIcon.Dispose();

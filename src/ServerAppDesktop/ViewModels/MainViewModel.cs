@@ -7,6 +7,8 @@ using CommunityToolkit.Mvvm.Input;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.Windows.AppLifecycle;
+using Microsoft.Windows.AppNotifications;
+using Microsoft.Windows.AppNotifications.Builder;
 using ServerAppDesktop.Controls;
 using ServerAppDesktop.Helpers;
 using ServerAppDesktop.Models;
@@ -62,6 +64,13 @@ namespace ServerAppDesktop.ViewModels
         private void ShowFeedbackDialog(ContentDialog dialog) => _ = dialog.ShowAsync();
 
         [RelayCommand]
+        private void OpenSettingsFile()
+        {
+            string settingsPath = Path.Combine(DataHelper.SettingsPath, DataHelper.SettingsFile);
+            _ = Launcher.LaunchUriAsync(new Uri(settingsPath));
+        }
+
+        [RelayCommand]
         private void SendFeedback() =>
             _ = Launcher.LaunchUriAsync(new Uri("https://github.com/ProfMinecraftDev/ServerAppDesktop/issues"));
 
@@ -82,14 +91,15 @@ namespace ServerAppDesktop.ViewModels
                 var updateReadyToInstallNotification = new WindowsNotification
                 {
                     Title = "Actualización lista para instalar",
-                    Messsage = $"La versión {ReleaseInfo?.Version} está lista para instalarse, se instalará al cerrar.",
+                    Message = $"La versión {ReleaseInfo?.Version} está lista para instalarse, se instalará al cerrar.",
                     SoundEvent = Microsoft.Windows.AppNotifications.Builder.AppNotificationSoundEvent.IM,
                     NotificationScenario = Microsoft.Windows.AppNotifications.Builder.AppNotificationScenario.Urgent,
                     AppLogoUri = new Uri(Path.Combine(AppContext.BaseDirectory, "Assets", "Update.png")),
                     Duration = Microsoft.Windows.AppNotifications.Builder.AppNotificationDuration.Long,
                     TimeStamp = DateTime.Now
                 };
-                updateReadyToInstallNotification.ShowNotification();
+                var notification = updateReadyToInstallNotification.NotificationToBuild.AddButton(new AppNotificationButton("Reiniciar ahora").AddArgument("action", "restartToInstallUpdate")).BuildNotification();
+                AppNotificationManager.Default.Show(notification);
                 await Task.Delay(10000);
                 DownloadingAnUpdate = !sucessDownload;
             }

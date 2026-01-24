@@ -1,7 +1,5 @@
-using System;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
-using Microsoft.UI.Xaml.Media;
 
 namespace ServerAppDesktop.Controls
 {
@@ -44,13 +42,7 @@ namespace ServerAppDesktop.Controls
             CornerRadius = Application.Current.Resources.TryGetValue("ControlCornerRadius", out var cornerRadiusResource) && cornerRadiusResource is CornerRadius cornerRadius
                 ? cornerRadius
                 : new CornerRadius(4);
-            Background = Application.Current.Resources.TryGetValue("CardBackgroundFillColorDefaultBrush", out var backgroundResource) && backgroundResource is Brush backgroundBrush
-                ? backgroundBrush
-                : throw new InvalidOperationException("Unable to find background brush.");
             BorderThickness = new Thickness(1);
-            BorderBrush = Application.Current.Resources.TryGetValue("CardStrokeColorDefaultBrush", out var borderBrushResource) && borderBrushResource is Brush borderBrush
-                ? borderBrush
-                : throw new InvalidOperationException("Unable to find border brush.");
         }
     }
 }

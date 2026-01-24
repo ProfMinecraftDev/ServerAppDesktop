@@ -1,0 +1,8 @@
+﻿CreateJobObject
+SetInformationJobObject
+AssignProcessToJobObject
+JOBOBJECTINFOCLASS
+JOBOBJECT_EXTENDED_LIMIT_INFORMATION
+JOB_OBJECT_LIMIT
+HANDLE
+SetForegroundWindow

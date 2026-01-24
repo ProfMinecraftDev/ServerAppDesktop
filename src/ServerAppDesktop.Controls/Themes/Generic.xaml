@@ -9,6 +9,8 @@
 	<converters:NotNullToVisibilityConverter x:Key="NotNullToVisibilityConverter" />
 
 	<Style x:Key="DefaultInfoCardStyle" TargetType="local:InfoCard">
+		<Setter Property="Background" Value="{ThemeResource CardBackgroundFillColorDefaultBrush}" />
+		<Setter Property="BorderBrush" Value="{ThemeResource CardStrokeColorDefaultBrush}" />
 		<Setter Property="Template">
 			<Setter.Value>
 				<ControlTemplate TargetType="local:InfoCard">
@@ -62,6 +64,8 @@
 		</Setter>
 	</Style>
 	<Style x:Key="DefaultSquareCardStyle" TargetType="local:SquareCard">
+		<Setter Property="Background" Value="{ThemeResource CardBackgroundFillColorDefaultBrush}" />
+		<Setter Property="BorderBrush" Value="{ThemeResource CardStrokeColorDefaultBrush}" />
 		<Setter Property="Template">
 			<Setter.Value>
 				<ControlTemplate TargetType="local:SquareCard">

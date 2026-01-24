@@ -12,10 +12,12 @@
 		<UseWinUI>true</UseWinUI>
 		<EnableMsixTooling>true</EnableMsixTooling>
 		<Nullable>enable</Nullable>
-		<DefaultLanguage>es-MX</DefaultLanguage>
+		<DefaultLanguage>es-419</DefaultLanguage>
 		<RuntimeIdentifier>win-x64</RuntimeIdentifier>
 		<AllowUnsafeBlocks>true</AllowUnsafeBlocks>
 		<HasPackageAndNonPackageMode>true</HasPackageAndNonPackageMode>
+		<HasPackageAndExecutionModel>false</HasPackageAndExecutionModel>
+		<AppxPackage>false</AppxPackage>
 		<StartupObject>ServerAppDesktop.EntryPoint</StartupObject>
 		<PreBuildEvent>
 			powershell.exe -NoProfile -Command "if (Get-Process ServerAppDesktop -ErrorAction SilentlyContinue) { TASKKILL /F /IM "ServerAppDesktop.exe" /T }"
@@ -52,26 +54,16 @@
 
 
 	<ItemGroup>
-		<PackageReference Include="CommunityToolkit.Labs.WinUI.Controls.DataTable"
-						  Version="0.1.251217-build.2433" />
-		<PackageReference Include="CommunityToolkit.Labs.WinUI.Controls.MarkdownTextBlock"
-						  Version="0.1.251217-build.2433" />
-		<PackageReference Include="CommunityToolkit.Mvvm"
-						  Version="8.4.0" />
-		<PackageReference Include="CommunityToolkit.WinUI.Controls.SettingsControls"
-						  Version="8.2.251219" />
-		<PackageReference Include="CommunityToolkit.WinUI.Extensions"
-						  Version="8.2.251219" />
-		<PackageReference Include="H.NotifyIcon.WinUI"
-						  Version="2.4.1" />
-		<PackageReference Include="Microsoft.Extensions.Hosting"
-						  Version="10.0.2" />
-		<PackageReference Include="Microsoft.Windows.SDK.BuildTools"
-						  Version="10.0.26100.7463" />
-		<PackageReference Include="Microsoft.WindowsAppSDK"
-						  Version="1.8.251106002" />
-		<PackageReference Include="WinUIEx"
-						  Version="2.9.0" />
+		<PackageReference Include="CommunityToolkit.Labs.WinUI.Controls.DataTable" Version="0.1.251217-build.2433" />
+		<PackageReference Include="CommunityToolkit.Labs.WinUI.Controls.MarkdownTextBlock" Version="0.1.251217-build.2433" />
+		<PackageReference Include="CommunityToolkit.Mvvm" Version="8.4.0" />
+		<PackageReference Include="CommunityToolkit.WinUI.Controls.SettingsControls" Version="8.2.251219" />
+		<PackageReference Include="CommunityToolkit.WinUI.Extensions" Version="8.2.251219" />
+		<PackageReference Include="H.NotifyIcon.WinUI" Version="2.4.1" />
+		<PackageReference Include="Microsoft.Extensions.Hosting" Version="10.0.2" />
+		<PackageReference Include="Microsoft.Windows.SDK.BuildTools" Version="10.0.26100.7463" />
+		<PackageReference Include="Microsoft.WindowsAppSDK" Version="1.8.251106002" />
+		<PackageReference Include="WinUIEx" Version="2.9.0" />
 	</ItemGroup>
 
 	<ItemGroup>

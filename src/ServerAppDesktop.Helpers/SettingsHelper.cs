@@ -23,18 +23,25 @@ namespace ServerAppDesktop.Helpers
             // 2. Verificar que el archivo existe para evitar excepciones
             if (File.Exists(fullPath))
             {
-                string jsonString = File.ReadAllText(fullPath);
-                var context = new AppSettingsJsonContext(new JsonSerializerOptions
+                try
                 {
-                    PropertyNameCaseInsensitive = true
-                });
+                    string jsonString = File.ReadAllText(fullPath);
+                    var context = new AppSettingsJsonContext(new JsonSerializerOptions
+                    {
+                        PropertyNameCaseInsensitive = true
+                    });
 
-                DataHelper.Settings = JsonSerializer.Deserialize(jsonString, context.AppSettings);
+                    DataHelper.Settings = JsonSerializer.Deserialize(jsonString, context.AppSettings);
+                }
+                catch
+                {
+                    DataHelper.Settings = null;
+                }
             }
             else
             {
                 // Si no existe, inicializar con valores por defecto
-                DataHelper.Settings = new AppSettings();
+                DataHelper.Settings = null;
             }
             var settings = DataHelper.Settings;
             if (settings == null)
@@ -52,6 +59,22 @@ namespace ServerAppDesktop.Helpers
 
             if (!string.IsNullOrEmpty(settings.UI.Language))
                 ApplicationLanguages.PrimaryLanguageOverride = settings.UI.Language;
+        }
+
+        public static void SaveSettings()
+        {
+            if (DataHelper.Settings == null)
+                return;
+            var context = new AppSettingsJsonContext(new JsonSerializerOptions
+            {
+                WriteIndented = true,
+                IndentSize = 4
+            });
+            string jsonString = JsonSerializer.Serialize(DataHelper.Settings, context.AppSettings);
+            string jsonFilePath = Path.Combine(DataHelper.SettingsPath, DataHelper.SettingsFile);
+            if (!string.IsNullOrEmpty(DataHelper.SettingsPath) && !Directory.Exists(DataHelper.SettingsPath))
+                Directory.CreateDirectory(DataHelper.SettingsPath);
+            File.WriteAllText(jsonFilePath, jsonString);
         }
     }
 }

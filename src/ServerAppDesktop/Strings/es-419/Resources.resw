@@ -534,8 +534,8 @@
   <data name="DeleteBtn.ToolTipService.ToolTip" xml:space="preserve">
     <value>Eliminar</value>
   </data>
-  <data name="RepairBtn.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Reparar</value>
+  <data name="PropertiesBtn.ToolTipService.ToolTip" xml:space="preserve">
+    <value>Propiedades</value>
   </data>
   <data name="FlyoutCut.Text" xml:space="preserve">
     <value>Cortar</value>
@@ -777,5 +777,23 @@ Este es el comienzo de tu viaje: un espacio donde cada ajuste se convierte en pa
   </data>
   <data name="MenuFlyoutItem_QuickOptions.Text" xml:space="preserve">
     <value>Opciones rápidas</value>
+  </data>
+  <data name="NoneItem" xml:space="preserve">
+    <value>Ninguno</value>
+  </data>
+  <data name="TrayTooltip_ServerStarting" xml:space="preserve">
+    <value>Server App Desktop (Preview) - Servidor Iniciando</value>
+  </data>
+  <data name="TrayTooltip_ServerRunning" xml:space="preserve">
+    <value>Server App Desktop (Preview) - Servidor En Ejecución</value>
+  </data>
+  <data name="TrayTooltip_ServerStopping" xml:space="preserve">
+    <value>Server App Desktop (Preview) - Servidor Deteniéndose</value>
+  </data>
+  <data name="TrayTooltip_ServerStopped" xml:space="preserve">
+    <value>Server App Desktop (Preview) - Servidor Detenido</value>
+  </data>
+  <data name="TrayTooltip_ServerRestarting" xml:space="preserve">
+    <value>Server App Desktop (Preview) - Servidor Reiniciando</value>
   </data>
 </root>

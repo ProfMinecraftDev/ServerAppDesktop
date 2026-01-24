@@ -6,16 +6,19 @@ using CommunityToolkit.Mvvm.Input;
 using Microsoft.UI.Composition.SystemBackdrops;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Media;
+using Microsoft.UI.Xaml.Media.Animation;
 using Microsoft.Windows.Storage.Pickers;
 using ServerAppDesktop.Helpers;
 using ServerAppDesktop.Models;
 using ServerAppDesktop.Services;
+using ServerAppDesktop.Views;
 
 namespace ServerAppDesktop.ViewModels
 {
     public partial class OOBEViewModel : ObservableObject
     {
         private readonly IOOBEService _service;
+        private readonly HomeViewModel _homeViewModel;
 
         [ObservableProperty]
         private ObservableCollection<WindowBackdrop> _windowBackdrops = [];
@@ -56,9 +59,17 @@ namespace ServerAppDesktop.ViewModels
         [ObservableProperty]
         private bool autoStartServer = true;
 
-        public OOBEViewModel(IOOBEService _service)
+        public OOBEViewModel(IOOBEService _service, HomeViewModel homeViewModel)
         {
             this._service = _service;
+            _homeViewModel = homeViewModel;
+            _homeViewModel.IsConfigured = false;
+
+            this._service.OOBEFinished += (configured) =>
+            {
+                if (configured)
+                    MainWindow.Instance.contentFrame.Navigate(typeof(MainView), null, new DrillInNavigationTransitionInfo());
+            };
 
             WindowBackdrops =
                 [
@@ -85,19 +96,19 @@ namespace ServerAppDesktop.ViewModels
 
         partial void OnSelectedBackdropChanged(WindowBackdrop? value)
         {
-            if (MainWindow.Current == null || value?.Value == null)
+            if (MainWindow.Instance == null || value?.Value == null)
                 return;
 
-            if (MainWindow.Current.SystemBackdrop != value.Value)
-                MainWindow.Current.SystemBackdrop = value.Value;
+            if (MainWindow.Instance.SystemBackdrop != value.Value)
+                MainWindow.Instance.SystemBackdrop = value.Value;
         }
 
         partial void OnSelectedThemeChanged(WindowTheme? value)
         {
-            if (MainWindow.Current == null || value?.Value == null)
+            if (MainWindow.Instance == null || value?.Value == null)
                 return;
 
-            WindowHelper.SetTheme(MainWindow.Current, value.Value);
+            WindowHelper.SetTheme(MainWindow.Instance, value.Value);
         }
 
         partial void OnServerPortChanged(int value)
@@ -170,7 +181,7 @@ namespace ServerAppDesktop.ViewModels
                 }
             };
             _service.SaveUserSettings(userSettings);
-            _service.RestartApplication();
+            _service.FinishOOBE();
         }
     }
 }
