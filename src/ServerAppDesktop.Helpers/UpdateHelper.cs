@@ -67,7 +67,6 @@ namespace ServerAppDesktop.Helpers
 
         public static async Task<bool> DownloadUpdateAsync(Asset updateFile)
         {
-            CleanOldUpdates();
             string tempFolder = Path.Combine(Path.GetTempPath(), "ServerAppDesktop_Updates");
             if (!Directory.Exists(tempFolder))
                 Directory.CreateDirectory(tempFolder);
@@ -76,7 +75,7 @@ namespace ServerAppDesktop.Helpers
 
             if (File.Exists(tempPath) && await CompareHash(tempPath, updateFile.SHA256))
             {
-                RegisterInstallation(tempPath, tempFolder);
+                RegisterInstallation(tempPath);
                 return true;
             }
 
@@ -110,27 +109,33 @@ namespace ServerAppDesktop.Helpers
 
             if (await CompareHash(tempPath, updateFile.SHA256))
             {
-                RegisterInstallation(tempPath, tempFolder);
+                RegisterInstallation(tempPath);
                 return true;
             }
 
             return false;
         }
 
-        private static void RegisterInstallation(string tempPath, string tempFolder)
+        private static void RegisterInstallation(string tempPath)
         {
             // Lanzamos el proceso directamente. 
             // En WinUI 3 es más fiable que esperar al ProcessExit.
             var startInfo = new ProcessStartInfo
             {
                 FileName = tempPath,
-                Arguments = "/SILENT /SUPPRESSMSGBOXES /NORESTART /SP-",
+                Arguments = "/SILENT /SUPPRESSMSGBOXES /NORESTART /SP- /NORESTARTAPPLICATIONS /FORCECLOSEAPPLICATIONS /RUN",
                 UseShellExecute = true,
                 Verb = "runas",
             };
 
             AppDomain.CurrentDomain.ProcessExit += (s, e) =>
-                Process.Start(startInfo);
+            {
+                try
+                {
+                    Process.Start(startInfo);
+                }
+                catch { }
+            };
         }
 
         private static async Task<bool> CompareHash(string filePath, string hashToCompare)
