@@ -2,11 +2,17 @@ using System;
 using System.IO;
 using System.Security.Principal;
 using ServerAppDesktop.Models;
+using WinUIEx;
 
 namespace ServerAppDesktop.Helpers
 {
     public static partial class DataHelper
     {
+        public static double WindowWidth { get; set; }
+        public static double WindowHeight { get; set; }
+        public static int WindowPosX { get; set; }
+        public static int WindowPosY { get; set; }
+        public static WindowState WindowState { get; set; }
         public static AppSettings? Settings { get; set; } = null;
 
         // ID para Preview Channel: ServerAppDesktop_74af9644-d6d0-4762-84ab-c54826171600

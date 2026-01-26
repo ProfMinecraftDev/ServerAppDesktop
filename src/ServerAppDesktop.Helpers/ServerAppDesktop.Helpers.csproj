@@ -24,6 +24,8 @@
 		</PackageReference>
 		<PackageReference Include="H.NotifyIcon.WinUI"
 						  Version="2.4.1" />
+		<PackageReference Include="WinUIEx"
+						  Version="2.9.0" />
 	</ItemGroup>
 
 	<ItemGroup>

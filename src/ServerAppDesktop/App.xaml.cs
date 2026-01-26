@@ -22,7 +22,6 @@ namespace ServerAppDesktop
     {
         public static IHost? Host { get; private set; } = null;
         public static TaskbarIcon? TrayIcon { get; private set; } = null;
-
         private readonly bool trayOnly = false;
 
         public App(bool trayOnly = false)
