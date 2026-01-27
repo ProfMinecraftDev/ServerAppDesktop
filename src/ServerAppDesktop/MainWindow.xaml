@@ -13,8 +13,6 @@
 	xmlns:vm="using:ServerAppDesktop.ViewModels"
 	xmlns:winex="using:WinUIEx"
 	Title="{x:Bind helpers:DataHelper.WindowTitle, Mode=OneTime}"
-	Width="800"
-	Height="600"
 	MinWidth="550"
 	MinHeight="300"
 	mc:Ignorable="d">

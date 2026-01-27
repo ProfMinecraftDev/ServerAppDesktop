@@ -5,8 +5,6 @@ using Microsoft.UI.Xaml.Controls;
 using ServerAppDesktop.Helpers;
 using ServerAppDesktop.Services;
 using ServerAppDesktop.ViewModels;
-using Windows.Foundation;
-using Windows.Graphics;
 using Windows.System;
 using WinUIEx;
 
@@ -32,7 +30,6 @@ namespace ServerAppDesktop
         private MainWindow()
         {
             InitializeComponent();
-            this.CenterOnScreen();
             UpdateFullScreenUI(false);
 
             NetworkHelper.ConnectionChanged += async (isConnected) =>
@@ -81,26 +78,6 @@ namespace ServerAppDesktop
                         TrayIcon.Dispose();
                 };
             }
-        }
-
-        protected override void OnPositionChanged(PointInt32 position)
-        {
-            base.OnPositionChanged(position);
-            DataHelper.WindowPosX = position.X;
-            DataHelper.WindowPosY = position.Y;
-        }
-
-        protected override bool OnSizeChanged(Size newSize)
-        {
-            DataHelper.WindowWidth = newSize.Width;
-            DataHelper.WindowHeight = newSize.Height;
-            return base.OnSizeChanged(newSize);
-        }
-
-        protected override void OnStateChanged(WindowState state)
-        {
-            base.OnStateChanged(state);
-            DataHelper.WindowState = state;
         }
 
         public void SetIcon(string iconPath)
