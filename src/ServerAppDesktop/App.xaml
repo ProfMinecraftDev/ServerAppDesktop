@@ -3,9 +3,7 @@
 	x:Class="ServerAppDesktop.App"
 	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
 	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-	xmlns:converters="using:ServerAppDesktop.Converters"
-	xmlns:local="using:ServerAppDesktop"
-	xmlns:toolkit="using:CommunityToolkit.WinUI.Controls">
+	xmlns:converters="using:ServerAppDesktop.Converters">
 
 	<Application.Resources>
 		<ResourceDictionary>
@@ -19,8 +17,8 @@
 			<converters:BoolToYesNoStringConverter x:Key="BoolToYesNoStringConverter" />
 			<converters:StringToImageSourceConverter x:Key="StringToImageSourceConverter" />
 
-			
-			
+
+
 			<Style
 				x:Key="CautionButtonStyle"
 				BasedOn="{StaticResource DefaultButtonStyle}"
