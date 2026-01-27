@@ -7,7 +7,6 @@
 		<ApplicationManifest>app.manifest</ApplicationManifest>
 		<Platforms>x64</Platforms>
 		<Platform>x64</Platform>
-		<WindowsPackageType>None</WindowsPackageType>
 		<WindowsAppSDKWinUI>true</WindowsAppSDKWinUI>
 		<UseWinUI>true</UseWinUI>
 		<EnableMsixTooling>true</EnableMsixTooling>
@@ -18,6 +17,7 @@
 		<HasPackageAndNonPackageMode>true</HasPackageAndNonPackageMode>
 		<HasPackageAndExecutionModel>false</HasPackageAndExecutionModel>
 		<AppxPackage>false</AppxPackage>
+		<WindowsPackageType>None</WindowsPackageType>
 		<StartupObject>ServerAppDesktop.EntryPoint</StartupObject>
 		<PreBuildEvent>
 			powershell.exe -NoProfile -Command "if (Get-Process ServerAppDesktop -ErrorAction SilentlyContinue) { TASKKILL /F /IM "ServerAppDesktop.exe" /T }"
