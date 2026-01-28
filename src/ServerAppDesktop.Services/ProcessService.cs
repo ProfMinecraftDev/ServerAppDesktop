@@ -27,27 +27,21 @@ public sealed partial class ProcessService : IProcessService, IDisposable
 
     public bool IsRunning => _process != null && !_process.HasExited;
 
-    /// <summary>
-    /// Crea el Job Object para anclar procesos hijos al proceso padre.
-    /// </summary>
     private void EnsureJobObjectCreated()
     {
         if (_jobHandle != null && !_jobHandle.IsInvalid)
             return;
 
-        // 1. Crear el Job
         _jobHandle = PInvoke.CreateJobObject(null, (string?)null);
 
         if (_jobHandle.IsInvalid)
             return;
 
-        // 2. Configurar el "Auto-Kill"
         unsafe
         {
             JOBOBJECT_EXTENDED_LIMIT_INFORMATION info = new();
             info.BasicLimitInformation.LimitFlags = JOB_OBJECT_LIMIT.JOB_OBJECT_LIMIT_KILL_ON_JOB_CLOSE;
 
-            // Casteamos el SafeHandle al struct HANDLE que espera la función
             PInvoke.SetInformationJobObject(
                 (HANDLE)_jobHandle.DangerousGetHandle(),
                 JOBOBJECTINFOCLASS.JobObjectExtendedLimitInformation,
@@ -92,13 +86,12 @@ public sealed partial class ProcessService : IProcessService, IDisposable
             {
                 if (e.Data != null)
                 {
-                    // Solo se ha logrado en Minecraft Bedrock Edition
-                    if (e.Data.ToLower().Contains("player connected"))
+                    if (e.Data.ToLower().Contains("player connected") || e.Data.ToLower().Contains("joined the game"))
                     {
                         _playersInServer++;
                         PlayerJoined?.Invoke(_playersInServer);
                     }
-                    else if (e.Data.ToLower().Contains("player disconnected"))
+                    else if (e.Data.ToLower().Contains("player disconnected") || e.Data.ToLower().Contains("left the game"))
                     {
                         _playersInServer--;
                         PlayerLeft?.Invoke(_playersInServer);
@@ -122,11 +115,9 @@ public sealed partial class ProcessService : IProcessService, IDisposable
 
             if (started)
             {
-                // --- VÍNCULO DE KERNEL (JOB OBJECT) ---
                 try
                 {
                     EnsureJobObjectCreated();
-                    // Usamos SafeProcessHandle para que el PInvoke lo acepte
                     using var sProcessHandle = new SafeProcessHandle(_process.Handle, ownsHandle: false);
                     PInvoke.AssignProcessToJobObject(_jobHandle!, sProcessHandle);
                 }
@@ -134,7 +125,6 @@ public sealed partial class ProcessService : IProcessService, IDisposable
                 {
                     Debug.WriteLine($"Error vinculando al Job: {ex.Message}");
                 }
-                // --------------------------------------
 
                 _process.BeginOutputReadLine();
                 _process.BeginErrorReadLine();
@@ -197,7 +187,6 @@ public sealed partial class ProcessService : IProcessService, IDisposable
 
     public void Dispose()
     {
-        // Al cerrar el handle del Job, Windows mata automáticamente al hijo (Java)
         _jobHandle?.Dispose();
 
         if (IsRunning)
