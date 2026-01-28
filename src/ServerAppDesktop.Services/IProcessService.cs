@@ -10,6 +10,9 @@ namespace ServerAppDesktop.Services
 
         event Action<bool, int>? ProcessExited;
 
+        event Action<int>? PlayerJoined;
+        event Action<int>? PlayerLeft;
+
         bool IsRunning { get; }
 
         bool StartProcess(string fileName, string arguments, string workingDirectory);

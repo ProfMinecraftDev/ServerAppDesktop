@@ -16,10 +16,14 @@ public sealed partial class ProcessService : IProcessService, IDisposable
     private Process? _process;
     private bool _isStopping;
     private SafeFileHandle? _jobHandle;
+    private int _playersInServer = 0;
 
     public event Action<string>? OutputReceived;
     public event Action<string>? ErrorReceived;
     public event Action<bool, int>? ProcessExited;
+
+    public event Action<int>? PlayerJoined;
+    public event Action<int>? PlayerLeft;
 
     public bool IsRunning => _process != null && !_process.HasExited;
 
@@ -84,7 +88,24 @@ public sealed partial class ProcessService : IProcessService, IDisposable
                 EnableRaisingEvents = true
             };
 
-            _process.OutputDataReceived += (s, e) => { if (e.Data != null) OutputReceived?.Invoke(e.Data); };
+            _process.OutputDataReceived += (s, e) =>
+            {
+                if (e.Data != null)
+                {
+                    // Solo se ha logrado en Minecraft Bedrock Edition
+                    if (e.Data.ToLower().Contains("player connected"))
+                    {
+                        _playersInServer++;
+                        PlayerJoined?.Invoke(_playersInServer);
+                    }
+                    else if (e.Data.ToLower().Contains("player disconnected"))
+                    {
+                        _playersInServer--;
+                        PlayerLeft?.Invoke(_playersInServer);
+                    }
+                    OutputReceived?.Invoke(e.Data);
+                }
+            };
             _process.ErrorDataReceived += (s, e) => { if (e.Data != null) ErrorReceived?.Invoke(e.Data); };
 
             _process.Exited += (s, e) =>

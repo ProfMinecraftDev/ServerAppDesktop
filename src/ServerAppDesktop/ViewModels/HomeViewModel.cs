@@ -80,6 +80,21 @@ public sealed partial class HomeViewModel : ObservableRecipient, IRecipient<Serv
             });
         };
 
+        _processService.PlayerJoined += (count) =>
+        {
+            MainWindow.Instance.DispatcherQueue.TryEnqueue(() =>
+            {
+                _terminalViewModel.TerminalOutput += $"[Servidor] Un jugador se ha unido al servidor. ({count} en línea){Environment.NewLine}";
+            });
+        };
+        _processService.PlayerLeft += (count) =>
+        {
+            MainWindow.Instance.DispatcherQueue.TryEnqueue(() =>
+            {
+                _terminalViewModel.TerminalOutput += $"[Servidor] Un jugador ha salido del servidor. ({count} en línea){Environment.NewLine}";
+            });
+        };
+
         _oobeService.OOBEFinished += (val) => IsConfigured = val;
 
         _serverState = new ServerState(ServerStateType.Stopped);
