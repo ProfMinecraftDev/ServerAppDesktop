@@ -796,4 +796,7 @@ Este es el comienzo de tu viaje: un espacio donde cada ajuste se convierte en pa
   <data name="TrayTooltip_ServerRestarting" xml:space="preserve">
     <value>Server App Desktop (Preview) - Servidor Reiniciando</value>
   </data>
+  <data name="DisconnectedString" xml:space="preserve">
+    <value>Desconectado</value>
+  </data>
 </root>

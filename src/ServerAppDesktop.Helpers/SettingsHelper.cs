@@ -15,34 +15,58 @@ namespace ServerAppDesktop.Helpers
 
         public static void LoadAndSetSettings(Window window)
         {
-            if (!ExistsConfigurationFile())
-                return;
-
             string fullPath = Path.Combine(DataHelper.SettingsPath, DataHelper.SettingsFile);
 
-            // 2. Verificar que el archivo existe para evitar excepciones
-            if (File.Exists(fullPath))
+            if (!File.Exists(fullPath))
             {
-                try
-                {
-                    string jsonString = File.ReadAllText(fullPath);
-                    var context = new AppSettingsJsonContext(new JsonSerializerOptions
-                    {
-                        PropertyNameCaseInsensitive = true
-                    });
+                DataHelper.Settings = null; // O inicializa uno nuevo aquí
+                return;
+            }
 
-                    DataHelper.Settings = JsonSerializer.Deserialize(jsonString, context.AppSettings);
+            try
+            {
+                string jsonString = File.ReadAllText(fullPath);
+
+                // 1. Validar si el archivo está vacío o solo tiene espacios
+                if (string.IsNullOrWhiteSpace(jsonString))
+                {
+                    DataHelper.Settings = null;
+                    return;
                 }
-                catch
+
+                var options = new JsonSerializerOptions { PropertyNameCaseInsensitive = true };
+                var context = new AppSettingsJsonContext(options);
+
+                // 2. Deserializar
+                var result = JsonSerializer.Deserialize(jsonString, context.AppSettings);
+
+                // 3. Validar si el objeto es nulo o si tiene valores "fantasma" (como un {} vacío)
+                // Aquí chequeas una propiedad obligatoria de tu clase AppSettings, por ejemplo 'RamLimit'
+                if (result != null)
+                {
+                    // Usamos IsNullOrWhiteSpace para cubrir "", null y "   "
+                    bool isInvalid = string.IsNullOrWhiteSpace(result.Server.Path) ||
+                                     string.IsNullOrWhiteSpace(result.Server.Executable);
+
+                    if (isInvalid)
+                    {
+                        DataHelper.Settings = null;
+                    }
+                    else
+                    {
+                        DataHelper.Settings = result;
+                    }
+                }
+                else
                 {
                     DataHelper.Settings = null;
                 }
             }
-            else
+            catch
             {
-                // Si no existe, inicializar con valores por defecto
                 DataHelper.Settings = null;
             }
+
             var settings = DataHelper.Settings;
             if (settings == null)
                 return;

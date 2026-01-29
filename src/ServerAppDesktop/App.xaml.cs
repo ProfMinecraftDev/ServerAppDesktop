@@ -36,6 +36,7 @@ namespace ServerAppDesktop
                     services.AddSingleton<INavigationService, NavigationService>();
                     services.AddSingleton<IOOBEService, OOBEService>();
                     services.AddSingleton<IProcessService, ProcessService>();
+                    services.AddSingleton<IPerformanceService, PerformanceService>();
 
                     services.AddSingleton<MainViewModel>();
                     services.AddTransient<OOBEViewModel>();
@@ -73,15 +74,13 @@ namespace ServerAppDesktop
                     WindowHelper.ShowAndFocus(MainWindow.Instance);
                 });
             };
-            bool needsToShowOOBE = !SettingsHelper.ExistsConfigurationFile();
 
-            if (!needsToShowOOBE)
+            if (SettingsHelper.ExistsConfigurationFile())
                 SettingsHelper.LoadAndSetSettings(MainWindow.Instance);
+            else
+                DataHelper.Settings = null;
 
-            if (DataHelper.Settings == null)
-            {
-                needsToShowOOBE = true;
-            }
+            bool needsToShowOOBE = DataHelper.Settings == null;
 
             if (!trayOnly)
                 WindowHelper.ShowAndFocus(MainWindow.Instance);

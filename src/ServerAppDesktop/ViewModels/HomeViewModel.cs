@@ -13,12 +13,10 @@ using ServerAppDesktop.Services;
 
 namespace ServerAppDesktop.ViewModels;
 
-public sealed partial class HomeViewModel : ObservableRecipient, IRecipient<ServerStateChangedMessage>
+public sealed partial class HomeViewModel : ObservableRecipient
 {
-    private readonly TerminalViewModel _terminalViewModel;
     private readonly IOOBEService _oobeService;
     private readonly IProcessService _processService;
-
 
     // Flag de configuración (OOBE). Si es false, todo está bloqueado.
 
@@ -57,55 +55,21 @@ public sealed partial class HomeViewModel : ObservableRecipient, IRecipient<Serv
     public bool CanStopServer => IsConfigured && (ServerState?.State is ServerStateType.Running);
     public bool CanRestartServer => IsConfigured && (ServerState?.State is ServerStateType.Running);
 
-    public HomeViewModel(TerminalViewModel terminalViewModel, IOOBEService oobeService, IProcessService processService)
+    public HomeViewModel(IOOBEService oobeService, IProcessService processService)
     {
-        IsActive = true;
-        _terminalViewModel = terminalViewModel;
         _oobeService = oobeService;
         _processService = processService;
 
-        _processService.ProcessExited += (clean, code) => UpdateState(ServerStateType.Stopped, !clean && code != 0);
-        _processService.OutputReceived += (output) =>
-        {
-            MainWindow.Instance.DispatcherQueue.TryEnqueue(() =>
-            {
-                _terminalViewModel.TerminalOutput += output + Environment.NewLine;
-            });
-        };
-        _processService.ErrorReceived += (output) =>
-        {
-            MainWindow.Instance.DispatcherQueue.TryEnqueue(() =>
-            {
-                _terminalViewModel.TerminalOutput += output + Environment.NewLine;
-            });
-        };
-
-        _processService.PlayerJoined += (count) =>
-        {
-            MainWindow.Instance.DispatcherQueue.TryEnqueue(() =>
-            {
-                _terminalViewModel.TerminalOutput += $"[Servidor] Un jugador se ha unido al servidor. ({count} en línea){Environment.NewLine}";
-            });
-        };
-        _processService.PlayerLeft += (count) =>
-        {
-            MainWindow.Instance.DispatcherQueue.TryEnqueue(() =>
-            {
-                _terminalViewModel.TerminalOutput += $"[Servidor] Un jugador ha salido del servidor. ({count} en línea){Environment.NewLine}";
-            });
-        };
+        _processService.ProcessExited += (clean, code) => UpdateState(ServerStateType.Stopped, !clean && code != 0, true);
 
         _oobeService.OOBEFinished += (val) => IsConfigured = val;
 
         _serverState = new ServerState(ServerStateType.Stopped);
         IsConfigured = DataHelper.Settings != null;
-
-        if (IsConfigured && DataHelper.Settings?.Startup.AutoStartServer == true)
-            StartServer();
     }
 
     [RelayCommand(CanExecute = nameof(CanStartServer))]
-    private void StartServer()
+    private async Task StartServerAsync()
     {
         var s = DataHelper.Settings?.Server;
         if (s == null)
@@ -117,11 +81,34 @@ public sealed partial class HomeViewModel : ObservableRecipient, IRecipient<Serv
         string fileName = s.Edition == 1 ? "java.exe" : s.Executable;
 
         // Construimos los argumentos sin el "/c" del CMD
-        string args = s.Edition == 1
-            ? $" --enable-native-access=ALL-UNNAMED -Xms{s.RamLimit}M -Xmx{s.RamLimit}M -jar \"{s.Executable}\" nogui"
-            : ""; // Para Bedrock u otros, los argumentos suelen ir vacíos o personalizados
+        string[] args = s.Edition == 1
+            ? [
+                "-Dfile.encoding=UTF-8",
+                $"-Xms{s.RamLimit}M",
+                $"-Xmx{s.RamLimit}M",
+                "-XX:+UseG1GC",
+                "-XX:+ParallelRefProcEnabled",
+                "-XX:MaxGCPauseMillis=200",
+                "-XX:+UnlockExperimentalVMOptions",
+                "-XX:+DisableExplicitGC",
+                "-XX:G1NewSizePercent=30",
+                "-XX:G1MaxNewSizePercent=40",
+                "-XX:G1HeapRegionSize=8M",
+                "-XX:G1ReservePercent=20",
+                "-XX:G1HeapWastePercent=5",
+                "-XX:G1MixedGCCountTarget=4",
+                "-XX:InitiatingHeapOccupancyPercent=15",
+                "-XX:G1MixedGCLiveThresholdPercent=90",
+                "-XX:G1RSetUpdatingPauseTimePercent=5",
+                "-XX:SurvivorRatio=32",
+                "-XX:+PerfDisableSharedMem",
+                "-XX:MaxTenuringThreshold=1",
+                $"-jar \"{s.Executable}\"",
+                "nogui"
+            ]
+            : []; // Para Bedrock u otros, los argumentos suelen ir vacíos o personalizados
 
-        bool success = _processService.StartProcess(fileName, args, s.Path);
+        bool success = await _processService.StartProcessAsync(fileName, string.Join(" ", args), s.Path);
 
         if (success)
         {
@@ -159,29 +146,37 @@ public sealed partial class HomeViewModel : ObservableRecipient, IRecipient<Serv
     {
         UpdateState(ServerStateType.Restarting);
         await _processService.StopProcessAsync();
-        StartServer();
+        await StartServerAsync();
     }
 
-    private void UpdateState(ServerStateType state, bool isError = false)
+    private void UpdateState(ServerStateType state, bool isError = false, bool byProcess = false)
     {
         var dispatcher = MainWindow.Instance?.DispatcherQueue;
         if (dispatcher == null)
             return;
 
-        // Forzamos que TODO el cambio ocurra en el hilo de UI
         dispatcher.TryEnqueue(() =>
         {
+            // 1. Evitamos actualizaciones innecesarias si el estado es el mismo
+            if (ServerState?.State == state)
+                return;
+
             ServerState = new ServerState(state);
 
-            // Notificamos a los comandos para que habiliten/deshabiliten botones
-            StartServerCommand.NotifyCanExecuteChanged();
-            StopServerCommand.NotifyCanExecuteChanged();
-            RestartServerCommand.NotifyCanExecuteChanged();
+            // 3. Informamos al resto de la App vía Messenger
+            WeakReferenceMessenger.Default.Send(new ServerStateChangedMessage(ServerState));
 
-            Messenger.Send(new ServerStateChangedMessage(ServerState));
-
+            // 4. Lógica de Notificaciones Inteligente
             if (isError)
-                Notify("Error", "La operación del servidor falló.", AppNotificationScenario.Urgent);
+            {
+                Notify("Error Crítico", "El servidor se detuvo de forma inesperada.", AppNotificationScenario.Urgent);
+            }
+            else if (byProcess && state == ServerStateType.Stopped)
+            {
+                // Si se cerró "por el proceso" y no fue un error, 
+                // probablemente fue un /stop desde dentro del juego.
+                Notify("Servidor Cerrado", "El servidor se apagó correctamente desde el proceso.");
+            }
         });
     }
 
@@ -195,8 +190,6 @@ public sealed partial class HomeViewModel : ObservableRecipient, IRecipient<Serv
         }.ShowNotification();
     }
 
-    public void Receive(ServerStateChangedMessage m) => ServerState = m.Value;
-
     partial void OnServerStateChanged(ServerState? value)
     {
         if (value == null || !IsConfigured || MainWindow.Instance.TrayIcon == null)
@@ -206,6 +199,11 @@ public sealed partial class HomeViewModel : ObservableRecipient, IRecipient<Serv
         {
             try
             {
+                // Notificamos a los comandos (UI)
+                StartServerCommand.NotifyCanExecuteChanged();
+                StopServerCommand.NotifyCanExecuteChanged();
+                RestartServerCommand.NotifyCanExecuteChanged();
+
                 // El Switch de GetTooltip ahora corre seguro aquí
                 MainWindow.Instance.TrayIcon.ToolTipText = ServerUIHelper.GetTooltip(value.State);
                 MainWindow.Instance.SetIcon(ServerUIHelper.GetIconPath(value.State));
@@ -215,5 +213,26 @@ public sealed partial class HomeViewModel : ObservableRecipient, IRecipient<Serv
                 Debug.WriteLine($"Error actualizando Tray: {ex.Message}");
             }
         });
+    }
+
+    partial void OnIsConfiguredChanged(bool value)
+    {
+        if (value)
+        {
+            // 1. Despertamos a los chismosos apenas sepamos que está configurado
+            _ = App.GetRequiredService<PerformanceViewModel>();
+            _ = App.GetRequiredService<TerminalViewModel>();
+
+            // 2. Si el usuario activó el AutoStart, le damos candela al server
+            if (DataHelper.Settings?.Startup.AutoStartServer == true)
+            {
+                _ = StartServerAsync();
+            }
+        }
+        else
+        {
+            // Si por alguna razón vuelve a 'false' (un reset), paramos el estado
+            ServerState = new ServerState(ServerStateType.Stopped);
+        }
     }
 }

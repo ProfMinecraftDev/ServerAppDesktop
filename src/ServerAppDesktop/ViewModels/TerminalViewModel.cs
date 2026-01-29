@@ -14,6 +14,8 @@ namespace ServerAppDesktop.ViewModels
         private bool _isRunning = false;
         private readonly IProcessService _processService;
 
+        public event Action? TextChanged;
+
         [ObservableProperty]
         private string _terminalOutput = string.Empty;
 
@@ -30,6 +32,20 @@ namespace ServerAppDesktop.ViewModels
         {
             IsActive = true;
             _processService = processService;
+            _processService.OutputReceived += (output) =>
+            {
+                MainWindow.Instance.DispatcherQueue.TryEnqueue(() =>
+                {
+                    TerminalOutput += output + Environment.NewLine;
+                });
+            };
+            _processService.ErrorReceived += (output) =>
+            {
+                MainWindow.Instance.DispatcherQueue.TryEnqueue(() =>
+                {
+                    TerminalOutput += output + Environment.NewLine;
+                });
+            };
         }
 
         public void Receive(ServerStateChangedMessage message)
@@ -78,6 +94,11 @@ namespace ServerAppDesktop.ViewModels
                 {
                     ClipboardHelper.SetText(TerminalOutput);
                 });
+        }
+
+        partial void OnTerminalOutputChanged(string value)
+        {
+            TextChanged?.Invoke();
         }
     }
 }

@@ -70,6 +70,7 @@
 					</Grid>
 
 					<ScrollViewer
+						x:Name="ScrollOutput"
 						Grid.Row="1"
 						Margin="12,12,12,0"
 						HorizontalScrollBarVisibility="Auto"
@@ -77,6 +78,7 @@
 						VerticalScrollBarVisibility="Auto"
 						VerticalScrollMode="Enabled">
 						<TextBlock
+							x:Name="TextOutput"
 							FontFamily="Cascadia Code, Consolas, Courrier New, Lucida Console, monospace"
 							IsTextSelectionEnabled="True"
 							Text="{x:Bind ViewModel.TerminalOutput, Mode=OneWay}" />

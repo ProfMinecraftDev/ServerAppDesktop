@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Net.NetworkInformation;
 using System.Threading.Tasks;
 using Windows.Networking.Connectivity;
 
@@ -6,6 +7,7 @@ namespace ServerAppDesktop.Helpers
 {
     public static class NetworkHelper
     {
+        private static string _cachedInterfaceName;
         public static event Action<bool>? ConnectionChanged;
 
         static NetworkHelper()
@@ -34,6 +36,29 @@ namespace ServerAppDesktop.Helpers
                 ConnectionChanged?.Invoke(false);
                 return false;
             }
+        }
+
+        public static string GetNetworkInterfaceName()
+        {
+            ConnectionProfile currentProfile = NetworkInformation.GetInternetConnectionProfile();
+
+            if (currentProfile != null && currentProfile.NetworkAdapter != null)
+            {
+                var adapterId = currentProfile.NetworkAdapter.NetworkAdapterId;
+
+                NetworkInterface[] interfaces = NetworkInterface.GetAllNetworkInterfaces();
+
+                foreach (NetworkInterface ni in interfaces)
+                {
+                    if (ni.Id.Equals(adapterId.ToString("B"), StringComparison.OrdinalIgnoreCase))
+                    {
+                        _cachedInterfaceName = ni.Description;
+                        return ni.Description;
+                    }
+                }
+            }
+            _cachedInterfaceName = "null";
+            return "null";
         }
     }
 }

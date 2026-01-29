@@ -49,30 +49,35 @@
 					x:Uid="CPUCard"
 					Grid.Row="0"
 					Grid.Column="0"
+					Description="{x:Bind ViewModel.CpuUsage, Mode=OneWay}"
 					Icon="{toolkitExtensions:FontIcon Glyph=&#xE950;}" />
 
 				<controls:InfoCard
 					x:Uid="RAMCard"
 					Grid.Row="0"
 					Grid.Column="1"
+					Description="{x:Bind ViewModel.RamUsage, Mode=OneWay}"
 					Icon="{toolkitExtensions:FontIcon Glyph=&#xE964;}" />
 
 				<controls:InfoCard
 					x:Uid="NetworkCard"
 					Grid.Row="1"
 					Grid.Column="0"
+					Description="{x:Bind ViewModel.NetworkUsage, Mode=OneWay}"
 					Icon="{toolkitExtensions:FontIcon Glyph=&#xE701;}" />
 
 				<controls:InfoCard
 					x:Uid="DiskCard"
 					Grid.Row="1"
 					Grid.Column="1"
+					Description="{x:Bind ViewModel.DiskUsage, Mode=OneWay}"
 					Icon="{toolkitExtensions:FontIcon Glyph=&#xE958;}" />
 
 				<controls:SquareCard
 					x:Uid="PlayersCard"
 					Grid.Row="2"
 					Grid.ColumnSpan="2"
+					Description="{x:Bind ViewModel.PlayersOnline, Mode=OneWay}"
 					Icon="{toolkitExtensions:FontIcon Glyph=&#xE902;}" />
 			</Grid>
 		</ScrollViewer>

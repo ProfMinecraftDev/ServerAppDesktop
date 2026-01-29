@@ -147,8 +147,7 @@ namespace ServerAppDesktop.ViewModels
                 ViewMode = PickerViewMode.List
             };
 
-            picker.FileTypeFilter.Add(".exe");
-            picker.FileTypeFilter.Add(".jar");
+            picker.FileTypeFilter.Add(SelectedMinecraftEdition?.Value == 0 ? ".exe" : ".jar");
 
             var file = await picker.PickSingleFileAsync();
             ServerExecutable = file != null

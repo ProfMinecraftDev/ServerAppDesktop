@@ -15,7 +15,7 @@ namespace ServerAppDesktop.Services
 
         bool IsRunning { get; }
 
-        bool StartProcess(string fileName, string arguments, string workingDirectory);
+        Task<bool> StartProcessAsync(string fileName, string arguments, string workingDirectory);
         Task<bool> StopProcessAsync();
 
         void SendInput(string input);
