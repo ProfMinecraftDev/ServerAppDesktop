@@ -16,7 +16,7 @@
 	KeyTipPlacementMode="Top"
 	LeftClickCommand="{x:Bind ViewModel.ShowWindowCommand}"
 	NoLeftClickDelay="True"
-	ToolTipText="Server App Desktop (Preview)"
+	ToolTipText="{x:Bind ViewModel.ToolTip, Mode=OneWay}"
 	Visibility="Visible"
 	mc:Ignorable="d">
 	<tb:TaskbarIcon.ContextFlyout>

@@ -3,6 +3,7 @@ using System.Diagnostics;
 using System.IO;
 using System.Runtime.InteropServices;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.Win32.SafeHandles;
@@ -92,58 +93,62 @@ public sealed partial class ProcessService : IProcessService, IDisposable
 
             _process.OutputDataReceived += (s, e) =>
             {
-                if (string.IsNullOrWhiteSpace(e.Data))
+                string? cleanData = AnsiFormattingRegex().Replace(e.Data ?? "", string.Empty);
+
+                if (string.IsNullOrWhiteSpace(cleanData))
                     return;
 
                 // 1. Validamos que sea un mensaje de SISTEMA (ignora lo que digan los jugadores en el chat)
                 // Java usa [Server thread/INFO] y Bedrock usa [INFO] al principio
-                bool isSystem = e.Data.Contains("[Server thread/INFO]") || e.Data.Contains("INFO]");
+                bool isSystem = cleanData.Contains("[Server thread/INFO]") || e.Data.Contains("INFO]");
 
                 // Si contiene '<' usualmente es un mensaje de chat de jugador en Bedrock o Java Vanilla
-                bool isChat = e.Data.Contains('<') && e.Data.Contains('>');
+                bool isChat = cleanData.Contains('<') && e.Data.Contains('>');
 
                 if (isSystem && !isChat)
                 {
                     // 2. ¿Servidor listo?
                     if (!_tcs.Task.IsCompleted &&
-                        (e.Data.Contains("Done (", StringComparison.OrdinalIgnoreCase) ||
-                         e.Data.Contains("Server started.", StringComparison.OrdinalIgnoreCase)))
+                        (cleanData.Contains("Done (", StringComparison.OrdinalIgnoreCase) ||
+                         cleanData.Contains("Server started.", StringComparison.OrdinalIgnoreCase)))
                     {
                         _tcs.TrySetResult();
                     }
 
                     // 3. Contador de jugadores (Solo si la línea NO es un /say o chat)
                     // Buscamos patrones específicos que el servidor imprime al conectar/desconectar
-                    if (e.Data.Contains("joined the game", StringComparison.OrdinalIgnoreCase) ||
-                        e.Data.Contains("player connected", StringComparison.OrdinalIgnoreCase))
+                    if (cleanData.Contains("joined the game", StringComparison.OrdinalIgnoreCase) ||
+                        cleanData.Contains("player connected", StringComparison.OrdinalIgnoreCase))
                     {
                         _playersInServer++;
                         PlayerJoined?.Invoke(_playersInServer);
                     }
-                    else if (e.Data.Contains("left the game", StringComparison.OrdinalIgnoreCase) ||
-                             e.Data.Contains("player disconnected", StringComparison.OrdinalIgnoreCase))
+                    else if (cleanData.Contains("left the game", StringComparison.OrdinalIgnoreCase) ||
+                             cleanData.Contains("player disconnected", StringComparison.OrdinalIgnoreCase))
                     {
                         _playersInServer = Math.Max(0, _playersInServer - 1);
                         PlayerLeft?.Invoke(_playersInServer);
                     }
                 }
 
-                OutputReceived?.Invoke(e.Data);
+                OutputReceived?.Invoke(cleanData);
             };
             _process.ErrorDataReceived += (s, e) =>
             {
-                if (e.Data is not null)
+                string? cleanData = AnsiFormattingRegex().Replace(e.Data ?? "", string.Empty);
+
+                if (string.IsNullOrWhiteSpace(cleanData))
+                    return;
+
+                if (!_tcs.Task.IsCompleted &&
+                    (cleanData.Contains("FATAL", StringComparison.OrdinalIgnoreCase) ||
+                     cleanData.Contains("ERROR", StringComparison.OrdinalIgnoreCase) ||
+                     cleanData.Contains("Exception in thread", StringComparison.OrdinalIgnoreCase)))
                 {
-                    if (!_tcs.Task.IsCompleted &&
-                        (e.Data.Contains("FATAL", StringComparison.OrdinalIgnoreCase) ||
-                         e.Data.Contains("ERROR", StringComparison.OrdinalIgnoreCase) ||
-                         e.Data.Contains("Exception in thread", StringComparison.OrdinalIgnoreCase)))
-                    {
-                        // Si detectamos un error crítico antes de que diga "Done", cancelamos la espera
-                        _tcs.TrySetException(new Exception("El servidor falló al iniciar. Revisa la consola."));
-                    }
-                    ErrorReceived?.Invoke(e.Data);
+                    // Si detectamos un error crítico antes de que diga "Done", cancelamos la espera
+                    _tcs.TrySetException(new Exception("El servidor falló al iniciar. Revisa la consola."));
                 }
+                ErrorReceived?.Invoke(cleanData);
             };
 
             _process.Exited += (s, e) =>
@@ -241,4 +246,7 @@ public sealed partial class ProcessService : IProcessService, IDisposable
 
         Cleanup();
     }
+
+    [GeneratedRegex(@"\x1B\[[0-9;]*[mK]")]
+    private static partial Regex AnsiFormattingRegex();
 }

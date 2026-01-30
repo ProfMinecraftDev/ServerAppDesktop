@@ -16,6 +16,9 @@ namespace ServerAppDesktop.ViewModels
         [ObservableProperty]
         private string _icon = "";
 
+        [ObservableProperty]
+        private string _toolTip = "Server App Desktop (Preview)";
+
         [RelayCommand]
         private void RestartApp() => AppInstance.Restart("");
 
@@ -49,6 +52,7 @@ namespace ServerAppDesktop.ViewModels
         public void Receive(ServerStateChangedMessage message)
         {
             Icon = ServerUIHelper.GetIconPath(message.Value.State);
+            ToolTip = ServerUIHelper.GetTooltip(message.Value.State);
         }
     }
 }

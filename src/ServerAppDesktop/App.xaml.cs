@@ -37,6 +37,7 @@ namespace ServerAppDesktop
                     services.AddSingleton<IOOBEService, OOBEService>();
                     services.AddSingleton<IProcessService, ProcessService>();
                     services.AddSingleton<IPerformanceService, PerformanceService>();
+                    services.AddSingleton<INetworkService, NetworkService>();
 
                     services.AddSingleton<MainViewModel>();
                     services.AddTransient<OOBEViewModel>();

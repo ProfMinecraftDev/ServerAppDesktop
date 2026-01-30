@@ -17,6 +17,7 @@ public sealed partial class HomeViewModel : ObservableRecipient
 {
     private readonly IOOBEService _oobeService;
     private readonly IProcessService _processService;
+    private readonly INetworkService _networkService;
 
     // Flag de configuración (OOBE). Si es false, todo está bloqueado.
 
@@ -55,10 +56,11 @@ public sealed partial class HomeViewModel : ObservableRecipient
     public bool CanStopServer => IsConfigured && (ServerState?.State is ServerStateType.Running);
     public bool CanRestartServer => IsConfigured && (ServerState?.State is ServerStateType.Running);
 
-    public HomeViewModel(IOOBEService oobeService, IProcessService processService)
+    public HomeViewModel(IOOBEService oobeService, IProcessService processService, INetworkService networkService)
     {
         _oobeService = oobeService;
         _processService = processService;
+        _networkService = networkService;
 
         _processService.ProcessExited += (clean, code) => UpdateState(ServerStateType.Stopped, !clean && code != 0, true);
 
@@ -66,6 +68,7 @@ public sealed partial class HomeViewModel : ObservableRecipient
 
         _serverState = new ServerState(ServerStateType.Stopped);
         IsConfigured = DataHelper.Settings != null;
+        _networkService = networkService;
     }
 
     [RelayCommand(CanExecute = nameof(CanStartServer))]
@@ -83,6 +86,7 @@ public sealed partial class HomeViewModel : ObservableRecipient
         // Construimos los argumentos sin el "/c" del CMD
         string[] args = s.Edition == 1
             ? [
+                "--enable-native-access=ALL-UNNAMED",
                 "-Dfile.encoding=UTF-8",
                 $"-Xms{s.RamLimit}M",
                 $"-Xmx{s.RamLimit}M",
@@ -205,7 +209,6 @@ public sealed partial class HomeViewModel : ObservableRecipient
                 RestartServerCommand.NotifyCanExecuteChanged();
 
                 // El Switch de GetTooltip ahora corre seguro aquí
-                MainWindow.Instance.TrayIcon.ToolTipText = ServerUIHelper.GetTooltip(value.State);
                 MainWindow.Instance.SetIcon(ServerUIHelper.GetIconPath(value.State));
             }
             catch (Exception ex)
@@ -228,6 +231,19 @@ public sealed partial class HomeViewModel : ObservableRecipient
             {
                 _ = StartServerAsync();
             }
+
+            _ = Task.Run(async () =>
+            {
+                string publicIP = await _networkService.GetPublicIPAsync();
+
+                MainWindow.Instance.DispatcherQueue.TryEnqueue(() =>
+                {
+                    ServerIP = $"""
+                {_networkService.GetLocalIP()} (Local)
+                {publicIP} (Pública)
+                """;
+                });
+            });
         }
         else
         {
