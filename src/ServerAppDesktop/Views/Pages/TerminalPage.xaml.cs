@@ -20,7 +20,6 @@ namespace ServerAppDesktop.Views.Pages
         public TerminalPage()
         {
             InitializeComponent();
-            ViewModel.TextChanged += () => { ScrollOutput.ChangeView(null, ScrollOutput.VerticalOffset, null); };
         }
 
         private void CommandInput_KeyDown(object sender, KeyRoutedEventArgs e)

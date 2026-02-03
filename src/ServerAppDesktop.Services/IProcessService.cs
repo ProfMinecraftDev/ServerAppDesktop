@@ -10,8 +10,7 @@ namespace ServerAppDesktop.Services
 
         event Action<bool, int>? ProcessExited;
 
-        event Action<int>? PlayerJoined;
-        event Action<int>? PlayerLeft;
+        event Action<int>? PlayerCountChanged;
 
         bool IsRunning { get; }
 

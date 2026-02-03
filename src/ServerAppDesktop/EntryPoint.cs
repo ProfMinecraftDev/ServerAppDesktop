@@ -7,6 +7,9 @@ using Microsoft.UI.Dispatching;
 using Microsoft.UI.Xaml;
 using Microsoft.Windows.AppNotifications;
 using ServerAppDesktop.Helpers;
+using Windows.Win32;
+using Windows.Win32.Foundation;
+using Windows.Win32.UI.WindowsAndMessaging;
 using WinRT;
 
 namespace ServerAppDesktop
@@ -16,7 +19,16 @@ namespace ServerAppDesktop
         [STAThread]
         static async Task<int> Main(string[] _args)
         {
-            WindowHelper.RegisterAUMID();
+            if (Environment.OSVersion.Version.Build < 19041)
+            {
+                PInvoke.MessageBox(
+                    HWND.Null,
+                    "Tu versión de Windows es demasiado antigua (requiere 19041+).\nPor favor, actualiza el sistema para utilizar Server App Desktop.",
+                    "Error de Compatibilidad",
+                    MESSAGEBOX_STYLE.MB_OK | MESSAGEBOX_STYLE.MB_ICONERROR | MESSAGEBOX_STYLE.MB_TOPMOST);
+                return 1;
+            }
+            PInvoke.SetCurrentProcessExplicitAppUserModelID(DataHelper.WindowIdentifier);
             string[] args = [.. _args.Select(s => s.ToLowerInvariant())];
 
             ComWrappersSupport.InitializeComWrappers();

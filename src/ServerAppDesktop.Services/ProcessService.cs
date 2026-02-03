@@ -26,8 +26,7 @@ public sealed partial class ProcessService : IProcessService, IDisposable
     public event Action<string>? ErrorReceived;
     public event Action<bool, int>? ProcessExited;
 
-    public event Action<int>? PlayerJoined;
-    public event Action<int>? PlayerLeft;
+    public event Action<int>? PlayerCountChanged;
 
     public bool IsRunning => _process != null && !_process.HasExited;
 
@@ -100,10 +99,10 @@ public sealed partial class ProcessService : IProcessService, IDisposable
 
                 // 1. Validamos que sea un mensaje de SISTEMA (ignora lo que digan los jugadores en el chat)
                 // Java usa [Server thread/INFO] y Bedrock usa [INFO] al principio
-                bool isSystem = cleanData.Contains("[Server thread/INFO]") || e.Data.Contains("INFO]");
+                bool isSystem = cleanData.Contains("[Server thread/INFO]") || cleanData.Contains("INFO]");
 
                 // Si contiene '<' usualmente es un mensaje de chat de jugador en Bedrock o Java Vanilla
-                bool isChat = cleanData.Contains('<') && e.Data.Contains('>');
+                bool isChat = cleanData.Contains('<') && cleanData.Contains('>');
 
                 if (isSystem && !isChat)
                 {
@@ -115,19 +114,21 @@ public sealed partial class ProcessService : IProcessService, IDisposable
                         _tcs.TrySetResult();
                     }
 
-                    // 3. Contador de jugadores (Solo si la línea NO es un /say o chat)
-                    // Buscamos patrones específicos que el servidor imprime al conectar/desconectar
-                    if (cleanData.Contains("joined the game", StringComparison.OrdinalIgnoreCase) ||
-                        cleanData.Contains("player connected", StringComparison.OrdinalIgnoreCase))
+                    // 3. Contador de jugadores (Lógica unificada para Arclight + Geyser)
+                    // Filtramos para que solo cuente cuando el hilo oficial de Java (Server thread) de la orden.
+
+                    // Detectamos la entrada
+                    if (cleanData.Contains("[Server thread/INFO]") && cleanData.Contains("joined the game", StringComparison.OrdinalIgnoreCase))
                     {
+                        // Esto atrapará tanto a "Player" como a ".ProMinecraft426" una sola vez.
                         _playersInServer++;
-                        PlayerJoined?.Invoke(_playersInServer);
+                        PlayerCountChanged?.Invoke(_playersInServer);
                     }
-                    else if (cleanData.Contains("left the game", StringComparison.OrdinalIgnoreCase) ||
-                             cleanData.Contains("player disconnected", StringComparison.OrdinalIgnoreCase))
+                    // Detectamos la salida
+                    else if (cleanData.Contains("[Server thread/INFO]") && cleanData.Contains("left the game", StringComparison.OrdinalIgnoreCase))
                     {
                         _playersInServer = Math.Max(0, _playersInServer - 1);
-                        PlayerLeft?.Invoke(_playersInServer);
+                        PlayerCountChanged?.Invoke(_playersInServer);
                     }
                 }
 
@@ -216,6 +217,7 @@ public sealed partial class ProcessService : IProcessService, IDisposable
         {
             Cleanup();
             _isStopping = false;
+            PlayerCountChanged?.Invoke(0);
         }
     }
 

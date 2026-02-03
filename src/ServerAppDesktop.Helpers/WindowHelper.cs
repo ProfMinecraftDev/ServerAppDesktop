@@ -42,9 +42,6 @@ namespace ServerAppDesktop.Helpers
             return false;
         }
 
-        public static void RegisterAUMID() =>
-            PInvoke.SetCurrentProcessExplicitAppUserModelID(DataHelper.WindowIdentifier);
-
         public static void SetTheme(Window window, ElementTheme elementTheme)
         {
             var content = (FrameworkElement)window.Content;

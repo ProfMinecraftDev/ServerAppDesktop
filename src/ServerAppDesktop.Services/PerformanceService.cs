@@ -1,94 +1,119 @@
 ﻿using System;
 using System.Diagnostics;
+using System.Threading.Tasks;
 using ServerAppDesktop.Helpers;
 
 namespace ServerAppDesktop.Services
 {
     public sealed class PerformanceService : IPerformanceService
     {
-        private readonly PerformanceCounter _cpuCounter;
-        private readonly PerformanceCounter _ramCounter;
-        private readonly PerformanceCounter _diskWriteCounter;
-        private readonly PerformanceCounter _diskReadCounter;
-        private readonly PerformanceCounter? _networkUploadCounter;
-        private readonly PerformanceCounter? _networkDownloadCounter;
-        private readonly PerformanceCounter _pBase;
-        private readonly PerformanceCounter _pPercent;
+        private PerformanceCounter? _cpuCounter, _ramCounter, _diskWriteCounter, _diskReadCounter;
+        private PerformanceCounter? _networkUploadCounter, _networkDownloadCounter;
+        private PerformanceCounter? _pBase, _pPercent;
+
+        public int TotalMemory { get; }
+        public bool IsInitialized { get; private set; }
 
         public PerformanceService()
         {
-            string netInterface = NetworkHelper.GetNetworkInterfaceName();
+            // 1. RAM Física (Instantáneo)
+            var gcInfo = GC.GetGCMemoryInfo();
+            TotalMemory = (int)(gcInfo.TotalAvailableMemoryBytes / 1024 / 1024);
 
-            // Inicializamos TODOS una sola vez
-            _cpuCounter = new PerformanceCounter("Processor", "% Processor Time", "_Total");
-            _ramCounter = new PerformanceCounter("Memory", "Available MBytes");
-            _diskWriteCounter = new PerformanceCounter("PhysicalDisk", "Disk Write Bytes/sec", "_Total");
-            _diskReadCounter = new PerformanceCounter("PhysicalDisk", "Disk Read Bytes/sec", "_Total");
-            _pBase = new PerformanceCounter("Processor Information", "Processor Frequency", "_Total");
-            _pPercent = new PerformanceCounter("Processor Information", "% of Maximum Frequency", "_Total");
-
-            // Solo si la interfaz existe evitamos el crash
-            if (!string.IsNullOrEmpty(netInterface))
-            {
-                _networkUploadCounter = new PerformanceCounter("Network Interface", "Bytes Sent/sec", netInterface);
-                _networkDownloadCounter = new PerformanceCounter("Network Interface", "Bytes Received/sec", netInterface);
-            }
-
-            // Calentamos los contadores (el primer NextValue siempre es basura/0)
-            _cpuCounter.NextValue();
-            _pBase.NextValue();
-            _pPercent.NextValue();
+            // 2. Ejecutar carga sin bloquear el hilo principal
+            _ = Task.Run(StartCounters);
         }
 
-        public int GetCpuUsagePercentage()
+        private void StartCounters()
         {
-            // El primer NextValue() siempre da 0, el segundo ya da la lectura real
-            return (int)_cpuCounter.NextValue();
+            if (IsInitialized)
+                return;
+            try
+            {
+                string netInterface = NetworkHelper.GetNetworkInterfaceName();
+
+                // Instanciación en paralelo para ahorrar tiempo (de ~2s a ~0.4s)
+                Parallel.Invoke(
+                    () => _cpuCounter = new("Processor", "% Processor Time", "_Total"),
+                    () => _ramCounter = new("Memory", "Available MBytes"),
+                    () => _diskWriteCounter = new("PhysicalDisk", "Disk Write Bytes/sec", "_Total"),
+                    () => _diskReadCounter = new("PhysicalDisk", "Disk Read Bytes/sec", "_Total"),
+                    () => _pBase = new("Processor Information", "Processor Frequency", "_Total"),
+                    () => _pPercent = new("Processor Information", "% of Maximum Frequency", "_Total"),
+                    () =>
+                    {
+                        if (!string.IsNullOrEmpty(netInterface))
+                        {
+                            _networkUploadCounter = new("Network Interface", "Bytes Sent/sec", netInterface);
+                            _networkDownloadCounter = new("Network Interface", "Bytes Received/sec", netInterface);
+                        }
+                    }
+                );
+
+                // "Calentamiento": La primera lectura siempre es 0
+                _cpuCounter?.NextValue();
+                _pBase?.NextValue();
+                _pPercent?.NextValue();
+
+                IsInitialized = true;
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine($"[PerfService] Error en carga: {ex.Message}");
+            }
         }
+
+        // --- MÉTODOS DE LECTURA BLINDADOS ---
+
+        public int GetCpuUsagePercentage() => (int)(_cpuCounter?.NextValue() ?? 0);
 
         public float GetCpuUsageInGHz()
         {
-            // 1. Necesitamos la frecuencia máxima (Base)
-            // Esto lo puedes cachear en el constructor para no pedirlo cada segundo
-            float baseFrequency = _pBase.NextValue(); // Ej: 3600 (MHz)
-
-            // 2. Necesitamos el % de rendimiento actual respecto a la base
-            float percent = _pPercent.NextValue();
-
-            // 3. Calculamos: (Frecuencia Base * Porcentaje) / 1000 para pasar a GHz
-            float currentGHz = (baseFrequency * (percent / 100f)) / 1000f;
-
-            return (float)Math.Round(currentGHz, 2);
+            if (_pBase == null || _pPercent == null)
+                return 0f;
+            try
+            {
+                // Frecuencia actual = (Frecuencia Base * % de uso de frecuencia)
+                float currentGHz = (_pBase.NextValue() * (_pPercent.NextValue() / 100f)) / 1000f;
+                return (float)Math.Round(currentGHz, 2);
+            }
+            catch { return 0f; }
         }
 
         public int GetUsedMemory()
         {
-            // El contador de "Memory" nos da lo DISPONIBLE. 
-            // Para sacar el USADO: Total - Disponible.
-            int total = GetTotalMemory();
-            int available = (int)_ramCounter.NextValue();
-            return total - available;
+            if (_ramCounter == null)
+                return 0;
+            try
+            {
+                int available = (int)_ramCounter.NextValue();
+                return Math.Max(0, TotalMemory - available);
+            }
+            catch { return 0; }
         }
 
         public int GetUsedMemoryPercentage()
         {
-            int total = GetTotalMemory();
-            int used = GetUsedMemory();
-            return (int)((used / (float)total) * 100);
+            if (TotalMemory <= 0)
+                return 0;
+            return (int)((GetUsedMemory() / (float)TotalMemory) * 100);
         }
 
-        public int GetTotalMemory()
+        public int GetNetworkUploadSpeed() => GetSafeValue(_networkUploadCounter);
+        public int GetNetworkDownloadSpeed() => GetSafeValue(_networkDownloadCounter);
+        public int GetDiskWriteSpeed() => GetSafeValue(_diskWriteCounter);
+        public int GetDiskReadSpeed() => GetSafeValue(_diskReadCounter);
+
+        private int GetSafeValue(PerformanceCounter? counter)
         {
-            // Usamos el Helper de Windows para obtener la RAM física total
-            var gcStatus = GC.GetGCMemoryInfo();
-            return (int)(gcStatus.TotalAvailableMemoryBytes / 1024 / 1024);
+            if (counter == null)
+                return 0;
+            try
+            {
+                // Convertimos Bytes/sec a KB/sec
+                return (int)(counter.NextValue() / 1024);
+            }
+            catch { return 0; }
         }
-
-        // Para la red (Bytes -> Kilobits o Kilobytes)
-        public int GetNetworkUploadSpeed() => (int)(_networkUploadCounter?.NextValue() / 1024 ?? 0);
-        public int GetNetworkDownloadSpeed() => (int)(_networkDownloadCounter?.NextValue() / 1024 ?? 0);
-
-        public int GetDiskWriteSpeed() => (int)(_diskWriteCounter.NextValue() / 1024);
-        public int GetDiskReadSpeed() => (int)(_diskReadCounter.NextValue() / 1024);
     }
 }

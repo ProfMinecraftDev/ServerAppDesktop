@@ -39,11 +39,7 @@ namespace ServerAppDesktop.ViewModels
             IsActive = true;
             _processService = processService;
             _performanceService = performanceService;
-            _processService.PlayerJoined += (players) =>
-            {
-                MainWindow.Instance.DispatcherQueue.TryEnqueue(() => PlayersOnline = players.ToString());
-            };
-            _processService.PlayerLeft += (players) =>
+            _processService.PlayerCountChanged += (players) =>
             {
                 MainWindow.Instance.DispatcherQueue.TryEnqueue(() => PlayersOnline = players.ToString());
             };
@@ -55,24 +51,20 @@ namespace ServerAppDesktop.ViewModels
             _timer.Tick += OnTick;
         }
 
-        private async void OnTick(object? sender, object e)
+        private void OnTick(object? sender, object e)
         {
             if (IsServerRunning)
             {
                 // Ejecutamos la telemetría en un hilo de fondo
-                var metrics = await Task.Run(() => new
-                {
-                    Cpu = $"{_performanceService.GetCpuUsagePercentage()}% ({_performanceService.GetCpuUsageInGHz()} GHz)",
-                    Ram = $"{_performanceService.GetUsedMemoryPercentage()}% ({_performanceService.GetUsedMemory()} MB / {_performanceService.GetTotalMemory()} MB)",
-                    Net = $"{_performanceService.GetNetworkUploadSpeed()} KB/s ↑ | {_performanceService.GetNetworkDownloadSpeed()} KB/s ↓",
-                    Disk = $"{_performanceService.GetDiskWriteSpeed()} KB/s W | {_performanceService.GetDiskReadSpeed()} KB/s R"
-                });
-
-                // Al asignar, el CommunityToolkit actualiza la UI automáticamente
-                CpuUsage = metrics.Cpu;
-                RamUsage = metrics.Ram;
-                NetworkUsage = metrics.Net;
-                DiskUsage = metrics.Disk;
+                _ = Task.Run(() =>
+                    MainWindow.Instance?.DispatcherQueue.TryEnqueue(() =>
+                    {
+                        CpuUsage = $"{_performanceService.GetCpuUsagePercentage()}% ({_performanceService.GetCpuUsageInGHz()} GHz)";
+                        RamUsage = $"{_performanceService.GetUsedMemoryPercentage()}% ({_performanceService.GetUsedMemory()} MB / {_performanceService.TotalMemory} MB)";
+                        NetworkUsage = $"{_performanceService.GetNetworkUploadSpeed()} KB/s ↑ | {_performanceService.GetNetworkDownloadSpeed()} KB/s ↓";
+                        DiskUsage = $"{_performanceService.GetDiskWriteSpeed()} KB/s W | {_performanceService.GetDiskReadSpeed()} KB/s R";
+                    })
+                );
             }
         }
 

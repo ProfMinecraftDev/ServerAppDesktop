@@ -17,8 +17,6 @@
 			<converters:BoolToYesNoStringConverter x:Key="BoolToYesNoStringConverter" />
 			<converters:StringToImageSourceConverter x:Key="StringToImageSourceConverter" />
 
-
-
 			<Style
 				x:Key="CautionButtonStyle"
 				BasedOn="{StaticResource DefaultButtonStyle}"

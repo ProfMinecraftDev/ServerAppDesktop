@@ -2,18 +2,17 @@
 {
     public interface IPerformanceService
     {
-        public int GetCpuUsagePercentage();
-        public float GetCpuUsageInGHz();
+        int GetCpuUsagePercentage();
+        float GetCpuUsageInGHz();
 
-        public int GetTotalMemory();
-        public int GetUsedMemory();
-        public int GetUsedMemoryPercentage();
+        int TotalMemory { get; }
+        int GetUsedMemory();
+        int GetUsedMemoryPercentage();
 
-        public int GetDiskWriteSpeed();
-        public int GetDiskReadSpeed();
+        int GetDiskWriteSpeed();
+        int GetDiskReadSpeed();
 
-        public int GetNetworkUploadSpeed();
-        public int GetNetworkDownloadSpeed();
-
+        int GetNetworkUploadSpeed();
+        int GetNetworkDownloadSpeed();
     }
 }

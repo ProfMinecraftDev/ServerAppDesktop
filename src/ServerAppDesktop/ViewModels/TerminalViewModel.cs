@@ -14,8 +14,6 @@ namespace ServerAppDesktop.ViewModels
         private bool _isRunning = false;
         private readonly IProcessService _processService;
 
-        public event Action? TextChanged;
-
         [ObservableProperty]
         private string _terminalOutput = string.Empty;
 
@@ -94,11 +92,6 @@ namespace ServerAppDesktop.ViewModels
                 {
                     ClipboardHelper.SetText(TerminalOutput);
                 });
-        }
-
-        partial void OnTerminalOutputChanged(string value)
-        {
-            TextChanged?.Invoke();
         }
     }
 }

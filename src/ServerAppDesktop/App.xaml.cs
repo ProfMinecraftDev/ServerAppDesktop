@@ -100,7 +100,7 @@ namespace ServerAppDesktop
                         DataHelper.GitHubUsername,
                         DataHelper.GitHubRepository,
                         DataHelper.AppVersionTag,
-                        DataHelper.UpdateChannel
+                        DataHelper.UpdateChannel == 1
                     );
 
                     if (mainViewModel.ReleaseInfo != null)
@@ -134,6 +134,7 @@ namespace ServerAppDesktop
                 );
             }
         }
+
         public static void OnNotificationInvoked(AppNotificationManager sender, AppNotificationActivatedEventArgs args)
         {
             // 1. Sacar el argumento que pusiste en el botón
