@@ -15,6 +15,7 @@
 		<ApplicationIcon>Assets\AppIcon.ico</ApplicationIcon>
 		<PublishDir>$(SolutionDir)\export\publish\</PublishDir>
 	</PropertyGroup>
+
 	<ItemGroup>
 		<None Remove="MainWindow.xaml" />
 		<None Remove="AppTrayIcon.xaml" />
@@ -32,22 +33,30 @@
 		<None Remove="Views\Pages\AboutPages\AboutPage.xaml" />
 		<None Remove="Views\Pages\AboutPages\ThirdPartyLicensesPage.xaml" />
 	</ItemGroup>
+
 	<ItemGroup>
+		<AdditionalFiles Include="NativeMethods.json" />
 		<AdditionalFiles Include="NativeMethods.txt" />
+	</ItemGroup>
+
+	<ItemGroup>
 		<Manifest Include="$(ApplicationManifest)" />
 		<Folder Include="Assets" />
 		<Content Include="Assets\**">
 			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 		</Content>
 	</ItemGroup>
+
 	<ItemGroup>
-		<None Include="$(LOCALAPPDATA)\Server App Desktop (Preview)\Settings\appsettings*.json" Condition="Exists('$(LOCALAPPDATA)\Server App Desktop (Preview)\Settings')">
+		<None Include="$(LOCALAPPDATA)\Server App Desktop (Preview)\Settings\appsettings*.json"
+			  Condition="Exists('$(LOCALAPPDATA)\Server App Desktop (Preview)\Settings')">
 			<Link>External\Preview\Settings\%(FileName)%(Extension)</Link>
 			<CopyToOutputDirectory>Never</CopyToOutputDirectory>
 			<Visible>true</Visible>
 		</None>
 
-		<None Include="$(LOCALAPPDATA)\Server App Desktop\Settings\appsettings*.json" Condition="Exists('$(LOCALAPPDATA)\Server App Desktop\Settings')">
+		<None Include="$(LOCALAPPDATA)\Server App Desktop\Settings\appsettings*.json"
+			  Condition="Exists('$(LOCALAPPDATA)\Server App Desktop\Settings')">
 			<Link>External\Production\Settings\%(FileName)%(Extension)</Link>
 			<CopyToOutputDirectory>Never</CopyToOutputDirectory>
 			<Visible>true</Visible>
@@ -87,7 +96,7 @@
 			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
 		</PackageReference>
 	</ItemGroup>
-	
+
 	<ItemGroup>
 		<Page Update="Views\Pages\AboutPages\AppInfoPage.xaml">
 			<Generator>MSBuild:Compile</Generator>

@@ -1,4 +1,4 @@
-<Project>
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
 	<Target Name="VerifyArchitecture"
 			BeforeTargets="BeforeBuild">
 		<Error Text="La arquitectura debe ser x64 para Server App Desktop. Detectado: $(Platform)"
