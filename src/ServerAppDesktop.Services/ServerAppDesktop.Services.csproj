@@ -3,31 +3,25 @@
 		<TargetFramework>net10.0-windows10.0.26100.0</TargetFramework>
 		<TargetPlatformMinVersion>10.0.19041.0</TargetPlatformMinVersion>
 		<RootNamespace>ServerAppDesktop.Services</RootNamespace>
-		<Platforms>x64</Platforms>
-		<Platform>x64</Platform>
-		<WindowsPackageType>None</WindowsPackageType>
-		<WindowsAppSDKWinUI>true</WindowsAppSDKWinUI>
-		<UseWinUI>true</UseWinUI>
-		<EnableMsixTooling>true</EnableMsixTooling>
-		<Nullable>enable</Nullable>
 		<AllowUnsafeBlocks>true</AllowUnsafeBlocks>
-		<RuntimeIdentifier>win-x64</RuntimeIdentifier>
 	</PropertyGroup>
 
 	<ItemGroup>
+		<PackageReference Include="Microsoft.Windows.SDK.BuildTools"
+						  Version="10.0.26100.7705" />
+		<PackageReference Include="Microsoft.WindowsAppSDK"
+						  Version="1.8.260209005" />
 		<PackageReference Include="Microsoft.Windows.CsWin32"
 						  Version="0.3.269">
 			<PrivateAssets>all</PrivateAssets>
 			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
 		</PackageReference>
-		<PackageReference Include="Microsoft.Windows.SDK.BuildTools"
-						  Version="10.0.26100.7463" />
-		<PackageReference Include="Microsoft.WindowsAppSDK"
-						  Version="1.8.260101001" />
+		<PackageReference Include="ProfMinecraftDev.CSharpEx"
+						  Version="1.0.1" />
 		<PackageReference Include="System.Diagnostics.PerformanceCounter"
-						  Version="10.0.2" />
+						  Version="10.0.3" />
 	</ItemGroup>
-
+	
 	<ItemGroup>
 		<ProjectReference Include="..\ServerAppDesktop.Helpers\ServerAppDesktop.Helpers.csproj" />
 		<ProjectReference Include="..\ServerAppDesktop.Models\ServerAppDesktop.Models.csproj" />

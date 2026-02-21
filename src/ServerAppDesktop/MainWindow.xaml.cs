@@ -1,156 +1,105 @@
-using System;
-using Microsoft.UI;
-using Microsoft.UI.Windowing;
-using Microsoft.UI.Xaml.Controls;
-using ServerAppDesktop.Helpers;
-using ServerAppDesktop.Services;
-using ServerAppDesktop.ViewModels;
-using Windows.System;
-using WinUIEx;
-
 namespace ServerAppDesktop
 {
     public sealed partial class MainWindow : WindowEx
     {
         private static MainWindow? _instance;
-        public static MainWindow Instance
-        {
-            get
-            {
-                if (_instance == null)
-                    _instance = new MainWindow();
+        private static bool _isInitialized = false;
+        private readonly IWindowHandler _windowHandler;
+        private readonly MainViewModel _viewModel;
+        private readonly HomeViewModel _homeViewModel;
+        private readonly INavigationService _navigationService;
 
-                return _instance;
+        public static MainWindow Instance => _instance ?? throw new Exception("MainWindow no ha sido inicializada. Llama a Initialize primero.");
+        public bool IsMouseOverTitleBar { get; set; } = false;
+        public static void Initialize()
+        {
+            if (_isInitialized)
+                return;
+            if (_instance == null)
+            {
+                _instance = new MainWindow();
+                _isInitialized = true;
             }
         }
 
-        public MainViewModel ViewModel => App.GetRequiredService<MainViewModel>();
-        private bool CloseInSystemTray { get => DataHelper.Settings?.Startup.CloseInSystemTray ?? true; }
+        public MainViewModel ViewModel => _viewModel;
 
         private MainWindow()
         {
             InitializeComponent();
-            UpdateFullScreenUI(false);
 
-            NetworkHelper.ConnectionChanged += async (isConnected) =>
+            _windowHandler = App.GetRequiredService<IWindowHandler>();
+            _windowHandler.SetWindow(this);
+            _viewModel = App.GetRequiredService<MainViewModel>();
+            _homeViewModel = App.GetRequiredService<HomeViewModel>();
+            _navigationService = App.GetRequiredService<INavigationService>();
+
+            PersistenceId = "ServerAppDesktopPreviewMainWindow";
+
+            TitleBar.PointerEntered += (_, _) =>
             {
-                DispatcherQueue.TryEnqueue(async () =>
+                IsMouseOverTitleBar = true;
+                try
                 {
-                    ViewModel.IsConnectedToInternet = isConnected;
-                    if (!isConnected)
+                    if (!_windowHandler.WindowClosed && PresenterKind == AppWindowPresenterKind.FullScreen)
+                        TitleBar.Height = 48;
+                }
+                catch { }
+            };
+
+            TitleBar.PointerExited += async (_, _) =>
+            {
+                IsMouseOverTitleBar = false;
+                try
+                {
+                    if (!_windowHandler.WindowClosed && PresenterKind == AppWindowPresenterKind.FullScreen)
                     {
-                        internetInfoBar.Title = ResourceHelper.GetString("InternetInfoBar_Warning_Title");
-                        internetInfoBar.Message = ResourceHelper.GetString("InternetInfoBar_Warning_Message");
-                        internetInfoBar.Severity = InfoBarSeverity.Warning;
+                        await Task.Delay(1000);
+                        if (!IsMouseOverTitleBar && PresenterKind == AppWindowPresenterKind.FullScreen)
+                            TitleBar.Height = 2;
                     }
-                    else
+                }
+                catch { }
+            };
+
+            NetworkHelper.ConnectionChanged += (isConnected) =>
+            {
+                DispatcherQueue.TryEnqueue(() =>
+                {
+                    if (!(ViewModel.IsConnectedToInternet && isConnected))
                     {
-                        internetInfoBar.Title = ResourceHelper.GetString("InternetInfoBar_Reconnected_Title");
-                        internetInfoBar.Message = ResourceHelper.GetString("InternetInfoBar_Reconnected_Message");
+                        ViewModel.IsConnectedToInternet = isConnected;
+                        _windowHandler.HandleNetworkUIUpdate(internetInfoBar, isConnected);
                     }
                 });
             };
 
+            if (Content is Grid grid)
+            {
+                grid.Loaded += (_, _) => _homeViewModel.IsConfigured = DataHelper.Settings != null;
+                grid.DataContext = ViewModel;
+                grid.KeyDown += (_, e) => OnF11OrEscapeInvoked(e.Key);
+            }
 
-            var grid = Content as Grid ?? throw new NullReferenceException("Grid no está o no se ha cargado.");
-            grid.DataContext = ViewModel;
-            grid.KeyDown += (_, e) => OnF11OrEscapeInvoked(e.Key);
             fullScreenButton.Click += (_, _) => OnF11OrEscapeInvoked(VirtualKey.F11);
 
-            ExtendsContentIntoTitleBar = true;
-            IntPtr hwnd = this.GetWindowHandle();
-            if (hwnd != IntPtr.Zero)
-            {
-                var windowId = Win32Interop.GetWindowIdFromWindow(hwnd);
-                var appWindow = AppWindow.GetFromWindowId(windowId);
-                var titleBar = appWindow.TitleBar;
-                titleBar.PreferredTheme = TitleBarTheme.UseDefaultAppMode;
-                titleBar.PreferredHeightOption = TitleBarHeightOption.Tall;
-                SetIcon("Assets/AppIcon.ico");
-                appWindow.Closing += (_, e) =>
-                {
-                    if (CloseInSystemTray)
-                    {
-                        e.Cancel = true;
-                        H.NotifyIcon.WindowExtensions.Hide(this, true);
-                    }
-                    else
-                        TrayIcon.Dispose();
-                };
-            }
-        }
-
-        public void SetIcon(string iconPath)
-        {
-            IntPtr hwnd = this.GetWindowHandle();
-            if (hwnd != IntPtr.Zero)
-            {
-                var windowId = Win32Interop.GetWindowIdFromWindow(hwnd);
-                var appWindow = AppWindow.GetFromWindowId(windowId);
-                appWindow.SetIcon(iconPath);
-                appWindow.SetTaskbarIcon(iconPath);
-                appWindow.SetTitleBarIcon(iconPath);
-            }
-        }
-
-        public void SetIcon(IconId iconId)
-        {
-            IntPtr hwnd = this.GetWindowHandle();
-            if (hwnd != IntPtr.Zero)
-            {
-                var windowId = Win32Interop.GetWindowIdFromWindow(hwnd);
-                var appWindow = AppWindow.GetFromWindowId(windowId);
-                appWindow.SetIcon(iconId);
-                appWindow.SetTaskbarIcon(iconId);
-                appWindow.SetTitleBarIcon(iconId);
-            }
+            _windowHandler.Configure();
+            _ = _windowHandler.UpdateFullScreenLogic(false, fullScreenButton);
         }
 
         private void OnF11OrEscapeInvoked(VirtualKey vKey)
         {
             bool isFullScreen = PresenterKind == AppWindowPresenterKind.FullScreen;
-
             if (vKey == VirtualKey.F11)
-            {
-                UpdateFullScreenUI(!isFullScreen);
-            }
+                _ = _windowHandler.UpdateFullScreenLogic(!isFullScreen, fullScreenButton);
             else if (vKey == VirtualKey.Escape && isFullScreen)
-            {
-                UpdateFullScreenUI(false);
-            }
+                _ = _windowHandler.UpdateFullScreenLogic(false, fullScreenButton);
         }
 
-        private void UpdateFullScreenUI(bool fullScreen)
-        {
-            if (fullScreen && PresenterKind != AppWindowPresenterKind.FullScreen)
-            {
-                PresenterKind = AppWindowPresenterKind.FullScreen;
-                fullScreenButton.Content = new FontIcon
-                {
-                    FontSize = 12,
-                    Glyph = "\uE92C"
-                };
-                ToolTipService.SetToolTip(fullScreenButton, "Salir de pantalla completa (ESC o F11)");
-            }
-            else
-            {
-                PresenterKind = AppWindowPresenterKind.Default;
-                fullScreenButton.Content = new FontIcon
-                {
-                    FontSize = 12,
-                    Glyph = "\uE92D"
-                };
-                ToolTipService.SetToolTip(fullScreenButton, "Pantalla completa (F11)");
-            }
-        }
-
-        private void TitleBar_BackRequested(Microsoft.UI.Xaml.Controls.TitleBar sender, object args)
+        private void TitleBar_BackRequested(Microsoft.UI.Xaml.Controls.TitleBar _, object __)
         {
             if (ViewModel.CanGoBack)
-            {
-                var navigationService = App.GetRequiredService<INavigationService>();
-                navigationService.GoBack();
-            }
+                _navigationService.GoBack();
         }
     }
 }

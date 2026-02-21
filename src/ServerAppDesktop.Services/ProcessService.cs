@@ -1,15 +1,4 @@
-﻿using System;
-using System.Diagnostics;
-using System.IO;
-using System.Runtime.InteropServices;
-using System.Text;
-using System.Text.RegularExpressions;
-using System.Threading;
-using System.Threading.Tasks;
-using Microsoft.Win32.SafeHandles;
-using Windows.Win32;
-using Windows.Win32.Foundation;
-using Windows.Win32.System.JobObjects;
+﻿
 
 namespace ServerAppDesktop.Services;
 
@@ -33,36 +22,42 @@ public sealed partial class ProcessService : IProcessService, IDisposable
     private void EnsureJobObjectCreated()
     {
         if (_jobHandle != null && !_jobHandle.IsInvalid)
+        {
             return;
+        }
 
-        _jobHandle = PInvoke.CreateJobObject(null, (string?)null);
+        _jobHandle = PInvoke.CreateJobObject(null, null);
 
         if (_jobHandle.IsInvalid)
+        {
             return;
+        }
 
         unsafe
         {
             JOBOBJECT_EXTENDED_LIMIT_INFORMATION info = new();
             info.BasicLimitInformation.LimitFlags = JOB_OBJECT_LIMIT.JOB_OBJECT_LIMIT_KILL_ON_JOB_CLOSE;
 
-            PInvoke.SetInformationJobObject(
+            _ = PInvoke.SetInformationJobObject(
                 (HANDLE)_jobHandle.DangerousGetHandle(),
                 JOBOBJECTINFOCLASS.JobObjectExtendedLimitInformation,
                 &info,
-                (uint)Marshal.SizeOf<JOBOBJECT_EXTENDED_LIMIT_INFORMATION>()
+                Marshal.SizeOf<JOBOBJECT_EXTENDED_LIMIT_INFORMATION>().To<uint>()
             );
         }
     }
 
-    public async Task<bool> StartProcessAsync(string fileName, string arguments, string workingDirectory)
+    public async Task<bool> StartProcessAsync(string fileName, string arguments, string workingDirectory, int? ramLimit = null)
     {
         if (IsRunning)
+        {
             return false;
+        }
 
         _tcs = new TaskCompletionSource();
 
-        // Registramos la cancelación: si el token se cancela, el TCS también falla
-        using var registration = _ct.Register(() => _tcs.TrySetCanceled());
+
+        using CancellationTokenRegistration registration = _ct.Register(() => _tcs.TrySetCanceled());
 
         try
         {
@@ -95,36 +90,31 @@ public sealed partial class ProcessService : IProcessService, IDisposable
                 string? cleanData = AnsiFormattingRegex().Replace(e.Data ?? "", string.Empty);
 
                 if (string.IsNullOrWhiteSpace(cleanData))
+                {
                     return;
+                }
 
-                // 1. Validamos que sea un mensaje de SISTEMA (ignora lo que digan los jugadores en el chat)
-                // Java usa [Server thread/INFO] y Bedrock usa [INFO] al principio
                 bool isSystem = cleanData.Contains("[Server thread/INFO]") || cleanData.Contains("INFO]");
 
-                // Si contiene '<' usualmente es un mensaje de chat de jugador en Bedrock o Java Vanilla
+
                 bool isChat = cleanData.Contains('<') && cleanData.Contains('>');
 
                 if (isSystem && !isChat)
                 {
-                    // 2. ¿Servidor listo?
+
                     if (!_tcs.Task.IsCompleted &&
                         (cleanData.Contains("Done (", StringComparison.OrdinalIgnoreCase) ||
                          cleanData.Contains("Server started.", StringComparison.OrdinalIgnoreCase)))
                     {
-                        _tcs.TrySetResult();
+                        _ = _tcs.TrySetResult();
                     }
 
-                    // 3. Contador de jugadores (Lógica unificada para Arclight + Geyser)
-                    // Filtramos para que solo cuente cuando el hilo oficial de Java (Server thread) de la orden.
-
-                    // Detectamos la entrada
                     if (cleanData.Contains("[Server thread/INFO]") && cleanData.Contains("joined the game", StringComparison.OrdinalIgnoreCase))
                     {
-                        // Esto atrapará tanto a "Player" como a ".ProMinecraft426" una sola vez.
                         _playersInServer++;
                         PlayerCountChanged?.Invoke(_playersInServer);
                     }
-                    // Detectamos la salida
+
                     else if (cleanData.Contains("[Server thread/INFO]") && cleanData.Contains("left the game", StringComparison.OrdinalIgnoreCase))
                     {
                         _playersInServer = Math.Max(0, _playersInServer - 1);
@@ -139,15 +129,17 @@ public sealed partial class ProcessService : IProcessService, IDisposable
                 string? cleanData = AnsiFormattingRegex().Replace(e.Data ?? "", string.Empty);
 
                 if (string.IsNullOrWhiteSpace(cleanData))
+                {
                     return;
+                }
 
                 if (!_tcs.Task.IsCompleted &&
                     (cleanData.Contains("FATAL", StringComparison.OrdinalIgnoreCase) ||
                      cleanData.Contains("ERROR", StringComparison.OrdinalIgnoreCase) ||
                      cleanData.Contains("Exception in thread", StringComparison.OrdinalIgnoreCase)))
                 {
-                    // Si detectamos un error crítico antes de que diga "Done", cancelamos la espera
-                    _tcs.TrySetException(new Exception("El servidor falló al iniciar. Revisa la consola."));
+
+                    _ = _tcs.TrySetException(new Exception("El servidor falló al iniciar. Revisa la consola."));
                 }
                 ErrorReceived?.Invoke(cleanData);
             };
@@ -158,6 +150,11 @@ public sealed partial class ProcessService : IProcessService, IDisposable
                 {
                     int exitCode = _process?.ExitCode ?? 0;
                     Cleanup();
+                    if (!_tcs.Task.IsCompleted && _process?.ExitCode != 0)
+                    {
+                        _ = _tcs.TrySetException(new Exception("El servidor falló al iniciar. Revisa la consola."));
+                    }
+
                     ProcessExited?.Invoke(exitCode == 0, exitCode);
                 }
             };
@@ -168,9 +165,13 @@ public sealed partial class ProcessService : IProcessService, IDisposable
             {
                 try
                 {
+                    if (ramLimit != null && ramLimit > 0 && _jobHandle != null)
+                    {
+                        ApplyJobLimits(_jobHandle, ramLimit.Value);
+                    }
                     EnsureJobObjectCreated();
-                    using var sProcessHandle = new SafeProcessHandle(_process.Handle, ownsHandle: false);
-                    PInvoke.AssignProcessToJobObject(_jobHandle!, sProcessHandle);
+                    using SafeProcessHandle sProcessHandle = new(_process.Handle, ownsHandle: false);
+                    _ = PInvoke.AssignProcessToJobObject(_jobHandle!, sProcessHandle);
                 }
                 catch (Exception ex)
                 {
@@ -198,13 +199,16 @@ public sealed partial class ProcessService : IProcessService, IDisposable
     public async Task<bool> StopProcessAsync()
     {
         if (!IsRunning || _process == null)
+        {
             return false;
+        }
+
         _isStopping = true;
 
         try
         {
             SendInput("stop");
-            using var cts = new CancellationTokenSource(TimeSpan.FromSeconds(10));
+            using CancellationTokenSource cts = new(TimeSpan.FromSeconds(10));
             await _process.WaitForExitAsync(cts.Token);
             return true;
         }
@@ -232,10 +236,35 @@ public sealed partial class ProcessService : IProcessService, IDisposable
 
     private void Cleanup()
     {
-        if (_process != null)
+        _process?.Dispose();
+        _process = null;
+    }
+
+    private static void ApplyJobLimits(SafeHandle jobHandle, int ramLimit)
+    {
+        unsafe
         {
-            _process.Dispose();
-            _process = null;
+            JOBOBJECT_EXTENDED_LIMIT_INFORMATION info = new();
+
+            info.BasicLimitInformation.LimitFlags =
+                JOB_OBJECT_LIMIT.JOB_OBJECT_LIMIT_KILL_ON_JOB_CLOSE |
+                JOB_OBJECT_LIMIT.JOB_OBJECT_LIMIT_PROCESS_MEMORY |
+                JOB_OBJECT_LIMIT.JOB_OBJECT_LIMIT_WORKINGSET |
+                JOB_OBJECT_LIMIT.JOB_OBJECT_LIMIT_PROCESS_TIME |
+                JOB_OBJECT_LIMIT.JOB_OBJECT_LIMIT_ACTIVE_PROCESS |
+                JOB_OBJECT_LIMIT.JOB_OBJECT_LIMIT_DIE_ON_UNHANDLED_EXCEPTION;
+
+            long bytes = ramLimit.To<long>() * 1024 * 1024;
+            info.ProcessMemoryLimit = bytes.To<nuint>();
+            info.BasicLimitInformation.MaximumWorkingSetSize = bytes.To<nuint>();
+            info.BasicLimitInformation.MinimumWorkingSetSize = bytes.To<nuint>();
+
+            _ = PInvoke.SetInformationJobObject(
+                (HANDLE)jobHandle.DangerousGetHandle(),
+                JOBOBJECTINFOCLASS.JobObjectExtendedLimitInformation,
+                &info,
+                sizeof(JOBOBJECT_EXTENDED_LIMIT_INFORMATION).To<uint>()
+            );
         }
     }
 
@@ -244,7 +273,9 @@ public sealed partial class ProcessService : IProcessService, IDisposable
         _jobHandle?.Dispose();
 
         if (IsRunning)
+        {
             _process?.Kill(true);
+        }
 
         Cleanup();
     }

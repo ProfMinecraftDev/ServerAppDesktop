@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace ServerAppDesktop.Models
+﻿namespace ServerAppDesktop.Models
 {
     public sealed class ThirdPartyLicense
     {

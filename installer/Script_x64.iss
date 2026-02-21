@@ -1,30 +1,31 @@
-#define MyAppName "Server App Desktop (Preview)"
-#define MyAppVersion "1.0.0.3"
-#define MyAppPublisher "Prof Minecraft Dev"
-#define MyAppURL "https://github.com/ProfMinecarftDev/ServerAppDesktop"
-#define MyAppExeName "ServerAppDesktop.exe"
+#define AppName "Server App Desktop (Preview)"
+#define AppVersion "1.0.0.3"
+#define Publisher "Prof Minecraft Dev"
+#define RepoURL "https://github.com/ProfMinecarftDev/ServerAppDesktop"
+#define AppMainExe "ServerAppDesktop.exe"
+#define VersionTag "1.0.0.3-preview"
 
 [Setup]
 AppId={{24845C2B-1690-46C7-928C-9B49DB2076CA}
-AppName={#MyAppName}
-AppVersion={#MyAppVersion}
-AppPublisher={#MyAppPublisher}
-AppPublisherURL={#MyAppURL}
-AppSupportURL={#MyAppURL}
-AppUpdatesURL={#MyAppURL}
-DefaultDirName={autopf}\{#MyAppName}
-UninstallDisplayIcon={app}\{#MyAppExeName}
+AppName={#AppName}
+AppVersion={#AppVersion}
+AppPublisher={#Publisher}
+AppPublisherURL={#RepoURL}
+AppSupportURL={#RepoURL}
+AppUpdatesURL={#RepoURL}
+DefaultDirName={autopf}\{#AppName}
+UninstallDisplayIcon={app}\{#AppMainExe}
 ArchitecturesAllowed=x64compatible
-ArchitecturesInstallIn64BitMode=x64
-DefaultGroupName={#MyAppName}
+ArchitecturesInstallIn64BitMode=x64os
+DefaultGroupName={#AppName}
 AllowNoIcons=yes
-OutputDir=.\Output
-OutputBaseFilename=ServerAppDesktop-Setup-{#MyAppVersion}-Preview
+OutputDir=..\export\installer
+OutputBaseFilename=ServerAppDesktop-Setup-{#VersionTag}
 SetupIconFile=Assets\AppIcon.ico
 SolidCompression=yes
 UninstallDisplayName=Server App Desktop (Preview)
-WizardSmallImageFile= "Assets\WizardSmall.bmp"
-WizardImageFile= "Assets\WizardBanner.bmp"
+WizardSmallImageFile="Assets\WizardSmall.bmp"
+WizardImageFile="Assets\WizardBanner.bmp"
 WizardStyle=modern
 DisableWelcomePage=False
 ShowTasksTreeLines=True
@@ -42,15 +43,15 @@ Name: "spanish"; MessagesFile: "compiler:Languages\Spanish.isl"
 Name: "desktopicon"; Description: "{cm:CreateDesktopIcon}"; GroupDescription: "{cm:AdditionalIcons}"; Flags: unchecked
 
 [Files]
-Source: "..\src\ServerAppDesktop\bin\x64\Release\net10.0-windows10.0.26100.0\win-x64\publish\{#MyAppExeName}"; DestDir: "{app}"; Flags: ignoreversion
-Source: "..\src\ServerAppDesktop\bin\x64\Release\net10.0-windows10.0.26100.0\win-x64\publish\*"; DestDir: "{app}"; Flags: ignoreversion recursesubdirs createallsubdirs
+Source: "..\export\publish\{#AppMainExe}"; DestDir: "{app}"; Flags: ignoreversion
+Source: "..\export\publish\*"; DestDir: "{app}"; Flags: ignoreversion recursesubdirs createallsubdirs
 
 [Icons]
-Name: "{group}\{#MyAppName}"; Filename: "{app}\{#MyAppExeName}"
-Name: "{group}\{cm:ProgramOnTheWeb,{#MyAppName}}"; Filename: "{#MyAppURL}"
-Name: "{group}\{cm:UninstallProgram,{#MyAppName}}"; Filename: "{uninstallexe}"
-Name: "{autodesktop}\{#MyAppName}"; Filename: "{app}\{#MyAppExeName}"; Tasks: desktopicon
+Name: "{group}\{#AppName}"; Filename: "{app}\{#AppMainExe}"
+Name: "{group}\{cm:ProgramOnTheWeb,{#AppName}}"; Filename: "{#RepoURL}"
+Name: "{group}\{cm:UninstallProgram,{#AppName}}"; Filename: "{uninstallexe}"
+Name: "{autodesktop}\{#AppName}"; Filename: "{app}\{#AppMainExe}"; Tasks: desktopicon
 
 [Run]
-Filename: "{app}\{#MyAppExeName}"; Description: "{cm:LaunchProgram,{#StringChange(MyAppName, '&', '&&')}}"; Flags: nowait postinstall skipifsilent
+Filename: "{app}\{#AppMainExe}"; Description: "{cm:LaunchProgram,{#StringChange(AppName, '&', '&&')}}"; Flags: nowait postinstall skipifsilent
 

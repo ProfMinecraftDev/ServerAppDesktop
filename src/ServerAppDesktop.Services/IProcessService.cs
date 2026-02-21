@@ -1,7 +1,4 @@
-﻿using System;
-using System.Threading.Tasks;
-
-namespace ServerAppDesktop.Services
+﻿namespace ServerAppDesktop.Services
 {
     public interface IProcessService
     {
@@ -14,7 +11,7 @@ namespace ServerAppDesktop.Services
 
         bool IsRunning { get; }
 
-        Task<bool> StartProcessAsync(string fileName, string arguments, string workingDirectory);
+        Task<bool> StartProcessAsync(string fileName, string arguments, string workingDirectory, int? ramLimit = null);
         Task<bool> StopProcessAsync();
 
         void SendInput(string input);

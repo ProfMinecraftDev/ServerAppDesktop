@@ -14,10 +14,52 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ServerAppDesktop.Controls",
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ServerAppDesktop.Models", "src\ServerAppDesktop.Models\ServerAppDesktop.Models.csproj", "{5A6B8CA5-DFE5-EEE2-5F77-4FB15841B7C7}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Editor Settings", "Editor Settings", "{5D1924EE-B390-4887-ACE9-0D0E7CF7AEE7}"
+	ProjectSection(SolutionItems) = preProject
+		.editorconfig = .editorconfig
+		.gitignore = .gitignore
+		Directory.Build.props = Directory.Build.props
+		Directory.Build.targets = Directory.Build.targets
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tools", "Tools", "{384C438A-2DAC-4E94-BE96-62F662227FFC}"
+	ProjectSection(SolutionItems) = preProject
+		tools\BuildRelease.ps1 = tools\BuildRelease.ps1
+		tools\CleanSolution.ps1 = tools\CleanSolution.ps1
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Docs", "Docs", "{BDAABC64-6C15-4CCB-AA04-808C89B333CD}"
+	ProjectSection(SolutionItems) = preProject
+		CODE_OF_CONDUCT.md = CODE_OF_CONDUCT.md
+		CONTRIBUTING.md = CONTRIBUTING.md
+		LICENSE.txt = LICENSE.txt
+		README.md = README.md
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Images", "Images", "{ECE37D21-2AC8-4EBA-BF51-488FD92274CD}"
+	ProjectSection(SolutionItems) = preProject
+		docs\images\Header.png = docs\images\Header.png
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Installer", "Installer", "{F5855B9F-8FBD-49C5-B804-780BE1BE4B66}"
+	ProjectSection(SolutionItems) = preProject
+		installer\Script_x64.iss = installer\Script_x64.iss
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Assets", "Assets", "{99134016-D5FD-4B91-AAA1-122DB3C3BAFB}"
+	ProjectSection(SolutionItems) = preProject
+		installer\Assets\AppIcon.ico = installer\Assets\AppIcon.ico
+		installer\Assets\WizardBanner.bmp = installer\Assets\WizardBanner.bmp
+		installer\Assets\WizardSmall.bmp = installer\Assets\WizardSmall.bmp
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Source", "Source", "{45AE54D8-CD1B-4EE7-A6F5-9DEA3E9ECDA8}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
 		Release|x64 = Release|x64
+		Description = Server App Desktop
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{3A7EEBE6-A714-4631-8D5D-CA7E90045F91}.Debug|x64.ActiveCfg = Debug|x64
@@ -47,6 +89,16 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{3A7EEBE6-A714-4631-8D5D-CA7E90045F91} = {45AE54D8-CD1B-4EE7-A6F5-9DEA3E9ECDA8}
+		{225A24E8-206C-24E8-D1CF-B33473191406} = {45AE54D8-CD1B-4EE7-A6F5-9DEA3E9ECDA8}
+		{B7408DC0-5EE1-5AC8-54EC-BD5596BB3A0D} = {45AE54D8-CD1B-4EE7-A6F5-9DEA3E9ECDA8}
+		{A6FF6F36-0631-06E4-8B00-69430744A765} = {45AE54D8-CD1B-4EE7-A6F5-9DEA3E9ECDA8}
+		{7C1FE85E-2144-5FD4-35E2-B560E065B11B} = {45AE54D8-CD1B-4EE7-A6F5-9DEA3E9ECDA8}
+		{5A6B8CA5-DFE5-EEE2-5F77-4FB15841B7C7} = {45AE54D8-CD1B-4EE7-A6F5-9DEA3E9ECDA8}
+		{ECE37D21-2AC8-4EBA-BF51-488FD92274CD} = {BDAABC64-6C15-4CCB-AA04-808C89B333CD}
+		{99134016-D5FD-4B91-AAA1-122DB3C3BAFB} = {F5855B9F-8FBD-49C5-B804-780BE1BE4B66}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {6879B664-96B2-4873-A6DE-CA2C67D977DC}

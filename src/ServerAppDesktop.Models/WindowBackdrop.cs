@@ -1,6 +1,4 @@
-﻿using Microsoft.UI.Xaml.Media;
-
-namespace ServerAppDesktop.Models
+﻿namespace ServerAppDesktop.Models
 {
     public sealed class WindowBackdrop
     {

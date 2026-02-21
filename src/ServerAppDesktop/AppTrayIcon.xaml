@@ -9,74 +9,63 @@
 	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 	xmlns:tb="using:H.NotifyIcon"
 	xmlns:toolkitExtensions="using:CommunityToolkit.WinUI"
-	xmlns:views="using:ServerAppDesktop.Views"
 	xmlns:vm="using:ServerAppDesktop.ViewModels"
 	ContextMenuMode="SecondWindow"
 	IconSource="{x:Bind ViewModel.Icon, Mode=OneWay, Converter={StaticResource StringToImageSourceConverter}}"
 	KeyTipPlacementMode="Top"
 	LeftClickCommand="{x:Bind ViewModel.ShowWindowCommand}"
 	NoLeftClickDelay="True"
+	PopupPlacement="Top"
 	ToolTipText="{x:Bind ViewModel.ToolTip, Mode=OneWay}"
 	Visibility="Visible"
 	mc:Ignorable="d">
 	<tb:TaskbarIcon.ContextFlyout>
-		<MenuFlyout
-			x:Name="ContextMenu"
-			Placement="Top"
-			ShowMode="Transient">
+		<MenuFlyout Placement="Top" ShowMode="Transient">
+			<MenuFlyout.SystemBackdrop>
+				<DesktopAcrylicBackdrop />
+			</MenuFlyout.SystemBackdrop>
 			<MenuFlyoutItem
 				x:Uid="MenuFlyoutItem_StartServer"
-				MinHeight="38"
 				Command="{x:Bind HomeViewModel.StartServerCommand}"
 				Icon="{toolkitExtensions:SymbolIcon Symbol=Play}"
 				IsEnabled="{x:Bind HomeViewModel.CanStartServer, Mode=OneWay}" />
 			<MenuFlyoutItem
 				x:Uid="MenuFlyoutItem_StopServer"
-				MinHeight="38"
 				Command="{x:Bind HomeViewModel.StopServerCommand}"
 				Icon="{toolkitExtensions:SymbolIcon Symbol=Stop}"
 				IsEnabled="{x:Bind HomeViewModel.CanStopServer, Mode=OneWay}" />
 			<MenuFlyoutItem
 				x:Uid="MenuFlyoutItem_RestartServer"
-				MinHeight="38"
 				Command="{x:Bind HomeViewModel.RestartServerCommand}"
 				Icon="{toolkitExtensions:SymbolIcon Symbol=Refresh}"
 				IsEnabled="{x:Bind HomeViewModel.CanRestartServer, Mode=OneWay}" />
 			<MenuFlyoutSeparator />
 			<MenuFlyoutItem
 				x:Uid="MenuFlyoutItem_SendFeedback"
-				MinHeight="38"
 				Command="{x:Bind ViewModel.SendFeedbackCommand, Mode=OneWay}"
 				Icon="{toolkitExtensions:FontIcon Glyph=&#xED15;}" />
 			<MenuFlyoutItem
 				x:Uid="MenuFlyoutItem_RestartApp"
-				MinHeight="38"
 				Command="{x:Bind ViewModel.RestartAppCommand, Mode=OneWay}"
 				Icon="{toolkitExtensions:SymbolIcon Symbol=Refresh}" />
-			<MenuFlyoutItem
+			<controls:MenuFlyoutItemWithThemedIcon
 				x:Uid="MenuFlyoutItem_ShowWindow"
-				MinHeight="38"
 				Command="{x:Bind ViewModel.ShowWindowCommand, Mode=OneWay}"
-				Icon="{toolkitExtensions:SymbolIcon Symbol=NewWindow}" />
+				Icon="{toolkitExtensions:SymbolIcon Symbol=NewWindow}"
+				ThemedIconStyle="{StaticResource App.ThemedIcons.OpenInWindow}" />
 			<MenuFlyoutSeparator />
-			<MenuFlyoutItem
-				MinHeight="38"
-				IsEnabled="False"
-				Text="Server App Desktop 1.0.0.3 (Preview)" />
+			<MenuFlyoutItem IsEnabled="False" Text="Server App Desktop 1.0.0.3 (Preview)">
+				<MenuFlyoutItem.Icon>
+					<ImageIcon Source="/Assets/AppIcon.ico" />
+				</MenuFlyoutItem.Icon>
+			</MenuFlyoutItem>
 			<MenuFlyoutSeparator />
-			<MenuFlyoutSubItem
-				x:Uid="MenuFlyoutItem_QuickOptions"
-				MinHeight="38"
-				Icon="{toolkitExtensions:FontIcon Glyph=&#xE713;}">
+			<MenuFlyoutSubItem x:Uid="MenuFlyoutItem_QuickOptions" Icon="{toolkitExtensions:FontIcon Glyph=&#xE713;}">
 				<MenuFlyoutItem
 					x:Uid="MenuFlyoutItem_OpenSettingsFile"
-					MinHeight="38"
 					Command="{x:Bind ViewModel.OpenSettingsFileCommand}"
 					Icon="{toolkitExtensions:SymbolIcon Symbol=Repair}" />
-				<ToggleMenuFlyoutItem
-					x:Uid="MenuFlyoutItem_StartWithWindows"
-					MinHeight="38"
-					IsChecked="True">
+				<ToggleMenuFlyoutItem x:Uid="MenuFlyoutItem_StartWithWindows" IsChecked="True">
 					<ToggleMenuFlyoutItem.Icon>
 						<PathIcon Data="{StaticResource Windows11IconPath}" />
 					</ToggleMenuFlyoutItem.Icon>
@@ -85,7 +74,6 @@
 			<MenuFlyoutSeparator />
 			<MenuFlyoutItem
 				x:Uid="MenuFlyoutItem_ExitApp"
-				MinHeight="38"
 				Command="{x:Bind ViewModel.ExitAppCommand, Mode=OneWay}"
 				Icon="{toolkitExtensions:FontIcon Glyph=&#xE7E8;}" />
 		</MenuFlyout>

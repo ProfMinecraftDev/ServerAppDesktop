@@ -1,67 +1,73 @@
-﻿using System;
-using System.Threading.Tasks;
-using H.NotifyIcon;
-using Microsoft.UI.Windowing;
-using Microsoft.UI.Xaml;
-using Microsoft.Windows.AppLifecycle;
-using Windows.Win32;
-using Windows.Win32.Foundation;
-using WinRT.Interop;
+﻿namespace ServerAppDesktop.Helpers;
 
-namespace ServerAppDesktop.Helpers
+public static class WindowHelper
 {
-    public static class WindowHelper
+    public static void FlashTaskbarIcon(Window? window)
     {
-        public static void ShowAndFocus(Window window)
-        {
-            if (window == null)
-                return;
+        if (window == null)
+            return;
 
-            IntPtr hWnd = WindowNative.GetWindowHandle(window);
-            PInvoke.SetForegroundWindow(new HWND(hWnd));
-            WindowExtensions.Show(window, true);
-            window.Activate();
+        FLASHWINFO flashInfo = new()
+        {
+            cbSize = Marshal.SizeOf<FLASHWINFO>().To<uint>(),
+            hwnd = new HWND(window.GetWindowHandle()),
+            dwFlags = FLASHWINFO_FLAGS.FLASHW_ALL | FLASHWINFO_FLAGS.FLASHW_TIMERNOFG | FLASHWINFO_FLAGS.FLASHW_TRAY,
+            uCount = uint.MaxValue,
+            dwTimeout = 0
+        };
+        _ = PInvoke.FlashWindowEx(flashInfo);
+    }
+
+    public static void ShowAndFocus(Window? window)
+    {
+        if (window == null)
+            return;
+
+        var hWnd = new HWND(window.GetWindowHandle());
+        H.NotifyIcon.WindowExtensions.Show(window, true);
+        _ = PInvoke.SetForegroundWindow(hWnd);
+        window.Activate();
+    }
+
+    public static async Task<bool> IsRedirectedAsync()
+    {
+        var args = AppInstance.GetCurrent().GetActivatedEventArgs();
+        var existingInstance = AppInstance.FindOrRegisterForKey(DataHelper.WindowIdentifier);
+
+        if (!existingInstance.IsCurrent)
+        {
+            await existingInstance.RedirectActivationToAsync(args);
+            return true;
         }
 
-        public static async Task<bool> IsRedirectedAsync()
+        return false;
+    }
+
+    public static void SetTheme(Window? window, ElementTheme theme)
+    {
+        if (window?.Content is not FrameworkElement content)
+            return;
+
+        content.RequestedTheme = theme;
+        window.AppWindow.TitleBar.PreferredTheme = theme switch
         {
-            // Obtenemos cómo se activó esta instancia
-            var args = AppInstance.GetCurrent().GetActivatedEventArgs();
+            ElementTheme.Light => TitleBarTheme.Light,
+            ElementTheme.Dark => TitleBarTheme.Dark,
+            _ => TitleBarTheme.UseDefaultAppMode
+        };
+    }
 
-            // Si la activación es por notificación, Windows App SDK a veces 
-            // crea un flujo distinto. Forzamos la búsqueda de la instancia vieja.
-            var existingInstance = AppInstance.FindOrRegisterForKey(DataHelper.WindowIdentifier);
+    public static void SetSystemBackdrop(Window? window, int index)
+    {
+        if (window == null)
+            return;
 
-            if (!existingInstance.IsCurrent)
-            {
-                // Redirigimos los argumentos (incluyendo el "action=activate" que pusimos arriba)
-                await existingInstance.RedirectActivationToAsync(args);
-                return true;
-            }
-
-            return false;
-        }
-
-        public static void SetTheme(Window window, ElementTheme elementTheme)
+        window.SystemBackdrop = index switch
         {
-            var content = (FrameworkElement)window.Content;
-            switch (elementTheme)
-            {
-                case ElementTheme.Default:
-                    content.RequestedTheme = elementTheme;
-                    window.AppWindow.TitleBar.PreferredTheme = TitleBarTheme.UseDefaultAppMode;
-                    break;
-
-                case ElementTheme.Light:
-                    content.RequestedTheme = elementTheme;
-                    window.AppWindow.TitleBar.PreferredTheme = TitleBarTheme.Light;
-                    break;
-
-                case ElementTheme.Dark:
-                    content.RequestedTheme = elementTheme;
-                    window.AppWindow.TitleBar.PreferredTheme = TitleBarTheme.Dark;
-                    break;
-            }
-        }
+            0 => new MicaBackdrop { Kind = MicaKind.Base },
+            1 => new MicaBackdrop { Kind = MicaKind.BaseAlt },
+            2 => new DesktopAcrylicBackdrop(),
+            _ => new MicaBackdrop { Kind = MicaKind.Base }
+        };
     }
 }

@@ -1,0 +1,17 @@
+<Project>
+	<Target Name="VerifyArchitecture"
+			BeforeTargets="BeforeBuild">
+		<Error Text="La arquitectura debe ser x64 para Server App Desktop. Detectado: $(Platform)"
+			   Condition="'$(Platform)' != 'x64'" />
+	</Target>
+
+	<Target Name="KillProcess"
+			BeforeTargets="BeforeBuild;Clean">
+		<Message Importance="high"
+				 Text="Cerrando instancia única de Server App Desktop para permitir la compilación..." />
+		<Exec ContinueOnError="true"
+			  IgnoreExitCode="true"
+			  IgnoreStandardErrorWarningFormat="true"
+			  Command="TASKKILL.exe /F /IM &quot;ServerAppDesktop.exe&quot; /T 2&gt;nul" />
+	</Target>
+</Project>

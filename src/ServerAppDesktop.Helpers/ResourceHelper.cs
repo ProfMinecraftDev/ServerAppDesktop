@@ -1,10 +1,9 @@
-﻿using Microsoft.Windows.ApplicationModel.Resources;
-
+﻿
 namespace ServerAppDesktop.Helpers
 {
     public sealed partial class ResourceHelper
     {
-        private readonly static ResourceLoader _resourceLoader = new();
+        private static readonly ResourceLoader _resourceLoader = new();
 
         public static string GetString(string resourceKey)
         {

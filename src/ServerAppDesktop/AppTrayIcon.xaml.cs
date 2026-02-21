@@ -1,15 +1,14 @@
-using H.NotifyIcon;
-using ServerAppDesktop.ViewModels;
-
-// To learn more about WinUI, the WinUI project structure,
-// and more about our project templates, see: http://aka.ms/winui-project-info.
 
 namespace ServerAppDesktop
 {
     public sealed partial class AppTrayIcon : TaskbarIcon
     {
-        public TrayViewModel ViewModel => App.GetRequiredService<TrayViewModel>();
-        public HomeViewModel HomeViewModel => App.GetRequiredService<HomeViewModel>();
+        private readonly TrayViewModel _viewModel = App.GetRequiredService<TrayViewModel>();
+        private readonly HomeViewModel _homeViewModel = App.GetRequiredService<HomeViewModel>();
+
+        public TrayViewModel ViewModel => _viewModel;
+        public HomeViewModel HomeViewModel => _homeViewModel;
+
 
         public AppTrayIcon()
         {

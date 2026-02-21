@@ -7,4 +7,5 @@ GlobalLock
 GlobalUnlock
 GlobalFree
 SetForegroundWindow
-SetCurrentProcessExplicitAppUserModelID
+FlashWindowEx
+MessageBoxW

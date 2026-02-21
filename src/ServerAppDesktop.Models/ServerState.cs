@@ -9,5 +9,5 @@ public enum ServerStateType
     Restarting
 }
 
-// El modelo ahora es solo el "contenedor" del estado
+
 public record ServerState(ServerStateType State);

@@ -1,0 +1,52 @@
+root = true
+
+# Aplicable a todos los archivos de C#
+[*.cs]
+
+#### --- 1. FORMATO Y ESTILO --- ####
+indent_size = 4
+indent_style = space
+tab_width = 4
+end_of_line = crlf
+insert_final_newline = true
+
+#### --- 2. REGLAS DE LENGUAJE (.NET & C#) --- ####
+# Visibilidad: Forzar 'public' en lugar de 'internal' por defecto
+dotnet_style_require_accessibility_modifiers = always:suggestion
+dotnet_code_style_accessibility_modifiers = public:suggestion
+
+# Calificaciones innecesarias (this.)
+dotnet_style_qualification_for_field = false:suggestion
+dotnet_style_qualification_for_method = false:suggestion
+dotnet_style_qualification_for_property = false:suggestion
+
+# Estilo de código moderno
+csharp_style_var_when_type_is_apparent = true:suggestion
+csharp_prefer_simple_using_statement = true:suggestion
+csharp_style_namespace_declarations = file_scoped:suggestion
+
+#### --- 3. ORDEN Y ESTRUCTURA --- ####
+# Orden estándar de modificadores (Priorizando public)
+csharp_preferred_modifier_order = public,internal,private,protected,static,extern,new,virtual,abstract,sealed,override,readonly,unsafe,required,volatile,async:suggestion
+
+# Sugerencias de optimización
+dotnet_style_readonly_field = true:warning
+csharp_prefer_static_local_function = true:suggestion
+
+#### --- 4. DIAGNÓSTICOS Y SUPRESIONES --- ####
+# MVVM Toolkit: Ignorar advertencias de compatibilidad AOT/WinRT
+dotnet_diagnostic.MVVMTK0045.severity = none
+
+# Compilación: Ignorar formato de versión no recomendado
+dotnet_diagnostic.CS7035.severity = none
+
+# WinUI/XAML: Silenciar advertencias de obsolescencia (Obsolete)
+dotnet_diagnostic.CS0612.severity = none
+dotnet_diagnostic.CS0618.severity = none
+
+#### --- 5. CÓDIGO GENERADO (WinUIEx, CsWin32, g.cs) --- ####
+[*{NativeMethods,Generated,g,i}.cs]
+generated_code = true
+
+[**/*.g.cs]
+generated_code = true

@@ -1,0 +1,44 @@
+<Project>
+	<Import Project="Dependencies.props" Condition="Exists('Dependencies.props')" />
+
+	<PropertyGroup>
+		<Platforms>x64</Platforms>
+		<Platform Condition="'$(Platform)' == ''">x64</Platform>
+		<Configuration Condition="'$(Configuration)' == ''">Debug</Configuration>
+		<RuntimeIdentifier>win-x64</RuntimeIdentifier>
+		<WindowsAppSDKWinUI>true</WindowsAppSDKWinUI>
+		<UseWinUI>true</UseWinUI>
+		<EnableMsixTooling>true</EnableMsixTooling>
+		<WindowsPackageType>None</WindowsPackageType>
+	</PropertyGroup>
+
+	<PropertyGroup>
+		<Product>Server App Desktop</Product>
+		<AssemblyTitle>Server App Desktop (Preview)</AssemblyTitle>
+		<Authors>Prof Minecraft</Authors>
+		<Company>Prof Minecraft</Company>
+		<Description>Servidor de escritorio con interfaz WinUI 3</Description>
+		<Copyright>Copyright © 2026</Copyright>
+		<Version>1.0.0.3-preview</Version>
+	</PropertyGroup>
+	
+	<PropertyGroup>
+		<GenerateProjectSpecificOutputFolder>true</GenerateProjectSpecificOutputFolder>
+		<BaseOutputPath>$(SolutionDir)export\bin\</BaseOutputPath>
+		<OutputPath>$(BaseOutputPath)$(Platform)\$(Configuration)</OutputPath>
+	</PropertyGroup>
+
+	<PropertyGroup>
+		<Nullable>enable</Nullable>
+		<ImplicitUsings>enable</ImplicitUsings>
+		<AccelerateBuildsInVisualStudio>true</AccelerateBuildsInVisualStudio>
+		<TieredCompilation>true</TieredCompilation>
+		<TieredCompilationQuickJit>true</TieredCompilationQuickJit>
+		<ServerGarbageCollection>true</ServerGarbageCollection>
+	</PropertyGroup>
+	
+	<PropertyGroup Condition="'$(OutputType)' == 'WinExe' and '$(Configuration)' == 'Release'">
+		<SelfContained>true</SelfContained>
+		<WindowsAppSDKSelfContained>true</WindowsAppSDKSelfContained>
+	</PropertyGroup>
+</Project>

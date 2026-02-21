@@ -93,11 +93,11 @@
 						Icon="{toolkitExtensions:FontIcon Glyph=&#xE7FC;}" />
 
 					<controls:InfoCard
-						x:Uid="ServerVersionCard"
+						x:Uid="ServerStateCard"
 						Grid.Row="0"
 						Grid.Column="1"
-						Description="{x:Bind ViewModel.ServerVersion, Mode=OneWay}"
-						Icon="{toolkitExtensions:FontIcon Glyph=&#xE74C;}" />
+						Description="{x:Bind ViewModel.ServerState, Mode=OneWay, Converter={StaticResource ServerStateToStringConverter}}"
+						Icon="{toolkitExtensions:FontIcon Glyph=&#xE7E8;}" />
 
 					<controls:InfoCard
 						x:Uid="ServerPathCard"

@@ -123,7 +123,7 @@
 							Minimum="1"
 							SmallChange="1"
 							Visibility="{x:Bind UsePortPropertiesCheckBox.IsChecked, Mode=OneWay, Converter={StaticResource BoolNegationToVisibilityConverter}}"
-							Value="{x:Bind ViewModel.ServerPort, Mode=TwoWay}" />
+							Value="{x:Bind ViewModel.ServerPort, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
 					</StackPanel>
 				</toolkitControls:SettingsCard>
 
@@ -133,7 +133,7 @@
 						<TextBox
 							x:Uid="ServerDescriptionTextBox"
 							MinWidth="100"
-							Text="{x:Bind ViewModel.ServerDescription, Mode=TwoWay}"
+							Text="{x:Bind ViewModel.ServerDescription, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
 							TextWrapping="Wrap"
 							Visibility="{x:Bind UseDescriptionPropertiesCheckBox.IsChecked, Mode=OneWay, Converter={StaticResource BoolNegationToVisibilityConverter}}" />
 					</StackPanel>

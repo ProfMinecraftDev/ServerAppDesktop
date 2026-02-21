@@ -3,7 +3,9 @@
 	x:Class="ServerAppDesktop.Views.Pages.FilesPage"
 	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
 	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+	xmlns:controls="using:ServerAppDesktop.Controls"
 	xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+	xmlns:dev="using:DevWinUI"
 	xmlns:local="using:ServerAppDesktop.Views.Pages"
 	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 	xmlns:models="using:ServerAppDesktop.Models"
@@ -71,33 +73,62 @@
 					<RowDefinition Height="*" />
 				</Grid.RowDefinitions>
 
-				<CommandBar
-					Grid.Row="0"
-					HorizontalAlignment="Left"
-					DefaultLabelPosition="Right">
-					<AppBarButton x:Uid="NewFileBtn" Icon="Add">
-						<AppBarButton.Flyout>
-							<MenuFlyout Placement="Bottom">
-								<MenuFlyoutItem x:Uid="NewFolderItem" Icon="{toolkitExtensions:BitmapIcon Source=/Assets/Files/NewFolder.png}" />
-								<MenuFlyoutItem x:Uid="NewFileItem" Icon="{toolkitExtensions:BitmapIcon Source=/Assets/Files/NewFile.png}" />
-							</MenuFlyout>
-						</AppBarButton.Flyout>
-					</AppBarButton>
+				<StackPanel Grid.Row="0" Orientation="Horizontal">
+					<CommandBar HorizontalAlignment="Left" DefaultLabelPosition="Right">
+						<AppBarButton x:Uid="NewFileBtn" Icon="{dev:ThemedIcon IconType=Layered, Style={StaticResource App.ThemedIcons.New.Item}}">
+							<AppBarButton.Flyout>
+								<MenuFlyout Placement="Bottom">
+									<MenuFlyoutItem x:Uid="NewFolderItem" Icon="{toolkitExtensions:BitmapIcon Source=/Assets/Files/NewFolder.png}" />
+									<MenuFlyoutItem x:Uid="NewFileItem" Icon="{toolkitExtensions:BitmapIcon Source=/Assets/Files/NewFile.png}" />
+								</MenuFlyout>
+							</AppBarButton.Flyout>
+						</AppBarButton>
+					</CommandBar>
 					<AppBarSeparator />
-					<AppBarButton x:Uid="RefreshBtn" Icon="Refresh" />
+					<CommandBar HorizontalAlignment="Left" DefaultLabelPosition="Collapsed">
+						<AppBarButton
+							x:Uid="RefreshBtn"
+							MaxWidth="46"
+							Icon="Refresh" />
+						<AppBarSeparator />
+						<AppBarButton
+							x:Uid="CutBtn"
+							MaxWidth="46"
+							Icon="{dev:ThemedIcon IconType=Layered,
+												  Style={StaticResource App.ThemedIcons.Cut}}" />
+						<AppBarButton
+							x:Uid="CopyBtn"
+							MaxWidth="46"
+							Icon="{dev:ThemedIcon IconType=Layered,
+												  Style={StaticResource App.ThemedIcons.Copy}}" />
+						<AppBarButton
+							x:Uid="PasteBtn"
+							MaxWidth="46"
+							Icon="{dev:ThemedIcon IconType=Layered,
+												  Style={StaticResource App.ThemedIcons.Paste}}" />
+						<AppBarSeparator />
+						<AppBarButton
+							x:Uid="RenameBtn"
+							MaxWidth="46"
+							Icon="{dev:ThemedIcon IconType=Layered,
+												  Style={StaticResource App.ThemedIcons.Rename}}" />
+						<AppBarButton
+							x:Uid="DeleteBtn"
+							MaxWidth="46"
+							Icon="{dev:ThemedIcon IconType=Layered,
+												  Style={StaticResource App.ThemedIcons.Delete}}" />
+						<AppBarSeparator />
+						<AppBarButton
+							x:Uid="PropertiesBtn"
+							MaxWidth="46"
+							Icon="Repair" />
+					</CommandBar>
 					<AppBarSeparator />
-					<AppBarButton x:Uid="CutBtn" Icon="Cut" />
-					<AppBarButton x:Uid="CopyBtn" Icon="Copy" />
-					<AppBarButton x:Uid="PasteBtn" Icon="Paste" />
-					<AppBarSeparator />
-					<AppBarButton x:Uid="RenameBtn" Icon="Rename" />
-					<AppBarButton x:Uid="DeleteBtn" Icon="Delete" />
-					<AppBarSeparator />
-					<AppBarButton x:Uid="PropertiesBtn" Icon="Repair" />
-					<AppBarSeparator />
-					<AppBarButton x:Uid="BackupBtn" Icon="{toolkitExtensions:BitmapIcon Source=/Assets/Files/Backup.png}" />
-					<AppBarButton x:Uid="OpenFolderBtn" Icon="{toolkitExtensions:BitmapIcon Source=/Assets/Files/OpenFolder.png}" />
-				</CommandBar>
+					<CommandBar HorizontalAlignment="Left" DefaultLabelPosition="Right">
+						<AppBarButton x:Uid="BackupBtn" Icon="{toolkitExtensions:BitmapIcon Source=/Assets/Files/Backup.png}" />
+						<AppBarButton x:Uid="OpenFolderBtn" Icon="{toolkitExtensions:BitmapIcon Source=/Assets/Files/OpenFolder.png}" />
+					</CommandBar>
+				</StackPanel>
 
 				<Border
 					Grid.Row="1"
@@ -127,14 +158,14 @@
 						</ListView.Header>
 						<ListView.ContextFlyout>
 							<MenuFlyout>
-								<MenuFlyoutItem x:Uid="FlyoutCut" Icon="Cut" />
-								<MenuFlyoutItem x:Uid="FlyoutCopy" Icon="Copy" />
-								<MenuFlyoutItem x:Uid="FlyoutPaste" Icon="Paste" />
+								<controls:MenuFlyoutItemWithThemedIcon x:Uid="FlyoutCut" ThemedIconStyle="{StaticResource App.ThemedIcons.Cut}" />
+								<controls:MenuFlyoutItemWithThemedIcon x:Uid="FlyoutCopy" ThemedIconStyle="{StaticResource App.ThemedIcons.Copy}" />
+								<controls:MenuFlyoutItemWithThemedIcon x:Uid="FlyoutPaste" ThemedIconStyle="{StaticResource App.ThemedIcons.Paste}" />
 								<MenuFlyoutSeparator />
-								<MenuFlyoutItem x:Uid="FlyoutRename" Icon="Rename" />
-								<MenuFlyoutItem x:Uid="FlyoutDelete" Icon="Delete" />
+								<controls:MenuFlyoutItemWithThemedIcon x:Uid="FlyoutRename" ThemedIconStyle="{StaticResource App.ThemedIcons.Rename}" />
+								<controls:MenuFlyoutItemWithThemedIcon x:Uid="FlyoutDelete" ThemedIconStyle="{StaticResource App.ThemedIcons.Delete}" />
 								<MenuFlyoutSeparator />
-								<MenuFlyoutItem x:Uid="FlyoutProps" Icon="Repair" />
+								<controls:MenuFlyoutItemWithThemedIcon x:Uid="FlyoutProps" Icon="Repair" />
 							</MenuFlyout>
 						</ListView.ContextFlyout>
 					</ListView>

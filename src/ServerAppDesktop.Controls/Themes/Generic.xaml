@@ -113,7 +113,7 @@
 								<TextBlock
 									Grid.Column="0"
 									HorizontalAlignment="Left"
-									VerticalAlignment="Center"
+									VerticalAlignment="Bottom"
 									Style="{StaticResource BodyStrongTextBlockStyle}"
 									Text="{TemplateBinding Header}"
 									TextWrapping="WrapWholeWords" />

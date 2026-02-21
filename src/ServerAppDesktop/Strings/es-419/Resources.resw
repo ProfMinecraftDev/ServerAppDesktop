@@ -420,8 +420,8 @@
   <data name="ServerEditionCard.Title" xml:space="preserve">
     <value>Edición de servidor</value>
   </data>
-  <data name="ServerVersionCard.Title" xml:space="preserve">
-    <value>Versión de servidor</value>
+  <data name="ServerStateCard.Title" xml:space="preserve">
+    <value>Estado del servidor</value>
   </data>
   <data name="ServerPathCard.Title" xml:space="preserve">
     <value>Ruta del servidor</value>
@@ -646,7 +646,7 @@
     <value>Haz que Server App Desktop llegue a más personas.</value>
   </data>
   <data name="RamLimitCard.Header" xml:space="preserve">
-    <value>Límite de RAM (Minecraft Java)</value>
+    <value>Límite de RAM</value>
   </data>
   <data name="RamLimitCard.Description" xml:space="preserve">
     <value>Esto se usa para limitar el uso de memoria RAM (se mide en MB)</value>
@@ -742,7 +742,7 @@
     <value>Al cerrar la ventana principal, la aplicación se minimiza a la bandeja del sistema.</value>
   </data>
   <data name="RamLimitCard.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Asignar memoria RAM para el proceso Java</value>
+    <value>Asignar memoria RAM para el proceso</value>
   </data>
   <data name="WorldNameCard.ToolTipService.ToolTip" xml:space="preserve">
     <value>Debe coincidir con la carpeta del mundo</value>

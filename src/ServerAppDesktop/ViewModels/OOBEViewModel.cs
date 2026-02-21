@@ -1,17 +1,4 @@
-﻿using System;
-using System.Collections.ObjectModel;
-using System.Threading.Tasks;
-using CommunityToolkit.Mvvm.ComponentModel;
-using CommunityToolkit.Mvvm.Input;
-using Microsoft.UI.Composition.SystemBackdrops;
-using Microsoft.UI.Xaml;
-using Microsoft.UI.Xaml.Media;
-using Microsoft.UI.Xaml.Media.Animation;
-using Microsoft.Windows.Storage.Pickers;
-using ServerAppDesktop.Helpers;
-using ServerAppDesktop.Models;
-using ServerAppDesktop.Services;
-using ServerAppDesktop.Views;
+﻿
 
 namespace ServerAppDesktop.ViewModels
 {
@@ -19,6 +6,10 @@ namespace ServerAppDesktop.ViewModels
     {
         private readonly IOOBEService _service;
         private readonly HomeViewModel _homeViewModel;
+        private readonly IServerPropertiesService _serverPropertiesService;
+
+        private string serverFolder = "";
+        private string serverExe = "";
 
         [ObservableProperty]
         private ObservableCollection<WindowBackdrop> _windowBackdrops = [];
@@ -59,17 +50,20 @@ namespace ServerAppDesktop.ViewModels
         [ObservableProperty]
         private bool autoStartServer = true;
 
-        public OOBEViewModel(IOOBEService _service, HomeViewModel homeViewModel)
+        public OOBEViewModel(IOOBEService service, HomeViewModel homeViewModel, IServerPropertiesService serverPropertiesService)
         {
-            this._service = _service;
+            _service = service;
             _homeViewModel = homeViewModel;
             _homeViewModel.IsConfigured = false;
+            _serverPropertiesService = serverPropertiesService;
 
-            this._service.OOBEFinished += (configured) =>
-            {
-                if (configured)
-                    MainWindow.Instance.contentFrame.Navigate(typeof(MainView), null, new DrillInNavigationTransitionInfo());
-            };
+            _service.OOBEFinished += (configured) =>
+             {
+                 if (configured)
+                 {
+                     _ = MainWindow.Instance.contentFrame.Navigate(typeof(MainView), null, new DrillInNavigationTransitionInfo());
+                 }
+             };
 
             WindowBackdrops =
                 [
@@ -115,6 +109,30 @@ namespace ServerAppDesktop.ViewModels
         {
             if (value == 0 || value > 65535)
                 ServerPort = SelectedMinecraftEdition?.Value == 0 ? 19132 : 25565;
+
+            _serverPropertiesService.SetValue("server-port", value);
+        }
+
+        partial void OnServerDescriptionChanged(string value)
+        {
+            if (string.IsNullOrWhiteSpace(value))
+                return;
+
+            string motdKey = (SelectedMinecraftEdition?.Value == 0) ? "server-name" : "motd";
+            _serverPropertiesService.SetValue(motdKey, value);
+        }
+
+        partial void OnServerPathChanged(string value)
+        {
+            if (string.IsNullOrWhiteSpace(serverFolder))
+                return;
+
+            _serverPropertiesService.SetPath(serverFolder);
+
+            ServerPort = _serverPropertiesService.GetValue<int>("server-port");
+
+            string motdKey = (SelectedMinecraftEdition?.Value == 0) ? "server-name" : "motd";
+            ServerDescription = _serverPropertiesService.GetValue<string>(motdKey) ?? "A Minecraft Server";
         }
 
         [RelayCommand]
@@ -122,13 +140,16 @@ namespace ServerAppDesktop.ViewModels
         {
             CanSelectFolder = false;
 
-            var picker = new FolderPicker(xamlRoot.ContentIslandEnvironment.AppWindowId)
+            FolderPicker picker = new(xamlRoot.ContentIslandEnvironment.AppWindowId)
             {
                 SuggestedStartLocation = PickerLocationId.ComputerFolder,
                 ViewMode = PickerViewMode.List
             };
 
-            var folder = await picker.PickSingleFolderAsync();
+            PickFolderResult? folder = await picker.PickSingleFolderAsync();
+            serverFolder = folder != null
+                ? folder.Path
+                : "";
             ServerPath = folder != null
                 ? folder.Path
                 : ResourceHelper.GetString("NoPathSelectedText");
@@ -141,7 +162,7 @@ namespace ServerAppDesktop.ViewModels
         {
             CanSelectExecutable = false;
 
-            var picker = new FileOpenPicker(xamlRoot.ContentIslandEnvironment.AppWindowId)
+            FileOpenPicker picker = new(xamlRoot.ContentIslandEnvironment.AppWindowId)
             {
                 SuggestedStartLocation = PickerLocationId.ComputerFolder,
                 ViewMode = PickerViewMode.List
@@ -149,7 +170,10 @@ namespace ServerAppDesktop.ViewModels
 
             picker.FileTypeFilter.Add(SelectedMinecraftEdition?.Value == 0 ? ".exe" : ".jar");
 
-            var file = await picker.PickSingleFileAsync();
+            PickFileResult? file = await picker.PickSingleFileAsync();
+            serverExe = file != null
+                ? file.Path
+                : "";
             ServerExecutable = file != null
                 ? file.Path
                 : ResourceHelper.GetString("NoPathSelectedText");
@@ -161,7 +185,22 @@ namespace ServerAppDesktop.ViewModels
         [RelayCommand]
         private void SaveOOBESettings()
         {
-            var userSettings = new AppSettings
+            if (serverExe == "" || serverFolder == "")
+            {
+                HWND hWnd = new(MainWindow.Instance.GetWindowHandle());
+
+                _ = PInvoke.MessageBox(
+                    hWnd,
+                    "Selecciona una ruta al servidor o ejecutable (necesita ser obligatorio)",
+                    "Error",
+                    MESSAGEBOX_STYLE.MB_ICONERROR |
+                    MESSAGEBOX_STYLE.MB_OK |
+                    MESSAGEBOX_STYLE.MB_SETFOREGROUND |
+                    MESSAGEBOX_STYLE.MB_APPLMODAL);
+
+                return;
+            }
+            AppSettings userSettings = new()
             {
                 UI = new UISettings
                 {
@@ -170,8 +209,8 @@ namespace ServerAppDesktop.ViewModels
                 },
                 Server = new ServerSettings
                 {
-                    Path = ServerPath,
-                    Executable = ServerExecutable,
+                    Path = serverFolder,
+                    Executable = serverExe,
                     Edition = SelectedMinecraftEdition?.Value ?? 0
                 },
                 Startup = new StartupSettings
@@ -179,6 +218,21 @@ namespace ServerAppDesktop.ViewModels
                     AutoStartServer = AutoStartServer
                 }
             };
+            OnServerDescriptionChanged(ServerDescription);
+            OnServerPortChanged(ServerPort);
+            if (userSettings.Server.Edition == 1)
+            {
+                HWND hWnd = new(MainWindow.Instance.GetWindowHandle());
+
+                _ = PInvoke.MessageBox(
+                    hWnd,
+                    "Seleccionaste Minecraft Java. Asegúrate de tener Java instalado y en el PATH para evitar errores.",
+                    "Instalación de Java recomendada",
+                    MESSAGEBOX_STYLE.MB_ICONINFORMATION |
+                    MESSAGEBOX_STYLE.MB_OK |
+                    MESSAGEBOX_STYLE.MB_SETFOREGROUND |
+                    MESSAGEBOX_STYLE.MB_APPLMODAL);
+            }
             _service.SaveUserSettings(userSettings);
             _service.FinishOOBE();
         }

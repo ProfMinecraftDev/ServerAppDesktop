@@ -1,13 +1,9 @@
-﻿using System;
-using System.Net.NetworkInformation;
-using System.Threading.Tasks;
-using Windows.Networking.Connectivity;
-
+﻿
 namespace ServerAppDesktop.Helpers
 {
     public static class NetworkHelper
     {
-        private static string _cachedInterfaceName;
+        private static string _cachedInterfaceName = "";
         public static event Action<bool>? ConnectionChanged;
 
         static NetworkHelper()
@@ -25,9 +21,9 @@ namespace ServerAppDesktop.Helpers
         {
             try
             {
-                using var client = new System.Net.Http.HttpClient();
+                using HttpClient client = new();
                 client.Timeout = TimeSpan.FromSeconds(5);
-                var response = await client.GetAsync("http://www.google.com");
+                HttpResponseMessage response = await client.GetAsync("http://www.microsoft.com");
                 ConnectionChanged?.Invoke(response.IsSuccessStatusCode);
                 return response.IsSuccessStatusCode;
             }
@@ -44,7 +40,7 @@ namespace ServerAppDesktop.Helpers
 
             if (currentProfile != null && currentProfile.NetworkAdapter != null)
             {
-                var adapterId = currentProfile.NetworkAdapter.NetworkAdapterId;
+                Guid adapterId = currentProfile.NetworkAdapter.NetworkAdapterId;
 
                 NetworkInterface[] interfaces = NetworkInterface.GetAllNetworkInterfaces();
 
@@ -52,6 +48,9 @@ namespace ServerAppDesktop.Helpers
                 {
                     if (ni.Id.Equals(adapterId.ToString("B"), StringComparison.OrdinalIgnoreCase))
                     {
+                        if (_cachedInterfaceName == ni.Description)
+                            return ni.Description;
+
                         _cachedInterfaceName = ni.Description;
                         return ni.Description;
                     }

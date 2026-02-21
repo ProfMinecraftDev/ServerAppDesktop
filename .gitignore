@@ -1,14 +1,27 @@
-﻿/.vs
-/src/ServerAppDesktop/obj
-/src/ServerAppDesktop/bin
-/src/ServerAppDesktop/ServerAppDesktop.csproj.user
-/src/ServerAppDesktop.Helpers/bin
-/src/ServerAppDesktop.Helpers/obj
-/src/ServerAppDesktop.Converters/bin
-/src/ServerAppDesktop.Converters/obj
-/src/ServerAppDesktop.Services/obj
-/src/ServerAppDesktop.Services/bin
-/src/ServerAppDesktop.Controls/obj
-/src/ServerAppDesktop.Controls/bin
-/src/ServerAppDesktop.Models/obj
-/src/ServerAppDesktop.Models/bin
+﻿# === Custom Build Outputs ===
+**/[Bb]in/
+**/[Oo]bj/
+**/[Ee]xport/
+
+# === Visual Studio Essentials ===
+.vs/
+**/*.user
+**/*.suo
+**/*.userosscache
+**/*.sln.docstates
+
+# === Compiled Files & Temporaries ===
+**/*.obj
+**/*.pdb
+**/*.ilk
+**/*.log
+**/*.tmp
+**/*.cache
+**/*_wpftmp.csproj
+
+# === Package Manager ===
+**/node_modules/
+**/[Pp]ackages/
+!**/[Pp]ackages/build/
+**/*.nuget.props
+**/*.nuget.targets

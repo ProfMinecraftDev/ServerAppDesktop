@@ -1,6 +1,3 @@
-using Microsoft.UI.Xaml;
-using Microsoft.UI.Xaml.Controls;
-
 namespace ServerAppDesktop.Controls
 {
     public sealed partial class SquareCard : Control
@@ -47,7 +44,7 @@ namespace ServerAppDesktop.Controls
             base.OnApplyTemplate();
 
             Padding = new Thickness(16);
-            CornerRadius = Application.Current.Resources.TryGetValue("ControlCornerRadius", out var cornerRadiusResource) && cornerRadiusResource is CornerRadius cornerRadius
+            CornerRadius = Application.Current.Resources.TryGetValue("ControlCornerRadius", out object? cornerRadiusResource) && cornerRadiusResource is CornerRadius cornerRadius
                 ? cornerRadius
                 : new CornerRadius(4);
             BorderThickness = new Thickness(1);

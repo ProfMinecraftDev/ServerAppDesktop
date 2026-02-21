@@ -1,7 +1,4 @@
-﻿using System;
-using ServerAppDesktop.Models;
-
-namespace ServerAppDesktop.Services
+﻿namespace ServerAppDesktop.Services
 {
     public interface IOOBEService
     {

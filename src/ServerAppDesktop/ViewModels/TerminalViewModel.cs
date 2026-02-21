@@ -1,11 +1,4 @@
-﻿using System;
-using CommunityToolkit.Mvvm.ComponentModel;
-using CommunityToolkit.Mvvm.Input;
-using CommunityToolkit.Mvvm.Messaging;
-using ServerAppDesktop.Helpers;
-using ServerAppDesktop.Messaging;
-using ServerAppDesktop.Models;
-using ServerAppDesktop.Services;
+﻿using ServerAppDesktop.Models;
 
 namespace ServerAppDesktop.ViewModels
 {
@@ -32,14 +25,14 @@ namespace ServerAppDesktop.ViewModels
             _processService = processService;
             _processService.OutputReceived += (output) =>
             {
-                MainWindow.Instance.DispatcherQueue.TryEnqueue(() =>
+                _ = MainWindow.Instance.DispatcherQueue.TryEnqueue(() =>
                 {
                     TerminalOutput += output + Environment.NewLine;
                 });
             };
             _processService.ErrorReceived += (output) =>
             {
-                MainWindow.Instance.DispatcherQueue.TryEnqueue(() =>
+                _ = MainWindow.Instance.DispatcherQueue.TryEnqueue(() =>
                 {
                     TerminalOutput += output + Environment.NewLine;
                 });
@@ -88,10 +81,12 @@ namespace ServerAppDesktop.ViewModels
         private void CopyOutput()
         {
             if (TerminalOutput != string.Empty)
-                MainWindow.Instance.DispatcherQueue.TryEnqueue(() =>
+            {
+                _ = MainWindow.Instance.DispatcherQueue.TryEnqueue(() =>
                 {
                     ClipboardHelper.SetText(TerminalOutput);
                 });
+            }
         }
     }
 }

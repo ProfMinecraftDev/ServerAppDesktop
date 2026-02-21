@@ -1,15 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.IO;
-using System.Linq;
-using System.Net;
-using System.Net.Http;
-using System.Security.Cryptography;
-using System.Text.Json;
-using System.Text.Json.Serialization;
-using System.Threading.Tasks;
-using ServerAppDesktop.Models;
+﻿
 
 namespace ServerAppDesktop.Helpers
 {
@@ -23,53 +12,59 @@ namespace ServerAppDesktop.Helpers
         public static event Action<string, double>? DownloadProgress;
         private const string GITHUB_API_RELEASES = "https://api.github.com/repos/{0}/{1}/releases";
 
-        private static readonly JsonSerializerOptions JSON_SERIALIZER_OPTIONS = new()
-        {
-            TypeInfoResolver = UpdateJsonContext.Default
-        };
-
         public static async Task<ReleaseInfo?> GetUpdateAsync(string username, string repository, string currentVersion, bool isPreRelease)
         {
             if (string.IsNullOrEmpty(username))
+            {
                 throw new ArgumentNullException(nameof(username));
-            if (string.IsNullOrEmpty(repository))
-                throw new ArgumentNullException(nameof(repository));
-            if (string.IsNullOrEmpty(currentVersion))
-                throw new ArgumentNullException(nameof(currentVersion));
+            }
 
-            using var client = new HttpClient();
+            if (string.IsNullOrEmpty(repository))
+            {
+                throw new ArgumentNullException(nameof(repository));
+            }
+
+            if (string.IsNullOrEmpty(currentVersion))
+            {
+                throw new ArgumentNullException(nameof(currentVersion));
+            }
+
+            using HttpClient client = new();
             client.DefaultRequestHeaders.Add("User-Agent", username);
 
             string url = string.Format(GITHUB_API_RELEASES, username, repository);
-            var response = await client.GetAsync(url);
+            HttpResponseMessage response = await client.GetAsync(url);
 
             if (response.StatusCode == HttpStatusCode.NotFound)
+            {
                 return null;
-            response.EnsureSuccessStatusCode();
+            }
 
-            var responseJson = await response.Content.ReadAsStringAsync();
+            _ = response.EnsureSuccessStatusCode();
 
-            var releases = JsonSerializer.Deserialize(responseJson, UpdateJsonContext.Default.ListReleaseInfo);
+            string responseJson = await response.Content.ReadAsStringAsync();
+            List<ReleaseInfo>? releases = JsonSerializer.Deserialize(responseJson, UpdateJsonContext.Default.ListReleaseInfo);
 
             if (releases == null || releases.Count == 0)
+            {
                 return null;
+            }
 
-            var release = releases
+            ReleaseInfo? release = releases
                 .Where(r => isPreRelease ? r.IsPreRelease : !r.IsPreRelease)
                 .OrderByDescending(r => r.PublishedAt)
                 .FirstOrDefault();
 
-            if (release != null && release.VersionTag == currentVersion)
-                return null;
-
-            return release;
+            return release != null && release.VersionTag == currentVersion ? null : release;
         }
 
         public static async Task<bool> DownloadUpdateAsync(Asset updateFile)
         {
             string tempFolder = Path.Combine(Path.GetTempPath(), "ServerAppDesktop_Updates");
             if (!Directory.Exists(tempFolder))
-                Directory.CreateDirectory(tempFolder);
+            {
+                _ = Directory.CreateDirectory(tempFolder);
+            }
 
             string tempPath = Path.Combine(tempFolder, updateFile.Name);
 
@@ -79,21 +74,21 @@ namespace ServerAppDesktop.Helpers
                 return true;
             }
 
-            using var httpClient = new HttpClient();
-            using var response = await httpClient.GetAsync(updateFile.DownloadUrl, HttpCompletionOption.ResponseHeadersRead);
-            response.EnsureSuccessStatusCode();
+            using HttpClient httpClient = new();
+            using HttpResponseMessage response = await httpClient.GetAsync(updateFile.DownloadUrl, HttpCompletionOption.ResponseHeadersRead);
+            _ = response.EnsureSuccessStatusCode();
 
-            var totalBytes = response.Content.Headers.ContentLength ?? -1L;
-            using var contentStream = await response.Content.ReadAsStreamAsync();
-            using var fileStream = new FileStream(tempPath, FileMode.Create, FileAccess.Write, FileShare.None, 8192, true);
+            long totalBytes = response.Content.Headers.ContentLength ?? -1L;
+            using Stream contentStream = await response.Content.ReadAsStreamAsync();
+            using FileStream fileStream = new(tempPath, FileMode.Create, FileAccess.Write, FileShare.None, 8192, true);
 
-            var buffer = new byte[8192];
+            byte[] buffer = new byte[8192];
             long totalRead = 0;
             int read;
 
-            while ((read = await contentStream.ReadAsync(buffer, 0, buffer.Length)) > 0)
+            while ((read = await contentStream.ReadAsync(buffer)) > 0)
             {
-                await fileStream.WriteAsync(buffer, 0, read);
+                await fileStream.WriteAsync(buffer.AsMemory(0, read));
                 totalRead += read;
 
                 if (totalBytes != -1)
@@ -118,9 +113,9 @@ namespace ServerAppDesktop.Helpers
 
         private static void RegisterInstallation(string tempPath)
         {
-            // Lanzamos el proceso directamente. 
-            // En WinUI 3 es más fiable que esperar al ProcessExit.
-            var startInfo = new ProcessStartInfo
+
+
+            ProcessStartInfo startInfo = new()
             {
                 FileName = tempPath,
                 Arguments = "/SILENT /SUPPRESSMSGBOXES /NORESTART /SP- /NORESTARTAPPLICATIONS /FORCECLOSEAPPLICATIONS /RUN",
@@ -132,7 +127,7 @@ namespace ServerAppDesktop.Helpers
             {
                 try
                 {
-                    Process.Start(startInfo);
+                    _ = Process.Start(startInfo);
                 }
                 catch { }
             };
@@ -141,10 +136,12 @@ namespace ServerAppDesktop.Helpers
         private static async Task<bool> CompareHash(string filePath, string hashToCompare)
         {
             if (string.IsNullOrEmpty(hashToCompare))
+            {
                 return false;
+            }
 
             using var sha256 = SHA256.Create();
-            using var stream = File.OpenRead(filePath);
+            using FileStream stream = File.OpenRead(filePath);
             byte[] hashBytes = await sha256.ComputeHashAsync(stream);
             string sha256LocalFile = Convert.ToHexString(hashBytes);
 

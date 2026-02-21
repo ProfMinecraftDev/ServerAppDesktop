@@ -1,7 +1,4 @@
-﻿using System;
-using Microsoft.UI.Xaml.Controls;
-
-namespace ServerAppDesktop.Services
+﻿namespace ServerAppDesktop.Services
 {
     public interface INavigationService
     {

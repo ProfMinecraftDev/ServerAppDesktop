@@ -1,9 +1,4 @@
-﻿using System;
-using System.Diagnostics;
-using System.Threading.Tasks;
-using ServerAppDesktop.Helpers;
-
-namespace ServerAppDesktop.Services
+﻿namespace ServerAppDesktop.Services
 {
     public sealed class PerformanceService : IPerformanceService
     {
@@ -16,23 +11,26 @@ namespace ServerAppDesktop.Services
 
         public PerformanceService()
         {
-            // 1. RAM Física (Instantáneo)
-            var gcInfo = GC.GetGCMemoryInfo();
-            TotalMemory = (int)(gcInfo.TotalAvailableMemoryBytes / 1024 / 1024);
 
-            // 2. Ejecutar carga sin bloquear el hilo principal
+            GCMemoryInfo gcInfo = GC.GetGCMemoryInfo();
+            TotalMemory = (gcInfo.TotalAvailableMemoryBytes / 1024 / 1024).To<int>();
+
+
             _ = Task.Run(StartCounters);
         }
 
         private void StartCounters()
         {
             if (IsInitialized)
+            {
                 return;
+            }
+
             try
             {
                 string netInterface = NetworkHelper.GetNetworkInterfaceName();
 
-                // Instanciación en paralelo para ahorrar tiempo (de ~2s a ~0.4s)
+
                 Parallel.Invoke(
                     () => _cpuCounter = new("Processor", "% Processor Time", "_Total"),
                     () => _ramCounter = new("Memory", "Available MBytes"),
@@ -47,13 +45,14 @@ namespace ServerAppDesktop.Services
                             _networkUploadCounter = new("Network Interface", "Bytes Sent/sec", netInterface);
                             _networkDownloadCounter = new("Network Interface", "Bytes Received/sec", netInterface);
                         }
+                    },
+                    () =>
+                    {
+                        _ = (_cpuCounter?.NextValue());
+                        _ = (_pBase?.NextValue());
+                        _ = (_pPercent?.NextValue());
                     }
                 );
-
-                // "Calentamiento": La primera lectura siempre es 0
-                _cpuCounter?.NextValue();
-                _pBase?.NextValue();
-                _pPercent?.NextValue();
 
                 IsInitialized = true;
             }
@@ -63,19 +62,25 @@ namespace ServerAppDesktop.Services
             }
         }
 
-        // --- MÉTODOS DE LECTURA BLINDADOS ---
 
-        public int GetCpuUsagePercentage() => (int)(_cpuCounter?.NextValue() ?? 0);
+
+        public int GetCpuUsagePercentage()
+        {
+            return (_cpuCounter?.NextValue() ?? 0).To<int>();
+        }
 
         public float GetCpuUsageInGHz()
         {
             if (_pBase == null || _pPercent == null)
+            {
                 return 0f;
+            }
+
             try
             {
-                // Frecuencia actual = (Frecuencia Base * % de uso de frecuencia)
-                float currentGHz = (_pBase.NextValue() * (_pPercent.NextValue() / 100f)) / 1000f;
-                return (float)Math.Round(currentGHz, 2);
+
+                float currentGHz = _pBase.NextValue() * (_pPercent.NextValue() / 100f) / 1000f;
+                return Math.Round(currentGHz, 2).To<float>();
             }
             catch { return 0f; }
         }
@@ -83,10 +88,13 @@ namespace ServerAppDesktop.Services
         public int GetUsedMemory()
         {
             if (_ramCounter == null)
+            {
                 return 0;
+            }
+
             try
             {
-                int available = (int)_ramCounter.NextValue();
+                int available = _ramCounter.NextValue().To<int>();
                 return Math.Max(0, TotalMemory - available);
             }
             catch { return 0; }
@@ -94,24 +102,40 @@ namespace ServerAppDesktop.Services
 
         public int GetUsedMemoryPercentage()
         {
-            if (TotalMemory <= 0)
-                return 0;
-            return (int)((GetUsedMemory() / (float)TotalMemory) * 100);
+            return TotalMemory <= 0 ? 0 : (GetUsedMemory() / (float)TotalMemory * 100).To<int>();
         }
 
-        public int GetNetworkUploadSpeed() => GetSafeValue(_networkUploadCounter);
-        public int GetNetworkDownloadSpeed() => GetSafeValue(_networkDownloadCounter);
-        public int GetDiskWriteSpeed() => GetSafeValue(_diskWriteCounter);
-        public int GetDiskReadSpeed() => GetSafeValue(_diskReadCounter);
+        public int GetNetworkUploadSpeed()
+        {
+            return GetSafeValue(_networkUploadCounter);
+        }
 
-        private int GetSafeValue(PerformanceCounter? counter)
+        public int GetNetworkDownloadSpeed()
+        {
+            return GetSafeValue(_networkDownloadCounter);
+        }
+
+        public int GetDiskWriteSpeed()
+        {
+            return GetSafeValue(_diskWriteCounter);
+        }
+
+        public int GetDiskReadSpeed()
+        {
+            return GetSafeValue(_diskReadCounter);
+        }
+
+        private static int GetSafeValue(PerformanceCounter? counter)
         {
             if (counter == null)
+            {
                 return 0;
+            }
+
             try
             {
-                // Convertimos Bytes/sec a KB/sec
-                return (int)(counter.NextValue() / 1024);
+
+                return (counter.NextValue() / 1024).To<int>();
             }
             catch { return 0; }
         }

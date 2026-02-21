@@ -21,24 +21,26 @@
 	<winex:WindowEx.SystemBackdrop>
 		<MicaBackdrop Kind="Base" />
 	</winex:WindowEx.SystemBackdrop>
-
-	<Grid d:DataContext="{d:DesignInstance vm:MainViewModel, IsDesignTimeCreatable=True}">
+	<Grid d:DataContext="{d:DesignInstance vm:MainViewModel, IsDesignTimeCreatable=True}" ChildrenTransitions="{StaticResource DefaultLayoutTransitions}">
 		<Grid.RowDefinitions>
 			<RowDefinition Height="Auto" />
-			<RowDefinition Height="Auto" />
 			<RowDefinition Height="*" />
-			<RowDefinition Height="Auto" />
 		</Grid.RowDefinitions>
-		<local:AppTrayIcon x:Name="TrayIcon" x:FieldModifier="public" />
-
 		<TitleBar
+			x:Name="TitleBar"
 			Title="{x:Bind helpers:DataHelper.WindowTitle, Mode=OneTime}"
 			Grid.Row="0"
+			x:FieldModifier="public"
 			BackRequested="TitleBar_BackRequested"
 			IsBackButtonEnabled="{x:Bind ViewModel.CanGoBack, Mode=OneWay}"
 			IsBackButtonVisible="{x:Bind ViewModel.CanGoBack, Mode=OneWay}"
 			IsPaneToggleButtonVisible="False"
 			Subtitle="{x:Bind helpers:DataHelper.WindowSubtitle, Mode=OneTime}">
+			<TitleBar.Transitions>
+				<TransitionCollection>
+					<EntranceThemeTransition />
+				</TransitionCollection>
+			</TitleBar.Transitions>
 			<TitleBar.IconSource>
 				<ImageIconSource ImageSource="/Assets/AppIcon.ico" />
 			</TitleBar.IconSource>
@@ -100,86 +102,93 @@
 			</TitleBar.RightHeader>
 		</TitleBar>
 
-		<StackPanel Grid.Row="1" Spacing="4">
-			<InfoBar
-				x:Name="internetInfoBar"
-				IsClosable="True"
-				IsOpen="{Binding IsConnectedToInternet, Mode=OneWay, Converter={StaticResource BoolNegationConverter}}"
-				Severity="Warning" />
-			<InfoBar
-				x:Uid="UpdateInfoBar"
-				IsClosable="False"
-				IsOpen="{x:Bind ViewModel.DownloadingAnUpdate, Mode=OneWay}"
-				Message="{x:Bind ViewModel.UpdateDownloadProgress, Mode=OneWay}"
-				Severity="Informational">
-				<ProgressBar Value="{x:Bind ViewModel.DownloadProgressValue, Mode=OneWay}" />
-			</InfoBar>
-		</StackPanel>
+		<Grid Grid.Row="1">
+			<Grid.RowDefinitions>
+				<RowDefinition Height="Auto" />
+				<RowDefinition Height="*" />
+				<RowDefinition Height="Auto" />
+			</Grid.RowDefinitions>
+			<StackPanel Grid.Row="0" Spacing="4">
+				<InfoBar
+					x:Name="internetInfoBar"
+					IsClosable="True"
+					IsOpen="{Binding IsConnectedToInternet, Mode=OneWay, Converter={StaticResource BoolNegationConverter}}"
+					Severity="Warning" />
+				<InfoBar
+					x:Uid="UpdateInfoBar"
+					IsClosable="False"
+					IsOpen="{x:Bind ViewModel.DownloadingAnUpdate, Mode=OneWay}"
+					Message="{x:Bind ViewModel.UpdateDownloadProgress, Mode=OneWay}"
+					Severity="Informational">
+					<ProgressBar Value="{x:Bind ViewModel.DownloadProgressValue, Mode=OneWay}" />
+				</InfoBar>
+			</StackPanel>
 
-		<Frame
-			x:Name="contentFrame"
-			Grid.Row="2"
-			x:FieldModifier="public">
-			<StackPanel
-				HorizontalAlignment="Center"
-				VerticalAlignment="Center"
-				Spacing="16">
+			<Frame
+				x:Name="contentFrame"
+				Grid.Row="1"
+				x:FieldModifier="public">
 				<StackPanel
 					HorizontalAlignment="Center"
 					VerticalAlignment="Center"
-					Orientation="Horizontal"
-					Spacing="8">
-					<ImageIcon VerticalAlignment="Center" Source="/Assets/AppIcon.ico" />
-					<StackPanel VerticalAlignment="Center" Spacing="4">
-						<TextBlock
-							HorizontalAlignment="Left"
-							VerticalAlignment="Center"
-							FontSize="36"
-							FontWeight="ExtraBlack"
-							Text="{x:Bind helpers:DataHelper.AppName, Mode=OneTime}" />
-						<Border
-							Padding="20,5"
-							HorizontalAlignment="Left"
-							VerticalAlignment="Center"
-							Background="#FFCB00"
-							CornerRadius="6">
+					Spacing="16">
+					<StackPanel
+						HorizontalAlignment="Center"
+						VerticalAlignment="Center"
+						Orientation="Horizontal"
+						Spacing="8">
+						<ImageIcon VerticalAlignment="Center" Source="/Assets/AppIcon.ico" />
+						<StackPanel VerticalAlignment="Center" Spacing="4">
 							<TextBlock
-								FontSize="20"
-								FontWeight="Bold"
-								Foreground="Black"
-								Text="PREVIEW" />
-						</Border>
+								HorizontalAlignment="Left"
+								VerticalAlignment="Center"
+								FontSize="36"
+								FontWeight="ExtraBlack"
+								Text="{x:Bind helpers:DataHelper.AppName, Mode=OneTime}" />
+							<Border
+								Padding="20,5"
+								HorizontalAlignment="Left"
+								VerticalAlignment="Center"
+								Background="#FFCB00"
+								CornerRadius="6">
+								<TextBlock
+									FontSize="20"
+									FontWeight="Bold"
+									Foreground="Black"
+									Text="PREVIEW" />
+							</Border>
+						</StackPanel>
 					</StackPanel>
+					<ProgressBar
+						Width="500"
+						HorizontalAlignment="Center"
+						VerticalAlignment="Center"
+						IsIndeterminate="True" />
 				</StackPanel>
-				<ProgressBar
-					Width="500"
-					HorizontalAlignment="Center"
-					VerticalAlignment="Center"
-					IsIndeterminate="True" />
-			</StackPanel>
-		</Frame>
+			</Frame>
 
-		<Border
-			Grid.Row="3"
-			Padding="4"
-			HorizontalAlignment="Stretch"
-			Background="{ThemeResource AccentFillColorDefaultBrush}"
-			Visibility="{Binding DebugMode, Mode=OneTime, Converter={StaticResource BoolToVisibilityConverter}}">
-			<StackPanel
-				HorizontalAlignment="Center"
-				Orientation="Horizontal"
-				Spacing="4">
-				<FontIcon
-					VerticalAlignment="Center"
-					Foreground="{ThemeResource TextOnAccentAAFillColorPrimaryBrush}"
-					Glyph="&#xEBE8;" />
-				<TextBlock
-					x:Uid="DebugBannerMessage"
-					VerticalAlignment="Center"
-					FontFamily="Cascadia Code, Consolas, Lucida Console, monospace"
-					Foreground="{ThemeResource TextOnAccentAAFillColorPrimaryBrush}" />
-			</StackPanel>
-		</Border>
+			<Border
+				Grid.Row="2"
+				Padding="4"
+				HorizontalAlignment="Stretch"
+				Background="{ThemeResource AccentFillColorDefaultBrush}"
+				Visibility="{Binding DebugMode, Mode=OneTime, Converter={StaticResource BoolToVisibilityConverter}}">
+				<StackPanel
+					HorizontalAlignment="Center"
+					Orientation="Horizontal"
+					Spacing="4">
+					<FontIcon
+						VerticalAlignment="Center"
+						Foreground="{ThemeResource TextOnAccentAAFillColorPrimaryBrush}"
+						Glyph="&#xEBE8;" />
+					<TextBlock
+						x:Uid="DebugBannerMessage"
+						VerticalAlignment="Center"
+						FontFamily="Cascadia Code, Consolas, Lucida Console, monospace"
+						Foreground="{ThemeResource TextOnAccentAAFillColorPrimaryBrush}" />
+				</StackPanel>
+			</Border>
+		</Grid>
 
 		<ContentDialog x:Name="warningDialog" x:Uid="WarningDialog" />
 		<ContentDialog
@@ -201,6 +210,6 @@
 			x:Uid="FeedbackDialog"
 			PrimaryButtonCommand="{x:Bind ViewModel.SendFeedbackCommand}"
 			PrimaryButtonStyle="{StaticResource AccentButtonStyle}" />
+		<local:AppTrayIcon x:Name="TrayIcon" x:FieldModifier="public" />
 	</Grid>
-
 </winex:WindowEx>

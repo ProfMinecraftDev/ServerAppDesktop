@@ -1,13 +1,4 @@
-﻿using System;
-using System.Threading.Tasks;
-using CommunityToolkit.Mvvm.ComponentModel;
-using CommunityToolkit.Mvvm.Messaging;
-using Microsoft.UI.Xaml;
-using ServerAppDesktop.Helpers;
-using ServerAppDesktop.Messaging;
-using ServerAppDesktop.Models;
-using ServerAppDesktop.Services;
-
+﻿
 namespace ServerAppDesktop.ViewModels
 {
     public sealed partial class PerformanceViewModel : ObservableRecipient, IRecipient<ServerStateChangedMessage>
@@ -41,7 +32,7 @@ namespace ServerAppDesktop.ViewModels
             _performanceService = performanceService;
             _processService.PlayerCountChanged += (players) =>
             {
-                MainWindow.Instance.DispatcherQueue.TryEnqueue(() => PlayersOnline = players.ToString());
+                _ = MainWindow.Instance.DispatcherQueue.TryEnqueue(() => PlayersOnline = players.To<string>());
             };
             IsServerRunning = false;
             _timer = new DispatcherTimer
@@ -55,7 +46,7 @@ namespace ServerAppDesktop.ViewModels
         {
             if (IsServerRunning)
             {
-                // Ejecutamos la telemetría en un hilo de fondo
+
                 _ = Task.Run(() =>
                     MainWindow.Instance?.DispatcherQueue.TryEnqueue(() =>
                     {

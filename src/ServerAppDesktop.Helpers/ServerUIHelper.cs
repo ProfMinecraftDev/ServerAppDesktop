@@ -1,39 +1,52 @@
-﻿using System;
-using ServerAppDesktop.Models;
-
-namespace ServerAppDesktop.Helpers;
+﻿namespace ServerAppDesktop.Helpers;
 
 public static class ServerUIHelper
 {
-    /// <summary>
-    /// Obtiene la ruta del icono según el estado del servidor.
-    /// </summary>
-    public static string GetIconPath(ServerStateType state) => state switch
+
+
+
+    public static string GetIconPath(ServerStateType state)
     {
-        ServerStateType.Starting or
-        ServerStateType.Stopping or
-        ServerStateType.Restarting
-            => $"{AppContext.BaseDirectory}/Assets/AppIcon_ServerRestarting.ico",
+        return state switch
+        {
+            ServerStateType.Starting or
+            ServerStateType.Stopping or
+            ServerStateType.Restarting
+                => $"{AppContext.BaseDirectory}/Assets/AppIcon_ServerRestarting.ico",
 
-        ServerStateType.Running
-            => $"{AppContext.BaseDirectory}/Assets/AppIcon_ServerRunning.ico",
+            ServerStateType.Running
+                => $"{AppContext.BaseDirectory}/Assets/AppIcon_ServerRunning.ico",
 
-        ServerStateType.Stopped
-            => $"{AppContext.BaseDirectory}/Assets/AppIcon_ServerStopped.ico",
+            ServerStateType.Stopped
+                => $"{AppContext.BaseDirectory}/Assets/AppIcon_ServerStopped.ico",
 
-        _ => $"{AppContext.BaseDirectory}/Assets/AppIcon.ico",
-    };
+            _ => $"{AppContext.BaseDirectory}/Assets/AppIcon.ico",
+        };
+    }
 
-    /// <summary>
-    /// Obtiene el texto del Tooltip traducido según el estado.
-    /// </summary>
-    public static string GetTooltip(ServerStateType state) => state switch
+    public static string GetStateString(ServerStateType state)
     {
-        ServerStateType.Starting => ResourceHelper.GetString("TrayTooltip_ServerStarting"),
-        ServerStateType.Running => ResourceHelper.GetString("TrayTooltip_ServerRunning"),
-        ServerStateType.Stopping => ResourceHelper.GetString("TrayTooltip_ServerStopping"),
-        ServerStateType.Stopped => ResourceHelper.GetString("TrayTooltip_ServerStopped"),
-        ServerStateType.Restarting => ResourceHelper.GetString("TrayTooltip_ServerRestarting"),
-        _ => "Server App Desktop (Preview)",
-    };
+        return state switch
+        {
+            ServerStateType.Starting => "Iniciando...",
+            ServerStateType.Running => "En ejecución",
+            ServerStateType.Restarting => "Reiniciando...",
+            ServerStateType.Stopping => "Deteniendo...",
+            ServerStateType.Stopped => "Detenido",
+            _ => ResourceHelper.GetString("NoneItem")
+        };
+    }
+
+    public static string GetTooltip(ServerStateType state)
+    {
+        return state switch
+        {
+            ServerStateType.Starting => ResourceHelper.GetString("TrayTooltip_ServerStarting"),
+            ServerStateType.Running => ResourceHelper.GetString("TrayTooltip_ServerRunning"),
+            ServerStateType.Stopping => ResourceHelper.GetString("TrayTooltip_ServerStopping"),
+            ServerStateType.Stopped => ResourceHelper.GetString("TrayTooltip_ServerStopped"),
+            ServerStateType.Restarting => ResourceHelper.GetString("TrayTooltip_ServerRestarting"),
+            _ => "Server App Desktop (Preview)",
+        };
+    }
 }

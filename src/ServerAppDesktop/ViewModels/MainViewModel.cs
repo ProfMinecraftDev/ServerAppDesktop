@@ -1,19 +1,4 @@
-﻿using System;
-using System.IO;
-using System.Linq;
-using System.Threading.Tasks;
-using CommunityToolkit.Mvvm.ComponentModel;
-using CommunityToolkit.Mvvm.Input;
-using Microsoft.UI.Xaml;
-using Microsoft.UI.Xaml.Controls;
-using Microsoft.Windows.AppLifecycle;
-using Microsoft.Windows.AppNotifications;
-using Microsoft.Windows.AppNotifications.Builder;
-using ServerAppDesktop.Controls;
-using ServerAppDesktop.Helpers;
-using ServerAppDesktop.Models;
-using ServerAppDesktop.Services;
-using Windows.System;
+﻿
 
 namespace ServerAppDesktop.ViewModels
 {
@@ -58,27 +43,41 @@ namespace ServerAppDesktop.ViewModels
         }
 
         [RelayCommand]
-        private void RestartApp() => AppInstance.Restart("");
+        private static void RestartApp()
+        {
+            _ = AppInstance.Restart("");
+        }
 
         [RelayCommand]
-        private void ShowFeedbackDialog(ContentDialog dialog) => _ = dialog.ShowAsync();
+        private static void ShowFeedbackDialog(ContentDialog dialog)
+        {
+            _ = dialog.ShowAsync();
+        }
 
         [RelayCommand]
-        private void OpenSettingsFile()
+        private static void OpenSettingsFile()
         {
             string settingsPath = Path.Combine(DataHelper.SettingsPath, DataHelper.SettingsFile);
             _ = Launcher.LaunchUriAsync(new Uri(settingsPath));
         }
 
         [RelayCommand]
-        private void SendFeedback() =>
+        private static void SendFeedback()
+        {
             _ = Launcher.LaunchUriAsync(new Uri("https://github.com/ProfMinecraftDev/ServerAppDesktop/issues"));
+        }
 
         [RelayCommand]
-        private void ShowWarning(ContentDialog dialog) => _ = dialog.ShowAsync();
+        private static void ShowWarning(ContentDialog dialog)
+        {
+            _ = dialog.ShowAsync();
+        }
 
         [RelayCommand]
-        private void ShowAdminWarning(ContentDialog dialog) => _ = dialog.ShowAsync();
+        private static void ShowAdminWarning(ContentDialog dialog)
+        {
+            _ = dialog.ShowAsync();
+        }
 
         [RelayCommand]
         private async Task DownloadUpdateAsync()
@@ -88,17 +87,17 @@ namespace ServerAppDesktop.ViewModels
             if (sucessDownload)
             {
                 UpdateDownloadProgress = ResourceHelper.GetString("UpdateInfoBar_PreparedToApply");
-                var updateReadyToInstallNotification = new WindowsNotification
+                WindowsNotification updateReadyToInstallNotification = new()
                 {
                     Title = "Actualización lista para instalar",
                     Message = $"La versión {ReleaseInfo?.Version} está lista para instalarse, se instalará al cerrar.",
-                    SoundEvent = Microsoft.Windows.AppNotifications.Builder.AppNotificationSoundEvent.IM,
-                    NotificationScenario = Microsoft.Windows.AppNotifications.Builder.AppNotificationScenario.Urgent,
+                    SoundEvent = AppNotificationSoundEvent.IM,
+                    NotificationScenario = AppNotificationScenario.Urgent,
                     AppLogoUri = new Uri(Path.Combine(AppContext.BaseDirectory, "Assets", "Update.png")),
-                    Duration = Microsoft.Windows.AppNotifications.Builder.AppNotificationDuration.Long,
+                    Duration = AppNotificationDuration.Long,
                     TimeStamp = DateTime.Now
                 };
-                var notification = updateReadyToInstallNotification.NotificationToBuild.AddButton(new AppNotificationButton("Reiniciar ahora").AddArgument("action", "restartToInstallUpdate")).BuildNotification();
+                AppNotification notification = updateReadyToInstallNotification.NotificationToBuild.AddButton(new AppNotificationButton("Reiniciar ahora").AddArgument("action", "restartToInstallUpdate")).BuildNotification();
                 AppNotificationManager.Default.Show(notification);
                 await Task.Delay(10000);
                 DownloadingAnUpdate = !sucessDownload;
@@ -106,6 +105,9 @@ namespace ServerAppDesktop.ViewModels
         }
 
         [RelayCommand]
-        private void ExitApp() => Application.Current.Exit();
+        private static void ExitApp()
+        {
+            Environment.Exit(0);
+        }
     }
 }

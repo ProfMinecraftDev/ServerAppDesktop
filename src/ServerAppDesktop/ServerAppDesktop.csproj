@@ -5,31 +5,15 @@
 		<TargetPlatformMinVersion>10.0.19041.0</TargetPlatformMinVersion>
 		<RootNamespace>ServerAppDesktop</RootNamespace>
 		<ApplicationManifest>app.manifest</ApplicationManifest>
-		<Platforms>x64</Platforms>
-		<Platform>x64</Platform>
-		<WindowsAppSDKWinUI>true</WindowsAppSDKWinUI>
-		<UseWinUI>true</UseWinUI>
-		<EnableMsixTooling>true</EnableMsixTooling>
-		<Nullable>enable</Nullable>
 		<DefaultLanguage>es-419</DefaultLanguage>
-		<RuntimeIdentifier>win-x64</RuntimeIdentifier>
 		<AllowUnsafeBlocks>true</AllowUnsafeBlocks>
 		<HasPackageAndNonPackageMode>true</HasPackageAndNonPackageMode>
 		<HasPackageAndExecutionModel>false</HasPackageAndExecutionModel>
 		<AppxPackage>false</AppxPackage>
 		<WindowsPackageType>None</WindowsPackageType>
 		<StartupObject>ServerAppDesktop.EntryPoint</StartupObject>
-		<PreBuildEvent>
-			powershell.exe -NoProfile -Command "if (Get-Process ServerAppDesktop -ErrorAction SilentlyContinue) { TASKKILL /F /IM "ServerAppDesktop.exe" /T }"
-		</PreBuildEvent>
 		<ApplicationIcon>Assets\AppIcon.ico</ApplicationIcon>
-		<ApplicationVersion>1.0.0.3 (Preview)</ApplicationVersion>
-		<AssemblyTitle>Server App Desktop (Preview)</AssemblyTitle>
-		<Product>Server App Desktop</Product>
-		<FileVersion>1.0.0.3-preview</FileVersion>
-		<Authors>Prof Minecraft</Authors>
-		<Description>Servidor de escritorio con interfaz WinUI 3</Description>
-		<Copyright>Copyright © 2026</Copyright>
+		<PublishDir>$(SolutionDir)\export\publish\</PublishDir>
 	</PropertyGroup>
 	<ItemGroup>
 		<None Remove="MainWindow.xaml" />
@@ -44,33 +28,30 @@
 		<None Remove="Views\Pages\TerminalPage.xaml" />
 		<None Remove="Views\Pages\WhatsNewPage.xaml" />
 		<None Remove="Views\Pages\AppInfoPage.xaml" />
-		<None Remove="Views\Pages\AboutPage.xaml" />
+		<None Remove="Views\Pages\AboutPages\AppInfoPage.xaml" />
+		<None Remove="Views\Pages\AboutPages\AboutPage.xaml" />
 		<None Remove="Views\Pages\AboutPages\ThirdPartyLicensesPage.xaml" />
 	</ItemGroup>
 	<ItemGroup>
-	  <AdditionalFiles Include="NativeMethods.txt" />
-	</ItemGroup>
-
-	<ItemGroup>
+		<AdditionalFiles Include="NativeMethods.txt" />
 		<Manifest Include="$(ApplicationManifest)" />
+		<Folder Include="Assets" />
+		<Content Include="Assets\**">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
 	</ItemGroup>
-
-
 	<ItemGroup>
-		<PackageReference Include="Microsoft.Windows.CsWin32" Version="0.3.269">
-			<PrivateAssets>all</PrivateAssets>
-			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-		</PackageReference>
-		<PackageReference Include="CommunityToolkit.Labs.WinUI.Controls.DataTable" Version="0.1.251217-build.2433" />
-		<PackageReference Include="CommunityToolkit.Labs.WinUI.Controls.MarkdownTextBlock" Version="0.1.251217-build.2433" />
-		<PackageReference Include="CommunityToolkit.Mvvm" Version="8.4.0" />
-		<PackageReference Include="CommunityToolkit.WinUI.Controls.SettingsControls" Version="8.2.251219" />
-		<PackageReference Include="CommunityToolkit.WinUI.Extensions" Version="8.2.251219" />
-		<PackageReference Include="H.NotifyIcon.WinUI" Version="2.4.1" />
-		<PackageReference Include="Microsoft.Extensions.Hosting" Version="10.0.2" />
-		<PackageReference Include="Microsoft.Windows.SDK.BuildTools" Version="10.0.26100.7463" />
-		<PackageReference Include="Microsoft.WindowsAppSDK" Version="1.8.260101001" />
-		<PackageReference Include="WinUIEx" Version="2.9.0" />
+		<None Include="$(LOCALAPPDATA)\Server App Desktop (Preview)\Settings\appsettings*.json" Condition="Exists('$(LOCALAPPDATA)\Server App Desktop (Preview)\Settings')">
+			<Link>External\Preview\Settings\%(FileName)%(Extension)</Link>
+			<CopyToOutputDirectory>Never</CopyToOutputDirectory>
+			<Visible>true</Visible>
+		</None>
+
+		<None Include="$(LOCALAPPDATA)\Server App Desktop\Settings\appsettings*.json" Condition="Exists('$(LOCALAPPDATA)\Server App Desktop\Settings')">
+			<Link>External\Production\Settings\%(FileName)%(Extension)</Link>
+			<CopyToOutputDirectory>Never</CopyToOutputDirectory>
+			<Visible>true</Visible>
+		</None>
 	</ItemGroup>
 
 	<ItemGroup>
@@ -82,7 +63,36 @@
 	</ItemGroup>
 
 	<ItemGroup>
+		<PackageReference Include="Microsoft.Windows.SDK.BuildTools"
+						  Version="10.0.26100.7705" />
+		<PackageReference Include="Microsoft.WindowsAppSDK"
+						  Version="1.8.260209005" />
+		<PackageReference Include="CommunityToolkit.Labs.WinUI.Controls.DataTable"
+						  Version="0.1.251217-build.2433" />
+		<PackageReference Include="CommunityToolkit.Labs.WinUI.Controls.MarkdownTextBlock"
+						  Version="0.1.251217-build.2433" />
+		<PackageReference Include="CommunityToolkit.Mvvm"
+						  Version="8.4.0" />
+		<PackageReference Include="CommunityToolkit.WinUI.Controls.SettingsControls"
+						  Version="8.2.251219" />
+		<PackageReference Include="CommunityToolkit.WinUI.Extensions"
+						  Version="8.2.251219" />
+		<PackageReference Include="H.NotifyIcon.WinUI"
+						  Version="2.4.1" />
+		<PackageReference Include="Microsoft.Extensions.Hosting"
+						  Version="10.0.3" />
+		<PackageReference Include="Microsoft.Windows.CsWin32"
+						  Version="0.3.269">
+			<PrivateAssets>all</PrivateAssets>
+			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+		</PackageReference>
+	</ItemGroup>
+	
+	<ItemGroup>
 		<Page Update="Views\Pages\AboutPages\AppInfoPage.xaml">
+			<Generator>MSBuild:Compile</Generator>
+		</Page>
+		<Page Update="Views\Pages\AboutPages\AboutPage.xaml">
 			<Generator>MSBuild:Compile</Generator>
 		</Page>
 		<Page Update="Views\Pages\AboutPages\ThirdPartyLicensesPage.xaml">
@@ -95,9 +105,6 @@
 			<Generator>MSBuild:Compile</Generator>
 		</Page>
 		<Page Update="Views\Pages\SettingsPage.xaml">
-			<Generator>MSBuild:Compile</Generator>
-		</Page>
-		<Page Update="Views\Pages\AboutPages\AboutPage.xaml">
 			<Generator>MSBuild:Compile</Generator>
 		</Page>
 		<Page Update="Views\Pages\SystemInfoPage.xaml">

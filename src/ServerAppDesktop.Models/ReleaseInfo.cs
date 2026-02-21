@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text.Json.Serialization;
-
-namespace ServerAppDesktop.Models
+﻿namespace ServerAppDesktop.Models
 {
     public sealed class ReleaseInfo
     {

@@ -9,6 +9,7 @@
 		<ResourceDictionary>
 			<ResourceDictionary.MergedDictionaries>
 				<XamlControlsResources xmlns="using:Microsoft.UI.Xaml.Controls" />
+				<ResourceDictionary Source="ms-appx:///DevWinUI.Controls/Themes/Generic.xaml" />
 			</ResourceDictionary.MergedDictionaries>
 
 			<converters:BoolNegationToVisibilityConverter x:Key="BoolNegationToVisibilityConverter" />
@@ -16,6 +17,7 @@
 			<converters:BoolNegationConverter x:Key="BoolNegationConverter" />
 			<converters:BoolToYesNoStringConverter x:Key="BoolToYesNoStringConverter" />
 			<converters:StringToImageSourceConverter x:Key="StringToImageSourceConverter" />
+			<converters:ServerStateToStringConverter x:Key="ServerStateToStringConverter" />
 
 			<Style
 				x:Key="CautionButtonStyle"

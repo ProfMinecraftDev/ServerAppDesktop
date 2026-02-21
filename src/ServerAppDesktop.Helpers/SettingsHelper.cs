@@ -1,25 +1,20 @@
-﻿using System.IO;
-using System.Text.Json;
-using Microsoft.UI.Composition.SystemBackdrops;
-using Microsoft.UI.Xaml;
-using Microsoft.UI.Xaml.Media;
-using ServerAppDesktop.Models;
-using Windows.Globalization;
-
+﻿
 namespace ServerAppDesktop.Helpers
 {
-    public sealed class SettingsHelper
+    public static class SettingsHelper
     {
-        public static bool ExistsConfigurationFile() =>
-            File.Exists(Path.Combine(DataHelper.SettingsPath, DataHelper.SettingsFile));
+        public static bool ExistsConfigurationFile()
+        {
+            return File.Exists(Path.Combine(DataHelper.SettingsPath, DataHelper.SettingsFile));
+        }
 
-        public static void LoadAndSetSettings(Window window)
+        public static void LoadAndSetBasicSettings()
         {
             string fullPath = Path.Combine(DataHelper.SettingsPath, DataHelper.SettingsFile);
 
             if (!File.Exists(fullPath))
             {
-                DataHelper.Settings = null; // O inicializa uno nuevo aquí
+                DataHelper.Settings = null;
                 return;
             }
 
@@ -27,35 +22,29 @@ namespace ServerAppDesktop.Helpers
             {
                 string jsonString = File.ReadAllText(fullPath);
 
-                // 1. Validar si el archivo está vacío o solo tiene espacios
+
                 if (string.IsNullOrWhiteSpace(jsonString))
                 {
                     DataHelper.Settings = null;
                     return;
                 }
 
-                var options = new JsonSerializerOptions { PropertyNameCaseInsensitive = true };
-                var context = new AppSettingsJsonContext(options);
+                JsonSerializerOptions options = new()
+                { PropertyNameCaseInsensitive = true };
+                AppSettingsJsonContext context = new(options);
 
-                // 2. Deserializar
-                var result = JsonSerializer.Deserialize(jsonString, context.AppSettings);
 
-                // 3. Validar si el objeto es nulo o si tiene valores "fantasma" (como un {} vacío)
-                // Aquí chequeas una propiedad obligatoria de tu clase AppSettings, por ejemplo 'RamLimit'
+                AppSettings? result = JsonSerializer.Deserialize(jsonString, context.AppSettings);
+
+
+
                 if (result != null)
                 {
-                    // Usamos IsNullOrWhiteSpace para cubrir "", null y "   "
+
                     bool isInvalid = string.IsNullOrWhiteSpace(result.Server.Path) ||
                                      string.IsNullOrWhiteSpace(result.Server.Executable);
 
-                    if (isInvalid)
-                    {
-                        DataHelper.Settings = null;
-                    }
-                    else
-                    {
-                        DataHelper.Settings = result;
-                    }
+                    DataHelper.Settings = isInvalid ? null : result;
                 }
                 else
                 {
@@ -67,29 +56,26 @@ namespace ServerAppDesktop.Helpers
                 DataHelper.Settings = null;
             }
 
-            var settings = DataHelper.Settings;
+            AppSettings? settings = DataHelper.Settings;
             if (settings == null)
-                return;
-
-            window.SystemBackdrop = settings.UI.Backdrop switch
             {
-                0 => new MicaBackdrop { Kind = MicaKind.Base },
-                1 => new MicaBackdrop { Kind = MicaKind.BaseAlt },
-                2 => new DesktopAcrylicBackdrop(),
-                _ => new MicaBackdrop { Kind = MicaKind.Base }
-            };
-
-            WindowHelper.SetTheme(window, (ElementTheme)settings.UI.Theme);
+                return;
+            }
 
             if (!string.IsNullOrEmpty(settings.UI.Language))
+            {
                 ApplicationLanguages.PrimaryLanguageOverride = settings.UI.Language;
+            }
         }
 
         public static void SaveSettings()
         {
             if (DataHelper.Settings == null)
+            {
                 return;
-            var context = new AppSettingsJsonContext(new JsonSerializerOptions
+            }
+
+            AppSettingsJsonContext context = new(new JsonSerializerOptions
             {
                 WriteIndented = true,
                 IndentSize = 4
@@ -97,8 +83,50 @@ namespace ServerAppDesktop.Helpers
             string jsonString = JsonSerializer.Serialize(DataHelper.Settings, context.AppSettings);
             string jsonFilePath = Path.Combine(DataHelper.SettingsPath, DataHelper.SettingsFile);
             if (!string.IsNullOrEmpty(DataHelper.SettingsPath) && !Directory.Exists(DataHelper.SettingsPath))
-                Directory.CreateDirectory(DataHelper.SettingsPath);
+            {
+                _ = Directory.CreateDirectory(DataHelper.SettingsPath);
+            }
+
             File.WriteAllText(jsonFilePath, jsonString);
+        }
+
+        public static void ResetSettings()
+        {
+            MESSAGEBOX_RESULT result = PInvoke.MessageBox(
+                HWND.Null,
+                "¿Deseas restablecer la configuración de Server App Desktop?",
+                "Restablecer configuraciones",
+                MESSAGEBOX_STYLE.MB_ICONEXCLAMATION | MESSAGEBOX_STYLE.MB_YESNO | MESSAGEBOX_STYLE.MB_TOPMOST
+                );
+
+            if (result == MESSAGEBOX_RESULT.IDYES)
+            {
+                try
+                {
+                    if (Directory.Exists(DataHelper.SettingsPath))
+                    {
+                        Directory.Delete(DataHelper.SettingsPath, true);
+                    }
+
+                    _ = PInvoke.MessageBox(
+                        HWND.Null,
+                        "Se restableció la configuración con éxito.\nLa aplicación se reiniciará para aplicar los cambios.",
+                        "Éxito",
+                        MESSAGEBOX_STYLE.MB_ICONINFORMATION | MESSAGEBOX_STYLE.MB_OK | MESSAGEBOX_STYLE.MB_TOPMOST
+                    );
+
+                    DataHelper.Settings = null;
+                }
+                catch (Exception ex)
+                {
+                    _ = PInvoke.MessageBox(
+                        HWND.Null,
+                        $"No se pudo restablecer la configuración.\nError: {ex.Message}",
+                        "Error al limpiar",
+                        MESSAGEBOX_STYLE.MB_ICONERROR | MESSAGEBOX_STYLE.MB_OK | MESSAGEBOX_STYLE.MB_TOPMOST
+                    );
+                }
+            }
         }
     }
 }

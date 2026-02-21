@@ -1,6 +1,4 @@
-﻿using Microsoft.UI.Xaml.Controls;
-
-namespace ServerAppDesktop.Models
+﻿namespace ServerAppDesktop.Models
 {
     public sealed class ServerFile
     {
