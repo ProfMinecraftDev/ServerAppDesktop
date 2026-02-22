@@ -8,12 +8,14 @@ global using global::System.Text.Json;
 global using global::System.Net;
 global using global::System.Net.Sockets;
 global using global::Microsoft.Win32.SafeHandles;
+global using global::System.Management;
 #endregion
 
 #region Windows Native & WinRT APIs
 global using global::Windows.Win32;
 global using global::Windows.Win32.Foundation;
 global using global::Windows.Win32.System.JobObjects;
+global using global::Microsoft.Win32;
 #endregion
 
 #region Microsoft UI XAML Core & Navigation

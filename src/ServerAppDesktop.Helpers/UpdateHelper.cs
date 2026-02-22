@@ -160,4 +160,45 @@ public static class UpdateHelper
         }
         catch { }
     }
+
+    public static async Task<string> GetNewsOfLatestRelease(string username, string repository, bool isPreRelease)
+    {
+        if (string.IsNullOrEmpty(username))
+        {
+            throw new ArgumentNullException(nameof(username));
+        }
+
+        if (string.IsNullOrEmpty(repository))
+        {
+            throw new ArgumentNullException(nameof(repository));
+        }
+
+        using HttpClient client = new();
+        client.DefaultRequestHeaders.Add("User-Agent", username);
+
+        string url = string.Format(GITHUB_API_RELEASES, username, repository);
+        HttpResponseMessage response = await client.GetAsync(url);
+
+        if (response.StatusCode == HttpStatusCode.NotFound)
+        {
+            return "";
+        }
+
+        _ = response.EnsureSuccessStatusCode();
+
+        string responseJson = await response.Content.ReadAsStringAsync();
+        List<ReleaseInfo>? releases = JsonSerializer.Deserialize(responseJson, UpdateJsonContext.Default.ListReleaseInfo);
+
+        if (releases == null || releases.Count == 0)
+        {
+            return "";
+        }
+
+        ReleaseInfo? release = releases
+            .Where(r => isPreRelease ? r.IsPreRelease : !r.IsPreRelease)
+            .OrderByDescending(r => r.PublishedAt)
+            .FirstOrDefault();
+
+        return release?.Notes ?? "";
+    }
 }

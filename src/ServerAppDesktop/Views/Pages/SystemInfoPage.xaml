@@ -4,11 +4,11 @@
 	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
 	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
 	xmlns:controls="using:ServerAppDesktop.Controls"
-	NavigationCacheMode="Required"
 	xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
 	xmlns:local="using:ServerAppDesktop.Views.Pages"
 	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 	xmlns:toolkitExtensions="using:CommunityToolkit.WinUI"
+	NavigationCacheMode="Required"
 	mc:Ignorable="d">
 
 	<Grid>
@@ -47,30 +47,35 @@
 					x:Uid="SysCPU"
 					Grid.Row="0"
 					Grid.Column="0"
+					Description="{x:Bind ViewModel.CpuName, Mode=OneWay}"
 					Icon="{toolkitExtensions:FontIcon Glyph=&#xE950;}" />
 
 				<controls:InfoCard
 					x:Uid="SysGPU"
 					Grid.Row="0"
 					Grid.Column="1"
+					Description="{x:Bind ViewModel.GpuName, Mode=OneWay}"
 					Icon="{toolkitExtensions:FontIcon Glyph=&#xF211;}" />
 
 				<controls:InfoCard
 					x:Uid="SysMemory"
 					Grid.Row="1"
 					Grid.Column="0"
+					Description="{x:Bind ViewModel.MemoryInfo, Mode=OneWay}"
 					Icon="{toolkitExtensions:FontIcon Glyph=&#xE964;}" />
 
 				<controls:InfoCard
 					x:Uid="SysModel"
 					Grid.Row="1"
 					Grid.Column="1"
+					Description="{x:Bind ViewModel.PcModel, Mode=OneWay}"
 					Icon="{toolkitExtensions:FontIcon Glyph=&#xE977;}" />
 
 				<controls:InfoCard
 					x:Uid="SysOS"
 					Grid.Row="2"
-					Grid.Column="0">
+					Grid.Column="0"
+					Description="{x:Bind ViewModel.WindowsVersion, Mode=OneWay}">
 					<controls:InfoCard.Icon>
 						<PathIcon Data="{StaticResource Windows11IconPath}" />
 					</controls:InfoCard.Icon>
@@ -80,24 +85,30 @@
 					x:Uid="SysLicense"
 					Grid.Row="2"
 					Grid.Column="1"
+					Description="{x:Bind ViewModel.LicenseType, Mode=OneWay}"
 					Icon="{toolkitExtensions:FontIcon Glyph=&#xEB95;}" />
 
 				<controls:SquareCard
 					x:Uid="ActiveProcess"
 					Grid.Row="3"
 					Grid.Column="0"
-					Icon="{toolkitExtensions:FontIcon Glyph=&#xE9F5;}" />
+					Description="{x:Bind ViewModel.ActiveProcessName, Mode=OneWay}"
+					Icon="{toolkitExtensions:FontIcon Glyph=&#xE9F5;}"
+					Subtitle="{x:Bind ViewModel.ActiveProcessId, Mode=OneWay}" />
 
 				<controls:SquareCard
 					x:Uid="SysStorage"
 					Grid.Row="3"
 					Grid.Column="1"
-					Icon="{toolkitExtensions:FontIcon Glyph=&#xEDA2;}" />
+					Description="{x:Bind ViewModel.StorageSize, Mode=OneWay}"
+					Icon="{toolkitExtensions:FontIcon Glyph=&#xEDA2;}"
+					Subtitle="{x:Bind ViewModel.StorageType, Mode=OneWay}" />
 
 				<controls:InfoCard
 					x:Uid="ActiveUser"
 					Grid.Row="4"
 					Grid.ColumnSpan="2"
+					Description="{x:Bind ViewModel.ActiveUser, Mode=OneWay}"
 					Icon="{toolkitExtensions:FontIcon Glyph=&#xECA7;}" />
 			</Grid>
 		</ScrollViewer>

@@ -4,47 +4,58 @@ namespace ServerAppDesktop.Handlers;
 
 public static class AppHandler
 {
-    public static IHost ConfigureHost() =>
-        Host.CreateDefaultBuilder()
+    public static IHost ConfigureHost()
+    {
+        return Host.CreateDefaultBuilder()
             .UseContentRoot(AppContext.BaseDirectory)
-            .ConfigureServices((_, services) =>
+            .ConfigureServices((context, services) =>
             {
-                services.AddSingleton<INavigationService, NavigationService>();
-                services.AddSingleton<IOOBEService, OOBEService>();
-                services.AddSingleton<IProcessService, ProcessService>();
-                services.AddSingleton<IPerformanceService, PerformanceService>();
-                services.AddSingleton<INetworkService, NetworkService>();
-                services.AddSingleton<IServerPropertiesService, ServerPropertiesService>();
+                _ = context;
 
-                services.AddSingleton<IWindowHandler, WindowHandler>();
+                _ = services.AddSingleton<INavigationService, NavigationService>();
+                _ = services.AddSingleton<IOOBEService, OOBEService>();
+                _ = services.AddSingleton<IProcessService, ProcessService>();
+                _ = services.AddSingleton<IPerformanceService, PerformanceService>();
+                _ = services.AddSingleton<INetworkService, NetworkService>();
+                _ = services.AddSingleton<IServerPropertiesService, ServerPropertiesService>();
+                _ = services.AddSingleton<ISystemService, SystemService>();
 
-                services.AddSingleton<MainViewModel>();
-                services.AddTransient<OOBEViewModel>();
-                services.AddSingleton<TrayViewModel>();
-                services.AddSingleton<HomeViewModel>();
-                services.AddSingleton<PerformanceViewModel>();
-                services.AddSingleton<TerminalViewModel>();
-                services.AddSingleton<FilesViewModel>();
-                services.AddSingleton<WhatsNewViewModel>();
-                services.AddSingleton<SystemInfoViewModel>();
-                services.AddSingleton<AboutViewModel>();
-                services.AddSingleton<SettingsViewModel>();
+                _ = services.AddSingleton<IWindowHandler, WindowHandler>();
+
+                _ = services.AddSingleton<MainViewModel>();
+                _ = services.AddTransient<OOBEViewModel>();
+                _ = services.AddSingleton<TrayViewModel>();
+                _ = services.AddSingleton<HomeViewModel>();
+                _ = services.AddSingleton<PerformanceViewModel>();
+                _ = services.AddSingleton<TerminalViewModel>();
+                _ = services.AddSingleton<FilesViewModel>();
+                _ = services.AddSingleton<WhatsNewViewModel>();
+                _ = services.AddSingleton<SystemInfoViewModel>();
+                _ = services.AddSingleton<AboutViewModel>();
+                _ = services.AddSingleton<SettingsViewModel>();
             }).Build();
+    }
 
     public static async Task CheckUpdatesAsync(bool trayOnly)
     {
-        var vm = App.GetRequiredService<MainViewModel>();
+        MainViewModel vm = App.GetRequiredService<MainViewModel>();
         vm.ReleaseInfo = await UpdateHelper.GetUpdateAsync(DataHelper.GitHubUsername, DataHelper.GitHubRepository, DataHelper.AppVersionTag, DataHelper.UpdateChannel == 1);
 
         if (vm.ReleaseInfo != null)
         {
             if (!trayOnly)
+            {
                 _ = MainWindow.Instance.updateDialog.ShowAsync();
+            }
             else
+            {
                 ShowUpdateNotification(vm.ReleaseInfo.Version);
+            }
         }
         else
+        {
             UpdateHelper.CleanOldUpdates();
+        }
     }
 
     private static void ShowUpdateNotification(string version)
