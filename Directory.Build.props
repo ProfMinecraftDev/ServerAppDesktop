@@ -2,6 +2,9 @@
 	<Import Project="Dependencies.props" Condition="Exists('Dependencies.props')" />
 
 	<PropertyGroup>
+		<BuildInParallel>true</BuildInParallel>
+		<UseMultiToolTask>true</UseMultiToolTask>
+		<EnforceCodeStyleInBuild>false</EnforceCodeStyleInBuild>
 		<Platforms>x64</Platforms>
 		<Platform Condition="'$(Platform)' == ''">x64</Platform>
 		<Configuration Condition="'$(Configuration)' == ''">Debug</Configuration>
@@ -36,9 +39,22 @@
 		<TieredCompilationQuickJit>true</TieredCompilationQuickJit>
 		<ServerGarbageCollection>true</ServerGarbageCollection>
 	</PropertyGroup>
+
+	<PropertyGroup Condition="'$(Configuration)' == 'Debug'">
+		<Optimize>false</Optimize>
+		<IncrementalBuild>true</IncrementalBuild>
+		<GenerateDocumentationFile>false</GenerateDocumentationFile>
+		<CheckForOverflowUnderflow>false</CheckForOverflowUnderflow>
+	</PropertyGroup>
 	
 	<PropertyGroup Condition="'$(OutputType)' == 'WinExe' and '$(Configuration)' == 'Release'">
 		<SelfContained>true</SelfContained>
 		<WindowsAppSDKSelfContained>true</WindowsAppSDKSelfContained>
+	</PropertyGroup>
+	
+	<PropertyGroup Condition="'$(Configuration)' == 'Release'">
+		<DebugSymbols>true</DebugSymbols>
+		<DebugType>portable</DebugType>
+		<Optimize>true</Optimize>
 	</PropertyGroup>
 </Project>
