@@ -1,92 +1,89 @@
-﻿using ServerAppDesktop.Models;
+﻿namespace ServerAppDesktop.ViewModels;
 
-namespace ServerAppDesktop.ViewModels
+public sealed partial class TerminalViewModel : ObservableRecipient, IRecipient<ServerStateChangedMessage>
 {
-    public sealed partial class TerminalViewModel : ObservableRecipient, IRecipient<ServerStateChangedMessage>
+    private bool _isRunning = false;
+    private readonly IProcessService _processService;
+
+    [ObservableProperty]
+    private string _terminalOutput = string.Empty;
+
+    [ObservableProperty]
+    private bool _canInput = false;
+
+    [ObservableProperty]
+    private bool _canSendCommand = false;
+
+    [ObservableProperty]
+    private string _commandInput = string.Empty;
+
+    public TerminalViewModel(IProcessService processService)
     {
-        private bool _isRunning = false;
-        private readonly IProcessService _processService;
-
-        [ObservableProperty]
-        private string _terminalOutput = string.Empty;
-
-        [ObservableProperty]
-        private bool _canInput = false;
-
-        [ObservableProperty]
-        private bool _canSendCommand = false;
-
-        [ObservableProperty]
-        private string _commandInput = string.Empty;
-
-        public TerminalViewModel(IProcessService processService)
+        IsActive = true;
+        _processService = processService;
+        _processService.OutputReceived += (output) =>
         {
-            IsActive = true;
-            _processService = processService;
-            _processService.OutputReceived += (output) =>
+            _ = MainWindow.Instance.DispatcherQueue.TryEnqueue(() =>
             {
-                _ = MainWindow.Instance.DispatcherQueue.TryEnqueue(() =>
-                {
-                    TerminalOutput += output + Environment.NewLine;
-                });
-            };
-            _processService.ErrorReceived += (output) =>
+                TerminalOutput += output + Environment.NewLine;
+            });
+        };
+        _processService.ErrorReceived += (output) =>
+        {
+            _ = MainWindow.Instance.DispatcherQueue.TryEnqueue(() =>
             {
-                _ = MainWindow.Instance.DispatcherQueue.TryEnqueue(() =>
-                {
-                    TerminalOutput += output + Environment.NewLine;
-                });
-            };
+                TerminalOutput += output + Environment.NewLine;
+            });
+        };
+    }
+
+    public void Receive(ServerStateChangedMessage message)
+    {
+        if (message.Value.State == ServerStateType.Running)
+        {
+            CanInput = true;
+            _isRunning = true;
+            CommandInput = "";
         }
-
-        public void Receive(ServerStateChangedMessage message)
+        else if (message.Value.State == ServerStateType.Stopped)
         {
-            if (message.Value.State == ServerStateType.Running)
-            {
-                CanInput = true;
-                _isRunning = true;
-                CommandInput = "";
-            }
-            else if (message.Value.State == ServerStateType.Stopped)
-            {
-                CanInput = false;
-                _isRunning = false;
-                CommandInput = "";
-            }
+            CanInput = false;
+            _isRunning = false;
+            CommandInput = "";
         }
+    }
 
-        partial void OnCommandInputChanged(string value)
+    partial void OnCommandInputChanged(string value)
+    {
+        CanSendCommand = !string.IsNullOrWhiteSpace(value) && CanInput;
+    }
+
+    [RelayCommand]
+    private void SendInput()
+    {
+        if (_isRunning && CanInput && !string.IsNullOrWhiteSpace(CommandInput))
         {
-            CanSendCommand = !string.IsNullOrWhiteSpace(value) && CanInput;
+            _processService.SendInput(CommandInput);
+            TerminalOutput += $"> {CommandInput}{Environment.NewLine}";
+            CommandInput = string.Empty;
         }
+    }
 
-        [RelayCommand]
-        private void SendInput()
+    [RelayCommand]
+    private void ClearOutput()
+    {
+        TerminalOutput = string.Empty;
+    }
+
+    [RelayCommand]
+    private void CopyOutput()
+    {
+        if (TerminalOutput != string.Empty)
         {
-            if (_isRunning && CanInput && !string.IsNullOrWhiteSpace(CommandInput))
+            _ = MainWindow.Instance.DispatcherQueue.TryEnqueue(() =>
             {
-                _processService.SendInput(CommandInput);
-                TerminalOutput += $"> {CommandInput}{Environment.NewLine}";
-                CommandInput = string.Empty;
-            }
-        }
-
-        [RelayCommand]
-        private void ClearOutput()
-        {
-            TerminalOutput = string.Empty;
-        }
-
-        [RelayCommand]
-        private void CopyOutput()
-        {
-            if (TerminalOutput != string.Empty)
-            {
-                _ = MainWindow.Instance.DispatcherQueue.TryEnqueue(() =>
-                {
-                    ClipboardHelper.SetText(TerminalOutput);
-                });
-            }
+                ClipboardHelper.SetText(TerminalOutput);
+            });
         }
     }
 }

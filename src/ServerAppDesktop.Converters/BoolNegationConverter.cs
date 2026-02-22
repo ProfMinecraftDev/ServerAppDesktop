@@ -1,15 +1,14 @@
-﻿namespace ServerAppDesktop.Converters
-{
-    public sealed partial class BoolNegationConverter : IValueConverter
-    {
-        public object Convert(object value, Type targetType, object parameter, string language)
-        {
-            return value is bool boolValue && !boolValue;
-        }
+﻿namespace ServerAppDesktop.Converters;
 
-        public object ConvertBack(object value, Type targetType, object parameter, string language)
-        {
-            return value is bool boolValue && !boolValue;
-        }
+public sealed partial class BoolNegationConverter : IValueConverter
+{
+    public object Convert(object value, Type targetType, object parameter, string language)
+    {
+        return value is bool boolValue && !boolValue;
+    }
+
+    public object ConvertBack(object value, Type targetType, object parameter, string language)
+    {
+        return value is bool boolValue && !boolValue;
     }
 }

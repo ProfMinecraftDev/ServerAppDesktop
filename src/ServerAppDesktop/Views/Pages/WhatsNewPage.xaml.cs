@@ -1,13 +1,12 @@
-﻿namespace ServerAppDesktop.Views.Pages
+﻿namespace ServerAppDesktop.Views.Pages;
+
+
+
+
+public sealed partial class WhatsNewPage : Page
 {
-
-
-
-    public sealed partial class WhatsNewPage : Page
+    public WhatsNewPage()
     {
-        public WhatsNewPage()
-        {
-            InitializeComponent();
-        }
+        InitializeComponent();
     }
 }

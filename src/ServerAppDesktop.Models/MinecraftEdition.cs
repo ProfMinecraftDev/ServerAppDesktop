@@ -1,8 +1,7 @@
-﻿namespace ServerAppDesktop.Models
+﻿namespace ServerAppDesktop.Models;
+
+public sealed class MinecraftEdition
 {
-    public sealed class MinecraftEdition
-    {
-        public string Name { get; set; } = "";
-        public int Value { get; set; } = 0;
-    }
+    public string Name { get; set; } = "";
+    public int Value { get; set; } = 0;
 }

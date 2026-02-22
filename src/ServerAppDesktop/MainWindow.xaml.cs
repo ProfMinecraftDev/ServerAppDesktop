@@ -1,105 +1,116 @@
-namespace ServerAppDesktop
-{
-    public sealed partial class MainWindow : WindowEx
-    {
-        private static MainWindow? _instance;
-        private static bool _isInitialized = false;
-        private readonly IWindowHandler _windowHandler;
-        private readonly MainViewModel _viewModel;
-        private readonly HomeViewModel _homeViewModel;
-        private readonly INavigationService _navigationService;
+namespace ServerAppDesktop;
 
-        public static MainWindow Instance => _instance ?? throw new Exception("MainWindow no ha sido inicializada. Llama a Initialize primero.");
-        public bool IsMouseOverTitleBar { get; set; } = false;
-        public static void Initialize()
+public sealed partial class MainWindow : WindowEx
+{
+    private static MainWindow? _instance;
+    private static bool _isInitialized = false;
+    private readonly IWindowHandler _windowHandler;
+    private readonly HomeViewModel _homeViewModel;
+    private readonly INavigationService _navigationService;
+
+    public static MainWindow Instance => _instance ?? throw new Exception("MainWindow no ha sido inicializada. Llama a Initialize primero.");
+    public bool IsMouseOverTitleBar { get; set; } = false;
+    public static void Initialize()
+    {
+        if (_isInitialized)
         {
-            if (_isInitialized)
-                return;
-            if (_instance == null)
-            {
-                _instance = new MainWindow();
-                _isInitialized = true;
-            }
+            return;
         }
 
-        public MainViewModel ViewModel => _viewModel;
-
-        private MainWindow()
+        if (_instance == null)
         {
-            InitializeComponent();
+            _instance = new MainWindow();
+            _isInitialized = true;
+        }
+    }
 
-            _windowHandler = App.GetRequiredService<IWindowHandler>();
-            _windowHandler.SetWindow(this);
-            _viewModel = App.GetRequiredService<MainViewModel>();
-            _homeViewModel = App.GetRequiredService<HomeViewModel>();
-            _navigationService = App.GetRequiredService<INavigationService>();
+    public MainViewModel ViewModel { get; }
 
-            PersistenceId = "ServerAppDesktopPreviewMainWindow";
+    private MainWindow()
+    {
+        InitializeComponent();
 
-            TitleBar.PointerEntered += (_, _) =>
+        _windowHandler = App.GetRequiredService<IWindowHandler>();
+        _windowHandler.SetWindow(this);
+        ViewModel = App.GetRequiredService<MainViewModel>();
+        _homeViewModel = App.GetRequiredService<HomeViewModel>();
+        _navigationService = App.GetRequiredService<INavigationService>();
+
+        PersistenceId = "ServerAppDesktopPreviewMainWindow";
+
+        TitleBar.PointerEntered += (_, _) =>
+        {
+            IsMouseOverTitleBar = true;
+            try
             {
-                IsMouseOverTitleBar = true;
-                try
+                if (!_windowHandler.WindowClosed && PresenterKind == AppWindowPresenterKind.FullScreen)
                 {
-                    if (!_windowHandler.WindowClosed && PresenterKind == AppWindowPresenterKind.FullScreen)
-                        TitleBar.Height = 48;
+                    TitleBar.Height = 48;
                 }
-                catch { }
-            };
-
-            TitleBar.PointerExited += async (_, _) =>
-            {
-                IsMouseOverTitleBar = false;
-                try
-                {
-                    if (!_windowHandler.WindowClosed && PresenterKind == AppWindowPresenterKind.FullScreen)
-                    {
-                        await Task.Delay(1000);
-                        if (!IsMouseOverTitleBar && PresenterKind == AppWindowPresenterKind.FullScreen)
-                            TitleBar.Height = 2;
-                    }
-                }
-                catch { }
-            };
-
-            NetworkHelper.ConnectionChanged += (isConnected) =>
-            {
-                DispatcherQueue.TryEnqueue(() =>
-                {
-                    if (!(ViewModel.IsConnectedToInternet && isConnected))
-                    {
-                        ViewModel.IsConnectedToInternet = isConnected;
-                        _windowHandler.HandleNetworkUIUpdate(internetInfoBar, isConnected);
-                    }
-                });
-            };
-
-            if (Content is Grid grid)
-            {
-                grid.Loaded += (_, _) => _homeViewModel.IsConfigured = DataHelper.Settings != null;
-                grid.DataContext = ViewModel;
-                grid.KeyDown += (_, e) => OnF11OrEscapeInvoked(e.Key);
             }
+            catch { }
+        };
 
-            fullScreenButton.Click += (_, _) => OnF11OrEscapeInvoked(VirtualKey.F11);
+        TitleBar.PointerExited += async (_, _) =>
+        {
+            IsMouseOverTitleBar = false;
+            try
+            {
+                if (!_windowHandler.WindowClosed && PresenterKind == AppWindowPresenterKind.FullScreen)
+                {
+                    await Task.Delay(1000);
+                    if (!IsMouseOverTitleBar && PresenterKind == AppWindowPresenterKind.FullScreen)
+                    {
+                        TitleBar.Height = 2;
+                    }
+                }
+            }
+            catch { }
+        };
 
-            _windowHandler.Configure();
+        NetworkHelper.ConnectionChanged += (isConnected) =>
+        {
+            _ = DispatcherQueue.TryEnqueue(() =>
+            {
+                if (!(ViewModel.IsConnectedToInternet && isConnected))
+                {
+                    ViewModel.IsConnectedToInternet = isConnected;
+                    _windowHandler.HandleNetworkUIUpdate(internetInfoBar, isConnected);
+                }
+            });
+        };
+
+        if (Content is Grid grid)
+        {
+            grid.Loaded += (_, _) => _homeViewModel.IsConfigured = DataHelper.Settings != null;
+            grid.DataContext = ViewModel;
+            grid.KeyDown += (_, e) => OnF11OrEscapeInvoked(e.Key);
+        }
+
+        fullScreenButton.Click += (_, _) => OnF11OrEscapeInvoked(VirtualKey.F11);
+
+        _windowHandler.Configure();
+        _ = _windowHandler.UpdateFullScreenLogic(false, fullScreenButton);
+    }
+
+    private void OnF11OrEscapeInvoked(VirtualKey vKey)
+    {
+        bool isFullScreen = PresenterKind == AppWindowPresenterKind.FullScreen;
+        if (vKey == VirtualKey.F11)
+        {
+            _ = _windowHandler.UpdateFullScreenLogic(!isFullScreen, fullScreenButton);
+        }
+        else if (vKey == VirtualKey.Escape && isFullScreen)
+        {
             _ = _windowHandler.UpdateFullScreenLogic(false, fullScreenButton);
         }
+    }
 
-        private void OnF11OrEscapeInvoked(VirtualKey vKey)
+    private void TitleBar_BackRequested(Microsoft.UI.Xaml.Controls.TitleBar _, object __)
+    {
+        if (ViewModel.CanGoBack)
         {
-            bool isFullScreen = PresenterKind == AppWindowPresenterKind.FullScreen;
-            if (vKey == VirtualKey.F11)
-                _ = _windowHandler.UpdateFullScreenLogic(!isFullScreen, fullScreenButton);
-            else if (vKey == VirtualKey.Escape && isFullScreen)
-                _ = _windowHandler.UpdateFullScreenLogic(false, fullScreenButton);
-        }
-
-        private void TitleBar_BackRequested(Microsoft.UI.Xaml.Controls.TitleBar _, object __)
-        {
-            if (ViewModel.CanGoBack)
-                _navigationService.GoBack();
+            _navigationService.GoBack();
         }
     }
 }

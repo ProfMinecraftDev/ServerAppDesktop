@@ -1,18 +1,14 @@
 
-namespace ServerAppDesktop
+namespace ServerAppDesktop;
+
+public sealed partial class AppTrayIcon : TaskbarIcon
 {
-    public sealed partial class AppTrayIcon : TaskbarIcon
+    public TrayViewModel ViewModel { get; } = App.GetRequiredService<TrayViewModel>();
+    public HomeViewModel HomeViewModel { get; } = App.GetRequiredService<HomeViewModel>();
+
+
+    public AppTrayIcon()
     {
-        private readonly TrayViewModel _viewModel = App.GetRequiredService<TrayViewModel>();
-        private readonly HomeViewModel _homeViewModel = App.GetRequiredService<HomeViewModel>();
-
-        public TrayViewModel ViewModel => _viewModel;
-        public HomeViewModel HomeViewModel => _homeViewModel;
-
-
-        public AppTrayIcon()
-        {
-            InitializeComponent();
-        }
+        InitializeComponent();
     }
 }

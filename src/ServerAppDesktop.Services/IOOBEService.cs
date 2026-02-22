@@ -1,9 +1,8 @@
-﻿namespace ServerAppDesktop.Services
+﻿namespace ServerAppDesktop.Services;
+
+public interface IOOBEService
 {
-    public interface IOOBEService
-    {
-        event Action<bool>? OOBEFinished;
-        void SaveUserSettings(AppSettings appSettings);
-        void FinishOOBE();
-    }
+    public event Action<bool>? OOBEFinished;
+    public void SaveUserSettings(AppSettings appSettings);
+    public void FinishOOBE();
 }

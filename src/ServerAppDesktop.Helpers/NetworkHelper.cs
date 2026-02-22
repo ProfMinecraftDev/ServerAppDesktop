@@ -1,63 +1,64 @@
 ﻿
-namespace ServerAppDesktop.Helpers
+namespace ServerAppDesktop.Helpers;
+
+public static class NetworkHelper
 {
-    public static class NetworkHelper
+    private static string _cachedInterfaceName = "";
+    public static event Action<bool>? ConnectionChanged;
+
+    static NetworkHelper()
     {
-        private static string _cachedInterfaceName = "";
-        public static event Action<bool>? ConnectionChanged;
+        NetworkInformation.NetworkStatusChanged += OnNewtworkStatusChanged;
+    }
 
-        static NetworkHelper()
+    private static async void OnNewtworkStatusChanged(object sender)
+    {
+        bool isConnected = await IsInternetAvailableAsync();
+        ConnectionChanged?.Invoke(isConnected);
+    }
+
+    public static async Task<bool> IsInternetAvailableAsync()
+    {
+        try
         {
-            NetworkInformation.NetworkStatusChanged += OnNewtworkStatusChanged;
+            using HttpClient client = new();
+            client.Timeout = TimeSpan.FromSeconds(5);
+            HttpResponseMessage response = await client.GetAsync("http://www.microsoft.com");
+            ConnectionChanged?.Invoke(response.IsSuccessStatusCode);
+            return response.IsSuccessStatusCode;
         }
-
-        private static async void OnNewtworkStatusChanged(object sender)
+        catch
         {
-            bool isConnected = await IsInternetAvailableAsync();
-            ConnectionChanged?.Invoke(isConnected);
+            ConnectionChanged?.Invoke(false);
+            return false;
         }
+    }
 
-        public static async Task<bool> IsInternetAvailableAsync()
+    public static string GetNetworkInterfaceName()
+    {
+        ConnectionProfile currentProfile = NetworkInformation.GetInternetConnectionProfile();
+
+        if (currentProfile != null && currentProfile.NetworkAdapter != null)
         {
-            try
+            Guid adapterId = currentProfile.NetworkAdapter.NetworkAdapterId;
+
+            NetworkInterface[] interfaces = NetworkInterface.GetAllNetworkInterfaces();
+
+            foreach (NetworkInterface ni in interfaces)
             {
-                using HttpClient client = new();
-                client.Timeout = TimeSpan.FromSeconds(5);
-                HttpResponseMessage response = await client.GetAsync("http://www.microsoft.com");
-                ConnectionChanged?.Invoke(response.IsSuccessStatusCode);
-                return response.IsSuccessStatusCode;
-            }
-            catch
-            {
-                ConnectionChanged?.Invoke(false);
-                return false;
-            }
-        }
-
-        public static string GetNetworkInterfaceName()
-        {
-            ConnectionProfile currentProfile = NetworkInformation.GetInternetConnectionProfile();
-
-            if (currentProfile != null && currentProfile.NetworkAdapter != null)
-            {
-                Guid adapterId = currentProfile.NetworkAdapter.NetworkAdapterId;
-
-                NetworkInterface[] interfaces = NetworkInterface.GetAllNetworkInterfaces();
-
-                foreach (NetworkInterface ni in interfaces)
+                if (ni.Id.Equals(adapterId.ToString("B"), StringComparison.OrdinalIgnoreCase))
                 {
-                    if (ni.Id.Equals(adapterId.ToString("B"), StringComparison.OrdinalIgnoreCase))
+                    if (_cachedInterfaceName == ni.Description)
                     {
-                        if (_cachedInterfaceName == ni.Description)
-                            return ni.Description;
-
-                        _cachedInterfaceName = ni.Description;
                         return ni.Description;
                     }
+
+                    _cachedInterfaceName = ni.Description;
+                    return ni.Description;
                 }
             }
-            _cachedInterfaceName = "null";
-            return "null";
         }
+        _cachedInterfaceName = "null";
+        return "null";
     }
 }

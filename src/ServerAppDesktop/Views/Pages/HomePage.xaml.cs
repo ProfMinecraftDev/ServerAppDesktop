@@ -1,11 +1,10 @@
-namespace ServerAppDesktop.Views.Pages
+namespace ServerAppDesktop.Views.Pages;
+
+public sealed partial class HomePage : Page
 {
-    public sealed partial class HomePage : Page
+    public HomeViewModel ViewModel => App.GetRequiredService<HomeViewModel>();
+    public HomePage()
     {
-        public HomeViewModel ViewModel => App.GetRequiredService<HomeViewModel>();
-        public HomePage()
-        {
-            InitializeComponent();
-        }
+        InitializeComponent();
     }
 }

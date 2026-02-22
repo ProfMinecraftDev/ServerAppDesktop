@@ -1,9 +1,8 @@
-﻿namespace ServerAppDesktop.Models
+﻿namespace ServerAppDesktop.Models;
+
+public sealed class WindowTheme
 {
-    public sealed class WindowTheme
-    {
-        public string Name { get; set; } = "";
-        public ElementTheme Value { get; set; }
-        public int Index { get; set; } = 0;
-    }
+    public string Name { get; set; } = "";
+    public ElementTheme Value { get; set; }
+    public int Index { get; set; } = 0;
 }

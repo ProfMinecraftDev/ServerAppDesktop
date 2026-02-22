@@ -1,18 +1,17 @@
-﻿namespace ServerAppDesktop.Services
+﻿namespace ServerAppDesktop.Services;
+
+public interface IPerformanceService
 {
-    public interface IPerformanceService
-    {
-        int GetCpuUsagePercentage();
-        float GetCpuUsageInGHz();
+    public int GetCpuUsagePercentage();
+    public float GetCpuUsageInGHz();
 
-        int TotalMemory { get; }
-        int GetUsedMemory();
-        int GetUsedMemoryPercentage();
+    public int TotalMemory { get; }
+    public int GetUsedMemory();
+    public int GetUsedMemoryPercentage();
 
-        int GetDiskWriteSpeed();
-        int GetDiskReadSpeed();
+    public int GetDiskWriteSpeed();
+    public int GetDiskReadSpeed();
 
-        int GetNetworkUploadSpeed();
-        int GetNetworkDownloadSpeed();
-    }
+    public int GetNetworkUploadSpeed();
+    public int GetNetworkDownloadSpeed();
 }

@@ -1,13 +1,12 @@
-namespace ServerAppDesktop.Views.Pages
+namespace ServerAppDesktop.Views.Pages;
+
+
+
+
+public sealed partial class SystemInfoPage : Page
 {
-
-
-
-    public sealed partial class SystemInfoPage : Page
+    public SystemInfoPage()
     {
-        public SystemInfoPage()
-        {
-            InitializeComponent();
-        }
+        InitializeComponent();
     }
 }

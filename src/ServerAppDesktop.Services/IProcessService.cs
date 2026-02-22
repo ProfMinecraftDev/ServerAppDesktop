@@ -1,19 +1,18 @@
-﻿namespace ServerAppDesktop.Services
+﻿namespace ServerAppDesktop.Services;
+
+public interface IProcessService
 {
-    public interface IProcessService
-    {
-        event Action<string>? OutputReceived;
-        event Action<string>? ErrorReceived;
+    public event Action<string>? OutputReceived;
+    public event Action<string>? ErrorReceived;
 
-        event Action<bool, int>? ProcessExited;
+    public event Action<bool, int>? ProcessExited;
 
-        event Action<int>? PlayerCountChanged;
+    public event Action<int>? PlayerCountChanged;
 
-        bool IsRunning { get; }
+    public bool IsRunning { get; }
 
-        Task<bool> StartProcessAsync(string fileName, string arguments, string workingDirectory, int? ramLimit = null);
-        Task<bool> StopProcessAsync();
+    public Task<bool> StartProcessAsync(string fileName, string arguments, string workingDirectory, int? ramLimit = null);
+    public Task<bool> StopProcessAsync();
 
-        void SendInput(string input);
-    }
+    public void SendInput(string input);
 }

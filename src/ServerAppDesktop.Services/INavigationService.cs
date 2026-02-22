@@ -1,11 +1,10 @@
-﻿namespace ServerAppDesktop.Services
+﻿namespace ServerAppDesktop.Services;
+
+public interface INavigationService
 {
-    public interface INavigationService
-    {
-        event Action<bool>? CanGoBackChanged;
-        void SetFrame(Frame frame);
-        void SetNavigationView(NavigationView navigationView);
-        void Navigate<TPage>() where TPage : Page, new();
-        void GoBack();
-    }
+    public event Action<bool>? CanGoBackChanged;
+    public void SetFrame(Frame frame);
+    public void SetNavigationView(NavigationView navigationView);
+    public void Navigate<TPage>() where TPage : Page, new();
+    public void GoBack();
 }

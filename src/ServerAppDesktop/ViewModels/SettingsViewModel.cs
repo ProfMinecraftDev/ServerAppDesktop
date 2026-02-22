@@ -1,6 +1,5 @@
-﻿namespace ServerAppDesktop.ViewModels
+﻿namespace ServerAppDesktop.ViewModels;
+
+public sealed partial class SettingsViewModel
 {
-    public sealed partial class SettingsViewModel
-    {
-    }
 }

@@ -1,13 +1,12 @@
-namespace ServerAppDesktop.Views.Pages.AboutPages
+namespace ServerAppDesktop.Views.Pages.AboutPages;
+
+
+
+
+public sealed partial class ThirdPartyLicensesPage : Page
 {
-
-
-
-    public sealed partial class ThirdPartyLicensesPage : Page
+    public ThirdPartyLicensesPage()
     {
-        public ThirdPartyLicensesPage()
-        {
-            InitializeComponent();
-        }
+        InitializeComponent();
     }
 }

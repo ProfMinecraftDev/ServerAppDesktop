@@ -1,14 +1,13 @@
-namespace ServerAppDesktop.Views.Pages
+namespace ServerAppDesktop.Views.Pages;
+
+
+
+
+public sealed partial class PerformancePage : Page
 {
-
-
-
-    public sealed partial class PerformancePage : Page
+    public PerformanceViewModel ViewModel => App.GetRequiredService<PerformanceViewModel>();
+    public PerformancePage()
     {
-        public PerformanceViewModel ViewModel => App.GetRequiredService<PerformanceViewModel>();
-        public PerformancePage()
-        {
-            InitializeComponent();
-        }
+        InitializeComponent();
     }
 }

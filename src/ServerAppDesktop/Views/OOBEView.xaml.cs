@@ -1,13 +1,12 @@
-namespace ServerAppDesktop.Views
-{
-    public sealed partial class OOBEView : Page
-    {
-        public OOBEViewModel ViewModel { get; }
+namespace ServerAppDesktop.Views;
 
-        public OOBEView()
-        {
-            InitializeComponent();
-            ViewModel = App.GetRequiredService<OOBEViewModel>();
-        }
+public sealed partial class OOBEView : Page
+{
+    public OOBEViewModel ViewModel { get; }
+
+    public OOBEView()
+    {
+        InitializeComponent();
+        ViewModel = App.GetRequiredService<OOBEViewModel>();
     }
 }

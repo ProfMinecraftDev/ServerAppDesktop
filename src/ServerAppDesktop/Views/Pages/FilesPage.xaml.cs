@@ -1,13 +1,12 @@
-namespace ServerAppDesktop.Views.Pages
+namespace ServerAppDesktop.Views.Pages;
+
+
+
+
+public sealed partial class FilesPage : Page
 {
-
-
-
-    public sealed partial class FilesPage : Page
+    public FilesPage()
     {
-        public FilesPage()
-        {
-            InitializeComponent();
-        }
+        InitializeComponent();
     }
 }

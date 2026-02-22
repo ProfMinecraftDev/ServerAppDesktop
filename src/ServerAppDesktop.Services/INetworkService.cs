@@ -1,8 +1,7 @@
-﻿namespace ServerAppDesktop.Services
+﻿namespace ServerAppDesktop.Services;
+
+public interface INetworkService
 {
-    public interface INetworkService
-    {
-        string GetLocalIP();
-        Task<string> GetPublicIPAsync();
-    }
+    public string GetLocalIP();
+    public Task<string> GetPublicIPAsync();
 }

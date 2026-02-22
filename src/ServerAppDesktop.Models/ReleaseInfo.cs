@@ -1,23 +1,22 @@
-﻿namespace ServerAppDesktop.Models
+﻿namespace ServerAppDesktop.Models;
+
+public sealed class ReleaseInfo
 {
-    public sealed class ReleaseInfo
-    {
-        [JsonPropertyName("tag_name")]
-        public string VersionTag { get; set; } = "";
+    [JsonPropertyName("tag_name")]
+    public string VersionTag { get; set; } = "";
 
-        [JsonPropertyName("name")]
-        public string Version { get; set; } = "";
+    [JsonPropertyName("name")]
+    public string Version { get; set; } = "";
 
-        [JsonPropertyName("prerelease")]
-        public bool IsPreRelease { get; set; } = false;
+    [JsonPropertyName("prerelease")]
+    public bool IsPreRelease { get; set; } = false;
 
-        [JsonPropertyName("body")]
-        public string Notes { get; set; } = "";
+    [JsonPropertyName("body")]
+    public string Notes { get; set; } = "";
 
-        [JsonPropertyName("published_at")]
-        public DateTime PublishedAt { get; set; }
+    [JsonPropertyName("published_at")]
+    public DateTime PublishedAt { get; set; }
 
-        [JsonPropertyName("assets")]
-        public List<Asset> Assets { get; set; } = [];
-    }
+    [JsonPropertyName("assets")]
+    public List<Asset> Assets { get; set; } = [];
 }

@@ -1,11 +1,10 @@
-﻿namespace ServerAppDesktop.Services
+﻿namespace ServerAppDesktop.Services;
+
+public interface IServerPropertiesService
 {
-    public interface IServerPropertiesService
-    {
-        void SetPath(string serverPath);
-        void LoadFile();
-        T? GetValue<T>(string key);
-        object? GetValue(string key);
-        void SetValue(string key, object value);
-    }
+    public void SetPath(string serverPath);
+    public void LoadFile();
+    public T? GetValue<T>(string key);
+    public object? GetValue(string key);
+    public void SetValue(string key, object value);
 }
