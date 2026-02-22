@@ -243,7 +243,6 @@ public sealed partial class HomeViewModel : ObservableRecipient
                 string publicIP = await _networkService.GetPublicIPAsync();
                 string localIP = _networkService.GetLocalIP();
 
-                Debug.WriteLine($"{publicIP} is {localIP}");
                 ServerIP = $"""
                 {localIP} (Local)
                 {publicIP} (Pública)
