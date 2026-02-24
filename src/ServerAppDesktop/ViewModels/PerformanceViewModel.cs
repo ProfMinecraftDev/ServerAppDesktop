@@ -61,7 +61,7 @@ public sealed partial class PerformanceViewModel : ObservableRecipient, IRecipie
 
     public void Receive(ServerStateChangedMessage message)
     {
-        IsServerRunning = message.Value.State == ServerStateType.Running;
+        IsServerRunning = message.Value == ServerStateType.Running;
     }
 
     partial void OnIsServerRunningChanged(bool value)

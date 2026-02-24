@@ -2,10 +2,10 @@
 
 public interface IWindowHandler
 {
-    bool WindowClosed { get; }
-    void SetWindow(MainWindow window);
-    void Configure();
-    void HandleNetworkUIUpdate(InfoBar infoBar, bool isConnected);
-    Task UpdateFullScreenLogic(bool fullScreen, Button fsButton);
-    void SetIcon(string iconPath);
+    public bool WindowClosed { get; }
+    public void SetWindow(MainWindow window);
+    public void Configure();
+    public void HandleNetworkUIUpdate(InfoBar infoBar, bool isConnected);
+    public Task UpdateFullScreenLogic(bool fullScreen, Button fsButton);
+    public void SetBadgeIcon(string iconPath);
 }

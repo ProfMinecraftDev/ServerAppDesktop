@@ -30,18 +30,56 @@ public sealed class SystemService : ISystemService
 
     private void GetGpuData()
     {
-        GPUName = GetWmiValue("SELECT Name FROM Win32_VideoController", "Name") ?? "Unknown GPU";
+        try
+        {
+            const string videoKey = @"HKEY_LOCAL_MACHINE\HARDWARE\DEVICEMAP\VIDEO";
+            string? devicePath = Registry.GetValue(videoKey, @"\Device\Video0", null)?.ToString();
+
+            if (!string.IsNullOrEmpty(devicePath))
+            {
+                string keyPath = devicePath.Replace(@"\Registry\Machine\", "");
+                string fullPath = $@"HKEY_LOCAL_MACHINE\{keyPath}";
+
+                string? gpuName = Registry.GetValue(fullPath, "DriverDesc", null)?.ToString();
+
+                if (string.IsNullOrEmpty(gpuName))
+                {
+                    gpuName = Registry.GetValue(fullPath, "Device Description", null)?.ToString();
+                }
+
+                GPUName = gpuName ?? "Standard VGA Adapter";
+            }
+            else
+            {
+                GPUName = "GPU No Detectada";
+            }
+        }
+        catch
+        {
+            GPUName = "Unknown GPU";
+        }
     }
 
     private void GetRamData()
     {
         try
         {
-            using var searcher = new ManagementObjectSearcher("SELECT Capacity FROM Win32_PhysicalMemory");
-            long total = searcher.Get().Cast<ManagementObject>().Sum(x => Convert.ToInt64(x["Capacity"]));
-            MemoryGB = (int)Math.Round(total / Math.Pow(1024, 3));
+            MEMORYSTATUSEX memStatus = new()
+            {
+                dwLength = (uint)Marshal.SizeOf<MEMORYSTATUSEX>()
+            };
+
+            if (PInvoke.GlobalMemoryStatusEx(ref memStatus))
+            {
+                double totalGB = memStatus.ullTotalPhys / Math.Pow(1024, 3);
+
+                MemoryGB = (int)Math.Ceiling(totalGB);
+            }
         }
-        catch { MemoryGB = 0; }
+        catch
+        {
+            MemoryGB = 0;
+        }
     }
 
     private void GetOsData()
@@ -62,31 +100,40 @@ public sealed class SystemService : ISystemService
     {
         try
         {
-            using var searcher = new ManagementObjectSearcher("SELECT Name, Version FROM Win32_ComputerSystemProduct");
-            ManagementObject? obj = searcher.Get().Cast<ManagementObject>().FirstOrDefault();
+            const string biblePath = @"HKEY_LOCAL_MACHINE\HARDWARE\DESCRIPTION\System\BIOS";
 
-            string name = obj?["Name"]?.ToString() ?? "";
+            string? systemModel = Registry.GetValue(biblePath, "SystemProductName", null)?.ToString();
 
-            if (string.IsNullOrEmpty(name) || name.Contains("To be filled", StringComparison.OrdinalIgnoreCase))
-            {
-                using var boardSearcher = new ManagementObjectSearcher("SELECT Product FROM Win32_BaseBoard");
-                name = boardSearcher.Get().Cast<ManagementObject>().FirstOrDefault()?["Product"]?.ToString() ?? "Custom PC";
-            }
+            string? boardModel = Registry.GetValue(biblePath, "BaseBoardProduct", null)?.ToString();
 
-            PCModel = name;
+            PCModel = string.IsNullOrEmpty(systemModel) ||
+                systemModel.Contains("To be filled", StringComparison.OrdinalIgnoreCase) ||
+                systemModel.Contains("Default string", StringComparison.OrdinalIgnoreCase)
+                ? !string.IsNullOrEmpty(boardModel) ? boardModel : "Custom PC"
+                : systemModel;
         }
-        catch { PCModel = "Unknown Model"; }
+        catch
+        {
+            PCModel = "Unknown Model";
+        }
     }
 
     private void GetLicenseData()
     {
         try
         {
-            string query = "SELECT Description FROM SoftwareLicensingProduct WHERE PartialProductKey IS NOT NULL AND ApplicationID = '55c92734-d682-4d71-983e-d6ec3f16059f'";
-            string desc = GetWmiValue(query, "Description")?.ToUpper() ?? "";
-            LicenseType = desc.Contains("RETAIL") ? "Retail" : desc.Contains("OEM") ? "OEM" : desc.Contains("VOLUME") ? "Volume" : "Original";
+            const string path = @"HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows NT\CurrentVersion";
+            string? editionId = Registry.GetValue(path, "EditionID", "")?.ToString()?.ToUpper();
+            string? productId = Registry.GetValue(path, "ProductId", "")?.ToString();
+
+            LicenseType = productId != null && productId.Contains("OEM")
+                ? "OEM"
+                : editionId != null && editionId.Contains("ENTERPRISE") ? "Volume (KMS/MAK)" : "Retail / Digital";
         }
-        catch { LicenseType = "Unknown"; }
+        catch
+        {
+            LicenseType = "Unknown";
+        }
     }
 
     private void GetProcessData()
@@ -121,16 +168,6 @@ public sealed class SystemService : ISystemService
 
     private void GetUserData()
     {
-        ActiveUser = $"{Environment.UserName} @ {Environment.MachineName}";
-    }
-
-    private static string? GetWmiValue(string query, string prop)
-    {
-        try
-        {
-            using var searcher = new ManagementObjectSearcher(query);
-            return searcher.Get().Cast<ManagementObject>().FirstOrDefault()?[prop]?.ToString();
-        }
-        catch { return null; }
+        ActiveUser = $"\\\\{Environment.MachineName}\\{Environment.UserName}";
     }
 }

@@ -22,6 +22,7 @@ global using global::Microsoft.Windows.Storage.Pickers;
 global using global::Microsoft.UI.Xaml;
 global using global::Microsoft.UI.Xaml.Controls;
 global using global::Microsoft.UI.Xaml.Input;
+global using global::Microsoft.UI;
 global using global::Microsoft.UI.Xaml.Media;
 global using global::Microsoft.UI.Xaml.Media.Animation;
 global using TitleBar = global::Microsoft.UI.Xaml.Controls.TitleBar;

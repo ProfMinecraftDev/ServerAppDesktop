@@ -30,7 +30,7 @@ public static class SettingsHelper
             }
 
             JsonSerializerOptions options = new()
-            { PropertyNameCaseInsensitive = true };
+            { PropertyNameCaseInsensitive = true, WriteIndented = true, IndentSize = 4 };
             AppSettingsJsonContext context = new(options);
 
 
@@ -77,6 +77,7 @@ public static class SettingsHelper
 
         AppSettingsJsonContext context = new(new JsonSerializerOptions
         {
+            PropertyNameCaseInsensitive = true,
             WriteIndented = true,
             IndentSize = 4
         });

@@ -2,12 +2,10 @@
 
 public enum ServerStateType
 {
+    Default,
     Stopped,
     Starting,
     Running,
     Stopping,
     Restarting
 }
-
-
-public record ServerState(ServerStateType State);

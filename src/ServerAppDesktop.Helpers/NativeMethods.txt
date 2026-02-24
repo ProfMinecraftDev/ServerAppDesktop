@@ -9,3 +9,6 @@ GlobalFree
 SetForegroundWindow
 FlashWindowEx
 MessageBoxW
+ITaskbarList3
+TaskbarList
+CoCreateInstance

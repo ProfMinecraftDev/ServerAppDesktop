@@ -16,6 +16,8 @@ global using global::Windows.Win32.UI.WindowsAndMessaging;
 global using global::Windows.Win32.System.Memory;
 global using global::Windows.Globalization;
 global using global::Windows.Networking.Connectivity;
+global using global::Microsoft.Win32.SafeHandles;
+global using global::Windows.Win32.UI.Shell;
 #endregion
 
 #region Windows App SDK (AppModel & Resources)

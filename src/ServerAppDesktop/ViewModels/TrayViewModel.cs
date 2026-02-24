@@ -51,7 +51,7 @@ public sealed partial class TrayViewModel : ObservableRecipient, IRecipient<Serv
 
     public void Receive(ServerStateChangedMessage message)
     {
-        Icon = ServerUIHelper.GetIconPath(message.Value.State);
-        ToolTip = ServerUIHelper.GetTooltip(message.Value.State);
+        Icon = ServerUIHelper.GetIconPath(message.Value);
+        ToolTip = ServerUIHelper.GetTooltip(message.Value);
     }
 }

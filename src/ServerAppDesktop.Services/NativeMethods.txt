@@ -4,4 +4,10 @@ AssignProcessToJobObject
 JOBOBJECTINFOCLASS
 JOBOBJECT_EXTENDED_LIMIT_INFORMATION
 JOB_OBJECT_LIMIT
-HANDLE
+GlobalMemoryStatusEx
+PdhOpenQueryW
+PdhAddEnglishCounterW
+PdhCollectQueryData
+PdhGetFormattedCounterValue
+PdhCloseQuery
+PDH_FMT_COUNTERVALUE

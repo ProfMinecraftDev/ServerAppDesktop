@@ -36,8 +36,6 @@ public sealed partial class MainWindow : WindowEx
         _homeViewModel = App.GetRequiredService<HomeViewModel>();
         _navigationService = App.GetRequiredService<INavigationService>();
 
-        PersistenceId = "ServerAppDesktopPreviewMainWindow";
-
         TitleBar.PointerEntered += (_, _) =>
         {
             IsMouseOverTitleBar = true;
@@ -80,13 +78,12 @@ public sealed partial class MainWindow : WindowEx
             });
         };
 
-        if (Content is Grid grid)
+        if (ObjectExtensions.As<Grid>(Content) is Grid grid)
         {
             grid.Loaded += (_, _) => _homeViewModel.IsConfigured = DataHelper.Settings != null;
             grid.DataContext = ViewModel;
             grid.KeyDown += (_, e) => OnF11OrEscapeInvoked(e.Key);
         }
-
         fullScreenButton.Click += (_, _) => OnF11OrEscapeInvoked(VirtualKey.F11);
 
         _windowHandler.Configure();

@@ -7,5 +7,10 @@ public sealed partial class SystemInfoPage : Page
     {
         InitializeComponent();
         ViewModel = App.GetRequiredService<SystemInfoViewModel>();
+
+        Loaded += (_, _) =>
+        {
+            _ = ViewModel.LoadData();
+        };
     }
 }

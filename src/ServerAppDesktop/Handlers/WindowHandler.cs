@@ -2,11 +2,10 @@
 
 public class WindowHandler : IWindowHandler
 {
-    private bool _windowClosed = false;
     private MainWindow? _window;
     private static bool CloseInSystemTray => DataHelper.Settings?.Startup.CloseInSystemTray ?? true;
 
-    public bool WindowClosed => _windowClosed;
+    public bool WindowClosed { get; private set; } = false;
 
     public void SetWindow(MainWindow window)
     {
@@ -16,35 +15,59 @@ public class WindowHandler : IWindowHandler
     public void Configure()
     {
         if (_window == null)
+        {
             return;
+        }
+
         _window.ExtendsContentIntoTitleBar = true;
 
-        var hwnd = _window.GetWindowHandle();
+        nint hwnd = _window.GetWindowHandle();
         if (hwnd == nint.Zero)
+        {
             return;
+        }
 
-        var appWindow = _window.AppWindow;
+        WindowId windowId = Win32Interop.GetWindowIdFromWindow(hwnd);
+        var appWindow = AppWindow.GetFromWindowId(windowId);
         appWindow.TitleBar.PreferredTheme = TitleBarTheme.UseDefaultAppMode;
         appWindow.TitleBar.PreferredHeightOption = TitleBarHeightOption.Tall;
+        appWindow.TitleBar.ExtendsContentIntoTitleBar = true;
         appWindow.TitleBar.IconShowOptions = IconShowOptions.ShowIconAndSystemMenu;
+        appWindow.TitleBar.BackgroundColor = Colors.Red;
 
-        SetIcon("Assets/AppIcon.ico");
+        appWindow.SetIcon("Assets/AppIcon.ico");
+        appWindow.SetTaskbarIcon("Assets/AppIcon.ico");
+        appWindow.SetTitleBarIcon("Assets/AppIcon.ico");
 
         appWindow.Closing += (s, e) =>
         {
             e.Cancel = true;
             if (CloseInSystemTray)
+            {
                 H.NotifyIcon.WindowExtensions.Hide(_window, true);
+            }
             else
             {
-                _windowClosed = true;
+                WindowClosed = true;
                 _window.TrayIcon.Dispose();
                 e.Cancel = false;
             }
         };
     }
 
-    public void SetIcon(string iconPath) => _window?.AppWindow.SetIcon(iconPath);
+    public void SetBadgeIcon(string iconPath)
+    {
+        if (_window == null)
+        {
+            return;
+        }
+        if (string.IsNullOrEmpty(iconPath))
+        {
+            WindowHelper.ClearBadge(_window);
+            return;
+        }
+        WindowHelper.SetBadge(_window, iconPath);
+    }
 
     public void HandleNetworkUIUpdate(InfoBar infoBar, bool isConnected)
     {
@@ -57,12 +80,15 @@ public class WindowHandler : IWindowHandler
     public async Task UpdateFullScreenLogic(bool fullScreen, Button fsButton)
     {
         if (_window == null)
+        {
             return;
+        }
+
         if (fullScreen)
         {
-            _window.PresenterKind = AppWindowPresenterKind.FullScreen;
             fsButton.Content = new FontIcon { FontSize = 12, Glyph = "\uE92C" };
             ToolTipService.SetToolTip(fsButton, "Salir de pantalla completa (ESC o F11)");
+            _window.PresenterKind = AppWindowPresenterKind.FullScreen;
 
             await Task.Delay(1000);
             if (_window.PresenterKind == AppWindowPresenterKind.FullScreen && !_window.IsMouseOverTitleBar)
@@ -72,9 +98,9 @@ public class WindowHandler : IWindowHandler
         }
         else
         {
-            _window.PresenterKind = AppWindowPresenterKind.Default;
             fsButton.Content = new FontIcon { FontSize = 12, Glyph = "\uE92D" };
             ToolTipService.SetToolTip(fsButton, "Pantalla completa (F11)");
+            _window.PresenterKind = AppWindowPresenterKind.Default;
             _window.TitleBar.Height = 48;
         }
     }

@@ -1,8 +1,8 @@
 ﻿namespace ServerAppDesktop.ViewModels;
 
-public sealed partial class SystemInfoViewModel : ObservableObject
+public sealed partial class SystemInfoViewModel(ISystemService systemService) : ObservableObject
 {
-    private readonly ISystemService _systemService;
+    private readonly ISystemService _systemService = systemService;
 
     [ObservableProperty] private string _cpuName = "";
     [ObservableProperty] private string _gpuName = "";
@@ -17,30 +17,44 @@ public sealed partial class SystemInfoViewModel : ObservableObject
     [ObservableProperty] private string _activeProcessId = "";
     [ObservableProperty] private bool _isLoading;
 
-    public SystemInfoViewModel(ISystemService systemService)
-    {
-        _systemService = systemService;
-        LoadData();
-    }
-
-    private void LoadData()
+    public async Task LoadData()
     {
         IsLoading = true;
 
-        Parallel.Invoke(
-            () => CpuName = _systemService.CPUName,
-            () => GpuName = _systemService.GPUName,
-            () => MemoryInfo = $"{_systemService.MemoryGB} GB",
-            () => PcModel = _systemService.PCModel,
-            () => WindowsVersion = _systemService.WindowsVersion,
-            () => LicenseType = _systemService.LicenseType,
-            () => StorageType = _systemService.StorageType,
-            () => StorageSize = _systemService.StorageSize,
-            () => ActiveUser = _systemService.ActiveUser,
-            () => ActiveProcessName = _systemService.ActiveProcess,
-            () => ActiveProcessId = $"PID {_systemService.ActiveProcessId}"
-        );
+        CpuName = GpuName = MemoryInfo = PcModel = WindowsVersion =
+        LicenseType = StorageType = StorageSize = ActiveUser =
+        ActiveProcessName = ActiveProcessId = "Cargando...";
 
-        IsLoading = false;
+        await Task.Run(() =>
+        {
+            string cpu = _systemService.CPUName;
+            string gpu = _systemService.GPUName;
+            string mem = $"{_systemService.MemoryGB} GB";
+            string model = _systemService.PCModel;
+            string win = _systemService.WindowsVersion;
+            string lic = _systemService.LicenseType;
+            string sType = _systemService.StorageType;
+            string sSize = _systemService.StorageSize;
+            string user = _systemService.ActiveUser;
+            string pName = _systemService.ActiveProcess;
+            string pId = $"PID {_systemService.ActiveProcessId}";
+
+            _ = MainWindow.Instance.DispatcherQueue.TryEnqueue(() =>
+            {
+                CpuName = cpu;
+                GpuName = gpu;
+                MemoryInfo = mem;
+                PcModel = model;
+                WindowsVersion = win;
+                LicenseType = lic;
+                StorageType = sType;
+                StorageSize = sSize;
+                ActiveUser = user;
+                ActiveProcessName = pName;
+                ActiveProcessId = pId;
+
+                IsLoading = false;
+            });
+        });
     }
 }

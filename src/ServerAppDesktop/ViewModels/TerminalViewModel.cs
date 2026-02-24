@@ -39,13 +39,13 @@ public sealed partial class TerminalViewModel : ObservableRecipient, IRecipient<
 
     public void Receive(ServerStateChangedMessage message)
     {
-        if (message.Value.State == ServerStateType.Running)
+        if (message.Value == ServerStateType.Running)
         {
             CanInput = true;
             _isRunning = true;
             CommandInput = "";
         }
-        else if (message.Value.State == ServerStateType.Stopped)
+        else if (message.Value == ServerStateType.Stopped)
         {
             CanInput = false;
             _isRunning = false;

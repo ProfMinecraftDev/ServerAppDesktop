@@ -23,7 +23,7 @@ public sealed partial class HomeViewModel : ObservableRecipient
     [NotifyPropertyChangedFor(nameof(CanStartServer))]
     [NotifyPropertyChangedFor(nameof(CanStopServer))]
     [NotifyPropertyChangedFor(nameof(CanRestartServer))]
-    private ServerState? _serverState;
+    private ServerStateType _serverState;
 
     private static readonly string DefaultValue = ResourceHelper.GetString("NoneItem");
 
@@ -39,9 +39,9 @@ public sealed partial class HomeViewModel : ObservableRecipient
 
 
 
-    public bool CanStartServer => IsConfigured && (ServerState?.State is ServerStateType.Stopped or null);
-    public bool CanStopServer => IsConfigured && (ServerState?.State is ServerStateType.Running);
-    public bool CanRestartServer => IsConfigured && (ServerState?.State is ServerStateType.Running);
+    public bool CanStartServer => IsConfigured && (ServerState is ServerStateType.Stopped);
+    public bool CanStopServer => IsConfigured && (ServerState is ServerStateType.Running);
+    public bool CanRestartServer => IsConfigured && (ServerState is ServerStateType.Running);
 
     public HomeViewModel(
         IOOBEService oobeService,
@@ -63,8 +63,6 @@ public sealed partial class HomeViewModel : ObservableRecipient
         _processService.ProcessExited += (clean, code) => UpdateState(ServerStateType.Stopped, !clean && code != 0, true);
 
         _oobeService.OOBEFinished += (val) => IsConfigured = val;
-
-        ServerState = new ServerState(ServerStateType.Stopped);
     }
 
     [RelayCommand(CanExecute = nameof(CanStartServer))]
@@ -161,16 +159,12 @@ public sealed partial class HomeViewModel : ObservableRecipient
         _ = dispatcher.TryEnqueue(() =>
         {
 
-            if (ServerState?.State == state)
+            if (ServerState == state)
             {
                 return;
             }
 
-            ServerState = new ServerState(state);
-
-
-            _ = WeakReferenceMessenger.Default.Send(new ServerStateChangedMessage(ServerState));
-
+            ServerState = state;
 
             if (isError)
             {
@@ -196,9 +190,9 @@ public sealed partial class HomeViewModel : ObservableRecipient
         }.ShowNotification();
     }
 
-    partial void OnServerStateChanged(ServerState? value)
+    partial void OnServerStateChanged(ServerStateType value)
     {
-        if (value == null || !IsConfigured || MainWindow.Instance.TrayIcon == null)
+        if (!IsConfigured || MainWindow.Instance.TrayIcon == null)
             return;
 
         _ = MainWindow.Instance.DispatcherQueue.TryEnqueue(() =>
@@ -210,8 +204,9 @@ public sealed partial class HomeViewModel : ObservableRecipient
                 StopServerCommand.NotifyCanExecuteChanged();
                 RestartServerCommand.NotifyCanExecuteChanged();
 
+                _ = Messenger.Send(new ServerStateChangedMessage(value));
 
-                _windowHandler.SetIcon(ServerUIHelper.GetIconPath(value.State));
+                _windowHandler.SetBadgeIcon(ServerUIHelper.GetBadgeIconPath(value));
             }
             catch (Exception ex)
             {
@@ -231,6 +226,8 @@ public sealed partial class HomeViewModel : ObservableRecipient
 
             if (DataHelper.Settings.Startup.AutoStartServer)
                 _ = StartServerAsync();
+            else
+                ServerState = ServerStateType.Stopped;
 
             ServerEdition = DataHelper.Settings.Server.Edition == 0 ? "Bedrock" : "Java";
             ServerPath = DataHelper.Settings.Server.Path;
@@ -251,8 +248,7 @@ public sealed partial class HomeViewModel : ObservableRecipient
         }
         else
         {
-
-            ServerState = new ServerState(ServerStateType.Stopped);
+            ServerState = ServerStateType.Default;
         }
     }
 }

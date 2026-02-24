@@ -2,9 +2,6 @@
 
 public static class ServerUIHelper
 {
-
-
-
     public static string GetIconPath(ServerStateType state)
     {
         return state switch
@@ -12,15 +9,34 @@ public static class ServerUIHelper
             ServerStateType.Starting or
             ServerStateType.Stopping or
             ServerStateType.Restarting
-                => $"{AppContext.BaseDirectory}/Assets/AppIcon_ServerRestarting.ico",
+                => $"{AppContext.BaseDirectory}/Assets/States/ServerRestarting.ico",
 
             ServerStateType.Running
-                => $"{AppContext.BaseDirectory}/Assets/AppIcon_ServerRunning.ico",
+                => $"{AppContext.BaseDirectory}/Assets/States/ServerRunning.ico",
 
             ServerStateType.Stopped
-                => $"{AppContext.BaseDirectory}/Assets/AppIcon_ServerStopped.ico",
+                => $"{AppContext.BaseDirectory}/Assets/States/ServerStopped.ico",
 
             _ => $"{AppContext.BaseDirectory}/Assets/AppIcon.ico",
+        };
+    }
+
+    public static string GetBadgeIconPath(ServerStateType state)
+    {
+        return state switch
+        {
+            ServerStateType.Starting or
+            ServerStateType.Stopping or
+            ServerStateType.Restarting
+                => $"{AppContext.BaseDirectory}/Assets/Badges/Restarting.ico",
+
+            ServerStateType.Running
+                => $"{AppContext.BaseDirectory}/Assets/Badges/Running.ico",
+
+            ServerStateType.Stopped
+                => $"{AppContext.BaseDirectory}/Assets/Badges/Stopped.ico",
+
+            _ => $"",
         };
     }
 

@@ -9,7 +9,8 @@
 		<ResourceDictionary>
 			<ResourceDictionary.MergedDictionaries>
 				<XamlControlsResources xmlns="using:Microsoft.UI.Xaml.Controls" />
-				<ResourceDictionary Source="ms-appx:///DevWinUI.Controls/Themes/Generic.xaml" />
+				<ResourceDictionary Source="/DevWinUI.Controls/Themes/Generic.xaml" />
+				<ResourceDictionary Source="/ServerAppDesktop.Controls/Themes/Generic.xaml" />
 			</ResourceDictionary.MergedDictionaries>
 
 			<converters:BoolNegationToVisibilityConverter x:Key="BoolNegationToVisibilityConverter" />

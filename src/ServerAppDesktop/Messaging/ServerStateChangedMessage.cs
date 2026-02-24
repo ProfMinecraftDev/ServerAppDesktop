@@ -2,4 +2,4 @@
 namespace ServerAppDesktop.Messaging;
 
 
-public class ServerStateChangedMessage(ServerState value) : ValueChangedMessage<ServerState>(value);
+public class ServerStateChangedMessage(ServerStateType value) : ValueChangedMessage<ServerStateType>(value);

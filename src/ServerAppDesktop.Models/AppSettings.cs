@@ -4,6 +4,9 @@
 [JsonSerializable(typeof(UISettings))]
 [JsonSerializable(typeof(ServerSettings))]
 [JsonSerializable(typeof(StartupSettings))]
+[JsonSerializable(typeof(string))]
+[JsonSerializable(typeof(bool))]
+[JsonSerializable(typeof(int))]
 public sealed partial class AppSettingsJsonContext : JsonSerializerContext { }
 
 public sealed class AppSettings

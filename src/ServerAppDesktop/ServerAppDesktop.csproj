@@ -41,9 +41,11 @@
 
 	<ItemGroup>
 		<Manifest Include="$(ApplicationManifest)" />
-		<Folder Include="Assets" />
+		
 		<Content Include="Assets\**">
 			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+			<CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+			<Visible>true</Visible>
 		</Content>
 	</ItemGroup>
 

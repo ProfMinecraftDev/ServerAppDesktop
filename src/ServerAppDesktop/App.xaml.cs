@@ -11,15 +11,21 @@ public sealed partial class App : Application
         InitializeComponent();
 
         if (SettingsHelper.ExistsConfigurationFile())
+        {
             SettingsHelper.LoadAndSetBasicSettings();
+        }
         else
+        {
             DataHelper.Settings = null;
+        }
 
         Host = AppHandler.ConfigureHost();
     }
 
-    public static T GetRequiredService<T>() where T : notnull =>
-        Host!.Services.GetRequiredService<T>() ?? throw new InvalidOperationException("Host no inicializado");
+    public static T GetRequiredService<T>() where T : notnull
+    {
+        return Host!.Services.GetRequiredService<T>() ?? throw new InvalidOperationException("Host no inicializado");
+    }
 
     protected override async void OnLaunched(LaunchActivatedEventArgs args)
     {
@@ -37,9 +43,13 @@ public sealed partial class App : Application
             MainWindow.Instance.DispatcherQueue.TryEnqueue(() => WindowHelper.ShowAndFocus(MainWindow.Instance));
 
         if (!_trayOnly)
+        {
             WindowHelper.ShowAndFocus(MainWindow.Instance);
+        }
         else
+        {
             EfficiencyModeUtilities.SetEfficiencyMode(true);
+        }
 
         if (MainWindow.Instance != null)
         {
@@ -47,11 +57,13 @@ public sealed partial class App : Application
             MainWindow.Instance.ViewModel.IsConnectedToInternet = isConnected;
 
             if (isConnected)
+            {
                 await AppHandler.CheckUpdatesAsync(_trayOnly);
+            }
 
-            MainWindow.Instance.contentFrame.Navigate(typeof(Page));
+            _ = MainWindow.Instance.contentFrame.Navigate(typeof(Page));
 
-            MainWindow.Instance.contentFrame.Navigate(
+            _ = MainWindow.Instance.contentFrame.Navigate(
                 isFirstRun ? typeof(OOBEView) : typeof(MainView),
                 null,
                 new DrillInNavigationTransitionInfo());

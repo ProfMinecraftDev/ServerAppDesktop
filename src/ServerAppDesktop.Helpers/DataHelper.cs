@@ -40,7 +40,7 @@ public static partial class DataHelper
         UpdateChannel == 0 ? AppName : $"{AppName} (Preview)",
         "Settings");
 
-    public static string SettingsFile { get; } = DebugMode ? "appsettings.json" : "appsettings.Debug.json";
+    public static string SettingsFile { get; }
     public static bool RunAsAdmin { get; private set; }
 
     public static bool DebugMode { get; } =
@@ -52,6 +52,7 @@ public static partial class DataHelper
 
     static DataHelper()
     {
+        SettingsFile = !DebugMode ? "appsettings.json" : "appsettings.Debug.json";
         using var identity = WindowsIdentity.GetCurrent();
         WindowsPrincipal principal = new(identity);
         RunAsAdmin = principal.IsInRole(WindowsBuiltInRole.Administrator);

@@ -5,7 +5,6 @@
 	xmlns:converters="using:ServerAppDesktop.Converters"
 	xmlns:local="using:ServerAppDesktop.Controls">
 
-
 	<converters:NotNullToVisibilityConverter x:Key="NotNullToVisibilityConverter" />
 
 	<Style x:Key="DefaultInfoCardStyle" TargetType="local:InfoCard">

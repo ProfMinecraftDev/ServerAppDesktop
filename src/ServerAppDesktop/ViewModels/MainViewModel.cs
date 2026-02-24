@@ -71,6 +71,7 @@ public sealed partial class MainViewModel : ObservableObject
     private static void ShowWarning(ContentDialog dialog)
     {
         _ = dialog.ShowAsync();
+        WindowHelper.ClearBadge(MainWindow.Instance);
     }
 
     [RelayCommand]
