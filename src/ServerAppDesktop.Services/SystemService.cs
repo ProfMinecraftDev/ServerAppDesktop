@@ -144,26 +144,84 @@ public sealed class SystemService : ISystemService
         ActiveProcessId = current.Id;
     }
 
-    private void GetStorageData()
+    private unsafe void GetStorageData()
     {
         try
         {
-            var scope = new ManagementScope(@"\\.\root\Microsoft\Windows\Storage");
-            using var searcher = new ManagementObjectSearcher(scope, new ObjectQuery("SELECT MediaType, BusType FROM MSFT_PhysicalDisk"));
-            ManagementObject? disk = searcher.Get().Cast<ManagementObject>().FirstOrDefault();
-            if (disk != null)
+            using SafeFileHandle hDisk = PInvoke.CreateFile(
+                @"\\.\PhysicalDrive0",
+                0,
+                FILE_SHARE_MODE.FILE_SHARE_READ | FILE_SHARE_MODE.FILE_SHARE_WRITE,
+                null,
+                FILE_CREATION_DISPOSITION.OPEN_EXISTING,
+                FILE_FLAGS_AND_ATTRIBUTES.FILE_ATTRIBUTE_NORMAL,
+                null);
+
+            if (hDisk.IsInvalid)
             {
-                ushort media = (ushort)disk["MediaType"];
-                ushort bus = (ushort)disk["BusType"];
-                StorageType = media == 4 ? (bus == 17 ? "SSD NVMe (M.2)" : "SSD SATA") : media == 3 ? "HDD" : "Unspecified";
+                throw new Exception("No handle");
             }
 
-            using var driveSearcher = new ManagementObjectSearcher("SELECT Size FROM Win32_DiskDrive WHERE Index = 0");
-            long bytes = Convert.ToInt64(driveSearcher.Get().Cast<ManagementObject>().FirstOrDefault()?["Size"]);
-            double gb = bytes / Math.Pow(1024, 3);
-            StorageSize = gb >= 900 ? $"{Math.Round(gb / 1024.0, 1)} TB" : $"{Math.Round(gb)} GB";
+            var query = new STORAGE_PROPERTY_QUERY { PropertyId = STORAGE_PROPERTY_ID.StorageDeviceProperty, QueryType = STORAGE_QUERY_TYPE.PropertyStandardQuery };
+            byte[] buffer = new byte[1024];
+            fixed (byte* pBuffer = buffer)
+            {
+                uint bytesReturned;
+                bool success = PInvoke.DeviceIoControl(
+                    (HANDLE)hDisk.DangerousGetHandle(),
+                    PInvoke.IOCTL_STORAGE_QUERY_PROPERTY,
+                    &query, (uint)sizeof(STORAGE_PROPERTY_QUERY),
+                    pBuffer, (uint)buffer.Length,
+                    &bytesReturned, null);
+
+                if (success)
+                {
+                    var descriptor = (STORAGE_DEVICE_DESCRIPTOR*)pBuffer;
+                    STORAGE_BUS_TYPE busType = descriptor->BusType;
+
+                    bool isSsd = GetIsSsd(hDisk);
+
+                    StorageType = isSsd switch
+                    {
+                        true => (byte)busType switch
+                        {
+                            17 => "SSD NVMe (M.2)",
+                            11 => "SSD SATA",
+                            7 => "SSD Externo (USB)",
+                            _ => "SSD (Desconocido)"
+                        },
+                        false => (byte)busType switch
+                        {
+                            11 => "HDD SATA",
+                            7 => "HDD Externo (USB)",
+                            _ => "HDD"
+                        }
+                    };
+                }
+            }
+
+            GET_LENGTH_INFORMATION lengthInfo;
+            uint returned;
+            if (PInvoke.DeviceIoControl((HANDLE)hDisk.DangerousGetHandle(), PInvoke.IOCTL_DISK_GET_LENGTH_INFO, null, 0, &lengthInfo, (uint)sizeof(GET_LENGTH_INFORMATION), &returned, null))
+            {
+                double gb = lengthInfo.Length / Math.Pow(1024, 3);
+                StorageSize = gb >= 900 ? $"{Math.Round(gb / 1024.0, 1)} TB" : $"{Math.Round(gb)} GB";
+            }
         }
-        catch { StorageType = "Unknown"; StorageSize = "Unknown"; }
+        catch
+        {
+            StorageType = "Unknown";
+            StorageSize = "Unknown";
+        }
+    }
+
+    private static unsafe bool GetIsSsd(SafeHandle hDisk)
+    {
+        var query = new STORAGE_PROPERTY_QUERY { PropertyId = STORAGE_PROPERTY_ID.StorageDeviceSeekPenaltyProperty, QueryType = STORAGE_QUERY_TYPE.PropertyStandardQuery };
+        DEVICE_SEEK_PENALTY_DESCRIPTOR descriptor;
+        uint returned;
+        _ = PInvoke.DeviceIoControl((HANDLE)hDisk.DangerousGetHandle(), PInvoke.IOCTL_STORAGE_QUERY_PROPERTY, &query, (uint)sizeof(STORAGE_PROPERTY_QUERY), &descriptor, (uint)sizeof(DEVICE_SEEK_PENALTY_DESCRIPTOR), &returned, null);
+        return !descriptor.IncursSeekPenalty;
     }
 
     private void GetUserData()

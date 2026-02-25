@@ -14,4 +14,6 @@ public interface IPerformanceService
 
     public int GetNetworkUploadSpeed();
     public int GetNetworkDownloadSpeed();
+
+    public void Refresh();
 }

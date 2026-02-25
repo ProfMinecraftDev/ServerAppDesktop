@@ -44,19 +44,28 @@ public sealed partial class PerformanceViewModel : ObservableRecipient, IRecipie
 
     private void OnTick(object? sender, object e)
     {
-        if (IsServerRunning)
+        if (!IsServerRunning)
         {
-
-            _ = Task.Run(() =>
-                MainWindow.Instance?.DispatcherQueue.TryEnqueue(() =>
-                {
-                    CpuUsage = $"{_performanceService.GetCpuUsagePercentage()}% ({_performanceService.GetCpuUsageInGHz()} GHz)";
-                    RamUsage = $"{_performanceService.GetUsedMemoryPercentage()}% ({_performanceService.GetUsedMemory()} MB / {_performanceService.TotalMemory} MB)";
-                    NetworkUsage = $"{_performanceService.GetNetworkUploadSpeed()} KB/s ↑ | {_performanceService.GetNetworkDownloadSpeed()} KB/s ↓";
-                    DiskUsage = $"{_performanceService.GetDiskWriteSpeed()} KB/s W | {_performanceService.GetDiskReadSpeed()} KB/s R";
-                })
-            );
+            return;
         }
+
+        _ = Task.Run(() =>
+        {
+            _performanceService.Refresh();
+
+            string cpu = $"{_performanceService.GetCpuUsagePercentage()}% ({_performanceService.GetCpuUsageInGHz()} GHz)";
+            string ram = $"{_performanceService.GetUsedMemoryPercentage()}% ({_performanceService.GetUsedMemory()} MB / {_performanceService.TotalMemory} MB)";
+            string net = $"{_performanceService.GetNetworkUploadSpeed()} KB/s ↑ | {_performanceService.GetNetworkDownloadSpeed()} KB/s ↓";
+            string disk = $"{_performanceService.GetDiskWriteSpeed()} KB/s W | {_performanceService.GetDiskReadSpeed()} KB/s R";
+
+            _ = MainWindow.Instance.DispatcherQueue.TryEnqueue(() =>
+            {
+                CpuUsage = cpu;
+                RamUsage = ram;
+                NetworkUsage = net;
+                DiskUsage = disk;
+            });
+        });
     }
 
     public void Receive(ServerStateChangedMessage message)

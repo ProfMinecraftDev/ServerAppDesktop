@@ -8,7 +8,6 @@ global using global::System.Text.Json;
 global using global::System.Net;
 global using global::System.Net.Sockets;
 global using global::Microsoft.Win32.SafeHandles;
-global using global::System.Management;
 global using global::System.Collections.Concurrent;
 #endregion
 
@@ -19,6 +18,8 @@ global using global::Windows.Win32.System.JobObjects;
 global using global::Windows.Win32.System.SystemInformation;
 global using global::Microsoft.Win32;
 global using global::Windows.Win32.System.Performance;
+global using global::Windows.Win32.System.Ioctl;
+global using global::Windows.Win32.Storage.FileSystem;
 #endregion
 
 #region Microsoft UI XAML Core & Navigation

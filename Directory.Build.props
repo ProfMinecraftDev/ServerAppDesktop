@@ -47,11 +47,6 @@
 		<CheckForOverflowUnderflow>false</CheckForOverflowUnderflow>
 	</PropertyGroup>
 	
-	<PropertyGroup Condition="'$(OutputType)' == 'WinExe' and '$(Configuration)' == 'Release'">
-		<SelfContained>true</SelfContained>
-		<WindowsAppSDKSelfContained>true</WindowsAppSDKSelfContained>
-	</PropertyGroup>
-	
 	<PropertyGroup Condition="'$(Configuration)' == 'Release'">
 		<DebugSymbols>true</DebugSymbols>
 		<DebugType>portable</DebugType>

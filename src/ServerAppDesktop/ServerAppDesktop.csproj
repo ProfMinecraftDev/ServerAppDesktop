@@ -13,9 +13,14 @@
 		<WindowsPackageType>None</WindowsPackageType>
 		<StartupObject>ServerAppDesktop.EntryPoint</StartupObject>
 		<ApplicationIcon>Assets\AppIcon.ico</ApplicationIcon>
-		<PublishDir>$(SolutionDir)\export\publish\</PublishDir>
+		<PublishDir>$(SolutionDir)export\publish\</PublishDir>
 	</PropertyGroup>
 
+	<PropertyGroup Condition="'$(Configuration)' == 'Release'">
+		<SelfContained>true</SelfContained>
+		<WindowsAppSDKSelfContained>true</WindowsAppSDKSelfContained>
+	</PropertyGroup>
+	
 	<ItemGroup>
 		<None Remove="MainWindow.xaml" />
 		<None Remove="AppTrayIcon.xaml" />
