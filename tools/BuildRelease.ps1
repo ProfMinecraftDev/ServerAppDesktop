@@ -1,4 +1,6 @@
-.\CleanSolution.ps1 -NoPause
+$cleanSolutionPath = Join-Path "$PSScriptRoot" "CleanSolution.ps1"
+
+& $cleanSolutionPath -NoPause
 dotnet publish ServerAppDesktop.sln /nologo /p:Configuration=Release -v m
 
 $PossiblePaths = @(

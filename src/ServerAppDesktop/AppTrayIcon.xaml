@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8" ?>
-<tb:TaskbarIcon
+<controls:TrayIcon
 	x:Class="ServerAppDesktop.AppTrayIcon"
 	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
 	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
@@ -7,23 +7,16 @@
 	xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
 	xmlns:local="using:ServerAppDesktop"
 	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-	xmlns:tb="using:H.NotifyIcon"
 	xmlns:toolkitExtensions="using:CommunityToolkit.WinUI"
 	xmlns:vm="using:ServerAppDesktop.ViewModels"
-	ContextMenuMode="SecondWindow"
 	IconSource="{x:Bind ViewModel.Icon, Mode=OneWay, Converter={StaticResource StringToImageSourceConverter}}"
 	KeyTipPlacementMode="Top"
 	LeftClickCommand="{x:Bind ViewModel.ShowWindowCommand}"
-	NoLeftClickDelay="True"
-	PopupPlacement="Top"
-	ToolTipText="{x:Bind ViewModel.ToolTip, Mode=OneWay}"
+	ToolTip="{x:Bind ViewModel.ToolTip, Mode=OneWay}"
 	Visibility="Visible"
 	mc:Ignorable="d">
-	<tb:TaskbarIcon.ContextFlyout>
-		<MenuFlyout Placement="Top" ShowMode="Transient">
-			<MenuFlyout.SystemBackdrop>
-				<DesktopAcrylicBackdrop />
-			</MenuFlyout.SystemBackdrop>
+	<controls:TrayIcon.ContextFlyout>
+		<MenuFlyout>
 			<MenuFlyoutItem
 				x:Uid="MenuFlyoutItem_StartServer"
 				Command="{x:Bind HomeViewModel.StartServerCommand}"
@@ -77,5 +70,5 @@
 				Command="{x:Bind ViewModel.ExitAppCommand, Mode=OneWay}"
 				Icon="{toolkitExtensions:FontIcon Glyph=&#xE7E8;}" />
 		</MenuFlyout>
-	</tb:TaskbarIcon.ContextFlyout>
-</tb:TaskbarIcon>
+	</controls:TrayIcon.ContextFlyout>
+</controls:TrayIcon>

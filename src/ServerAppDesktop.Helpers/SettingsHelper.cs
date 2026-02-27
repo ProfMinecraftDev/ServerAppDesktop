@@ -93,40 +93,39 @@ public static class SettingsHelper
 
     public static void ResetSettings()
     {
-        MESSAGEBOX_RESULT result = PInvoke.MessageBox(
-            HWND.Null,
-            "¿Deseas restablecer la configuración de Server App Desktop?",
-            "Restablecer configuraciones",
-            MESSAGEBOX_STYLE.MB_ICONEXCLAMATION | MESSAGEBOX_STYLE.MB_YESNO | MESSAGEBOX_STYLE.MB_TOPMOST
+        try
+        {
+            if (Directory.Exists(DataHelper.SettingsPath))
+            {
+                Directory.Delete(DataHelper.SettingsPath, true);
+            }
+
+            _ = PInvoke.MessageBox(
+                HWND.Null,
+                "Se restableció la configuración con éxito.\nLa aplicación se reiniciará para aplicar los cambios.",
+                "Éxito",
+                MESSAGEBOX_STYLE.MB_ICONINFORMATION | MESSAGEBOX_STYLE.MB_OK | MESSAGEBOX_STYLE.MB_TOPMOST
             );
 
-        if (result == MESSAGEBOX_RESULT.IDYES)
-        {
-            try
-            {
-                if (Directory.Exists(DataHelper.SettingsPath))
-                {
-                    Directory.Delete(DataHelper.SettingsPath, true);
-                }
-
-                _ = PInvoke.MessageBox(
-                    HWND.Null,
-                    "Se restableció la configuración con éxito.\nLa aplicación se reiniciará para aplicar los cambios.",
-                    "Éxito",
-                    MESSAGEBOX_STYLE.MB_ICONINFORMATION | MESSAGEBOX_STYLE.MB_OK | MESSAGEBOX_STYLE.MB_TOPMOST
-                );
-
-                DataHelper.Settings = null;
-            }
-            catch (Exception ex)
-            {
-                _ = PInvoke.MessageBox(
-                    HWND.Null,
-                    $"No se pudo restablecer la configuración.\nError: {ex.Message}",
-                    "Error al limpiar",
-                    MESSAGEBOX_STYLE.MB_ICONERROR | MESSAGEBOX_STYLE.MB_OK | MESSAGEBOX_STYLE.MB_TOPMOST
-                );
-            }
+            DataHelper.Settings = null;
         }
+        catch (Exception ex)
+        {
+            _ = PInvoke.MessageBox(
+                HWND.Null,
+                $"No se pudo restablecer la configuración.\nError: {ex.Message}",
+                "Error al limpiar",
+                MESSAGEBOX_STYLE.MB_ICONERROR | MESSAGEBOX_STYLE.MB_OK | MESSAGEBOX_STYLE.MB_TOPMOST
+            );
+        }
+
+        string exePath = Process.GetCurrentProcess().MainModule?.FileName ?? string.Empty;
+        ProcessStartInfo startInfo = new(exePath)
+        {
+            UseShellExecute = true,
+            Verb = DataHelper.RunAsAdmin ? "runas" : string.Empty
+        };
+        _ = Process.Start(startInfo);
+        Environment.Exit(0);
     }
 }

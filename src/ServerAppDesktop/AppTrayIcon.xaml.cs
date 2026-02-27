@@ -1,7 +1,7 @@
 
 namespace ServerAppDesktop;
 
-public sealed partial class AppTrayIcon : TaskbarIcon
+public sealed partial class AppTrayIcon : Controls.TrayIcon
 {
     public TrayViewModel ViewModel { get; } = App.GetRequiredService<TrayViewModel>();
     public HomeViewModel HomeViewModel { get; } = App.GetRequiredService<HomeViewModel>();

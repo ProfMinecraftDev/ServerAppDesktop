@@ -12,7 +12,14 @@ public sealed partial class TrayViewModel : ObservableRecipient, IRecipient<Serv
     [RelayCommand]
     private static void RestartApp()
     {
-        _ = AppInstance.Restart("");
+        string exePath = Process.GetCurrentProcess().MainModule?.FileName ?? string.Empty;
+        ProcessStartInfo startInfo = new(exePath)
+        {
+            UseShellExecute = true,
+            Verb = DataHelper.RunAsAdmin ? "runas" : string.Empty
+        };
+        _ = Process.Start(startInfo);
+        Environment.Exit(0);
     }
 
     [RelayCommand]
