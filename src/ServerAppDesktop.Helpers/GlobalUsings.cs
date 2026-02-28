@@ -14,13 +14,13 @@ global using global::Windows.Win32;
 global using global::Windows.Win32.Foundation;
 global using global::Windows.Win32.UI.WindowsAndMessaging;
 global using global::Windows.Win32.System.Memory;
-global using global::Windows.Globalization;
 global using global::Windows.Networking.Connectivity;
 global using global::Microsoft.Win32.SafeHandles;
 global using global::Windows.Win32.UI.Shell;
 #endregion
 
 #region Windows App SDK (AppModel & Resources)
+global using global::Microsoft.Windows.Globalization;
 global using global::Microsoft.Windows.AppLifecycle;
 global using global::Microsoft.Windows.ApplicationModel.Resources;
 #endregion

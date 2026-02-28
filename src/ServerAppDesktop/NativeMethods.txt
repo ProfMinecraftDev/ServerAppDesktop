@@ -1,3 +1,7 @@
 ﻿MessageBoxW
 SetCurrentProcessExplicitAppUserModelID
 WIN32_ERROR
+ShowWindow
+WINDOWPLACEMENT
+SetWindowPlacement
+GetWindowPlacement

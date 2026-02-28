@@ -19,6 +19,7 @@ public static class AppHandler
                 _ = services.AddSingleton<INetworkService, NetworkService>();
                 _ = services.AddSingleton<IServerPropertiesService, ServerPropertiesService>();
                 _ = services.AddSingleton<ISystemService, SystemService>();
+                _ = services.AddSingleton<ISettingsService, SettingsService>();
 
                 _ = services.AddSingleton<IWindowHandler, WindowHandler>();
 

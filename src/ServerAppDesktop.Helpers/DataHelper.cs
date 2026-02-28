@@ -1,4 +1,3 @@
-
 namespace ServerAppDesktop.Helpers;
 
 public static partial class DataHelper
@@ -40,7 +39,11 @@ public static partial class DataHelper
         UpdateChannel == 0 ? AppName : $"{AppName} (Preview)",
         "Settings");
 
+    public static string WindowPersistenceID =>
+        UpdateChannel == 0 ? "ServerAppDesktopMainWindow" : "ServerAppDesktopPreviewMainWindow";
+
     public static string SettingsFile { get; }
+    public static string WindowPersistenceFile { get; }
     public static bool RunAsAdmin { get; private set; }
 
     public static bool DebugMode { get; } =
@@ -52,6 +55,7 @@ public static partial class DataHelper
 
     static DataHelper()
     {
+        WindowPersistenceFile = !DebugMode ? "windowpersistence.json" : "windowpersistence.Debug.json";
         SettingsFile = !DebugMode ? "appsettings.json" : "appsettings.Debug.json";
         using var identity = WindowsIdentity.GetCurrent();
         WindowsPrincipal principal = new(identity);
@@ -64,5 +68,6 @@ public static partial class DataHelper
             (true, false) => ResourceHelper.GetString("AdminModeIndicator"),
             _ => string.Empty
         };
+
     }
 }

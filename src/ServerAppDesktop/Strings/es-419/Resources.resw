@@ -799,4 +799,10 @@ Este es el comienzo de tu viaje: un espacio donde cada ajuste se convierte en pa
   <data name="DisconnectedString" xml:space="preserve">
     <value>Desconectado</value>
   </data>
+  <data name="GamemodeCard.Header" xml:space="preserve">
+    <value>Modo de juego</value>
+  </data>
+  <data name="GamemodeCard.Description" xml:space="preserve">
+    <value>Escoge entre supervivencia, creativo y hasta aventura.</value>
+  </data>
 </root>

@@ -6,6 +6,7 @@ public sealed partial class MainWindow : WindowEx
     private static bool _isInitialized = false;
     private readonly IWindowHandler _windowHandler;
     private readonly HomeViewModel _homeViewModel;
+    private readonly SettingsViewModel _settingsViewModel;
     private readonly INavigationService _navigationService;
 
     public static MainWindow Instance => _instance ?? throw new Exception("MainWindow no ha sido inicializada. Llama a Initialize primero.");
@@ -32,9 +33,16 @@ public sealed partial class MainWindow : WindowEx
 
         _windowHandler = App.GetRequiredService<IWindowHandler>();
         _windowHandler.SetWindow(this);
+        _windowHandler.LoadPersistence();
         ViewModel = App.GetRequiredService<MainViewModel>();
         _homeViewModel = App.GetRequiredService<HomeViewModel>();
         _navigationService = App.GetRequiredService<INavigationService>();
+        _settingsViewModel = App.GetRequiredService<SettingsViewModel>();
+
+        PersistenceId = DataHelper.WindowPersistenceID;
+
+        if (!File.Exists(Path.Join(DataHelper.SettingsPath, DataHelper.WindowPersistenceFile)))
+            this.CenterOnScreen();
 
         TitleBar.PointerEntered += (_, _) =>
         {
@@ -81,6 +89,7 @@ public sealed partial class MainWindow : WindowEx
         if (ObjectExtensions.As<Grid>(Content) is Grid grid)
         {
             grid.Loaded += (_, _) => _homeViewModel.IsConfigured = DataHelper.Settings != null;
+            grid.Loaded += (_, _) => _settingsViewModel.IsConfigured = DataHelper.Settings != null;
             grid.DataContext = ViewModel;
             grid.KeyDown += (_, e) => OnF11OrEscapeInvoked(e.Key);
         }

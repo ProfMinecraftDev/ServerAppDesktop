@@ -45,7 +45,7 @@ public static class ClipboardHelper
                 }
 
 
-                if (PInvoke.SetClipboardData(13, hGlobal.To<nint>().To<HANDLE>()).IsNull)
+                if (PInvoke.SetClipboardData(13, (HANDLE)(nint)hGlobal).IsNull)
                 {
                     _ = PInvoke.GlobalFree(hGlobal);
                 }

@@ -122,6 +122,19 @@
 					Severity="Informational">
 					<ProgressBar Value="{x:Bind ViewModel.DownloadProgressValue, Mode=OneWay}" />
 				</InfoBar>
+				<InfoBar
+					Title="Reinicia la app"
+					IsClosable="False"
+					IsOpen="{x:Bind ViewModel.NeedsToRestart, Mode=OneWay}"
+					Message="Reiniciar Server App Desktop para aplicar los cambios."
+					Severity="Warning">
+					<InfoBar.ActionButton>
+						<Button
+							Command="{x:Bind ViewModel.RestartAppCommand}"
+							Content="Reiniciar ahora"
+							Style="{StaticResource CautionButtonStyle}" />
+					</InfoBar.ActionButton>
+				</InfoBar>
 			</StackPanel>
 
 			<Frame

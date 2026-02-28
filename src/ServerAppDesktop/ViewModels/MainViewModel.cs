@@ -30,6 +30,9 @@ public sealed partial class MainViewModel : ObservableObject
     [ObservableProperty]
     private double _downloadProgressValue = 0;
 
+    [ObservableProperty]
+    private bool _needsToRestart = false;
+
     public MainViewModel(INavigationService navService)
     {
         _navService = navService;

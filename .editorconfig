@@ -44,6 +44,9 @@ dotnet_diagnostic.CS7035.severity = none
 dotnet_diagnostic.CS0612.severity = none
 dotnet_diagnostic.CS0618.severity = none
 
+# Desactivar la sugerencia de campos readonly
+dotnet_style_readonly_field = false:none
+
 #### --- 5. CÓDIGO GENERADO (WinUIEx, CsWin32, g.cs) --- ####
 [*{NativeMethods,Generated,g,i}.cs]
 generated_code = true

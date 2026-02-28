@@ -1,6 +1,6 @@
 ﻿namespace ServerAppDesktop.ViewModels;
 
-public sealed partial class HomeViewModel : ObservableRecipient
+public sealed partial class HomeViewModel : ObservableRecipient, IRecipient<AppSettingsChangedMessage>, IRecipient<ServerPropertiesChangedMessage>
 {
     private readonly IOOBEService _oobeService;
     private readonly IProcessService _processService;
@@ -51,6 +51,8 @@ public sealed partial class HomeViewModel : ObservableRecipient
         IWindowHandler windowHandler
         )
     {
+        IsActive = true;
+
         _oobeService = oobeService;
         _processService = processService;
         _networkService = networkService;
@@ -83,6 +85,7 @@ public sealed partial class HomeViewModel : ObservableRecipient
         string[] args = s.Edition == 1
             ? [
                 "--enable-native-access=ALL-UNNAMED",
+                $"-Duser.dir={s.Path}",
                 "-Dfile.encoding=UTF-8",
                 $"-Xmx{s.RamLimit}M",
                 "-XX:+UseG1GC",
@@ -250,5 +253,18 @@ public sealed partial class HomeViewModel : ObservableRecipient
         {
             ServerState = ServerStateType.Default;
         }
+    }
+
+    public void Receive(AppSettingsChangedMessage message)
+    {
+        ServerEdition = message.Value.Server.Edition == 0 ? "Bedrock" : "Java";
+        ServerPath = message.Value.Server.Path;
+        ServerExecutable = message.Value.Server.Executable;
+    }
+
+    public void Receive(ServerPropertiesChangedMessage message)
+    {
+        ServerPort = $"{_serverPropertiesService.GetValue<int>("server-port")}";
+        ActiveWorld = _serverPropertiesService.GetValue<string>("level-name") ?? DefaultValue;
     }
 }

@@ -12,6 +12,8 @@ public partial class TrayIcon : IDisposable
                 {
                     var hwnd = (HWND)WindowNative.GetWindowHandle(_window);
                     _ = PInvoke.RemoveWindowSubclass(hwnd, _subclassDelegate, 101);
+                    _window.Close();
+                    _window = null;
                 }
                 catch { }
             }

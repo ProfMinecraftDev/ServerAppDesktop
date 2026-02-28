@@ -61,10 +61,9 @@ public static class SettingsHelper
         {
             return;
         }
-
-        if (!string.IsNullOrEmpty(settings.UI.Language))
+        if (!string.IsNullOrEmpty(DataHelper.Settings?.UI.Language))
         {
-            ApplicationLanguages.PrimaryLanguageOverride = settings.UI.Language;
+            ApplicationLanguages.PrimaryLanguageOverride = DataHelper.Settings.UI.Language;
         }
     }
 

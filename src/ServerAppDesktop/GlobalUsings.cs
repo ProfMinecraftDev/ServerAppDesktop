@@ -1,6 +1,10 @@
 ﻿#region .NET Base Class Library (BCL)
 global using global::System.Collections.ObjectModel;
 global using global::System.Diagnostics;
+global using global::System.Runtime.InteropServices;
+global using global::System.Collections;
+global using global::System.Diagnostics.CodeAnalysis;
+global using global::System.Text.Json.Nodes;
 #endregion
 
 #region Windows Native & WinRT APIs
@@ -11,11 +15,12 @@ global using global::Windows.Win32.Foundation;
 global using global::Windows.Win32.UI.WindowsAndMessaging;
 #endregion
 
-#region Windows App SDK (AppModel)
+#region Windows App SDK
 global using global::Microsoft.Windows.AppLifecycle;
 global using global::Microsoft.Windows.AppNotifications;
 global using global::Microsoft.Windows.AppNotifications.Builder;
 global using global::Microsoft.Windows.Storage.Pickers;
+global using global::Microsoft.Windows.Globalization;
 #endregion
 
 #region Microsoft UI XAML Core
@@ -48,7 +53,6 @@ global using global::Microsoft.Extensions.DependencyInjection;
 #endregion
 
 #region Third Party Extensions (H, WinUIEx, CSharpEx)
-global using global::H.NotifyIcon;
 global using global::H.NotifyIcon.EfficiencyMode;
 global using global::WinUIEx;
 global using global::CSharpEx;
