@@ -77,7 +77,7 @@
 					Grid.Column="0"
 					Description="{x:Bind ViewModel.WindowsVersion, Mode=OneWay}">
 					<controls:InfoCard.Icon>
-						<PathIcon Data="{StaticResource Windows11IconPath}" />
+						<PathIcon Data="{StaticResource WindowsIconPath}" />
 					</controls:InfoCard.Icon>
 				</controls:InfoCard>
 

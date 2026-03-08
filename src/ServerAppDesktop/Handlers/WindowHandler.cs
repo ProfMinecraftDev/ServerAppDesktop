@@ -4,14 +4,15 @@ public class WindowHandler : IWindowHandler
 {
     private MainWindow? _window;
     private readonly DispatcherTimer _timer;
+    private readonly IProcessService _processService;
     private static bool CloseInSystemTray => DataHelper.Settings?.Startup.CloseInSystemTray ?? true;
-    private bool _restoringPersistence;
     public bool WindowHidden { get; set; } = false;
 
     public bool WindowClosed { get; private set; } = false;
 
-    public WindowHandler()
+    public WindowHandler(IProcessService processService)
     {
+        _processService = processService;
         _timer = new DispatcherTimer
         {
             Interval = TimeSpan.FromSeconds(1)
@@ -55,13 +56,32 @@ public class WindowHandler : IWindowHandler
             if (CloseInSystemTray)
             {
                 WindowHidden = true;
-                H.NotifyIcon.WindowExtensions.Hide(_window, true);
+                _window.Hide();
+                if (!_processService.IsRunning)
+                    ProcessHelper.SetEfficiencyMode(true);
             }
             else
             {
                 WindowClosed = true;
                 _window.TrayIcon.Dispose();
                 e.Cancel = false;
+            }
+        };
+
+        _window.WindowStateChanged += (_, s) =>
+        {
+            if (_processService.IsRunning)
+                return;
+
+            if (s == WindowState.Minimized)
+            {
+                ProcessHelper.SetProcessQualityOfServiceLevel(QualityOfServiceLevel.Low);
+                ProcessHelper.SetProcessPriorityClass(ProcessPriorityClass.BelowNormal);
+            }
+            else
+            {
+                ProcessHelper.SetProcessQualityOfServiceLevel(QualityOfServiceLevel.Default);
+                ProcessHelper.SetProcessPriorityClass(ProcessPriorityClass.Normal);
             }
         };
 
@@ -75,7 +95,7 @@ public class WindowHandler : IWindowHandler
         _timer.Start();
     }
 
-    private void SavePersistence()
+    private unsafe void SavePersistence()
     {
         if (_window == null)
         {
@@ -102,9 +122,9 @@ public class WindowHandler : IWindowHandler
                 var placement = new WINDOWPLACEMENT();
                 _ = PInvoke.GetWindowPlacement(new Windows.Win32.Foundation.HWND(_window.GetWindowHandle()), ref placement);
 
-                int structSize = Marshal.SizeOf(typeof(WINDOWPLACEMENT));
+                int structSize = sizeof(WINDOWPLACEMENT);
                 IntPtr buffer = Marshal.AllocHGlobal(structSize);
-                Marshal.StructureToPtr(placement, buffer, false);
+                *(WINDOWPLACEMENT*)buffer = placement;
                 byte[] placementData = new byte[structSize];
                 Marshal.Copy(buffer, placementData, 0, structSize);
                 Marshal.FreeHGlobal(buffer);
@@ -165,7 +185,7 @@ public class WindowHandler : IWindowHandler
         }
     }
 
-    public void LoadPersistence()
+    public unsafe void LoadPersistence()
     {
         if (_window == null)
         {
@@ -214,11 +234,11 @@ public class WindowHandler : IWindowHandler
                         return;
                     }
                 }
-                int structSize = Marshal.SizeOf(typeof(WINDOWPLACEMENT));
+                int structSize = sizeof(WINDOWPLACEMENT);
                 byte[] placementData = br.ReadBytes(structSize);
                 IntPtr buffer = Marshal.AllocHGlobal(structSize);
                 Marshal.Copy(placementData, 0, buffer, structSize);
-                var retobj = (WINDOWPLACEMENT)Marshal.PtrToStructure(buffer, typeof(WINDOWPLACEMENT))!;
+                WINDOWPLACEMENT retobj = (*(WINDOWPLACEMENT*)buffer)!;
                 Marshal.FreeHGlobal(buffer);
                 if (retobj.showCmd == SHOW_WINDOW_CMD.SW_SHOWMINIMIZED && retobj.flags == WINDOWPLACEMENT_FLAGS.WPF_RESTORETOMAXIMIZED)
                 {
@@ -229,9 +249,7 @@ public class WindowHandler : IWindowHandler
                     retobj.showCmd = SHOW_WINDOW_CMD.SW_NORMAL;
                 }
 
-                _restoringPersistence = true;
-                _ = Windows.Win32.PInvoke.SetWindowPlacement(new HWND(_window.GetWindowHandle()), in retobj);
-                _restoringPersistence = false;
+                _ = PInvoke.SetWindowPlacement(new HWND(_window.GetWindowHandle()), in retobj);
             }
             catch { }
         }

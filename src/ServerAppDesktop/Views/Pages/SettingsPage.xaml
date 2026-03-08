@@ -106,79 +106,71 @@
 					</ComboBox>
 				</toolkitControls:SettingsCard>
 
-				<toolkitControls:SettingsCard
+				<toolkitControls:SettingsExpander
 					x:Uid="PathSettingsCard"
 					HeaderIcon="{toolkitExtensions:FontIcon Glyph=&#xEDA2;}"
 					IsEnabled="{x:Bind ViewModel.ServerRunning, Mode=OneWay, Converter={StaticResource BoolNegationConverter}}">
-					<StackPanel Orientation="Horizontal" Spacing="8">
-						<TextBlock VerticalAlignment="Center" Text="{x:Bind ViewModel.ServerPath, Mode=OneWay}" />
-						<Button
-							x:Uid="BrowsePathButton"
-							VerticalAlignment="Center"
-							Command="{x:Bind ViewModel.SelectServerPathCommand}"
-							CommandParameter="{x:Bind XamlRoot}"
-							IsEnabled="{x:Bind ViewModel.CanSelectFolder, Mode=OneWay}"
-							Style="{StaticResource AccentButtonStyle}">
-							<StackPanel Orientation="Horizontal" Spacing="8">
-								<FontIcon Glyph="&#xE8DA;" />
-								<TextBlock x:Uid="BrowsePathButtonText" />
-							</StackPanel>
-						</Button>
-					</StackPanel>
-				</toolkitControls:SettingsCard>
+					<toolkitControls:SettingsExpander.Items>
+						<toolkitControls:SettingsCard Header="{x:Bind ViewModel.ServerPath, Mode=OneWay}">
+							<Button
+								x:Uid="BrowsePathButton"
+								VerticalAlignment="Center"
+								Command="{x:Bind ViewModel.SelectServerPathCommand}"
+								IsEnabled="{x:Bind ViewModel.CanSelectFolder, Mode=OneWay}"
+								Style="{StaticResource AccentButtonStyle}">
+								<StackPanel Orientation="Horizontal" Spacing="8">
+									<FontIcon Glyph="&#xE8DA;" />
+									<TextBlock x:Uid="BrowsePathButtonText" />
+								</StackPanel>
+							</Button>
+						</toolkitControls:SettingsCard>
+					</toolkitControls:SettingsExpander.Items>
+				</toolkitControls:SettingsExpander>
 
-				<toolkitControls:SettingsCard
+				<toolkitControls:SettingsExpander
 					x:Uid="ExecutableSettingsCard"
 					HeaderIcon="{toolkitExtensions:FontIcon Glyph=&#xE943;}"
 					IsEnabled="{x:Bind ViewModel.ServerRunning, Mode=OneWay, Converter={StaticResource BoolNegationConverter}}">
-					<StackPanel Orientation="Horizontal" Spacing="8">
-						<TextBlock VerticalAlignment="Center" Text="{x:Bind ViewModel.ServerExecutable, Mode=OneWay}" />
-						<Button
-							x:Uid="BrowseExeButton"
-							VerticalAlignment="Center"
-							Command="{x:Bind ViewModel.SelectServerExecutableCommand}"
-							CommandParameter="{x:Bind XamlRoot}"
-							IsEnabled="{x:Bind ViewModel.CanSelectExecutable, Mode=OneWay}"
-							Style="{StaticResource AccentButtonStyle}">
-							<StackPanel Orientation="Horizontal" Spacing="8">
-								<FontIcon Glyph="&#xE8E5;" />
-								<TextBlock x:Uid="BrowseExeButtonText" />
-							</StackPanel>
-						</Button>
-					</StackPanel>
-				</toolkitControls:SettingsCard>
+					<toolkitControls:SettingsExpander.Items>
+						<toolkitControls:SettingsCard Header="{x:Bind ViewModel.ServerExecutable, Mode=OneWay}">
+							<Button
+								x:Uid="BrowseExeButton"
+								VerticalAlignment="Center"
+								Command="{x:Bind ViewModel.SelectServerExecutableCommand}"
+								IsEnabled="{x:Bind ViewModel.CanSelectExecutable, Mode=OneWay}"
+								Style="{StaticResource AccentButtonStyle}">
+								<StackPanel Orientation="Horizontal" Spacing="8">
+									<FontIcon Glyph="&#xE8E5;" />
+									<TextBlock x:Uid="BrowseExeButtonText" />
+								</StackPanel>
+							</Button>
+						</toolkitControls:SettingsCard>
+					</toolkitControls:SettingsExpander.Items>
+				</toolkitControls:SettingsExpander>
 
 				<toolkitControls:SettingsCard
 					x:Uid="PortSettingsCard"
 					HeaderIcon="{toolkitExtensions:FontIcon Glyph=&#xE839;}"
 					IsEnabled="{x:Bind ViewModel.ServerRunning, Mode=OneWay, Converter={StaticResource BoolNegationConverter}}">
-					<StackPanel Orientation="Horizontal" Spacing="8">
-						<CheckBox x:Name="UsePortPropertiesCheckBox" x:Uid="UsePropertiesCheckBox" />
-						<NumberBox
-							x:Uid="ServerPortNumberBox"
-							Width="200"
-							LargeChange="100"
-							Maximum="65535"
-							Minimum="1"
-							SmallChange="1"
-							Visibility="{x:Bind UsePortPropertiesCheckBox.IsChecked, Mode=OneWay, Converter={StaticResource BoolNegationToVisibilityConverter}}"
-							Value="{x:Bind ViewModel.ServerPort, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
-					</StackPanel>
+					<NumberBox
+						x:Uid="ServerPortNumberBox"
+						Width="200"
+						LargeChange="100"
+						Maximum="65535"
+						Minimum="1"
+						SmallChange="1"
+						Value="{x:Bind ViewModel.ServerPort, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
 				</toolkitControls:SettingsCard>
 
 				<toolkitControls:SettingsCard
 					x:Uid="DescriptionSettingsCard"
 					HeaderIcon="{toolkitExtensions:FontIcon Glyph=&#xE932;}"
 					IsEnabled="{x:Bind ViewModel.ServerRunning, Mode=OneWay, Converter={StaticResource BoolNegationConverter}}">
-					<StackPanel Orientation="Horizontal" Spacing="8">
-						<CheckBox x:Name="UseDescriptionPropertiesCheckBox" x:Uid="UsePropertiesCheckBox" />
-						<TextBox
-							x:Uid="ServerDescriptionTextBox"
-							MinWidth="100"
-							Text="{x:Bind ViewModel.ServerDescription, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-							TextWrapping="Wrap"
-							Visibility="{x:Bind UseDescriptionPropertiesCheckBox.IsChecked, Mode=OneWay, Converter={StaticResource BoolNegationToVisibilityConverter}}" />
-					</StackPanel>
+					<TextBox
+						x:Uid="ServerDescriptionTextBox"
+						MinWidth="100"
+						Text="{x:Bind ViewModel.ServerDescription, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+						TextWrapping="Wrap" />
 				</toolkitControls:SettingsCard>
 
 				<toolkitControls:SettingsCard
@@ -197,7 +189,7 @@
 				<toolkitControls:SettingsCard
 					x:Uid="GamemodeCard"
 					HeaderIcon="{toolkitExtensions:FontIcon Glyph=&#xEA86;}"
-					IsEnabled="{x:Bind ViewModel.ServerRunning, Mode=TwoWay, Converter={StaticResource BoolNegationConverter}}">
+					IsEnabled="{x:Bind ViewModel.ServerRunning, Mode=OneWay, Converter={StaticResource BoolNegationConverter}}">
 					<ComboBox
 						Width="180"
 						ItemsSource="{x:Bind ViewModel.MinecraftGamemodes}"
@@ -248,14 +240,14 @@
 					x:Uid="OnlineModeCard"
 					HeaderIcon="{toolkitExtensions:FontIcon Glyph=&#xE93E;}"
 					IsEnabled="{x:Bind ViewModel.ServerRunning, Mode=OneWay, Converter={StaticResource BoolNegationConverter}}">
-					<ToggleSwitch IsOn="True" />
+					<ToggleSwitch IsOn="{x:Bind ViewModel.OnlineMode, Mode=TwoWay}" />
 				</toolkitControls:SettingsCard>
 
 				<toolkitControls:SettingsCard
 					x:Uid="LanVisibilityCard"
 					HeaderIcon="{toolkitExtensions:FontIcon Glyph=&#xE704;}"
 					IsEnabled="{x:Bind ViewModel.ServerRunning, Mode=OneWay, Converter={StaticResource BoolNegationConverter}}">
-					<ToggleSwitch IsOn="True" />
+					<ToggleSwitch IsOn="{x:Bind ViewModel.LanVisibilty, Mode=TwoWay}" />
 				</toolkitControls:SettingsCard>
 
 				<toolkitControls:SettingsCard
@@ -264,10 +256,9 @@
 					IsEnabled="{x:Bind ViewModel.ServerRunning, Mode=OneWay, Converter={StaticResource BoolNegationConverter}}">
 					<NumberBox
 						Width="200"
-						Maximum="96"
-						Minimum="5"
+						Minimum="4"
 						SpinButtonPlacementMode="Inline"
-						Value="32" />
+						Value="{x:Bind ViewModel.ViewDistance, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
 				</toolkitControls:SettingsCard>
 
 				<toolkitControls:SettingsCard
@@ -276,71 +267,62 @@
 					IsEnabled="{x:Bind ViewModel.ServerRunning, Mode=OneWay, Converter={StaticResource BoolNegationConverter}}">
 					<NumberBox
 						Width="200"
-						Maximum="12"
-						Minimum="4"
+						Minimum="1"
 						SpinButtonPlacementMode="Inline"
-						Value="4" />
+						Value="{x:Bind ViewModel.TickDistance, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
 				</toolkitControls:SettingsCard>
 
 				<toolkitControls:SettingsCard
 					x:Uid="LevelNameCard"
 					HeaderIcon="{toolkitExtensions:FontIcon Glyph=&#xE8AC;}"
 					IsEnabled="{x:Bind ViewModel.ServerRunning, Mode=OneWay, Converter={StaticResource BoolNegationConverter}}">
-					<TextBox Width="200" />
-				</toolkitControls:SettingsCard>
-
-				<toolkitControls:SettingsCard
-					x:Uid="DefaultPlayerPermCard"
-					HeaderIcon="{toolkitExtensions:FontIcon Glyph=&#xECA7;}"
-					IsEnabled="{x:Bind ViewModel.ServerRunning, Mode=OneWay, Converter={StaticResource BoolNegationConverter}}">
-					<ComboBox SelectedIndex="1">
-						<ComboBoxItem Content="Bedrock: visitor (sin interacción)" />
-						<ComboBoxItem Content="Bedrock: member (jugador normal)" />
-						<ComboBoxItem Content="Bedrock: operator (administrador)" />
-						<ComboBoxItem Content="Java: 1 (comandos básicos)" />
-						<ComboBoxItem Content="Java: 2 (administración)" />
-						<ComboBoxItem Content="Java: 3 (servidor)" />
-						<ComboBoxItem Content="Java: 4 (todos los comandos)" />
-					</ComboBox>
+					<TextBox Width="200" Text="{x:Bind ViewModel.LevelName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
 				</toolkitControls:SettingsCard>
 
 				<toolkitControls:SettingsCard
 					x:Uid="TextureRequiredCard"
 					HeaderIcon="{toolkitExtensions:FontIcon Glyph=&#xE7C5;}"
 					IsEnabled="{x:Bind ViewModel.ServerRunning, Mode=OneWay, Converter={StaticResource BoolNegationConverter}}">
-					<ToggleSwitch IsOn="False" />
+					<ToggleSwitch IsOn="{x:Bind ViewModel.TexturePackRequired, Mode=TwoWay}" />
 				</toolkitControls:SettingsCard>
 
 				<toolkitControls:SettingsCard
 					x:Uid="ChatRestrictionCard"
 					HeaderIcon="{toolkitExtensions:FontIcon Glyph=&#xE8BD;}"
-					IsEnabled="{x:Bind ViewModel.ServerRunning, Mode=OneWay, Converter={StaticResource BoolNegationConverter}}">
-					<ComboBox SelectedIndex="0">
-						<ComboBoxItem Content="Ninguno" />
-						<ComboBoxItem Content="Descartado" />
-						<ComboBoxItem Content="Deshabilitado" />
+					IsEnabled="{x:Bind ViewModel.ServerRunning, Mode=OneWay, Converter={StaticResource BoolNegationConverter}}"
+					Visibility="{x:Bind ViewModel.SelectedMinecraftEdition, Mode=OneWay, Converter={StaticResource MinecraftEditionToVisibilityConverter}}">
+					<ComboBox
+						Width="180"
+						ItemsSource="{x:Bind ViewModel.ChatRestrictions}"
+						SelectedItem="{x:Bind ViewModel.SelectedChatRestriction, Mode=TwoWay}">
+						<ComboBox.ItemTemplate>
+							<DataTemplate x:DataType="models:ChatRestriction">
+								<TextBlock Text="{x:Bind Name}" />
+							</DataTemplate>
+						</ComboBox.ItemTemplate>
 					</ComboBox>
 				</toolkitControls:SettingsCard>
 
 				<toolkitControls:SettingsCard
 					x:Uid="PlayerInteractionCard"
 					HeaderIcon="{toolkitExtensions:FontIcon Glyph=&#xEDA4;}"
-					IsEnabled="{x:Bind ViewModel.ServerRunning, Mode=OneWay, Converter={StaticResource BoolNegationConverter}}">
-					<ToggleSwitch IsOn="False" />
+					IsEnabled="{x:Bind ViewModel.ServerRunning, Mode=OneWay, Converter={StaticResource BoolNegationConverter}}"
+					Visibility="{x:Bind ViewModel.SelectedMinecraftEdition, Mode=OneWay, Converter={StaticResource MinecraftEditionToVisibilityConverter}}">
+					<ToggleSwitch IsOn="{x:Bind ViewModel.PlayerInteraction, Mode=TwoWay}" />
 				</toolkitControls:SettingsCard>
 
 				<toolkitControls:SettingsCard
 					x:Uid="ForceGamemodeCard"
 					HeaderIcon="{toolkitExtensions:FontIcon Glyph=&#xE727;}"
 					IsEnabled="{x:Bind ViewModel.ServerRunning, Mode=OneWay, Converter={StaticResource BoolNegationConverter}}">
-					<ToggleSwitch IsOn="False" />
+					<ToggleSwitch IsOn="{x:Bind ViewModel.ForceGamemode, Mode=TwoWay}" />
 				</toolkitControls:SettingsCard>
 
 				<TextBlock x:Uid="StartupHeader" Style="{StaticResource SettingsSectionHeaderTextBlockStyle}" />
 
 				<toolkitControls:SettingsCard x:Uid="StartupWindowsCard">
 					<toolkitControls:SettingsCard.HeaderIcon>
-						<PathIcon Data="{StaticResource Windows11IconPath}" />
+						<PathIcon Data="{StaticResource WindowsIconPath}" />
 					</toolkitControls:SettingsCard.HeaderIcon>
 					<ToggleSwitch IsOn="{x:Bind ViewModel.StartWithWindows, Mode=TwoWay}" />
 				</toolkitControls:SettingsCard>

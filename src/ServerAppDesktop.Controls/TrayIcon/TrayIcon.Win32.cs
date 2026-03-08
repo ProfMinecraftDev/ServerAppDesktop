@@ -1,36 +1,42 @@
 ﻿namespace ServerAppDesktop.Controls;
 
-public partial class TrayIcon : IDisposable
+public unsafe partial class TrayIcon
 {
     private NOTIFYICONDATAW nid;
-    private bool _disposed;
     private const int WM_TRAYICON = 0x0400 + 1;
     private HICON _currentIcon;
-    private SUBCLASSPROC? _subclassDelegate;
+    private delegate* unmanaged[Stdcall]<HWND, uint, WPARAM, LPARAM, nuint, nuint, LRESULT> _subclassPtr;
 
-    private unsafe void CreateTrayIconMenu()
+    private void CreateTrayIconMenu()
     {
-        var realHwnd = (HWND)WindowNative.GetWindowHandle(_window);
+        var realHwnd = (HWND)Win32Interop.GetWindowFromWindowId(XamlRoot.ContentIslandEnvironment.AppWindowId);
+
+
+        var trayGuid = new Guid("A1B2C3D4-E5F6-4A5B-8C9D-0E1F2A3B4C5D");
 
         nid = new NOTIFYICONDATAW
         {
-            cbSize = sizeof(NOTIFYICONDATAW).To<uint>(),
+            cbSize = (uint)sizeof(NOTIFYICONDATAW),
             hWnd = realHwnd,
-            uID = 1,
-            uFlags = NOTIFY_ICON_DATA_FLAGS.NIF_MESSAGE,
-            uCallbackMessage = WM_TRAYICON
+            uID = (uint)Environment.ProcessPath!.GetHashCode(),
+            uFlags = NOTIFY_ICON_DATA_FLAGS.NIF_MESSAGE |
+                     NOTIFY_ICON_DATA_FLAGS.NIF_GUID |
+                     NOTIFY_ICON_DATA_FLAGS.NIF_SHOWTIP,
+            uCallbackMessage = WM_TRAYICON,
+            guidItem = trayGuid
         };
 
-        _subclassDelegate = TrayWindowSubclassProc;
-        _ = PInvoke.SetWindowSubclass(realHwnd, _subclassDelegate, 101, 0);
+        _subclassPtr = &TrayDelegateHandler.TrayWindowSubclassProc;
+        TrayDelegateHandler.Invoked += HandleTrayEvents;
+        _ = PInvoke.SetWindowSubclass(realHwnd, _subclassPtr, 101, 0);
 
-        UpdateToolTip(ToolTip);
+        UpdateToolTip();
         UpdateIcon();
 
         _ = PInvoke.Shell_NotifyIcon(NOTIFY_ICON_MESSAGE.NIM_ADD, in nid);
     }
 
-    private LRESULT TrayWindowSubclassProc(HWND hwnd, uint msg, WPARAM wParam, LPARAM lParam, nuint id, nuint data)
+    private void HandleTrayEvents(HWND hwnd, uint msg, WPARAM wParam, LPARAM lParam, nuint id, nuint data)
     {
         try
         {
@@ -40,15 +46,15 @@ public partial class TrayIcon : IDisposable
 
                 switch (message)
                 {
-                    case PInvoke.WM_RBUTTONUP:
-                        OnContextMenuRequested();
-                        return new LRESULT(0);
                     case PInvoke.WM_LBUTTONUP:
-                        OnClickRequested();
-                        return new LRESULT(0);
+                        _window?.DispatcherQueue.TryEnqueue(OnClickRequested);
+                        return;
+                    case PInvoke.WM_RBUTTONUP:
+                        _window?.DispatcherQueue.TryEnqueue(OnContextMenuRequested);
+                        return;
                     case PInvoke.WM_LBUTTONDBLCLK:
-                        OnDoubleClickRequested();
-                        return new LRESULT(0);
+                        _window?.DispatcherQueue.TryEnqueue(OnDoubleClickRequested);
+                        return;
                 }
             }
         }
@@ -56,14 +62,15 @@ public partial class TrayIcon : IDisposable
         {
             Debug.WriteLine($"Error in TrayWindowSubclassProc: {ex}");
         }
-
-        return PInvoke.DefSubclassProc(hwnd, msg, wParam, lParam);
     }
 
     partial void OnContextMenuRequested()
     {
-        RightClickCommand?.Execute(RightClickCommandParameter);
-        RightClick?.Invoke(this, new RoutedEventArgs());
+        XamlRoot?.Content?.DispatcherQueue?.TryEnqueue(() =>
+        {
+            RightClickCommand?.Execute(RightClickCommandParameter);
+            RightClick?.Invoke(this, new RoutedEventArgs());
+        });
 
         if (ContextFlyout is not MenuFlyout originalMenu || _window == null || _frame == null || _isMenuOpen)
         {
@@ -85,6 +92,8 @@ public partial class TrayIcon : IDisposable
             MenuFlyout clonedMenu = CloneMenuFlyout(originalMenu);
             clonedMenu.Closed += OnContextMenuClosed;
 
+            if (clonedMenu.Placement == FlyoutPlacementMode.Auto)
+                clonedMenu.Placement = default;
             clonedMenu.ShowAt(_frame);
             _isMenuOpen = true;
         }
@@ -97,7 +106,10 @@ public partial class TrayIcon : IDisposable
 
     partial void OnDoubleClickRequested()
     {
-        DoubleClickCommand?.Execute(DoubleClickCommandParameter);
-        DoubleClick?.Invoke(this, new RoutedEventArgs());
+        XamlRoot?.Content?.DispatcherQueue?.TryEnqueue(() =>
+        {
+            DoubleClickCommand?.Execute(DoubleClickCommandParameter);
+            DoubleClick?.Invoke(this, new RoutedEventArgs());
+        });
     }
 }

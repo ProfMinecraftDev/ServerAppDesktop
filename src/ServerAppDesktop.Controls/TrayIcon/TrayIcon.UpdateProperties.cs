@@ -23,38 +23,44 @@ public partial class TrayIcon
 
     partial void OnVisibilityChanged(Visibility value)
     {
-        NOTIFY_ICON_MESSAGE message = value == Visibility.Visible
-            ? NOTIFY_ICON_MESSAGE.NIM_ADD
-            : NOTIFY_ICON_MESSAGE.NIM_DELETE;
-
-        _ = PInvoke.Shell_NotifyIcon(message, in nid);
-        if (message == NOTIFY_ICON_MESSAGE.NIM_ADD)
+        if (value == Visibility.Visible)
         {
-            UpdateToolTip(ToolTip);
+            nid.uFlags |= NOTIFY_ICON_DATA_FLAGS.NIF_MESSAGE |
+                          NOTIFY_ICON_DATA_FLAGS.NIF_ICON |
+                          NOTIFY_ICON_DATA_FLAGS.NIF_TIP;
+
+            UpdateToolTip();
             UpdateIcon();
+
+            _ = PInvoke.Shell_NotifyIcon(NOTIFY_ICON_MESSAGE.NIM_ADD, in nid);
+            _ = PInvoke.Shell_NotifyIcon(NOTIFY_ICON_MESSAGE.NIM_MODIFY, in nid);
+        }
+        else
+        {
+            _ = PInvoke.Shell_NotifyIcon(NOTIFY_ICON_MESSAGE.NIM_DELETE, in nid);
         }
     }
 
     partial void OnToolTipChanged(string value)
     {
-        UpdateToolTip(value);
+        UpdateToolTip();
         _ = PInvoke.Shell_NotifyIcon(NOTIFY_ICON_MESSAGE.NIM_MODIFY, in nid);
     }
 
-    private unsafe void UpdateToolTip(string value)
+    private unsafe void UpdateToolTip()
     {
-        if (string.IsNullOrEmpty(value))
+        if (string.IsNullOrEmpty(ToolTip))
         {
             nid.uFlags &= ~NOTIFY_ICON_DATA_FLAGS.NIF_TIP;
             return;
         }
 
         nid.uFlags |= NOTIFY_ICON_DATA_FLAGS.NIF_TIP;
-        fixed (char* pTip = value)
+        fixed (char* pTip = ToolTip)
         fixed (NOTIFYICONDATAW* pNid = &nid)
         {
-            int length = Math.Min(value.Length, 127);
-            Marshal.Copy(value.ToCharArray(), 0, (IntPtr)pNid->szTip.Value, length);
+            int length = Math.Min(ToolTip.Length, 127);
+            Marshal.Copy(ToolTip.ToCharArray(), 0, (IntPtr)pNid->szTip.Value, length);
             pNid->szTip.Value[length] = '\0';
         }
     }
@@ -65,7 +71,7 @@ public partial class TrayIcon
         _ = PInvoke.Shell_NotifyIcon(NOTIFY_ICON_MESSAGE.NIM_MODIFY, in nid);
     }
 
-    private unsafe void UpdateIcon()
+    private async void UpdateIcon()
     {
         if (!_currentIcon.IsNull)
         {
@@ -76,53 +82,27 @@ public partial class TrayIcon
         if (IconSource == null)
         {
             nid.uFlags &= ~NOTIFY_ICON_DATA_FLAGS.NIF_ICON;
+            _ = PInvoke.Shell_NotifyIcon(NOTIFY_ICON_MESSAGE.NIM_MODIFY, in nid);
             return;
         }
 
         try
         {
-            string iconPath = GetIconPath();
-            if (File.Exists(iconPath))
+            using Icon icon = await IconSource.ToIconAsync(true);
+            var hIcon = (HICON)icon.Handle;
+
+            if (!hIcon.IsNull)
             {
-                int sizeW = PInvoke.GetSystemMetrics(SYSTEM_METRICS_INDEX.SM_CXSMICON);
-                int sizeH = PInvoke.GetSystemMetrics(SYSTEM_METRICS_INDEX.SM_CYSMICON);
+                _currentIcon = hIcon;
+                nid.hIcon = hIcon;
+                nid.uFlags |= NOTIFY_ICON_DATA_FLAGS.NIF_ICON;
 
-                var icon = new Icon(iconPath, sizeW, sizeH);
-                var hIcon = (HICON)icon.Handle;
-
-                if (!hIcon.IsNull)
-                {
-                    _currentIcon = hIcon;
-                    nid.hIcon = hIcon;
-                    nid.uFlags |= NOTIFY_ICON_DATA_FLAGS.NIF_ICON;
-                }
+                _ = PInvoke.Shell_NotifyIcon(NOTIFY_ICON_MESSAGE.NIM_MODIFY, in nid);
             }
         }
         catch (Exception ex)
         {
             Debug.WriteLine($"Error loading icon: {ex.Message}");
-        }
-    }
-
-    private string GetIconPath()
-    {
-        if (IconSource is BitmapImage bitmapImage && bitmapImage.UriSource != null)
-        {
-            string basePath = bitmapImage.UriSource.Scheme switch
-            {
-                "ms-appx" or "ms-appx-web" => AppContext.BaseDirectory,
-                _ => string.Empty
-            };
-            return Path.Combine(basePath, bitmapImage.UriSource.LocalPath.TrimStart('/'));
-        }
-        return string.Empty;
-    }
-
-    private void OnActivated(object sender, WindowActivatedEventArgs args)
-    {
-        if (args.WindowActivationState == WindowActivationState.Deactivated && _isMenuOpen)
-        {
-            HideMenu();
         }
     }
 }

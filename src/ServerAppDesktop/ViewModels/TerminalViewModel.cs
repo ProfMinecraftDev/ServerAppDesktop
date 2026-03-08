@@ -21,18 +21,11 @@ public sealed partial class TerminalViewModel : ObservableRecipient, IRecipient<
     {
         IsActive = true;
         _processService = processService;
-        _processService.OutputReceived += (output) =>
+        _processService.DataReceived += (s, args) =>
         {
             _ = MainWindow.Instance.DispatcherQueue.TryEnqueue(() =>
             {
-                TerminalOutput += output + Environment.NewLine;
-            });
-        };
-        _processService.ErrorReceived += (output) =>
-        {
-            _ = MainWindow.Instance.DispatcherQueue.TryEnqueue(() =>
-            {
-                TerminalOutput += output + Environment.NewLine;
+                TerminalOutput += args.Data + Environment.NewLine;
             });
         };
     }

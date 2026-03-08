@@ -2,7 +2,7 @@
 
 public sealed class OOBEService : IOOBEService
 {
-    public event Action<bool>? OOBEFinished;
+    public event TypedEventHandler<IOOBEService, OOBEFinishedEventArgs>? OOBEFinished;
     public void SaveUserSettings(AppSettings appSettings)
     {
         DataHelper.Settings = appSettings;
@@ -68,6 +68,6 @@ eula=true
             catch
             { }
         }
-        OOBEFinished?.Invoke(true);
+        OOBEFinished?.Invoke(this, new OOBEFinishedEventArgs(true));
     }
 }

@@ -28,8 +28,9 @@ global using global::Microsoft.UI.Xaml.Media.Animation;
 global using global::Microsoft.UI.Xaml.Navigation;
 #endregion
 
-#region Third Party Extensions (WinUIEx, CSharpEx, H)
+#region Third Party Extensions (WinUIEx, CSharpEx)
 global using global::CSharpEx;
+global using global::CSharpEx.Foundation;
 #endregion
 
 #region Server App Desktop - Infrastructure & Logic

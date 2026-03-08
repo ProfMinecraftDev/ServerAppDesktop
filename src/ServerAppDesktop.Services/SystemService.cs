@@ -60,13 +60,13 @@ public sealed class SystemService : ISystemService
         }
     }
 
-    private void GetRamData()
+    private unsafe void GetRamData()
     {
         try
         {
             MEMORYSTATUSEX memStatus = new()
             {
-                dwLength = (uint)Marshal.SizeOf<MEMORYSTATUSEX>()
+                dwLength = (uint)sizeof(MEMORYSTATUSEX)
             };
 
             if (PInvoke.GlobalMemoryStatusEx(ref memStatus))
@@ -158,17 +158,22 @@ public sealed class SystemService : ISystemService
                 null);
 
             if (hDisk.IsInvalid)
-            {
-                throw new Exception("No handle");
-            }
+                throw new Exception("No se pudo obtener el handle del disco físico.");
 
-            var query = new STORAGE_PROPERTY_QUERY { PropertyId = STORAGE_PROPERTY_ID.StorageDeviceProperty, QueryType = STORAGE_QUERY_TYPE.PropertyStandardQuery };
+            var handle = (HANDLE)hDisk.DangerousGetHandle();
+
+            var query = new STORAGE_PROPERTY_QUERY
+            {
+                PropertyId = STORAGE_PROPERTY_ID.StorageDeviceProperty,
+                QueryType = STORAGE_QUERY_TYPE.PropertyStandardQuery
+            };
+
             byte[] buffer = new byte[1024];
             fixed (byte* pBuffer = buffer)
             {
                 uint bytesReturned;
                 bool success = PInvoke.DeviceIoControl(
-                    (HANDLE)hDisk.DangerousGetHandle(),
+                    handle,
                     PInvoke.IOCTL_STORAGE_QUERY_PROPERTY,
                     &query, (uint)sizeof(STORAGE_PROPERTY_QUERY),
                     pBuffer, (uint)buffer.Length,
@@ -178,7 +183,6 @@ public sealed class SystemService : ISystemService
                 {
                     var descriptor = (STORAGE_DEVICE_DESCRIPTOR*)pBuffer;
                     STORAGE_BUS_TYPE busType = descriptor->BusType;
-
                     bool isSsd = GetIsSsd(hDisk);
 
                     StorageType = isSsd switch
@@ -188,7 +192,7 @@ public sealed class SystemService : ISystemService
                             17 => "SSD NVMe (M.2)",
                             11 => "SSD SATA",
                             7 => "SSD Externo (USB)",
-                            _ => "SSD (Desconocido)"
+                            _ => "SSD"
                         },
                         false => (byte)busType switch
                         {
@@ -200,18 +204,33 @@ public sealed class SystemService : ISystemService
                 }
             }
 
-            GET_LENGTH_INFORMATION lengthInfo;
-            uint returned;
-            if (PInvoke.DeviceIoControl((HANDLE)hDisk.DangerousGetHandle(), PInvoke.IOCTL_DISK_GET_LENGTH_INFO, null, 0, &lengthInfo, (uint)sizeof(GET_LENGTH_INFORMATION), &returned, null))
+
+            DISK_GEOMETRY_EX geometry;
+            uint returnedSize;
+
+            if (PInvoke.DeviceIoControl(
+                    handle,
+                    PInvoke.IOCTL_DISK_GET_DRIVE_GEOMETRY_EX,
+                    null, 0,
+                    &geometry, (uint)sizeof(DISK_GEOMETRY_EX),
+                    &returnedSize, null))
             {
-                double gb = lengthInfo.Length / Math.Pow(1024, 3);
-                StorageSize = gb >= 900 ? $"{Math.Round(gb / 1024.0, 1)} TB" : $"{Math.Round(gb)} GB";
+                long bytes = geometry.DiskSize;
+                double gb = bytes / Math.Pow(1024, 3);
+
+                StorageSize = gb >= 900
+                    ? $"{Math.Round(gb / 1024.0, 1)} TB"
+                    : $"{Math.Round(gb)} GB";
+            }
+            else
+            {
+                StorageSize = "0 GB";
             }
         }
-        catch
+        catch (Exception)
         {
-            StorageType = "Unknown";
-            StorageSize = "Unknown";
+            StorageType = "Desconocido";
+            StorageSize = "Desconocido";
         }
     }
 
@@ -226,6 +245,6 @@ public sealed class SystemService : ISystemService
 
     private void GetUserData()
     {
-        ActiveUser = $"\\\\{Environment.MachineName}\\{Environment.UserName}";
+        ActiveUser = $"{Environment.UserName} @ {Environment.MachineName}";
     }
 }

@@ -62,9 +62,9 @@ public sealed partial class HomeViewModel : ObservableRecipient, IRecipient<AppS
         _ = App.GetRequiredService<PerformanceViewModel>();
         _ = App.GetRequiredService<TerminalViewModel>();
 
-        _processService.ProcessExited += (clean, code) => UpdateState(ServerStateType.Stopped, !clean && code != 0, true);
+        _processService.ProcessExited += (_, args) => UpdateState(ServerStateType.Stopped, !args.IsSuccess && args.ExitCode != 0, true);
 
-        _oobeService.OOBEFinished += (val) => IsConfigured = val;
+        _oobeService.OOBEFinished += (_, args) => IsConfigured = args.IsSuccess;
     }
 
     [RelayCommand(CanExecute = nameof(CanStartServer))]
@@ -110,6 +110,10 @@ public sealed partial class HomeViewModel : ObservableRecipient, IRecipient<AppS
             ]
             : [];
 
+        ProcessHelper.SetEfficiencyMode(false);
+        ProcessHelper.SetProcessPriorityClass(ProcessPriorityClass.High);
+        ProcessHelper.SetProcessQualityOfServiceLevel(QualityOfServiceLevel.High);
+
         bool success = await _processService.StartProcessAsync(fileName, string.Join(" ", args), s.Path, s.Edition == 0 ? s.RamLimit : null);
 
         if (success)
@@ -119,7 +123,8 @@ public sealed partial class HomeViewModel : ObservableRecipient, IRecipient<AppS
         }
         else
         {
-
+            ProcessHelper.SetProcessPriorityClass(ProcessPriorityClass.Normal);
+            ProcessHelper.SetProcessQualityOfServiceLevel(QualityOfServiceLevel.Default);
             UpdateState(ServerStateType.Stopped, true);
         }
     }
@@ -168,6 +173,9 @@ public sealed partial class HomeViewModel : ObservableRecipient, IRecipient<AppS
             }
 
             ServerState = state;
+
+            if (state == ServerStateType.Stopped && _windowHandler.WindowHidden)
+                ProcessHelper.SetEfficiencyMode(true);
 
             if (isError)
             {

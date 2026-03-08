@@ -699,12 +699,6 @@
   <data name="LevelNameCard.Description" xml:space="preserve">
     <value>Nombre del nivel/mundo.</value>
   </data>
-  <data name="DefaultPlayerPermCard.Header" xml:space="preserve">
-    <value>Permisos por defecto</value>
-  </data>
-  <data name="DefaultPlayerPermCard.Description" xml:space="preserve">
-    <value>Nivel de permisos para nuevos jugadores.</value>
-  </data>
   <data name="TextureRequiredCard.Header" xml:space="preserve">
     <value>Textura obligatoria</value>
   </data>
@@ -774,9 +768,6 @@ Este es el comienzo de tu viaje: un espacio donde cada ajuste se convierte en pa
   </data>
   <data name="MenuFlyoutItem_OpenSettingsFile.Text" xml:space="preserve">
     <value>Abrir archivo de configuración</value>
-  </data>
-  <data name="MenuFlyoutItem_QuickOptions.Text" xml:space="preserve">
-    <value>Opciones rápidas</value>
   </data>
   <data name="NoneItem" xml:space="preserve">
     <value>Ninguno</value>

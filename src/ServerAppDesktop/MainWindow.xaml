@@ -224,5 +224,6 @@
 			PrimaryButtonCommand="{x:Bind ViewModel.SendFeedbackCommand}"
 			PrimaryButtonStyle="{StaticResource AccentButtonStyle}" />
 		<local:AppTrayIcon x:Name="TrayIcon" x:FieldModifier="public" />
+		<controls:TrayIcon xmlns:controls="using:ServerAppDesktop.Controls" />
 	</Grid>
 </winex:WindowEx>

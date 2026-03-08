@@ -30,9 +30,12 @@ public sealed partial class PerformanceViewModel : ObservableRecipient, IRecipie
         IsActive = true;
         _processService = processService;
         _performanceService = performanceService;
-        _processService.PlayerCountChanged += (players) =>
+        _processService.PlayerCountChanged += (s, args) =>
         {
-            _ = MainWindow.Instance.DispatcherQueue.TryEnqueue(() => PlayersOnline = players.To<string>());
+            _ = MainWindow.Instance.DispatcherQueue.TryEnqueue(() =>
+            {
+                PlayersOnline = args.CurrentPlayers.To<string>();
+            });
         };
         IsServerRunning = false;
         _timer = new DispatcherTimer

@@ -1,9 +1,11 @@
 namespace ServerAppDesktop.Controls;
 
+[StyleTypedProperty(Property = nameof(ThemedIconStyle), StyleTargetType = typeof(ThemedIcon))]
 public sealed partial class MenuFlyoutItemWithThemedIcon : MenuFlyoutItem
 {
     public Style ThemedIconStyle
-    { get => (Style)GetValue(ThemedIconStyleProperty); set => SetValue(ThemedIconStyleProperty, value);
+    {
+        get => (Style)GetValue(ThemedIconStyleProperty); set => SetValue(ThemedIconStyleProperty, value);
     }
 
     public static readonly DependencyProperty ThemedIconStyleProperty =

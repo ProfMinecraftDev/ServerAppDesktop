@@ -1,6 +1,4 @@
-﻿
-
-namespace ServerAppDesktop.Services;
+﻿namespace ServerAppDesktop.Services;
 
 public sealed partial class ProcessService : IProcessService, IDisposable
 {
@@ -11,15 +9,14 @@ public sealed partial class ProcessService : IProcessService, IDisposable
     private TaskCompletionSource? _tcs;
     private readonly CancellationToken _ct = CancellationToken.None;
 
-    public event Action<string>? OutputReceived;
-    public event Action<string>? ErrorReceived;
-    public event Action<bool, int>? ProcessExited;
+    public event TypedEventHandler<IProcessService, ProcessDataReceivedEventArgs>? DataReceived;
+    public event TypedEventHandler<IProcessService, ProcessExitedEventArgs>? ProcessExited;
 
-    public event Action<int>? PlayerCountChanged;
+    public event TypedEventHandler<IProcessService, PlayerCountChangedEventArgs>? PlayerCountChanged;
 
     public bool IsRunning => _process != null && !_process.HasExited;
 
-    private void EnsureJobObjectCreated()
+    private unsafe void EnsureJobObjectCreated()
     {
         if (_jobHandle != null && !_jobHandle.IsInvalid)
         {
@@ -42,7 +39,7 @@ public sealed partial class ProcessService : IProcessService, IDisposable
                 (HANDLE)_jobHandle.DangerousGetHandle(),
                 JOBOBJECTINFOCLASS.JobObjectExtendedLimitInformation,
                 &info,
-                Marshal.SizeOf<JOBOBJECT_EXTENDED_LIMIT_INFORMATION>().To<uint>()
+                sizeof(JOBOBJECT_EXTENDED_LIMIT_INFORMATION).To<uint>()
             );
         }
     }
@@ -63,7 +60,7 @@ public sealed partial class ProcessService : IProcessService, IDisposable
         {
             if (Path.IsPathRooted(fileName) && !File.Exists(fileName))
             {
-                ProcessExited?.Invoke(false, -1);
+                ProcessExited?.Invoke(this, new ProcessExitedEventArgs(false, WIN32_ERROR.ERROR_FILE_NOT_FOUND.To<int>()));
                 return false;
             }
 
@@ -101,7 +98,6 @@ public sealed partial class ProcessService : IProcessService, IDisposable
 
                 if (isSystem && !isChat)
                 {
-
                     if (!_tcs.Task.IsCompleted &&
                         (cleanData.Contains("Done (", StringComparison.OrdinalIgnoreCase) ||
                          cleanData.Contains("Server started.", StringComparison.OrdinalIgnoreCase)))
@@ -109,20 +105,39 @@ public sealed partial class ProcessService : IProcessService, IDisposable
                         _ = _tcs.TrySetResult();
                     }
 
-                    if (cleanData.Contains("[Server thread/INFO]") && cleanData.Contains("joined the game", StringComparison.OrdinalIgnoreCase))
+                    string? playerName = null;
+                    int change = 0;
+
+
+                    if (cleanData.Contains("joined the game", StringComparison.OrdinalIgnoreCase) ||
+                        cleanData.Contains("Player connected", StringComparison.OrdinalIgnoreCase))
                     {
-                        _playersInServer++;
-                        PlayerCountChanged?.Invoke(_playersInServer);
+                        change = 1;
+                        playerName = cleanData.Split(':').Last()
+                            .Replace("joined the game", "", StringComparison.OrdinalIgnoreCase)
+                            .Replace("Player connected", "", StringComparison.OrdinalIgnoreCase)
+                            .Split(',').First()
+                            .Trim();
+                    }
+                    else if (cleanData.Contains("left the game", StringComparison.OrdinalIgnoreCase) ||
+                             cleanData.Contains("Player disconnected", StringComparison.OrdinalIgnoreCase))
+                    {
+                        change = -1;
+                        playerName = cleanData.Split(':').Last()
+                            .Replace("left the game", "", StringComparison.OrdinalIgnoreCase)
+                            .Replace("Player disconnected", "", StringComparison.OrdinalIgnoreCase)
+                            .Split(',').First()
+                            .Trim();
                     }
 
-                    else if (cleanData.Contains("[Server thread/INFO]") && cleanData.Contains("left the game", StringComparison.OrdinalIgnoreCase))
+                    if (change != 0 && !string.IsNullOrEmpty(playerName))
                     {
-                        _playersInServer = Math.Max(0, _playersInServer - 1);
-                        PlayerCountChanged?.Invoke(_playersInServer);
+                        _playersInServer = Math.Max(0, _playersInServer + change);
+                        PlayerCountChanged?.Invoke(this, new PlayerCountChangedEventArgs(_playersInServer, change, playerName));
                     }
                 }
 
-                OutputReceived?.Invoke(cleanData);
+                DataReceived?.Invoke(this, new ProcessDataReceivedEventArgs(cleanData, isError: false));
             };
             _process.ErrorDataReceived += (s, e) =>
             {
@@ -141,7 +156,7 @@ public sealed partial class ProcessService : IProcessService, IDisposable
 
                     _ = _tcs.TrySetException(new Exception("El servidor falló al iniciar. Revisa la consola."));
                 }
-                ErrorReceived?.Invoke(cleanData);
+                DataReceived?.Invoke(this, new ProcessDataReceivedEventArgs(cleanData, isError: true));
             };
 
             _process.Exited += (s, e) =>
@@ -155,7 +170,7 @@ public sealed partial class ProcessService : IProcessService, IDisposable
                         _ = _tcs.TrySetException(new Exception("El servidor falló al iniciar. Revisa la consola."));
                     }
 
-                    ProcessExited?.Invoke(exitCode == 0, exitCode);
+                    ProcessExited?.Invoke(this, new ProcessExitedEventArgs(exitCode == 0, exitCode));
                 }
             };
 
@@ -165,6 +180,9 @@ public sealed partial class ProcessService : IProcessService, IDisposable
             {
                 try
                 {
+                    ProcessHelper.SetEfficiencyMode(false, _process);
+                    ProcessHelper.SetProcessPriorityClass(ProcessPriorityClass.High, _process);
+                    ProcessHelper.SetProcessQualityOfServiceLevel(QualityOfServiceLevel.High, _process);
                     if (ramLimit != null && ramLimit > 0 && _jobHandle != null)
                     {
                         ApplyJobLimits(_jobHandle, ramLimit.Value);
@@ -181,7 +199,14 @@ public sealed partial class ProcessService : IProcessService, IDisposable
                 _process.BeginOutputReadLine();
                 _process.BeginErrorReadLine();
 
-                await _tcs.Task;
+                try
+                {
+                    await _tcs.Task;
+                }
+                catch
+                {
+                    return false;
+                }
                 return true;
             }
 
@@ -191,7 +216,7 @@ public sealed partial class ProcessService : IProcessService, IDisposable
         catch
         {
             Cleanup();
-            ProcessExited?.Invoke(false, -2);
+            ProcessExited?.Invoke(this, new ProcessExitedEventArgs(false, -2));
             return false;
         }
     }
@@ -219,9 +244,16 @@ public sealed partial class ProcessService : IProcessService, IDisposable
         }
         finally
         {
+            int playersLeaving = -_playersInServer;
+            _playersInServer = 0;
+
             Cleanup();
             _isStopping = false;
-            PlayerCountChanged?.Invoke(0);
+
+            PlayerCountChanged?.Invoke(this, new PlayerCountChangedEventArgs(
+                currentPlayers: 0,
+                change: playersLeaving
+            ));
         }
     }
 

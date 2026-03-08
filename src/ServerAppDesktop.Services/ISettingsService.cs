@@ -2,5 +2,8 @@
 
 public interface ISettingsService
 {
-    public void UpdateSettings();
+    public void Save();
+    public bool GetStartWithWindows();
+    public void SetStartWithWindows(bool enable);
+    public int GetLanguageIndex();
 }

@@ -76,41 +76,41 @@
 					</ComboBox>
 				</toolkitControls:SettingsCard>
 
-				<toolkitControls:SettingsCard x:Uid="PathSettingsCard" HeaderIcon="{toolkitExtensions:FontIcon Glyph=&#xEDA2;}">
-					<StackPanel Orientation="Horizontal" Spacing="8">
-						<TextBlock VerticalAlignment="Center" Text="{x:Bind ViewModel.ServerPath, Mode=OneWay}" />
-						<Button
-							x:Uid="BrowsePathButton"
-							VerticalAlignment="Center"
-							Command="{x:Bind ViewModel.SelectServerPathCommand}"
-							CommandParameter="{x:Bind XamlRoot}"
-							IsEnabled="{x:Bind ViewModel.CanSelectFolder, Mode=OneWay}"
-							Style="{StaticResource AccentButtonStyle}">
-							<StackPanel Orientation="Horizontal" Spacing="8">
-								<FontIcon Glyph="&#xE8DA;" />
-								<TextBlock x:Uid="BrowsePathButtonText" />
-							</StackPanel>
-						</Button>
-					</StackPanel>
-				</toolkitControls:SettingsCard>
+				<toolkitControls:SettingsExpander x:Uid="PathSettingsCard" HeaderIcon="{toolkitExtensions:FontIcon Glyph=&#xEDA2;}">
+					<toolkitControls:SettingsExpander.Items>
+						<toolkitControls:SettingsCard Header="{x:Bind ViewModel.ServerPath, Mode=OneWay}">
+							<Button
+								x:Uid="BrowsePathButton"
+								VerticalAlignment="Center"
+								Command="{x:Bind ViewModel.SelectServerPathCommand}"
+								IsEnabled="{x:Bind ViewModel.CanSelectFolder, Mode=OneWay}"
+								Style="{StaticResource AccentButtonStyle}">
+								<StackPanel Orientation="Horizontal" Spacing="8">
+									<FontIcon Glyph="&#xE8DA;" />
+									<TextBlock x:Uid="BrowsePathButtonText" />
+								</StackPanel>
+							</Button>
+						</toolkitControls:SettingsCard>
+					</toolkitControls:SettingsExpander.Items>
+				</toolkitControls:SettingsExpander>
 
-				<toolkitControls:SettingsCard x:Uid="ExecutableSettingsCard" HeaderIcon="{toolkitExtensions:FontIcon Glyph=&#xE943;}">
-					<StackPanel Orientation="Horizontal" Spacing="8">
-						<TextBlock VerticalAlignment="Center" Text="{x:Bind ViewModel.ServerExecutable, Mode=OneWay}" />
-						<Button
-							x:Uid="BrowseExeButton"
-							VerticalAlignment="Center"
-							Command="{x:Bind ViewModel.SelectServerExecutableCommand}"
-							CommandParameter="{x:Bind XamlRoot}"
-							IsEnabled="{x:Bind ViewModel.CanSelectExecutable, Mode=OneWay}"
-							Style="{StaticResource AccentButtonStyle}">
-							<StackPanel Orientation="Horizontal" Spacing="8">
-								<FontIcon Glyph="&#xE8E5;" />
-								<TextBlock x:Uid="BrowseExeButtonText" />
-							</StackPanel>
-						</Button>
-					</StackPanel>
-				</toolkitControls:SettingsCard>
+				<toolkitControls:SettingsExpander x:Uid="ExecutableSettingsCard" HeaderIcon="{toolkitExtensions:FontIcon Glyph=&#xE943;}">
+					<toolkitControls:SettingsExpander.Items>
+						<toolkitControls:SettingsCard Header="{x:Bind ViewModel.ServerExecutable, Mode=OneWay}">
+							<Button
+								x:Uid="BrowseExeButton"
+								VerticalAlignment="Center"
+								Command="{x:Bind ViewModel.SelectServerExecutableCommand}"
+								IsEnabled="{x:Bind ViewModel.CanSelectExecutable, Mode=OneWay}"
+								Style="{StaticResource AccentButtonStyle}">
+								<StackPanel Orientation="Horizontal" Spacing="8">
+									<FontIcon Glyph="&#xE8E5;" />
+									<TextBlock x:Uid="BrowseExeButtonText" />
+								</StackPanel>
+							</Button>
+						</toolkitControls:SettingsCard>
+					</toolkitControls:SettingsExpander.Items>
+				</toolkitControls:SettingsExpander>
 
 				<toolkitControls:SettingsCard x:Uid="PortSettingsCard" HeaderIcon="{toolkitExtensions:FontIcon Glyph=&#xE839;}">
 					<StackPanel Orientation="Horizontal" Spacing="8">

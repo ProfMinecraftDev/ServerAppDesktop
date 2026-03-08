@@ -17,7 +17,7 @@ public static class NotificationHandler
                     App.GetRequiredService<MainViewModel>().DownloadUpdateCommand.Execute(null);
                     break;
                 case "restartToInstallUpdate":
-                    H.NotifyIcon.EfficiencyMode.EfficiencyModeUtilities.SetEfficiencyMode(false);
+                    ProcessHelper.SetEfficiencyMode(false);
                     Environment.Exit(0);
                     break;
                 case "activate":

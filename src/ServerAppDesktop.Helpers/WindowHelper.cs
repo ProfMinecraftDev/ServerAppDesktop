@@ -3,7 +3,7 @@
 public static class WindowHelper
 {
     private static string? _lastIconPath = null;
-    public static void FlashTaskbarIcon(Window? window)
+    public static unsafe void FlashTaskbarIcon(Window? window)
     {
         if (window == null)
         {
@@ -12,7 +12,7 @@ public static class WindowHelper
 
         FLASHWINFO flashInfo = new()
         {
-            cbSize = Marshal.SizeOf<FLASHWINFO>().To<uint>(),
+            cbSize = sizeof(FLASHWINFO).To<uint>(),
             hwnd = new HWND(window.GetWindowHandle()),
             dwFlags = FLASHWINFO_FLAGS.FLASHW_ALL | FLASHWINFO_FLAGS.FLASHW_TIMERNOFG | FLASHWINFO_FLAGS.FLASHW_TRAY,
             uCount = uint.MaxValue,
@@ -29,13 +29,13 @@ public static class WindowHelper
         }
 
         var hWnd = new HWND(window.GetWindowHandle());
-        H.NotifyIcon.WindowExtensions.Show(window, true);
+        window.Show();
+        ProcessHelper.SetEfficiencyMode(false);
         _ = PInvoke.SetForegroundWindow(hWnd);
         if (!string.IsNullOrWhiteSpace(_lastIconPath))
         {
             SetBadge(window, _lastIconPath);
         }
-        window.Activate();
     }
 
     public static async Task<bool> IsRedirectedAsync()
@@ -101,7 +101,7 @@ public static class WindowHelper
             _lastIconPath = iconPath;
         }
 
-        var icon = new System.Drawing.Icon(iconPath);
+        using var icon = new System.Drawing.Icon(iconPath);
 
         HRESULT hr = PInvoke.CoCreateInstance(
             typeof(TaskbarList).GUID,

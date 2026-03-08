@@ -9,6 +9,8 @@ global using global::System.Text.Json.Nodes;
 
 #region Windows Native & WinRT APIs
 global using global::Windows.System;
+global using global::Windows.Storage;
+global using global::Windows.Foundation;
 global using global::WinRT;
 global using global::Windows.Win32;
 global using global::Windows.Win32.Foundation;
@@ -20,7 +22,6 @@ global using global::Microsoft.Windows.AppLifecycle;
 global using global::Microsoft.Windows.AppNotifications;
 global using global::Microsoft.Windows.AppNotifications.Builder;
 global using global::Microsoft.Windows.Storage.Pickers;
-global using global::Microsoft.Windows.Globalization;
 #endregion
 
 #region Microsoft UI XAML Core
@@ -53,7 +54,6 @@ global using global::Microsoft.Extensions.DependencyInjection;
 #endregion
 
 #region Third Party Extensions (H, WinUIEx, CSharpEx)
-global using global::H.NotifyIcon.EfficiencyMode;
 global using global::WinUIEx;
 global using global::CSharpEx;
 #endregion

@@ -4,7 +4,7 @@ namespace ServerAppDesktop.Helpers;
 public static class NetworkHelper
 {
     private static string _cachedInterfaceName = "";
-    public static event Action<bool>? ConnectionChanged;
+    public static event NetworkStatusChangedEventHandler? ConnectionChanged;
 
     static NetworkHelper()
     {

@@ -19,7 +19,6 @@ public partial class TrayIcon
         _window.AppWindow.Presenter.To<OverlappedPresenter>().IsAlwaysOnTop = true;
 
         _window.AppWindow.IsShownInSwitchers = false;
-        _window.Activated += OnActivated;
 
         var hwnd = (HWND)WindowNative.GetWindowHandle(_window);
 
@@ -58,12 +57,19 @@ public partial class TrayIcon
         {
             XamlRoot = _frame.XamlRoot,
             AreOpenCloseAnimationsEnabled = original.AreOpenCloseAnimationsEnabled,
-            ElementSoundMode = original.ElementSoundMode,
+            Placement = original.Placement,
+            ShowMode = original.ShowMode,
+            MenuFlyoutPresenterStyle = original.MenuFlyoutPresenterStyle,
+            SystemBackdrop = original.SystemBackdrop,
             AllowFocusOnInteraction = original.AllowFocusOnInteraction,
-            AllowFocusWhenDisabled = original.AllowFocusWhenDisabled
+            AllowFocusWhenDisabled = original.AllowFocusWhenDisabled,
+            ElementSoundMode = original.ElementSoundMode,
+            LightDismissOverlayMode = original.LightDismissOverlayMode,
+            OverlayInputPassThroughElement = original.OverlayInputPassThroughElement,
+            ShouldConstrainToRootBounds = original.ShouldConstrainToRootBounds
         };
 
-        foreach (MenuFlyoutItemBase? item in original.Items)
+        foreach (MenuFlyoutItemBase item in original.Items)
         {
             clone.Items.Add(item);
         }
@@ -73,8 +79,11 @@ public partial class TrayIcon
 
     partial void OnClickRequested()
     {
-        LeftClickCommand?.Execute(LeftClickCommandParameter);
-        Click?.Invoke(this, new RoutedEventArgs());
+        XamlRoot?.Content?.DispatcherQueue?.TryEnqueue(() =>
+        {
+            LeftClickCommand?.Execute(LeftClickCommandParameter);
+            Click?.Invoke(this, new RoutedEventArgs());
+        });
     }
 
     private void HideMenu()

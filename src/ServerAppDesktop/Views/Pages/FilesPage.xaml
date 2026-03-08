@@ -11,7 +11,35 @@
 	xmlns:models="using:ServerAppDesktop.Models"
 	xmlns:toolkitControls="using:CommunityToolkit.WinUI.Controls"
 	xmlns:toolkitExtensions="using:CommunityToolkit.WinUI"
+	NavigationCacheMode="Required"
 	mc:Ignorable="d">
+
+	<Page.Resources>
+		<StandardUICommand x:Key="CutCommand" Kind="Cut" />
+		<StandardUICommand x:Key="CopyCommand" Kind="Copy" />
+		<StandardUICommand x:Key="PasteCommand" Kind="Paste" />
+
+		<StandardUICommand x:Key="DeleteCommand" Kind="Delete" />
+		<StandardUICommand x:Key="OpenCommand" Kind="Open" />
+
+		<XamlUICommand x:Key="RenameCommand">
+			<XamlUICommand.KeyboardAccelerators>
+				<KeyboardAccelerator Key="F2" />
+			</XamlUICommand.KeyboardAccelerators>
+		</XamlUICommand>
+
+		<XamlUICommand x:Key="RefreshCommand" Command="{x:Bind ViewModel.RefreshFileListCommand}">
+			<XamlUICommand.KeyboardAccelerators>
+				<KeyboardAccelerator Key="F5" />
+			</XamlUICommand.KeyboardAccelerators>
+		</XamlUICommand>
+
+		<XamlUICommand x:Key="PropertiesCommand">
+			<XamlUICommand.KeyboardAccelerators>
+				<KeyboardAccelerator Key="Enter" Modifiers="Menu" />
+			</XamlUICommand.KeyboardAccelerators>
+		</XamlUICommand>
+	</Page.Resources>
 
 	<Grid>
 		<Grid.RowDefinitions>
@@ -52,17 +80,17 @@
 							<RowDefinition Height="Auto" />
 						</Grid.RowDefinitions>
 						<TextBlock
-							x:Uid="DiskLabel"
 							Grid.Row="0"
-							Style="{StaticResource BodyStrongTextBlockStyle}" />
+							Style="{StaticResource BodyStrongTextBlockStyle}"
+							Text="{x:Bind ViewModel.DiskLabel, Mode=OneWay}" />
 						<ProgressBar
 							Grid.Row="1"
 							Margin="0,8"
-							Value="6.2" />
+							Value="{x:Bind ViewModel.StorageValue, Mode=OneWay}" />
 						<TextBlock
-							x:Uid="DiskAvailableText"
 							Grid.Row="2"
-							Style="{StaticResource CaptionTextBlockStyle}" />
+							Style="{StaticResource CaptionTextBlockStyle}"
+							Text="{x:Bind ViewModel.StorageSizeInfo, Mode=OneWay}" />
 					</Grid>
 				</Grid>
 			</Border>
@@ -74,6 +102,10 @@
 				</Grid.RowDefinitions>
 
 				<StackPanel Grid.Row="0" Orientation="Horizontal">
+					<CommandBar HorizontalAlignment="Left" DefaultLabelPosition="Collapsed">
+						<AppBarButton Width="36" Icon="Back" />
+						<AppBarButton Width="36" Icon="Forward" />
+					</CommandBar>
 					<CommandBar HorizontalAlignment="Left" DefaultLabelPosition="Right">
 						<AppBarButton x:Uid="NewFileBtn" Icon="{dev:ThemedIcon IconType=Layered, Style={StaticResource App.ThemedIcons.New.Item}}">
 							<AppBarButton.Flyout>
@@ -89,44 +121,50 @@
 						<AppBarButton
 							x:Uid="RefreshBtn"
 							MaxWidth="46"
+							Command="{StaticResource RefreshCommand}"
 							Icon="Refresh" />
 						<AppBarSeparator />
 						<AppBarButton
-							x:Uid="CutBtn"
 							MaxWidth="46"
+							Command="{StaticResource CutCommand}"
 							Icon="{dev:ThemedIcon IconType=Layered,
 												  Style={StaticResource App.ThemedIcons.Cut}}" />
 						<AppBarButton
-							x:Uid="CopyBtn"
 							MaxWidth="46"
+							Command="{StaticResource CopyCommand}"
 							Icon="{dev:ThemedIcon IconType=Layered,
 												  Style={StaticResource App.ThemedIcons.Copy}}" />
 						<AppBarButton
-							x:Uid="PasteBtn"
 							MaxWidth="46"
+							Command="{StaticResource PasteCommand}"
 							Icon="{dev:ThemedIcon IconType=Layered,
 												  Style={StaticResource App.ThemedIcons.Paste}}" />
 						<AppBarSeparator />
 						<AppBarButton
 							x:Uid="RenameBtn"
 							MaxWidth="46"
+							Command="{StaticResource RenameCommand}"
 							Icon="{dev:ThemedIcon IconType=Layered,
 												  Style={StaticResource App.ThemedIcons.Rename}}" />
 						<AppBarButton
-							x:Uid="DeleteBtn"
 							MaxWidth="46"
+							Command="{StaticResource DeleteCommand}"
 							Icon="{dev:ThemedIcon IconType=Layered,
 												  Style={StaticResource App.ThemedIcons.Delete}}" />
 						<AppBarSeparator />
 						<AppBarButton
 							x:Uid="PropertiesBtn"
 							MaxWidth="46"
+							Command="{StaticResource PropertiesCommand}"
 							Icon="Repair" />
 					</CommandBar>
 					<AppBarSeparator />
 					<CommandBar HorizontalAlignment="Left" DefaultLabelPosition="Right">
 						<AppBarButton x:Uid="BackupBtn" Icon="{toolkitExtensions:BitmapIcon Source=/Assets/Files/Backup.png}" />
-						<AppBarButton x:Uid="OpenFolderBtn" Icon="{toolkitExtensions:BitmapIcon Source=/Assets/Files/OpenFolder.png}" />
+						<AppBarButton
+							x:Uid="OpenFolderBtn"
+							Command="{x:Bind ViewModel.OpenFolderCommand}"
+							Icon="{toolkitExtensions:BitmapIcon Source=/Assets/Files/OpenFolder.png}" />
 					</CommandBar>
 				</StackPanel>
 
@@ -137,7 +175,7 @@
 					BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
 					BorderThickness="1"
 					CornerRadius="{StaticResource OverlayCornerRadius}">
-					<ListView>
+					<ListView ItemsSource="{x:Bind ViewModel.ServerFiles}">
 						<ListView.Header>
 							<toolkitControls:DataTable Margin="12,16,0,0">
 								<toolkitControls:DataColumn DesiredWidth="Auto" />
@@ -153,19 +191,33 @@
 									x:Uid="ColDate"
 									CanResize="True"
 									DesiredWidth="*" />
-								<toolkitControls:DataColumn x:Uid="ColEditable" DesiredWidth="Auto" />
 							</toolkitControls:DataTable>
 						</ListView.Header>
+						<ListView.ItemTemplate>
+							<DataTemplate x:DataType="models:ServerFile">
+								<toolkitControls:DataRow>
+									<Viewbox
+										Width="16"
+										Height="16"
+										Margin="0,0,8,0"
+										Child="{x:Bind Icon}"
+										Visibility="{x:Bind Icon, Converter={StaticResource NotNullToVisibilityConverter}}" />
+									<TextBlock Text="{x:Bind Name}" />
+									<TextBlock Text="{x:Bind Size}" />
+									<TextBlock Text="{x:Bind ModifiedDate}" />
+								</toolkitControls:DataRow>
+							</DataTemplate>
+						</ListView.ItemTemplate>
 						<ListView.ContextFlyout>
 							<MenuFlyout>
-								<controls:MenuFlyoutItemWithThemedIcon x:Uid="FlyoutCut" ThemedIconStyle="{StaticResource App.ThemedIcons.Cut}" />
-								<controls:MenuFlyoutItemWithThemedIcon x:Uid="FlyoutCopy" ThemedIconStyle="{StaticResource App.ThemedIcons.Copy}" />
-								<controls:MenuFlyoutItemWithThemedIcon x:Uid="FlyoutPaste" ThemedIconStyle="{StaticResource App.ThemedIcons.Paste}" />
+								<controls:MenuFlyoutItemWithThemedIcon Command="{StaticResource CutCommand}" ThemedIconStyle="{StaticResource App.ThemedIcons.Cut}" />
+								<controls:MenuFlyoutItemWithThemedIcon Command="{StaticResource CopyCommand}" ThemedIconStyle="{StaticResource App.ThemedIcons.Copy}" />
+								<controls:MenuFlyoutItemWithThemedIcon Command="{StaticResource PasteCommand}" ThemedIconStyle="{StaticResource App.ThemedIcons.Paste}" />
 								<MenuFlyoutSeparator />
-								<controls:MenuFlyoutItemWithThemedIcon x:Uid="FlyoutRename" ThemedIconStyle="{StaticResource App.ThemedIcons.Rename}" />
-								<controls:MenuFlyoutItemWithThemedIcon x:Uid="FlyoutDelete" ThemedIconStyle="{StaticResource App.ThemedIcons.Delete}" />
+								<controls:MenuFlyoutItemWithThemedIcon Command="{StaticResource RenameCommand}" ThemedIconStyle="{StaticResource App.ThemedIcons.Rename}" />
+								<controls:MenuFlyoutItemWithThemedIcon Command="{StaticResource DeleteCommand}" ThemedIconStyle="{StaticResource App.ThemedIcons.Delete}" />
 								<MenuFlyoutSeparator />
-								<controls:MenuFlyoutItemWithThemedIcon x:Uid="FlyoutProps" Icon="Repair" />
+								<controls:MenuFlyoutItemWithThemedIcon Command="{StaticResource PropertiesCommand}" Icon="Repair" />
 							</MenuFlyout>
 						</ListView.ContextFlyout>
 					</ListView>

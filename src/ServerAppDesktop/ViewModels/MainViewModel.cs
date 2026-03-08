@@ -36,12 +36,12 @@ public sealed partial class MainViewModel : ObservableObject
     public MainViewModel(INavigationService navService)
     {
         _navService = navService;
-        _navService.CanGoBackChanged += (canGoBack) => CanGoBack = canGoBack;
+        _navService.CanGoBackChanged += (_, args) => CanGoBack = args.CanGoBack;
 
-        UpdateHelper.DownloadProgress += (progress, value) =>
+        UpdateHelper.DownloadProgressChanged += (_, e) =>
         {
-            UpdateDownloadProgress = progress;
-            DownloadProgressValue = value;
+            UpdateDownloadProgress = e.Text;
+            DownloadProgressValue = e.Progress;
         };
     }
 

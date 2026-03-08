@@ -17,6 +17,7 @@ global using global::Microsoft.UI;
 global using global::Microsoft.UI.Windowing;
 global using global::Microsoft.UI.Xaml;
 global using global::Microsoft.UI.Xaml.Controls;
+global using global::Microsoft.UI.Xaml.Controls.Primitives;
 global using global::Microsoft.UI.Xaml.Media;
 global using global::Microsoft.UI.Xaml.Media.Imaging;
 #endregion
@@ -32,4 +33,5 @@ global using global::WinRT.Interop;
 
 #region Third Party Extensions
 global using global::CSharpEx;
+global using global::DevWinUI;
 #endregion

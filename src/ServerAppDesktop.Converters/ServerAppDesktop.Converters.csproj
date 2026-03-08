@@ -11,7 +11,7 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	  <ProjectReference Include="..\ServerAppDesktop.Helpers\ServerAppDesktop.Helpers.csproj" />
+	  <ProjectReference Include="..\ServerAppDesktop.Helpers\ServerAppDesktop.Helpers.csproj" PrivateAssets="all" />
 	  <ProjectReference Include="..\ServerAppDesktop.Models\ServerAppDesktop.Models.csproj" />
 	</ItemGroup>
 </Project>

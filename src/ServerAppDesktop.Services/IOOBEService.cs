@@ -2,7 +2,7 @@
 
 public interface IOOBEService
 {
-    public event Action<bool>? OOBEFinished;
+    public event TypedEventHandler<IOOBEService, OOBEFinishedEventArgs>? OOBEFinished;
     public void SaveUserSettings(AppSettings appSettings);
     public void FinishOOBE();
 }

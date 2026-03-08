@@ -5,6 +5,8 @@
 		<BuildInParallel>true</BuildInParallel>
 		<UseMultiToolTask>true</UseMultiToolTask>
 		<EnforceCodeStyleInBuild>false</EnforceCodeStyleInBuild>
+		<DisableRuntimeMarshaling>true</DisableRuntimeMarshaling>
+		<Deterministic>true</Deterministic>
 		<Platforms>x64</Platforms>
 		<Platform Condition="'$(Platform)' == ''">x64</Platform>
 		<Configuration Condition="'$(Configuration)' == ''">Debug</Configuration>

@@ -9,7 +9,7 @@ internal partial class UpdateJsonContext : JsonSerializerContext { }
 
 public static class UpdateHelper
 {
-    public static event Action<string, double>? DownloadProgress;
+    public static event EventHandler<DownloadProgressChangedEventArgs>? DownloadProgressChanged;
     private const string GITHUB_API_RELEASES = "https://api.github.com/repos/{0}/{1}/releases";
 
     public static async Task<ReleaseInfo?> GetUpdateAsync(string username, string repository, string currentVersion, bool isPreRelease)
@@ -95,7 +95,7 @@ public static class UpdateHelper
             {
                 double percentage = (double)totalRead / totalBytes * 100;
                 string progressText = $"{percentage:F0}% ({totalRead / 1048576.0:0.##} MB / {totalBytes / 1048576.0:0.##} MB)";
-                DownloadProgress?.Invoke(progressText, percentage);
+                DownloadProgressChanged?.Invoke(null, new DownloadProgressChangedEventArgs(progressText, percentage));
             }
         }
 

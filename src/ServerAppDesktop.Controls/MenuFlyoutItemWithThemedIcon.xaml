@@ -38,19 +38,19 @@
 								x:Name="IconRoot"
 								Width="16"
 								Height="16"
+								Margin="0"
 								HorizontalAlignment="Left"
-								VerticalAlignment="Center"
-								Visibility="Collapsed">
-								<ContentPresenter x:Name="IconContent" Content="{TemplateBinding Icon}" />
+								VerticalAlignment="Center">
+								<dev:ThemedIcon IsEnabled="{TemplateBinding IsEnabled}" Style="{TemplateBinding ThemedIconStyle}" />
 							</Viewbox>
 
 							<Viewbox
 								Width="16"
 								Height="16"
-								Margin="0"
 								HorizontalAlignment="Left"
-								VerticalAlignment="Center">
-								<dev:ThemedIcon IsEnabled="{TemplateBinding IsEnabled}" Style="{TemplateBinding ThemedIconStyle}" />
+								VerticalAlignment="Center"
+								Visibility="Visible">
+								<ContentPresenter x:Name="IconContent" Content="{TemplateBinding Icon}" />
 							</Viewbox>
 
 							<TextBlock

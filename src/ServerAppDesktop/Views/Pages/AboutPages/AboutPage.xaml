@@ -21,7 +21,6 @@
 			Style="{StaticResource PageTitleTextBlockStyle}" />
 		<ScrollView Grid.Row="1" Padding="36">
 			<StackPanel Spacing="8">
-				<Image MaxHeight="200" Source="/Assets/HeroImage.png" />
 				<SelectorBar
 					HorizontalAlignment="Center"
 					SelectionChanged="SelectorBar_SelectionChanged"

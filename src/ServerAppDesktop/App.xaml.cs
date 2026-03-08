@@ -27,9 +27,18 @@ public sealed partial class App : Application
         return Host!.Services.GetRequiredService<T>() ?? throw new InvalidOperationException("Host no inicializado");
     }
 
-    protected override async void OnLaunched(LaunchActivatedEventArgs args)
+    protected override void OnLaunched(LaunchActivatedEventArgs args)
     {
         base.OnLaunched(args);
+        string windows10IconPath = "M0 36.357L104.62 22.11l.045 100.914-104.57.595L0 36.358zm104.57 98.293l.08 101.002L.081 221.275l-.006-87.302 104.494.677zm12.682-114.405L255.968 0v121.74l-138.716 1.1V20.246zM256 135.6l-.033 121.191-138.716-19.578-.194-101.84L256 135.6z";
+        string windows11IconPath = "M0 5860 l0 -1820 1820 0 1820 0 0 1820 0 1820 -1820 0 -1820 0 0 -1820z M4040 5860 l0 -1820 1820 0 1820 0 0 1820 0 1820 -1820 0 -1820 0 0 -1820z M0 1820 l0 -1820 1820 0 1820 0 0 1820 0 1820 -1820 0 -1820 0 0 -1820z M4040 1820 l0 -1820 1820 0 1820 0 0 1820 0 1820 -1820 0 -1820 0 0 -1820z";
+
+        bool isWindows11 = Environment.OSVersion.Version.Major >= 10 && Environment.OSVersion.Version.Build >= 22000;
+
+        if (isWindows11)
+            Resources["WindowsIconPath"] = windows11IconPath;
+        else
+            Resources["WindowsIconPath"] = windows10IconPath;
         WindowManager.PersistenceStorage = new FilePersistence(Path.Join(DataHelper.SettingsPath, DataHelper.WindowPersistenceFile));
         MainWindow.Initialize();
 
@@ -54,11 +63,11 @@ public sealed partial class App : Application
         }
         else
         {
-            EfficiencyModeUtilities.SetEfficiencyMode(true);
+            ProcessHelper.SetEfficiencyMode(true);
             handler.WindowHidden = true;
         }
 
-        if (MainWindow.Instance != null)
+        MainWindow.Instance.Content.To<FrameworkElement>().Loaded += async (_, _) =>
         {
             bool isConnected = await NetworkHelper.IsInternetAvailableAsync();
             MainWindow.Instance.ViewModel.IsConnectedToInternet = isConnected;
@@ -74,7 +83,7 @@ public sealed partial class App : Application
                 isFirstRun ? typeof(OOBEView) : typeof(MainView),
                 null,
                 new DrillInNavigationTransitionInfo());
-        }
+        };
     }
 }
 

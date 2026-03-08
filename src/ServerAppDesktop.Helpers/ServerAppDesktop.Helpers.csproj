@@ -20,7 +20,7 @@
 		</PackageReference>
 		<PackageReference Include="ProfMinecraftDev.CSharpEx" Version="1.0.1" />
 		<PackageReference Include="WinUIEx" Version="2.9.0" />
-		<PackageReference Include="H.NotifyIcon.WinUI" Version="2.4.1" />
+		<PackageReference Include="System.Drawing.Common" Version="10.0.2" />
 	</ItemGroup>
 	
 	<ItemGroup>

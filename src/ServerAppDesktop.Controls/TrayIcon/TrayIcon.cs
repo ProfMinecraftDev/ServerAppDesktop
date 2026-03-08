@@ -37,14 +37,8 @@ public partial class TrayIcon : FrameworkElement
     {
         ActualThemeChanged += OnActualThemeChanged;
         Loaded += OnLoaded;
+        ThisNint = Guid.NewGuid().GetHashCode();
         _ = RegisterPropertyChangedCallback(VisibilityProperty, OnVisibilityChanged);
-    }
-
-    ~TrayIcon()
-    {
-        ActualThemeChanged -= OnActualThemeChanged;
-        Loaded -= OnLoaded;
-        Dispose();
     }
 
     private void OnLoaded(object sender, RoutedEventArgs e)

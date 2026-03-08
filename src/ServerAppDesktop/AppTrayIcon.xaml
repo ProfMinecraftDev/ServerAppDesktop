@@ -10,13 +10,15 @@
 	xmlns:toolkitExtensions="using:CommunityToolkit.WinUI"
 	xmlns:vm="using:ServerAppDesktop.ViewModels"
 	IconSource="{x:Bind ViewModel.Icon, Mode=OneWay, Converter={StaticResource StringToImageSourceConverter}}"
-	KeyTipPlacementMode="Top"
 	LeftClickCommand="{x:Bind ViewModel.ShowWindowCommand}"
 	ToolTip="{x:Bind ViewModel.ToolTip, Mode=OneWay}"
 	Visibility="Visible"
 	mc:Ignorable="d">
 	<controls:TrayIcon.ContextFlyout>
-		<MenuFlyout>
+		<MenuFlyout
+			MenuFlyoutPresenterStyle="{StaticResource TrayMenuFlyoutPresenterStyle}"
+			Placement="Top"
+			ShowMode="Transient">
 			<MenuFlyoutItem
 				x:Uid="MenuFlyoutItem_StartServer"
 				Command="{x:Bind HomeViewModel.StartServerCommand}"
@@ -53,17 +55,15 @@
 				</MenuFlyoutItem.Icon>
 			</MenuFlyoutItem>
 			<MenuFlyoutSeparator />
-			<MenuFlyoutSubItem x:Uid="MenuFlyoutItem_QuickOptions" Icon="{toolkitExtensions:FontIcon Glyph=&#xE713;}">
-				<MenuFlyoutItem
-					x:Uid="MenuFlyoutItem_OpenSettingsFile"
-					Command="{x:Bind ViewModel.OpenSettingsFileCommand}"
-					Icon="{toolkitExtensions:SymbolIcon Symbol=Repair}" />
-				<ToggleMenuFlyoutItem x:Uid="MenuFlyoutItem_StartWithWindows" IsChecked="True">
-					<ToggleMenuFlyoutItem.Icon>
-						<PathIcon Data="{StaticResource Windows11IconPath}" />
-					</ToggleMenuFlyoutItem.Icon>
-				</ToggleMenuFlyoutItem>
-			</MenuFlyoutSubItem>
+			<MenuFlyoutItem
+				x:Uid="MenuFlyoutItem_OpenSettingsFile"
+				Command="{x:Bind ViewModel.OpenSettingsFileCommand}"
+				Icon="{toolkitExtensions:SymbolIcon Symbol=Repair}" />
+			<ToggleMenuFlyoutItem x:Uid="MenuFlyoutItem_StartWithWindows" IsChecked="{x:Bind SettingsViewModel.StartWithWindows, Mode=TwoWay}">
+				<ToggleMenuFlyoutItem.Icon>
+					<PathIcon Data="{StaticResource WindowsIconPath}" />
+				</ToggleMenuFlyoutItem.Icon>
+			</ToggleMenuFlyoutItem>
 			<MenuFlyoutSeparator />
 			<MenuFlyoutItem
 				x:Uid="MenuFlyoutItem_ExitApp"

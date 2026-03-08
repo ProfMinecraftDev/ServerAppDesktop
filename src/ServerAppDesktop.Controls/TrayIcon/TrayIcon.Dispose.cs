@@ -2,32 +2,56 @@
 
 public partial class TrayIcon : IDisposable
 {
+    private bool _disposed = false;
+
+    ~TrayIcon()
+    {
+        Dispose(false);
+    }
+
     public void Dispose()
     {
-        if (!_disposed)
-        {
-            if (_window != null && _subclassDelegate != null)
-            {
-                try
-                {
-                    var hwnd = (HWND)WindowNative.GetWindowHandle(_window);
-                    _ = PInvoke.RemoveWindowSubclass(hwnd, _subclassDelegate, 101);
-                    _window.Close();
-                    _window = null;
-                }
-                catch { }
-            }
-
-            _ = PInvoke.Shell_NotifyIcon(NOTIFY_ICON_MESSAGE.NIM_DELETE, in nid);
-
-            if (!_currentIcon.IsNull)
-            {
-                _ = PInvoke.DestroyIcon(_currentIcon);
-                _currentIcon = HICON.Null;
-            }
-
-            _disposed = true;
-        }
+        Dispose(true);
         GC.SuppressFinalize(this);
+    }
+
+    protected virtual unsafe void Dispose(bool disposing)
+    {
+        if (_disposed)
+            return;
+
+        if (disposing)
+        {
+            ActualThemeChanged -= OnActualThemeChanged;
+            Loaded -= OnLoaded;
+            TrayDelegateHandler.Invoked -= HandleTrayEvents;
+        }
+
+        _ = PInvoke.Shell_NotifyIcon(NOTIFY_ICON_MESSAGE.NIM_DELETE, in nid);
+
+        if (!_currentIcon.IsNull)
+        {
+            _ = PInvoke.DestroyIcon(_currentIcon);
+            _currentIcon = HICON.Null;
+        }
+
+        if (_window != null)
+        {
+            try
+            {
+                var hwnd = (HWND)WindowNative.GetWindowHandle(_window);
+                if (_subclassPtr != null)
+                {
+                    _ = PInvoke.RemoveWindowSubclass(hwnd, _subclassPtr, 101);
+                }
+
+                if (disposing)
+                    _window.Close();
+                _window = null;
+            }
+            catch { }
+        }
+
+        _disposed = true;
     }
 }

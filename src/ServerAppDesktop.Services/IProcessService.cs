@@ -2,12 +2,11 @@
 
 public interface IProcessService
 {
-    public event Action<string>? OutputReceived;
-    public event Action<string>? ErrorReceived;
+    public event TypedEventHandler<IProcessService, ProcessDataReceivedEventArgs>? DataReceived;
 
-    public event Action<bool, int>? ProcessExited;
+    public event TypedEventHandler<IProcessService, ProcessExitedEventArgs>? ProcessExited;
 
-    public event Action<int>? PlayerCountChanged;
+    public event TypedEventHandler<IProcessService, PlayerCountChangedEventArgs>? PlayerCountChanged;
 
     public bool IsRunning { get; }
 

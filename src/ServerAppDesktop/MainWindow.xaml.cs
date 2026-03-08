@@ -6,6 +6,7 @@ public sealed partial class MainWindow : WindowEx
     private static bool _isInitialized = false;
     private readonly IWindowHandler _windowHandler;
     private readonly HomeViewModel _homeViewModel;
+    private readonly FilesViewModel _filesViewModel;
     private readonly SettingsViewModel _settingsViewModel;
     private readonly INavigationService _navigationService;
 
@@ -38,6 +39,7 @@ public sealed partial class MainWindow : WindowEx
         _homeViewModel = App.GetRequiredService<HomeViewModel>();
         _navigationService = App.GetRequiredService<INavigationService>();
         _settingsViewModel = App.GetRequiredService<SettingsViewModel>();
+        _filesViewModel = App.GetRequiredService<FilesViewModel>();
 
         PersistenceId = DataHelper.WindowPersistenceID;
 
@@ -74,14 +76,14 @@ public sealed partial class MainWindow : WindowEx
             catch { }
         };
 
-        NetworkHelper.ConnectionChanged += (isConnected) =>
+        NetworkHelper.ConnectionChanged += (s) =>
         {
             _ = DispatcherQueue.TryEnqueue(() =>
             {
-                if (!(ViewModel.IsConnectedToInternet && isConnected))
+                if (!(ViewModel.IsConnectedToInternet && s.As<bool>()))
                 {
-                    ViewModel.IsConnectedToInternet = isConnected;
-                    _windowHandler.HandleNetworkUIUpdate(internetInfoBar, isConnected);
+                    ViewModel.IsConnectedToInternet = s.As<bool>();
+                    _windowHandler.HandleNetworkUIUpdate(internetInfoBar, s.As<bool>());
                 }
             });
         };
@@ -90,6 +92,7 @@ public sealed partial class MainWindow : WindowEx
         {
             grid.Loaded += (_, _) => _homeViewModel.IsConfigured = DataHelper.Settings != null;
             grid.Loaded += (_, _) => _settingsViewModel.IsConfigured = DataHelper.Settings != null;
+            grid.Loaded += (_, _) => _filesViewModel.IsConfigured = DataHelper.Settings != null;
             grid.DataContext = ViewModel;
             grid.KeyDown += (_, e) => OnF11OrEscapeInvoked(e.Key);
         }

@@ -5,7 +5,7 @@ namespace ServerAppDesktop;
 public static class EntryPoint
 {
     [STAThread]
-    static async Task<int> Main(string[] argsRaw)
+    private static async Task<int> Main(string[] argsRaw)
     {
         if (Environment.OSVersion.Version.Build < 19041)
         {
@@ -32,7 +32,7 @@ public static class EntryPoint
             {
                 var context = new DispatcherQueueSynchronizationContext(DispatcherQueue.GetForCurrentThread());
                 SynchronizationContext.SetSynchronizationContext(context);
-                _ = new App(CommandLineHandler.TrayOnly);
+                new App(CommandLineHandler.TrayOnly);
             });
             return WIN32_ERROR.ERROR_SUCCESS.To<int>();
         }

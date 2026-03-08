@@ -98,8 +98,6 @@
 						  Version="8.2.251219" />
 		<PackageReference Include="CommunityToolkit.WinUI.Extensions"
 						  Version="8.2.251219" />
-		<PackageReference Include="H.NotifyIcon.WinUI"
-						  Version="2.4.1" />
 		<PackageReference Include="Microsoft.Extensions.Hosting"
 						  Version="10.0.3" />
 		<PackageReference Include="Microsoft.Windows.CsWin32"

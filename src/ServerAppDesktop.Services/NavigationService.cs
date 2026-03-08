@@ -5,8 +5,7 @@ public class NavigationService : INavigationService
 {
     private Frame? _frame;
     private NavigationView? _navigationView;
-
-    public event Action<bool>? CanGoBackChanged;
+    public event TypedEventHandler<INavigationService, CanGoBackChangedEventArgs>? CanGoBackChanged;
 
     public void SetFrame(Frame frame)
     {
@@ -50,7 +49,7 @@ public class NavigationService : INavigationService
                 .FirstOrDefault(item => (item.Tag as string) == pageName);
         }
 
-        CanGoBackChanged?.Invoke(CanGoBack);
+        CanGoBackChanged?.Invoke(this, new CanGoBackChangedEventArgs(CanGoBack));
     }
 
 }
