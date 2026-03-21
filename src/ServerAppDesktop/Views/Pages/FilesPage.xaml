@@ -15,28 +15,68 @@
 	mc:Ignorable="d">
 
 	<Page.Resources>
-		<StandardUICommand x:Key="CutCommand" Kind="Cut" />
-		<StandardUICommand x:Key="CopyCommand" Kind="Copy" />
-		<StandardUICommand x:Key="PasteCommand" Kind="Paste" />
+		<StandardUICommand
+			x:Key="CutCommand"
+			Command="{x:Bind ViewModel.CutCommand}"
+			Kind="Cut" />
+		<StandardUICommand
+			x:Key="CopyCommand"
+			Command="{x:Bind ViewModel.CopyCommand}"
+			Kind="Copy" />
+		<StandardUICommand
+			x:Key="PasteCommand"
+			Command="{x:Bind ViewModel.PasteCommand}"
+			Kind="Paste" />
 
-		<StandardUICommand x:Key="DeleteCommand" Kind="Delete" />
-		<StandardUICommand x:Key="OpenCommand" Kind="Open" />
+		<StandardUICommand
+			x:Key="DeleteCommand"
+			ExecuteRequested="DeleteCommand_Requested"
+			Kind="Delete" />
 
-		<XamlUICommand x:Key="RenameCommand">
+		<XamlUICommand
+			x:Key="RenameCommand"
+			Description="Renombrar"
+			ExecuteRequested="RenameCommand_Requested"
+			Label="Renombrar">
 			<XamlUICommand.KeyboardAccelerators>
 				<KeyboardAccelerator Key="F2" />
 			</XamlUICommand.KeyboardAccelerators>
 		</XamlUICommand>
 
-		<XamlUICommand x:Key="RefreshCommand" Command="{x:Bind ViewModel.RefreshFileListCommand}">
+		<XamlUICommand
+			x:Key="RefreshCommand"
+			Command="{x:Bind ViewModel.RefreshFileListCommand}"
+			Description="Actualizar">
 			<XamlUICommand.KeyboardAccelerators>
 				<KeyboardAccelerator Key="F5" />
 			</XamlUICommand.KeyboardAccelerators>
 		</XamlUICommand>
 
-		<XamlUICommand x:Key="PropertiesCommand">
+		<XamlUICommand
+			x:Key="PropertiesCommand"
+			Command="{x:Bind ViewModel.PropertiesCommand}"
+			Description="Propiedades de un elemento"
+			IconSource="{toolkitExtensions:SymbolIconSource Symbol=Repair}"
+			Label="Propiedades">
 			<XamlUICommand.KeyboardAccelerators>
 				<KeyboardAccelerator Key="Enter" Modifiers="Menu" />
+			</XamlUICommand.KeyboardAccelerators>
+		</XamlUICommand>
+
+		<XamlUICommand
+			x:Key="GoBackCommand"
+			Command="{x:Bind ViewModel.GoBackCommand}"
+			Description="Anterior">
+			<XamlUICommand.KeyboardAccelerators>
+				<KeyboardAccelerator Key="Left" Modifiers="Menu" />
+			</XamlUICommand.KeyboardAccelerators>
+		</XamlUICommand>
+		<XamlUICommand
+			x:Key="GoForwardCommand"
+			Command="{x:Bind ViewModel.GoForwardCommand}"
+			Description="Siguiente">
+			<XamlUICommand.KeyboardAccelerators>
+				<KeyboardAccelerator Key="Right" Modifiers="Menu" />
 			</XamlUICommand.KeyboardAccelerators>
 		</XamlUICommand>
 	</Page.Resources>
@@ -103,16 +143,33 @@
 
 				<StackPanel Grid.Row="0" Orientation="Horizontal">
 					<CommandBar HorizontalAlignment="Left" DefaultLabelPosition="Collapsed">
-						<AppBarButton Width="36" Icon="Back" />
-						<AppBarButton Width="36" Icon="Forward" />
+						<AppBarButton
+							Width="36"
+							Command="{StaticResource GoBackCommand}"
+							Icon="Back"
+							IsEnabled="{x:Bind ViewModel.CanGoBack, Mode=OneWay}" />
+						<AppBarButton
+							Width="36"
+							Command="{StaticResource GoForwardCommand}"
+							Icon="Forward"
+							IsEnabled="{x:Bind ViewModel.CanGoForward, Mode=OneWay}" />
 					</CommandBar>
+					<AppBarSeparator />
 					<CommandBar HorizontalAlignment="Left" DefaultLabelPosition="Right">
 						<AppBarButton x:Uid="NewFileBtn" Icon="{dev:ThemedIcon IconType=Layered, Style={StaticResource App.ThemedIcons.New.Item}}">
 							<AppBarButton.Flyout>
-								<MenuFlyout Placement="Bottom">
-									<MenuFlyoutItem x:Uid="NewFolderItem" Icon="{toolkitExtensions:BitmapIcon Source=/Assets/Files/NewFolder.png}" />
-									<MenuFlyoutItem x:Uid="NewFileItem" Icon="{toolkitExtensions:BitmapIcon Source=/Assets/Files/NewFile.png}" />
-								</MenuFlyout>
+								<MenuBarItemFlyout Placement="Bottom">
+									<MenuFlyoutItem
+										x:Uid="NewFolderItem"
+										Click="CreateFolder_Click"
+										Icon="{toolkitExtensions:BitmapIcon Source=/Assets/Files/NewFolder.png}"
+										IsEnabled="{x:Bind ViewModel.CanCreateFileOrFolder, Mode=OneWay}" />
+									<MenuFlyoutItem
+										x:Uid="NewFileItem"
+										Click="CreateFile_Click"
+										Icon="{toolkitExtensions:BitmapIcon Source=/Assets/Files/NewFile.png}"
+										IsEnabled="{x:Bind ViewModel.CanCreateFileOrFolder, Mode=OneWay}" />
+								</MenuBarItemFlyout>
 							</AppBarButton.Flyout>
 						</AppBarButton>
 					</CommandBar>
@@ -122,49 +179,60 @@
 							x:Uid="RefreshBtn"
 							MaxWidth="46"
 							Command="{StaticResource RefreshCommand}"
-							Icon="Refresh" />
+							Icon="Refresh"
+							IsEnabled="{x:Bind ViewModel.CanRefresh, Mode=OneWay}" />
 						<AppBarSeparator />
 						<AppBarButton
 							MaxWidth="46"
 							Command="{StaticResource CutCommand}"
 							Icon="{dev:ThemedIcon IconType=Layered,
-												  Style={StaticResource App.ThemedIcons.Cut}}" />
+							                      Style={StaticResource App.ThemedIcons.Cut}}"
+							IsEnabled="{x:Bind ViewModel.CanCut, Mode=OneWay}" />
 						<AppBarButton
 							MaxWidth="46"
 							Command="{StaticResource CopyCommand}"
 							Icon="{dev:ThemedIcon IconType=Layered,
-												  Style={StaticResource App.ThemedIcons.Copy}}" />
+							                      Style={StaticResource App.ThemedIcons.Copy}}"
+							IsEnabled="{x:Bind ViewModel.CanCopy, Mode=OneWay}" />
 						<AppBarButton
 							MaxWidth="46"
 							Command="{StaticResource PasteCommand}"
 							Icon="{dev:ThemedIcon IconType=Layered,
-												  Style={StaticResource App.ThemedIcons.Paste}}" />
+							                      Style={StaticResource App.ThemedIcons.Paste}}"
+							IsEnabled="{x:Bind ViewModel.CanPaste, Mode=OneWay}" />
 						<AppBarSeparator />
 						<AppBarButton
 							x:Uid="RenameBtn"
 							MaxWidth="46"
 							Command="{StaticResource RenameCommand}"
 							Icon="{dev:ThemedIcon IconType=Layered,
-												  Style={StaticResource App.ThemedIcons.Rename}}" />
+							                      Style={StaticResource App.ThemedIcons.Rename}}"
+							IsEnabled="{x:Bind ViewModel.CanModifySelected, Mode=OneWay}" />
 						<AppBarButton
 							MaxWidth="46"
 							Command="{StaticResource DeleteCommand}"
 							Icon="{dev:ThemedIcon IconType=Layered,
-												  Style={StaticResource App.ThemedIcons.Delete}}" />
+							                      Style={StaticResource App.ThemedIcons.Delete}}"
+							IsEnabled="{x:Bind ViewModel.CanModifySelected, Mode=OneWay}" />
 						<AppBarSeparator />
 						<AppBarButton
 							x:Uid="PropertiesBtn"
 							MaxWidth="46"
 							Command="{StaticResource PropertiesCommand}"
-							Icon="Repair" />
+							IsEnabled="{x:Bind ViewModel.CanViewPropertiesOfFileOrFolder, Mode=OneWay}" />
 					</CommandBar>
 					<AppBarSeparator />
 					<CommandBar HorizontalAlignment="Left" DefaultLabelPosition="Right">
-						<AppBarButton x:Uid="BackupBtn" Icon="{toolkitExtensions:BitmapIcon Source=/Assets/Files/Backup.png}" />
+						<AppBarButton
+							x:Uid="BackupBtn"
+							Click="BackupButton_Click"
+							Icon="{toolkitExtensions:BitmapIcon Source=/Assets/Files/Backup.png}"
+							IsEnabled="{x:Bind ViewModel.CanMakeBackup, Mode=OneWay}" />
 						<AppBarButton
 							x:Uid="OpenFolderBtn"
 							Command="{x:Bind ViewModel.OpenFolderCommand}"
-							Icon="{toolkitExtensions:BitmapIcon Source=/Assets/Files/OpenFolder.png}" />
+							Icon="{toolkitExtensions:BitmapIcon Source=/Assets/Files/OpenFolder.png}"
+							IsEnabled="{x:Bind ViewModel.IsConfigured, Mode=OneWay}" />
 					</CommandBar>
 				</StackPanel>
 
@@ -175,7 +243,11 @@
 					BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
 					BorderThickness="1"
 					CornerRadius="{StaticResource OverlayCornerRadius}">
-					<ListView ItemsSource="{x:Bind ViewModel.ServerFiles}">
+					<ListView
+						DoubleTapped="ListView_DoubleTapped"
+						ItemsSource="{x:Bind ViewModel.ServerFiles}"
+						SelectedItem="{x:Bind ViewModel.SelectedServerFile, Mode=TwoWay}"
+						SelectionMode="Single">
 						<ListView.Header>
 							<toolkitControls:DataTable Margin="12,16,0,0">
 								<toolkitControls:DataColumn DesiredWidth="Auto" />
@@ -195,7 +267,7 @@
 						</ListView.Header>
 						<ListView.ItemTemplate>
 							<DataTemplate x:DataType="models:ServerFile">
-								<toolkitControls:DataRow>
+								<toolkitControls:DataRow RightTapped="DataRow_RightTapped">
 									<Viewbox
 										Width="16"
 										Height="16"
@@ -210,19 +282,136 @@
 						</ListView.ItemTemplate>
 						<ListView.ContextFlyout>
 							<MenuFlyout>
-								<controls:MenuFlyoutItemWithThemedIcon Command="{StaticResource CutCommand}" ThemedIconStyle="{StaticResource App.ThemedIcons.Cut}" />
-								<controls:MenuFlyoutItemWithThemedIcon Command="{StaticResource CopyCommand}" ThemedIconStyle="{StaticResource App.ThemedIcons.Copy}" />
-								<controls:MenuFlyoutItemWithThemedIcon Command="{StaticResource PasteCommand}" ThemedIconStyle="{StaticResource App.ThemedIcons.Paste}" />
+								<controls:MenuFlyoutItemWithThemedIcon
+									Command="{StaticResource CopyCommand}"
+									IsEnabled="{x:Bind ViewModel.CanCopy, Mode=OneWay}"
+									ThemedIconStyle="{StaticResource App.ThemedIcons.Copy}" />
+								<controls:MenuFlyoutItemWithThemedIcon
+									Command="{StaticResource PasteCommand}"
+									IsEnabled="{x:Bind ViewModel.CanPaste, Mode=OneWay}"
+									ThemedIconStyle="{StaticResource App.ThemedIcons.Paste}" />
+								<controls:MenuFlyoutItemWithThemedIcon
+									Command="{StaticResource CutCommand}"
+									IsEnabled="{x:Bind ViewModel.CanCut, Mode=OneWay}"
+									ThemedIconStyle="{StaticResource App.ThemedIcons.Cut}" />
 								<MenuFlyoutSeparator />
-								<controls:MenuFlyoutItemWithThemedIcon Command="{StaticResource RenameCommand}" ThemedIconStyle="{StaticResource App.ThemedIcons.Rename}" />
-								<controls:MenuFlyoutItemWithThemedIcon Command="{StaticResource DeleteCommand}" ThemedIconStyle="{StaticResource App.ThemedIcons.Delete}" />
+								<controls:MenuFlyoutItemWithThemedIcon
+									Command="{StaticResource RenameCommand}"
+									IsEnabled="{x:Bind ViewModel.CanModifySelected, Mode=OneWay}"
+									ThemedIconStyle="{StaticResource App.ThemedIcons.Rename}" />
+								<controls:MenuFlyoutItemWithThemedIcon
+									Command="{StaticResource DeleteCommand}"
+									IsEnabled="{x:Bind ViewModel.CanModifySelected, Mode=OneWay}"
+									ThemedIconStyle="{StaticResource App.ThemedIcons.Delete}" />
 								<MenuFlyoutSeparator />
-								<controls:MenuFlyoutItemWithThemedIcon Command="{StaticResource PropertiesCommand}" Icon="Repair" />
+								<MenuFlyoutItem Command="{StaticResource PropertiesCommand}" IsEnabled="{x:Bind ViewModel.CanViewPropertiesOfFileOrFolder, Mode=OneWay}" />
 							</MenuFlyout>
 						</ListView.ContextFlyout>
 					</ListView>
 				</Border>
 			</Grid>
 		</Grid>
+		<ContentDialog
+			x:Name="backupDialog"
+			Title="Crear un respaldo"
+			CloseButtonText="No, no quiero"
+			Content="¿Deseas hacer un respaldo del servidor? esto evitará la péridida futura de los archivos ¡Buena elección!"
+			PrimaryButtonCommand="{x:Bind ViewModel.MakeBackupCommand}"
+			PrimaryButtonStyle="{StaticResource AccentButtonStyle}"
+			PrimaryButtonText="¡Vamos!" />
+		<ContentDialog
+			x:Name="createFileDialog"
+			Title="Crear archivo"
+			CloseButtonText="Cancelar"
+			DefaultButton="Primary"
+			PrimaryButtonCommand="{x:Bind ViewModel.CreateFileCommand}"
+			PrimaryButtonCommandParameter="{x:Bind fileNameTextBox.Text, Mode=OneWay}"
+			PrimaryButtonText="Crear archivo">
+			<TextBox
+				x:Name="fileNameTextBox"
+				PlaceholderText="Nombre del archivo"
+				SelectionLength="100"
+				SelectionStart="0" />
+		</ContentDialog>
+		<ContentDialog
+			x:Name="createFolderDialog"
+			Title="Nueva Carpeta"
+			CloseButtonText="Cancelar"
+			DefaultButton="Primary"
+			PrimaryButtonCommand="{x:Bind ViewModel.CreateFolderCommand}"
+			PrimaryButtonCommandParameter="{x:Bind folderNameTextBox.Text, Mode=OneWay}"
+			PrimaryButtonText="Crear carpeta">
+			<TextBox
+				x:Name="folderNameTextBox"
+				PlaceholderText="Nombre de la carpeta"
+				SelectionLength="100"
+				SelectionStart="0" />
+		</ContentDialog>
+		<ContentDialog
+			x:Name="renameDialog"
+			Title="Renombrar Archivo o Carpeta"
+			CloseButtonText="Cancelar"
+			DefaultButton="Primary"
+			PrimaryButtonCommand="{x:Bind ViewModel.RenameCommand}"
+			PrimaryButtonCommandParameter="{x:Bind newNameTextBox.Text, Mode=OneWay}"
+			PrimaryButtonText="Renombrar">
+			<StackPanel Margin="0,10,0,0" Spacing="10">
+				<TextBlock Text="Introduce el nuevo nombre para el elemento seleccionado:" TextWrapping="Wrap" />
+				<TextBox
+					x:Name="newNameTextBox"
+					PlaceholderText="Nuevo nombre..."
+					SelectionLength="100"
+					SelectionStart="0"
+					Text="{x:Bind ViewModel.SelectedServerFile.Name, Mode=OneWay}" />
+			</StackPanel>
+		</ContentDialog>
+		<ContentDialog
+			x:Name="deleteDialog"
+			Title="Confirmar Eliminación"
+			CloseButtonStyle="{StaticResource AccentButtonStyle}"
+			CloseButtonText="Conservar"
+			DefaultButton="Close"
+			PrimaryButtonCommand="{x:Bind ViewModel.DeleteCommand}"
+			PrimaryButtonText="Eliminar Permanentemente">
+			<StackPanel Margin="0,10,0,0" Spacing="10">
+				<TextBlock FontWeight="Bold" Text="¿Estás seguro de que quieres eliminar este elemento?" />
+				<TextBlock
+					FontStyle="Italic"
+					Text="{x:Bind ViewModel.SelectedServerFile.AbsolutePath, Mode=OneWay}"
+					TextWrapping="Wrap" />
+				<TextBlock
+					FontSize="12"
+					Text="Esta acción no se puede deshacer y podría afectar el funcionamiento del servidor de Minecraft."
+					TextWrapping="Wrap" />
+			</StackPanel>
+		</ContentDialog>
+		<ContentDialog
+			x:Name="successDialog"
+			Title="Operación Completada"
+			CloseButtonText="Entendido"
+			DefaultButton="Close" />
+
+		<ContentDialog
+			x:Name="errorDialog"
+			Title="Algo salió mal"
+			CloseButtonText="Cerrar"
+			DefaultButton="Close">
+			<StackPanel Margin="0,10,0,0" Spacing="10">
+				<TextBlock
+					x:Name="errorMessageText"
+					Text="No se pudo completar la operación. Inténtalo de nuevo."
+					TextWrapping="Wrap" />
+				<Expander
+					x:Name="detailsExpander"
+					HorizontalAlignment="Stretch"
+					Header="Detalles">
+					<TextBlock
+						x:Name="errorDetailsText"
+						FontSize="12"
+						Text="No hay detalles adicionales."
+						TextWrapping="Wrap" />
+				</Expander>
+			</StackPanel>
+		</ContentDialog>
 	</Grid>
 </Page>

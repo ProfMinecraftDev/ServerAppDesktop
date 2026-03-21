@@ -19,6 +19,12 @@
 			MenuFlyoutPresenterStyle="{StaticResource TrayMenuFlyoutPresenterStyle}"
 			Placement="Top"
 			ShowMode="Transient">
+			<controls:MenuFlyoutItemCard
+				x:Name="menuItemCard"
+				Caption="{x:Bind HomeViewModel.ServerState, Mode=OneWay, Converter={StaticResource ServerStateToStringConverter}}"
+				IsEnabled="False"
+				Text="Estado" />
+			<MenuFlyoutSeparator />
 			<MenuFlyoutItem
 				x:Uid="MenuFlyoutItem_StartServer"
 				Command="{x:Bind HomeViewModel.StartServerCommand}"
@@ -49,7 +55,7 @@
 				Icon="{toolkitExtensions:SymbolIcon Symbol=NewWindow}"
 				ThemedIconStyle="{StaticResource App.ThemedIcons.OpenInWindow}" />
 			<MenuFlyoutSeparator />
-			<MenuFlyoutItem IsEnabled="False" Text="Server App Desktop 1.0.0.3 (Preview)">
+			<MenuFlyoutItem Command="{x:Bind ViewModel.GoToSourceCodePageCommand}" Text="Server App Desktop 1.0.0.3 (Preview)">
 				<MenuFlyoutItem.Icon>
 					<ImageIcon Source="/Assets/AppIcon.ico" />
 				</MenuFlyoutItem.Icon>

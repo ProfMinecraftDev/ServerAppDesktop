@@ -26,6 +26,7 @@ public sealed partial class HomeViewModel : ObservableRecipient, IRecipient<AppS
     private ServerStateType _serverState;
 
     private static readonly string DefaultValue = ResourceHelper.GetString("NoneItem");
+    private bool needsToUpdatePropety = true;
 
     [ObservableProperty] private string _serverEdition = DefaultValue;
     [ObservableProperty] private string _serverVersion = DefaultValue;
@@ -76,7 +77,8 @@ public sealed partial class HomeViewModel : ObservableRecipient, IRecipient<AppS
             return;
         }
 
-        UpdateState(ServerStateType.Starting);
+        if (needsToUpdatePropety)
+            UpdateState(ServerStateType.Starting);
 
 
         string fileName = s.Edition == 1 ? "java.exe" : s.Executable;
@@ -85,7 +87,7 @@ public sealed partial class HomeViewModel : ObservableRecipient, IRecipient<AppS
         string[] args = s.Edition == 1
             ? [
                 "--enable-native-access=ALL-UNNAMED",
-                $"-Duser.dir={s.Path}",
+                $"-Duser.dir=\"{s.Path}\"",
                 "-Dfile.encoding=UTF-8",
                 $"-Xmx{s.RamLimit}M",
                 "-XX:+UseG1GC",
@@ -105,7 +107,8 @@ public sealed partial class HomeViewModel : ObservableRecipient, IRecipient<AppS
                 "-XX:SurvivorRatio=32",
                 "-XX:+PerfDisableSharedMem",
                 "-XX:MaxTenuringThreshold=1",
-                $"-jar \"{s.Executable}\"",
+                "-jar",
+                $"\"{s.Executable}\"",
                 "--nogui"
             ]
             : [];
@@ -153,7 +156,9 @@ public sealed partial class HomeViewModel : ObservableRecipient, IRecipient<AppS
     {
         UpdateState(ServerStateType.Restarting);
         _ = await _processService.StopProcessAsync();
+        needsToUpdatePropety = false;
         await StartServerAsync();
+        needsToUpdatePropety = true;
     }
 
     private void UpdateState(ServerStateType state, bool isError = false, bool byProcess = false)

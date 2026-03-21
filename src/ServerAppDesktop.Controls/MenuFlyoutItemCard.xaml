@@ -1,5 +1,5 @@
 ﻿<MenuFlyoutItem
-	x:Class="ServerAppDesktop.Controls.MenuFlyoutItemWithThemedIcon"
+	x:Class="ServerAppDesktop.Controls.MenuFlyoutItemCard"
 	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
 	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
 	xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
@@ -12,13 +12,14 @@
 	mc:Ignorable="d">
 
 	<MenuFlyoutItem.Style>
-		<Style TargetType="local:MenuFlyoutItemWithThemedIcon">
+		<Style TargetType="local:MenuFlyoutItemCard">
 			<Setter Property="Padding" Value="{ThemeResource MenuFlyoutItemThemePadding}" />
 			<Setter Property="FontSize" Value="{ThemeResource ControlContentThemeFontSize}" />
 			<Setter Property="FontFamily" Value="{ThemeResource ContentControlThemeFontFamily}" />
+			<Setter Property="CaptionForeground" Value="{ThemeResource MenuFlyoutItemKeyboardAcceleratorTextForeground}" />
 			<Setter Property="Template">
 				<Setter.Value>
-					<ControlTemplate TargetType="local:MenuFlyoutItemWithThemedIcon">
+					<ControlTemplate TargetType="local:MenuFlyoutItemCard">
 
 						<Grid
 							x:Name="LayoutRoot"
@@ -31,31 +32,25 @@
 							<Grid.ColumnDefinitions>
 								<ColumnDefinition Width="*" />
 								<ColumnDefinition Width="Auto" />
+								<ColumnDefinition Width="Auto" />
 							</Grid.ColumnDefinitions>
 
 							<Viewbox
 								x:Name="IconRoot"
-								Width="16"
-								Height="16"
-								HorizontalAlignment="Left"
-								VerticalAlignment="Center"
-								Visibility="Collapsed">
-								<dev:ThemedIcon
-									IsEnabled="{TemplateBinding IsEnabled}"
-									Style="{TemplateBinding ThemedIconStyle}"
-									Visibility="{Binding ThemedIconStyle, RelativeSource={RelativeSource TemplatedParent}, Mode=OneWay, Converter={StaticResource NotNullToVisibilityConverter}}" />
-							</Viewbox>
-
-							<Viewbox
-								Width="16"
 								Height="16"
 								Margin="0"
 								HorizontalAlignment="Left"
 								VerticalAlignment="Center">
-								<ContentPresenter
-									x:Name="IconContent"
-									Content="{TemplateBinding Icon}"
-									Visibility="{Binding Icon, RelativeSource={RelativeSource TemplatedParent}, Mode=OneWay, Converter={StaticResource NotNullToVisibilityConverter}}" />
+								<StackPanel Orientation="Horizontal" Spacing="8">
+									<dev:ThemedIcon
+										IsEnabled="{TemplateBinding IsEnabled}"
+										Style="{TemplateBinding ThemedIconStyle}"
+										Visibility="{Binding ThemedIconStyle, RelativeSource={RelativeSource TemplatedParent}, Converter={StaticResource NotNullToVisibilityConverter}}" />
+									<ContentPresenter
+										x:Name="IconContent"
+										Content="{TemplateBinding Icon}"
+										Visibility="{Binding Icon, RelativeSource={RelativeSource TemplatedParent}, Converter={StaticResource NotNullToVisibilityConverter}}" />
+								</StackPanel>
 							</Viewbox>
 
 							<TextBlock
@@ -78,6 +73,16 @@
 								Style="{ThemeResource CaptionTextBlockStyle}"
 								Text="{TemplateBinding KeyboardAcceleratorTextOverride}"
 								Visibility="Collapsed" />
+
+							<TextBlock
+								Grid.Column="2"
+								Margin="8,0,0,0"
+								HorizontalAlignment="Right"
+								VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+								AutomationProperties.AccessibilityView="Raw"
+								Foreground="{TemplateBinding CaptionForeground}"
+								Style="{ThemeResource CaptionTextBlockStyle}"
+								Text="{TemplateBinding Caption}" />
 
 							<VisualStateManager.VisualStateGroups>
 								<VisualStateGroup x:Name="CommonStates">

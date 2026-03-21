@@ -60,15 +60,13 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<None Include="$(LOCALAPPDATA)\Server App Desktop (Preview)\Settings\**"
-			  Condition="Exists('$(LOCALAPPDATA)\Server App Desktop (Preview)\Settings')">
+		<None Include="$(LOCALAPPDATA)\Server App Desktop (Preview)\Settings\**" Condition="Exists('$(LOCALAPPDATA)\Server App Desktop (Preview)\Settings')">
 			<Link>External\Preview\Settings\%(FileName)%(Extension)</Link>
 			<CopyToOutputDirectory>Never</CopyToOutputDirectory>
 			<Visible>true</Visible>
 		</None>
 
-		<None Include="$(LOCALAPPDATA)\Server App Desktop\Settings\**"
-			  Condition="Exists('$(LOCALAPPDATA)\Server App Desktop\Settings')">
+		<None Include="$(LOCALAPPDATA)\Server App Desktop\Settings\**" Condition="Exists('$(LOCALAPPDATA)\Server App Desktop\Settings')">
 			<Link>External\Production\Settings\%(FileName)%(Extension)</Link>
 			<CopyToOutputDirectory>Never</CopyToOutputDirectory>
 			<Visible>true</Visible>
@@ -84,24 +82,15 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<PackageReference Include="Microsoft.Windows.SDK.BuildTools"
-						  Version="10.0.26100.7705" />
-		<PackageReference Include="Microsoft.WindowsAppSDK"
-						  Version="1.8.260209005" />
-		<PackageReference Include="CommunityToolkit.Labs.WinUI.Controls.DataTable"
-						  Version="0.1.251217-build.2433" />
-		<PackageReference Include="CommunityToolkit.Labs.WinUI.Controls.MarkdownTextBlock"
-						  Version="0.1.251217-build.2433" />
-		<PackageReference Include="CommunityToolkit.Mvvm"
-						  Version="8.4.0" />
-		<PackageReference Include="CommunityToolkit.WinUI.Controls.SettingsControls"
-						  Version="8.2.251219" />
-		<PackageReference Include="CommunityToolkit.WinUI.Extensions"
-						  Version="8.2.251219" />
-		<PackageReference Include="Microsoft.Extensions.Hosting"
-						  Version="10.0.3" />
-		<PackageReference Include="Microsoft.Windows.CsWin32"
-						  Version="0.3.269">
+		<PackageReference Include="Microsoft.Windows.SDK.BuildTools" Version="10.0.26100.7705" />
+		<PackageReference Include="Microsoft.WindowsAppSDK" Version="1.8.260209005" />
+		<PackageReference Include="CommunityToolkit.Labs.WinUI.Controls.DataTable" Version="0.1.251217-build.2433" />
+		<PackageReference Include="CommunityToolkit.Labs.WinUI.Controls.MarkdownTextBlock" Version="0.1.251217-build.2433" />
+		<PackageReference Include="CommunityToolkit.Mvvm" Version="8.4.0" />
+		<PackageReference Include="CommunityToolkit.WinUI.Controls.SettingsControls" Version="8.2.251219" />
+		<PackageReference Include="CommunityToolkit.WinUI.Extensions" Version="8.2.251219" />
+		<PackageReference Include="Microsoft.Extensions.Hosting" Version="10.0.3" />
+		<PackageReference Include="Microsoft.Windows.CsWin32" Version="0.3.269">
 			<PrivateAssets>all</PrivateAssets>
 			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
 		</PackageReference>

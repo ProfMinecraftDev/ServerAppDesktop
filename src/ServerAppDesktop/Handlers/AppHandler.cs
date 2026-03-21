@@ -20,6 +20,7 @@ public static class AppHandler
                 _ = services.AddSingleton<IServerPropertiesService, ServerPropertiesService>();
                 _ = services.AddSingleton<ISystemService, SystemService>();
                 _ = services.AddSingleton<ISettingsService, SettingsService>();
+                _ = services.AddSingleton<IFilesService, FilesService>();
 
                 _ = services.AddSingleton<IWindowHandler, WindowHandler>();
 
@@ -32,7 +33,6 @@ public static class AppHandler
                 _ = services.AddSingleton<FilesViewModel>();
                 _ = services.AddSingleton<WhatsNewViewModel>();
                 _ = services.AddSingleton<SystemInfoViewModel>();
-                _ = services.AddSingleton<AboutViewModel>();
                 _ = services.AddSingleton<SettingsViewModel>();
             }).Build();
     }
@@ -65,7 +65,8 @@ public static class AppHandler
         {
             Title = "Nueva actualización",
             Message = $"La versión {version} está lista",
-            NotificationScenario = AppNotificationScenario.Reminder
+            NotificationScenario = AppNotificationScenario.Reminder,
+            Duration = AppNotificationDuration.Long
         };
         AppNotificationManager.Default.Show(toast.NotificationToBuild
             .AddButton(new AppNotificationButton("Descargar").AddArgument("action", "downloadUpdate")).BuildNotification());

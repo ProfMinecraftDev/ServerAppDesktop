@@ -1,21 +1,11 @@
 ﻿namespace ServerAppDesktop.Models;
 
-public sealed class ServerFile
+public sealed class ServerFile(string name, string size, string modifiedDate, string absolutePath, bool isFile = true, IconElement? icon = null)
 {
-    public IconElement? Icon { get; set; }
-    public string Name { get; set; } = "";
-    public string Size { get; set; } = "";
-    public string ModifiedDate { get; set; } = "";
-    public string AbsolutePath { get; set; } = string.Empty;
-    public bool IsFile { get; set; }
-
-    public ServerFile(string name, string size, string modifiedDate, string absolutePath, bool isFile = true, IconElement? icon = null)
-    {
-        Name = name;
-        Size = size;
-        ModifiedDate = modifiedDate;
-        AbsolutePath = absolutePath;
-        IsFile = isFile;
-        Icon = icon;
-    }
+    public IconElement? Icon { get; set; } = icon;
+    public string Name { get; set; } = name;
+    public string Size { get; set; } = size;
+    public string ModifiedDate { get; set; } = modifiedDate;
+    public string AbsolutePath { get; set; } = absolutePath;
+    public bool IsFile { get; set; } = isFile;
 }

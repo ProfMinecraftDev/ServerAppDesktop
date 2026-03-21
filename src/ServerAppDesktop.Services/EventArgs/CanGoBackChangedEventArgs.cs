@@ -1,8 +1,7 @@
 ﻿namespace ServerAppDesktop.Services;
 
-public sealed class CanGoBackChangedEventArgs : EventArgs
+public sealed class CanGoBackChangedEventArgs(bool canGoBack) : EventArgs
 {
-    public bool CanGoBack { get; init; }
-
-    public CanGoBackChangedEventArgs(bool canGoBack) => CanGoBack = canGoBack;
+    public bool CanGoBack { get; init; } = canGoBack;
+    public DateTime TimeStamp { get; } = DateTime.Now;
 }

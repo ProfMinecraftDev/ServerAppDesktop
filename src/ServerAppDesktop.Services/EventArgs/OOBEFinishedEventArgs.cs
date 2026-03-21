@@ -1,10 +1,8 @@
 ﻿namespace ServerAppDesktop.Services;
 
-public sealed class OOBEFinishedEventArgs : EventArgs
+public sealed class OOBEFinishedEventArgs(bool isSuccess) : EventArgs
 {
-    public bool IsSuccess { get; init; }
+    public bool IsSuccess { get; init; } = isSuccess;
 
-    public DateTime CompletedAt { get; init; } = DateTime.Now;
-
-    public OOBEFinishedEventArgs(bool isSuccess) => IsSuccess = isSuccess;
+    public DateTime TimeStamp { get; init; } = DateTime.Now;
 }

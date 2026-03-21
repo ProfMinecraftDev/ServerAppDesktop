@@ -1,16 +1,10 @@
 ﻿namespace ServerAppDesktop.Services;
 
-public sealed class ProcessExitedEventArgs : EventArgs
+public sealed class ProcessExitedEventArgs(bool isSuccess, int exitCode) : EventArgs
 {
-    public bool IsSuccess { get; init; }
+    public bool IsSuccess { get; init; } = isSuccess;
 
-    public int ExitCode { get; init; }
+    public int ExitCode { get; init; } = exitCode;
 
-    public DateTime ExitTime { get; init; } = DateTime.Now;
-
-    public ProcessExitedEventArgs(bool isSuccess, int exitCode)
-    {
-        IsSuccess = isSuccess;
-        ExitCode = exitCode;
-    }
+    public DateTime TimeStamp { get; init; } = DateTime.Now;
 }

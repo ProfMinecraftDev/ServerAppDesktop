@@ -67,8 +67,12 @@ public sealed partial class MainViewModel : ObservableObject
     [RelayCommand]
     private static void OpenSettingsFile()
     {
-        string settingsPath = Path.Combine(DataHelper.SettingsPath, DataHelper.SettingsFile);
-        _ = Launcher.LaunchUriAsync(new Uri(settingsPath));
+        _ = Task.Run(async () =>
+        {
+            string settingsPath = Path.Combine(DataHelper.SettingsPath, DataHelper.SettingsFile);
+            StorageFile file = await StorageFile.GetFileFromPathAsync(settingsPath);
+            _ = Launcher.LaunchFileAsync(file);
+        });
     }
 
     [RelayCommand]

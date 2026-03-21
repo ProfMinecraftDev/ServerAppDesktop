@@ -53,7 +53,7 @@ global using global::Microsoft.Extensions.Hosting;
 global using global::Microsoft.Extensions.DependencyInjection;
 #endregion
 
-#region Third Party Extensions (H, WinUIEx, CSharpEx)
+#region Third Party Extensions (DevWinUI, WinUIEx, CSharpEx)
 global using global::WinUIEx;
 global using global::CSharpEx;
 #endregion

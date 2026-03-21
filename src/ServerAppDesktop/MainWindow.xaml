@@ -7,7 +7,6 @@
 	xmlns:helpers="using:ServerAppDesktop.Helpers"
 	xmlns:local="using:ServerAppDesktop"
 	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-	xmlns:tb="using:H.NotifyIcon"
 	xmlns:toolkit="using:CommunityToolkit.WinUI.Controls"
 	xmlns:toolkitExtensions="using:CommunityToolkit.WinUI"
 	xmlns:vm="using:ServerAppDesktop.ViewModels"
@@ -21,186 +20,188 @@
 	<winex:WindowEx.SystemBackdrop>
 		<MicaBackdrop Kind="Base" />
 	</winex:WindowEx.SystemBackdrop>
-	<Grid d:DataContext="{d:DesignInstance vm:MainViewModel, IsDesignTimeCreatable=True}" ChildrenTransitions="{StaticResource DefaultLayoutTransitions}">
-		<Grid.RowDefinitions>
-			<RowDefinition Height="Auto" />
-			<RowDefinition Height="*" />
-		</Grid.RowDefinitions>
-		<TitleBar
-			x:Name="TitleBar"
-			Title="{x:Bind helpers:DataHelper.WindowTitle, Mode=OneTime}"
-			Grid.Row="0"
-			x:FieldModifier="public"
-			BackRequested="TitleBar_BackRequested"
-			IsBackButtonEnabled="{x:Bind ViewModel.CanGoBack, Mode=OneWay}"
-			IsBackButtonVisible="{x:Bind ViewModel.CanGoBack, Mode=OneWay}"
-			IsPaneToggleButtonVisible="False"
-			Subtitle="{x:Bind helpers:DataHelper.WindowSubtitle, Mode=OneTime}">
-			<TitleBar.Transitions>
-				<TransitionCollection>
-					<EntranceThemeTransition />
-				</TransitionCollection>
-			</TitleBar.Transitions>
-			<TitleBar.IconSource>
-				<ImageIconSource ImageSource="/Assets/AppIcon.ico" />
-			</TitleBar.IconSource>
-			<TitleBar.RightHeader>
-				<StackPanel Orientation="Horizontal">
-					<Button
-						Width="48"
-						Height="48"
-						Background="Transparent"
-						BorderThickness="0"
-						CornerRadius="0"
-						FontSize="16">
-						<FontIcon FontSize="16" Glyph="&#xE712;" />
-						<Button.Flyout>
-							<MenuFlyout Placement="Bottom">
-								<MenuFlyoutItem
-									x:Uid="MenuFlyoutItem_Warning"
-									Command="{x:Bind ViewModel.ShowWarningCommand}"
-									CommandParameter="{x:Bind warningDialog}"
-									Icon="{toolkitExtensions:FontIcon Glyph=&#xE7BA;}" />
-								<MenuFlyoutSeparator />
-								<MenuFlyoutItem
-									x:Uid="MenuFlyoutItem_SendFeedback"
-									Command="{x:Bind ViewModel.ShowFeedbackDialogCommand}"
-									CommandParameter="{x:Bind feedbackDialog}"
-									Icon="{toolkitExtensions:FontIcon Glyph=&#xED15;}" />
-								<MenuFlyoutItem
-									x:Uid="MenuFlyoutItem_RestartApp"
-									Command="{x:Bind ViewModel.RestartAppCommand}"
-									Icon="{toolkitExtensions:SymbolIcon Symbol=Refresh}" />
-								<MenuFlyoutSeparator Visibility="{Binding RunAsAdmin, Mode=OneTime, Converter={StaticResource BoolToVisibilityConverter}}" />
-								<MenuFlyoutItem
-									x:Uid="MenuFlyoutItem_OpenSettingsFile"
-									Command="{x:Bind ViewModel.OpenSettingsFileCommand}"
-									Icon="{toolkitExtensions:SymbolIcon Symbol=Repair}" />
-								<MenuFlyoutItem
-									x:Uid="MenuFlyoutItem_ExitApp"
-									Command="{x:Bind ViewModel.ExitAppCommand}"
-									Icon="{toolkitExtensions:FontIcon Glyph=&#xE7E8;}" />
-								<MenuFlyoutItem
-									x:Uid="MenuFlyoutItem_Administator"
-									Command="{x:Bind ViewModel.ShowAdminWarningCommand}"
-									CommandParameter="{x:Bind adminDialog}"
-									Icon="{toolkitExtensions:SymbolIcon Symbol=Admin}"
-									Visibility="{Binding RunAsAdmin, Mode=OneTime, Converter={StaticResource BoolToVisibilityConverter}}" />
-							</MenuFlyout>
-						</Button.Flyout>
-					</Button>
-					<Button
-						x:Name="fullScreenButton"
-						Width="48"
-						Height="48"
-						Background="Transparent"
-						BorderThickness="0"
-						Content="{toolkitExtensions:FontIcon FontSize=12,
-															 Glyph=&#xE92D;}"
-						CornerRadius="0" />
-				</StackPanel>
-			</TitleBar.RightHeader>
-		</TitleBar>
-
-		<Grid Grid.Row="1">
+	<Grid d:DataContext="{d:DesignInstance vm:MainViewModel, IsDesignTimeCreatable=True}">
+		<Grid ChildrenTransitions="{StaticResource DefaultLayoutTransitions}">
 			<Grid.RowDefinitions>
 				<RowDefinition Height="Auto" />
 				<RowDefinition Height="*" />
-				<RowDefinition Height="Auto" />
 			</Grid.RowDefinitions>
-			<StackPanel Grid.Row="0" Spacing="4">
-				<InfoBar
-					x:Name="internetInfoBar"
-					IsClosable="True"
-					IsOpen="{Binding IsConnectedToInternet, Mode=OneWay, Converter={StaticResource BoolNegationConverter}}"
-					Severity="Warning" />
-				<InfoBar
-					x:Uid="UpdateInfoBar"
-					IsClosable="False"
-					IsOpen="{x:Bind ViewModel.DownloadingAnUpdate, Mode=OneWay}"
-					Message="{x:Bind ViewModel.UpdateDownloadProgress, Mode=OneWay}"
-					Severity="Informational">
-					<ProgressBar Value="{x:Bind ViewModel.DownloadProgressValue, Mode=OneWay}" />
-				</InfoBar>
-				<InfoBar
-					Title="Reinicia la app"
-					IsClosable="False"
-					IsOpen="{x:Bind ViewModel.NeedsToRestart, Mode=OneWay}"
-					Message="Reiniciar Server App Desktop para aplicar los cambios."
-					Severity="Warning">
-					<InfoBar.ActionButton>
+			<TitleBar
+				x:Name="TitleBar"
+				Title="{x:Bind helpers:DataHelper.WindowTitle, Mode=OneTime}"
+				Grid.Row="0"
+				x:FieldModifier="public"
+				BackRequested="TitleBar_BackRequested"
+				IsBackButtonEnabled="{x:Bind ViewModel.CanGoBack, Mode=OneWay}"
+				IsBackButtonVisible="{x:Bind ViewModel.CanGoBack, Mode=OneWay}"
+				IsPaneToggleButtonVisible="False"
+				Subtitle="{x:Bind helpers:DataHelper.WindowSubtitle, Mode=OneTime}">
+				<TitleBar.Transitions>
+					<TransitionCollection>
+						<EntranceThemeTransition />
+					</TransitionCollection>
+				</TitleBar.Transitions>
+				<TitleBar.IconSource>
+					<ImageIconSource ImageSource="/Assets/AppIcon.ico" />
+				</TitleBar.IconSource>
+				<TitleBar.RightHeader>
+					<StackPanel Orientation="Horizontal">
 						<Button
-							Command="{x:Bind ViewModel.RestartAppCommand}"
-							Content="Reiniciar ahora"
-							Style="{StaticResource CautionButtonStyle}" />
-					</InfoBar.ActionButton>
-				</InfoBar>
-			</StackPanel>
+							Width="48"
+							Height="48"
+							Background="Transparent"
+							BorderThickness="0"
+							CornerRadius="0"
+							FontSize="16">
+							<FontIcon FontSize="16" Glyph="&#xE712;" />
+							<Button.Flyout>
+								<MenuFlyout Placement="Bottom">
+									<MenuFlyoutItem
+										x:Uid="MenuFlyoutItem_Warning"
+										Command="{x:Bind ViewModel.ShowWarningCommand}"
+										CommandParameter="{x:Bind warningDialog}"
+										Icon="{toolkitExtensions:FontIcon Glyph=&#xE7BA;}" />
+									<MenuFlyoutSeparator />
+									<MenuFlyoutItem
+										x:Uid="MenuFlyoutItem_SendFeedback"
+										Command="{x:Bind ViewModel.ShowFeedbackDialogCommand}"
+										CommandParameter="{x:Bind feedbackDialog}"
+										Icon="{toolkitExtensions:FontIcon Glyph=&#xED15;}" />
+									<MenuFlyoutItem
+										x:Uid="MenuFlyoutItem_RestartApp"
+										Command="{x:Bind ViewModel.RestartAppCommand}"
+										Icon="{toolkitExtensions:SymbolIcon Symbol=Refresh}" />
+									<MenuFlyoutSeparator Visibility="{Binding RunAsAdmin, Mode=OneTime, Converter={StaticResource BoolToVisibilityConverter}}" />
+									<MenuFlyoutItem
+										x:Uid="MenuFlyoutItem_OpenSettingsFile"
+										Command="{x:Bind ViewModel.OpenSettingsFileCommand}"
+										Icon="{toolkitExtensions:SymbolIcon Symbol=Repair}" />
+									<MenuFlyoutItem
+										x:Uid="MenuFlyoutItem_ExitApp"
+										Command="{x:Bind ViewModel.ExitAppCommand}"
+										Icon="{toolkitExtensions:FontIcon Glyph=&#xE7E8;}" />
+									<MenuFlyoutItem
+										x:Uid="MenuFlyoutItem_Administator"
+										Command="{x:Bind ViewModel.ShowAdminWarningCommand}"
+										CommandParameter="{x:Bind adminDialog}"
+										Icon="{toolkitExtensions:SymbolIcon Symbol=Admin}"
+										Visibility="{Binding RunAsAdmin, Mode=OneTime, Converter={StaticResource BoolToVisibilityConverter}}" />
+								</MenuFlyout>
+							</Button.Flyout>
+						</Button>
+						<Button
+							x:Name="fullScreenButton"
+							Width="48"
+							Height="48"
+							Background="Transparent"
+							BorderThickness="0"
+							Content="{toolkitExtensions:FontIcon FontSize=12,
+							                                     Glyph=&#xE92D;}"
+							CornerRadius="0" />
+					</StackPanel>
+				</TitleBar.RightHeader>
+			</TitleBar>
 
-			<Frame
-				x:Name="contentFrame"
-				Grid.Row="1"
-				x:FieldModifier="public">
-				<StackPanel
-					HorizontalAlignment="Center"
-					VerticalAlignment="Center"
-					Spacing="16">
+			<Grid Grid.Row="1">
+				<Grid.RowDefinitions>
+					<RowDefinition Height="Auto" />
+					<RowDefinition Height="*" />
+					<RowDefinition Height="Auto" />
+				</Grid.RowDefinitions>
+				<StackPanel Grid.Row="0" Spacing="4">
+					<InfoBar
+						x:Name="internetInfoBar"
+						IsClosable="True"
+						IsOpen="{Binding IsConnectedToInternet, Mode=OneWay, Converter={StaticResource BoolNegationConverter}}"
+						Severity="Warning" />
+					<InfoBar
+						x:Uid="UpdateInfoBar"
+						IsClosable="False"
+						IsOpen="{x:Bind ViewModel.DownloadingAnUpdate, Mode=OneWay}"
+						Message="{x:Bind ViewModel.UpdateDownloadProgress, Mode=OneWay}"
+						Severity="Informational">
+						<ProgressBar Value="{x:Bind ViewModel.DownloadProgressValue, Mode=OneWay}" />
+					</InfoBar>
+					<InfoBar
+						Title="Reinicia la app"
+						IsClosable="False"
+						IsOpen="{x:Bind ViewModel.NeedsToRestart, Mode=OneWay}"
+						Message="Reiniciar Server App Desktop para aplicar los cambios."
+						Severity="Warning">
+						<InfoBar.ActionButton>
+							<Button
+								Command="{x:Bind ViewModel.RestartAppCommand}"
+								Content="Reiniciar ahora"
+								Style="{StaticResource CautionButtonStyle}" />
+						</InfoBar.ActionButton>
+					</InfoBar>
+				</StackPanel>
+
+				<Frame
+					x:Name="contentFrame"
+					Grid.Row="1"
+					x:FieldModifier="public">
 					<StackPanel
 						HorizontalAlignment="Center"
 						VerticalAlignment="Center"
-						Orientation="Horizontal"
-						Spacing="8">
-						<ImageIcon VerticalAlignment="Center" Source="/Assets/AppIcon.ico" />
-						<StackPanel VerticalAlignment="Center" Spacing="4">
-							<TextBlock
-								HorizontalAlignment="Left"
-								VerticalAlignment="Center"
-								FontSize="36"
-								FontWeight="ExtraBlack"
-								Text="{x:Bind helpers:DataHelper.AppName, Mode=OneTime}" />
-							<Border
-								Padding="20,5"
-								HorizontalAlignment="Left"
-								VerticalAlignment="Center"
-								Background="#FFCB00"
-								CornerRadius="6">
+						Spacing="16">
+						<StackPanel
+							HorizontalAlignment="Center"
+							VerticalAlignment="Center"
+							Orientation="Horizontal"
+							Spacing="8">
+							<ImageIcon VerticalAlignment="Center" Source="/Assets/AppIcon.ico" />
+							<StackPanel VerticalAlignment="Center" Spacing="4">
 								<TextBlock
-									FontSize="20"
-									FontWeight="Bold"
-									Foreground="Black"
-									Text="PREVIEW" />
-							</Border>
+									HorizontalAlignment="Left"
+									VerticalAlignment="Center"
+									FontSize="36"
+									FontWeight="ExtraBlack"
+									Text="{x:Bind helpers:DataHelper.AppName, Mode=OneTime}" />
+								<Border
+									Padding="20,5"
+									HorizontalAlignment="Left"
+									VerticalAlignment="Center"
+									Background="#FFCB00"
+									CornerRadius="6">
+									<TextBlock
+										FontSize="20"
+										FontWeight="Bold"
+										Foreground="Black"
+										Text="PREVIEW" />
+								</Border>
+							</StackPanel>
 						</StackPanel>
+						<ProgressBar
+							Width="500"
+							HorizontalAlignment="Center"
+							VerticalAlignment="Center"
+							IsIndeterminate="True" />
 					</StackPanel>
-					<ProgressBar
-						Width="500"
-						HorizontalAlignment="Center"
-						VerticalAlignment="Center"
-						IsIndeterminate="True" />
-				</StackPanel>
-			</Frame>
+				</Frame>
 
-			<Border
-				Grid.Row="2"
-				Padding="4"
-				HorizontalAlignment="Stretch"
-				Background="{ThemeResource AccentFillColorDefaultBrush}"
-				Visibility="{Binding DebugMode, Mode=OneTime, Converter={StaticResource BoolToVisibilityConverter}}">
-				<StackPanel
-					HorizontalAlignment="Center"
-					Orientation="Horizontal"
-					Spacing="4">
-					<FontIcon
-						VerticalAlignment="Center"
-						Foreground="{ThemeResource TextOnAccentAAFillColorPrimaryBrush}"
-						Glyph="&#xEBE8;" />
-					<TextBlock
-						x:Uid="DebugBannerMessage"
-						VerticalAlignment="Center"
-						FontFamily="Cascadia Code, Consolas, Lucida Console, monospace"
-						Foreground="{ThemeResource TextOnAccentAAFillColorPrimaryBrush}" />
-				</StackPanel>
-			</Border>
+				<Border
+					Grid.Row="2"
+					Padding="4"
+					HorizontalAlignment="Stretch"
+					Background="{ThemeResource AccentFillColorDefaultBrush}"
+					Visibility="{Binding DebugMode, Mode=OneTime, Converter={StaticResource BoolToVisibilityConverter}}">
+					<StackPanel
+						HorizontalAlignment="Center"
+						Orientation="Horizontal"
+						Spacing="4">
+						<FontIcon
+							VerticalAlignment="Center"
+							Foreground="{ThemeResource TextOnAccentAAFillColorPrimaryBrush}"
+							Glyph="&#xEBE8;" />
+						<TextBlock
+							x:Uid="DebugBannerMessage"
+							VerticalAlignment="Center"
+							FontFamily="Cascadia Code, Consolas, Lucida Console, monospace"
+							Foreground="{ThemeResource TextOnAccentAAFillColorPrimaryBrush}" />
+					</StackPanel>
+				</Border>
+			</Grid>
 		</Grid>
 
 		<ContentDialog x:Name="warningDialog" x:Uid="WarningDialog" />
@@ -224,6 +225,5 @@
 			PrimaryButtonCommand="{x:Bind ViewModel.SendFeedbackCommand}"
 			PrimaryButtonStyle="{StaticResource AccentButtonStyle}" />
 		<local:AppTrayIcon x:Name="TrayIcon" x:FieldModifier="public" />
-		<controls:TrayIcon xmlns:controls="using:ServerAppDesktop.Controls" />
 	</Grid>
 </winex:WindowEx>

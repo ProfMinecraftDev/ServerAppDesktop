@@ -1,7 +1,38 @@
-﻿namespace ServerAppDesktop.Helpers;
+﻿using WinRT.Interop;
+
+namespace ServerAppDesktop.Helpers;
 
 public static class ServerUIHelper
 {
+    private const uint SEE_MASK_INVOKEIDLIST = 0x0000000C;
+
+    public static unsafe void ShowFileProperties(string path, Window window)
+    {
+        if (string.IsNullOrEmpty(path))
+            return;
+
+        IntPtr hwnd = WindowNative.GetWindowHandle(window);
+
+        fixed (char* pFile = path)
+        fixed (char* pVerb = "properties")
+        {
+            SHELLEXECUTEINFOW info = new()
+            {
+                cbSize = (uint)sizeof(SHELLEXECUTEINFOW),
+                fMask = SEE_MASK_INVOKEIDLIST,
+                lpVerb = pVerb,
+                lpFile = pFile,
+                nShow = (int)SHOW_WINDOW_CMD.SW_SHOW,
+                hwnd = (HWND)hwnd
+            };
+
+            if (!PInvoke.ShellExecuteEx(&info))
+            {
+                int errorCode = Marshal.GetLastWin32Error();
+                System.Diagnostics.Debug.WriteLine($"Error de Shell: {errorCode}");
+            }
+        }
+    }
     public static string GetIconPath(ServerStateType state)
     {
         return state switch

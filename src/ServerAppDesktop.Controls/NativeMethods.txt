@@ -1,7 +1,6 @@
 ﻿SetWindowLong
 GetWindowLong
 SetWindowPos
-SetWindowSubclass
 DefSubclassProc
 SetLayeredWindowAttributes
 SetForegroundWindow
@@ -14,7 +13,6 @@ GetModuleHandle
 MessageBeep
 
 WINDOW_STYLE
-RemoveWindowSubclass
 WINDOW_EX_STYLE
 WINDOW_LONG_PTR_INDEX
 SET_WINDOW_POS_FLAGS

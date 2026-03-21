@@ -7,6 +7,7 @@ GlobalLock
 GlobalUnlock
 GlobalFree
 SetForegroundWindow
+IsClipboardFormatAvailable
 FlashWindowEx
 MessageBoxW
 ITaskbarList3
@@ -18,4 +19,9 @@ PROCESS_POWER_THROTTLING_STATE
 PROCESS_POWER_THROTTLING_CURRENT_VERSION
 PROCESS_POWER_THROTTLING_EXECUTION_SPEED
 GetCurrentProcess
+SHOW_WINDOW_CMD
+ShellExecuteEx
 SetPriorityClass
+DROPFILES
+GetClipboardData
+RegisterClipboardFormat

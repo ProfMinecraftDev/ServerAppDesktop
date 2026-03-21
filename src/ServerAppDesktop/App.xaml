@@ -75,13 +75,9 @@
 				BasedOn="{StaticResource DefaultMenuFlyoutPresenterStyle}"
 				TargetType="MenuFlyoutPresenter">
 				<Setter Property="BorderThickness" Value="1" />
-				<Setter Property="BorderBrush" Value="{ThemeResource FlyoutBorderThemeBrush}" />
+				<Setter Property="BorderBrush" Value="{ThemeResource DividerStrokeColorDefaultBrush}" />
 				<Setter Property="CornerRadius" Value="8" />
 				<Setter Property="Background" Value="{ThemeResource MenuFlyoutPresenterBackground}" />
-				<Setter Property="Padding" Value="2" />
-				<Setter Property="MinWidth" Value="180" />
-
-				<Setter Property="Margin" Value="0,4,0,4" />
 			</Style>
 
 			<TransitionCollection x:Key="DefaultLayoutTransitions">

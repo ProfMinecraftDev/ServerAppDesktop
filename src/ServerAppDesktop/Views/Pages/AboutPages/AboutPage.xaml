@@ -24,6 +24,7 @@
 				<SelectorBar
 					HorizontalAlignment="Center"
 					SelectionChanged="SelectorBar_SelectionChanged"
+					Style="{StaticResource TokenViewSelectorBarStyle}"
 					TabIndex="0">
 					<SelectorBarItem
 						x:Uid="AboutAppItem"

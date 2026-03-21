@@ -23,6 +23,7 @@ global using global::Windows.Win32.Storage.FileSystem;
 #endregion
 
 #region Microsoft UI XAML Core & Navigation
+global using global::Microsoft.UI.Dispatching;
 global using global::Microsoft.UI.Xaml.Controls;
 global using global::Microsoft.UI.Xaml.Media.Animation;
 global using global::Microsoft.UI.Xaml.Navigation;

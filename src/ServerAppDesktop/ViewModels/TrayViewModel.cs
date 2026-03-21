@@ -46,8 +46,18 @@ public sealed partial class TrayViewModel : ObservableRecipient, IRecipient<Serv
     [RelayCommand]
     private static void OpenSettingsFile()
     {
-        string settingsPath = Path.Combine(DataHelper.SettingsPath, DataHelper.SettingsFile);
-        _ = Launcher.LaunchUriAsync(new Uri(settingsPath));
+        _ = Task.Run(async () =>
+        {
+            string settingsPath = Path.Combine(DataHelper.SettingsPath, DataHelper.SettingsFile);
+            StorageFile file = await StorageFile.GetFileFromPathAsync(settingsPath);
+            _ = Launcher.LaunchFileAsync(file);
+        });
+    }
+
+    [RelayCommand]
+    private static void GoToSourceCodePage()
+    {
+        _ = Launcher.LaunchUriAsync(new Uri("https://github.com/ProfMinecraftDev/ServerAppDesktop"));
     }
 
     public TrayViewModel()

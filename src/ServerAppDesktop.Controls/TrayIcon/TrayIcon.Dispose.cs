@@ -39,11 +39,7 @@ public partial class TrayIcon : IDisposable
         {
             try
             {
-                var hwnd = (HWND)WindowNative.GetWindowHandle(_window);
-                if (_subclassPtr != null)
-                {
-                    _ = PInvoke.RemoveWindowSubclass(hwnd, _subclassPtr, 101);
-                }
+                _monitor?.Dispose();
 
                 if (disposing)
                     _window.Close();

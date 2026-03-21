@@ -5,12 +5,13 @@ public unsafe partial class TrayIcon
     private NOTIFYICONDATAW nid;
     private const int WM_TRAYICON = 0x0400 + 1;
     private HICON _currentIcon;
-    private delegate* unmanaged[Stdcall]<HWND, uint, WPARAM, LPARAM, nuint, nuint, LRESULT> _subclassPtr;
+    private WindowMessageMonitor? _monitor;
 
     private void CreateTrayIconMenu()
     {
         var realHwnd = (HWND)Win32Interop.GetWindowFromWindowId(XamlRoot.ContentIslandEnvironment.AppWindowId);
-
+        _monitor = new WindowMessageMonitor(realHwnd);
+        _monitor.WindowMessageReceived += OnWindowMessageReceived;
 
         var trayGuid = new Guid("A1B2C3D4-E5F6-4A5B-8C9D-0E1F2A3B4C5D");
 
@@ -26,14 +27,16 @@ public unsafe partial class TrayIcon
             guidItem = trayGuid
         };
 
-        _subclassPtr = &TrayDelegateHandler.TrayWindowSubclassProc;
-        TrayDelegateHandler.Invoked += HandleTrayEvents;
-        _ = PInvoke.SetWindowSubclass(realHwnd, _subclassPtr, 101, 0);
-
         UpdateToolTip();
         UpdateIcon();
 
         _ = PInvoke.Shell_NotifyIcon(NOTIFY_ICON_MESSAGE.NIM_ADD, in nid);
+    }
+
+    private void OnWindowMessageReceived(object? sender, WindowMessageEventArgs e)
+    {
+        Message msg = e.Message;
+        HandleTrayEvents((HWND)msg.Hwnd, msg.MessageId, msg.WParam, msg.LParam, msg.MessageId, 0);
     }
 
     private void HandleTrayEvents(HWND hwnd, uint msg, WPARAM wParam, LPARAM lParam, nuint id, nuint data)
