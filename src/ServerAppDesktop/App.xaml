@@ -16,7 +16,6 @@
 			<converters:BoolNegationToVisibilityConverter x:Key="BoolNegationToVisibilityConverter" />
 			<converters:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter" />
 			<converters:BoolNegationConverter x:Key="BoolNegationConverter" />
-			<converters:BoolToYesNoStringConverter x:Key="BoolToYesNoStringConverter" />
 			<converters:StringToImageSourceConverter x:Key="StringToImageSourceConverter" />
 			<converters:ServerStateToStringConverter x:Key="ServerStateToStringConverter" />
 			<converters:MinecraftEditionToVisibilityConverter x:Key="MinecraftEditionToVisibilityConverter" />

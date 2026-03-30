@@ -32,12 +32,10 @@
 			x:Key="DeleteCommand"
 			ExecuteRequested="DeleteCommand_Requested"
 			Kind="Delete" />
-
 		<XamlUICommand
 			x:Key="RenameCommand"
-			Description="Renombrar"
-			ExecuteRequested="RenameCommand_Requested"
-			Label="Renombrar">
+			x:Uid="Files_Cmd_Rename"
+			ExecuteRequested="RenameCommand_Requested">
 			<XamlUICommand.KeyboardAccelerators>
 				<KeyboardAccelerator Key="F2" />
 			</XamlUICommand.KeyboardAccelerators>
@@ -45,8 +43,8 @@
 
 		<XamlUICommand
 			x:Key="RefreshCommand"
-			Command="{x:Bind ViewModel.RefreshFileListCommand}"
-			Description="Actualizar">
+			x:Uid="Files_Cmd_Refresh"
+			Command="{x:Bind ViewModel.RefreshFileListCommand}">
 			<XamlUICommand.KeyboardAccelerators>
 				<KeyboardAccelerator Key="F5" />
 			</XamlUICommand.KeyboardAccelerators>
@@ -54,10 +52,9 @@
 
 		<XamlUICommand
 			x:Key="PropertiesCommand"
+			x:Uid="Files_Cmd_Properties"
 			Command="{x:Bind ViewModel.PropertiesCommand}"
-			Description="Propiedades de un elemento"
-			IconSource="{toolkitExtensions:SymbolIconSource Symbol=Repair}"
-			Label="Propiedades">
+			IconSource="{toolkitExtensions:SymbolIconSource Symbol=Repair}">
 			<XamlUICommand.KeyboardAccelerators>
 				<KeyboardAccelerator Key="Enter" Modifiers="Menu" />
 			</XamlUICommand.KeyboardAccelerators>
@@ -65,16 +62,17 @@
 
 		<XamlUICommand
 			x:Key="GoBackCommand"
-			Command="{x:Bind ViewModel.GoBackCommand}"
-			Description="Anterior">
+			x:Uid="Files_Cmd_GoBack"
+			Command="{x:Bind ViewModel.GoBackCommand}">
 			<XamlUICommand.KeyboardAccelerators>
 				<KeyboardAccelerator Key="Left" Modifiers="Menu" />
 			</XamlUICommand.KeyboardAccelerators>
 		</XamlUICommand>
+
 		<XamlUICommand
 			x:Key="GoForwardCommand"
-			Command="{x:Bind ViewModel.GoForwardCommand}"
-			Description="Siguiente">
+			x:Uid="Files_Cmd_GoForward"
+			Command="{x:Bind ViewModel.GoForwardCommand}">
 			<XamlUICommand.KeyboardAccelerators>
 				<KeyboardAccelerator Key="Right" Modifiers="Menu" />
 			</XamlUICommand.KeyboardAccelerators>
@@ -313,102 +311,94 @@
 		</Grid>
 		<ContentDialog
 			x:Name="backupDialog"
-			Title="Crear un respaldo"
-			CloseButtonText="No, no quiero"
-			Content="¿Deseas hacer un respaldo del servidor? esto evitará la péridida futura de los archivos ¡Buena elección!"
+			x:Uid="Files_Dialog_Backup"
 			PrimaryButtonCommand="{x:Bind ViewModel.MakeBackupCommand}"
-			PrimaryButtonStyle="{StaticResource AccentButtonStyle}"
-			PrimaryButtonText="¡Vamos!" />
+			PrimaryButtonStyle="{StaticResource AccentButtonStyle}" />
+
 		<ContentDialog
 			x:Name="createFileDialog"
-			Title="Crear archivo"
-			CloseButtonText="Cancelar"
+			x:Uid="Files_Dialog_CreateFile"
 			DefaultButton="Primary"
 			PrimaryButtonCommand="{x:Bind ViewModel.CreateFileCommand}"
-			PrimaryButtonCommandParameter="{x:Bind fileNameTextBox.Text, Mode=OneWay}"
-			PrimaryButtonText="Crear archivo">
+			PrimaryButtonCommandParameter="{x:Bind fileNameTextBox.Text, Mode=OneWay}">
 			<TextBox
 				x:Name="fileNameTextBox"
-				PlaceholderText="Nombre del archivo"
+				x:Uid="Files_Txt_FileName"
 				SelectionLength="100"
 				SelectionStart="0" />
 		</ContentDialog>
+
 		<ContentDialog
 			x:Name="createFolderDialog"
-			Title="Nueva Carpeta"
-			CloseButtonText="Cancelar"
+			x:Uid="Files_Dialog_CreateFolder"
 			DefaultButton="Primary"
 			PrimaryButtonCommand="{x:Bind ViewModel.CreateFolderCommand}"
-			PrimaryButtonCommandParameter="{x:Bind folderNameTextBox.Text, Mode=OneWay}"
-			PrimaryButtonText="Crear carpeta">
+			PrimaryButtonCommandParameter="{x:Bind folderNameTextBox.Text, Mode=OneWay}">
 			<TextBox
 				x:Name="folderNameTextBox"
-				PlaceholderText="Nombre de la carpeta"
+				x:Uid="Files_Txt_FolderName"
 				SelectionLength="100"
 				SelectionStart="0" />
 		</ContentDialog>
+
 		<ContentDialog
 			x:Name="renameDialog"
-			Title="Renombrar Archivo o Carpeta"
-			CloseButtonText="Cancelar"
+			x:Uid="Files_Dialog_Rename"
 			DefaultButton="Primary"
 			PrimaryButtonCommand="{x:Bind ViewModel.RenameCommand}"
-			PrimaryButtonCommandParameter="{x:Bind newNameTextBox.Text, Mode=OneWay}"
-			PrimaryButtonText="Renombrar">
+			PrimaryButtonCommandParameter="{x:Bind newNameTextBox.Text, Mode=OneWay}">
 			<StackPanel Margin="0,10,0,0" Spacing="10">
-				<TextBlock Text="Introduce el nuevo nombre para el elemento seleccionado:" TextWrapping="Wrap" />
+				<TextBlock x:Uid="Files_Txt_RenameDescription" TextWrapping="Wrap" />
 				<TextBox
 					x:Name="newNameTextBox"
-					PlaceholderText="Nuevo nombre..."
+					x:Uid="Files_Txt_NewName"
 					SelectionLength="100"
 					SelectionStart="0"
 					Text="{x:Bind ViewModel.SelectedServerFile.Name, Mode=OneWay}" />
 			</StackPanel>
 		</ContentDialog>
+
 		<ContentDialog
 			x:Name="deleteDialog"
-			Title="Confirmar Eliminación"
+			x:Uid="Files_Dialog_Delete"
 			CloseButtonStyle="{StaticResource AccentButtonStyle}"
-			CloseButtonText="Conservar"
 			DefaultButton="Close"
-			PrimaryButtonCommand="{x:Bind ViewModel.DeleteCommand}"
-			PrimaryButtonText="Eliminar Permanentemente">
+			PrimaryButtonCommand="{x:Bind ViewModel.DeleteCommand}">
 			<StackPanel Margin="0,10,0,0" Spacing="10">
-				<TextBlock FontWeight="Bold" Text="¿Estás seguro de que quieres eliminar este elemento?" />
+				<TextBlock x:Uid="Files_Txt_DeleteConfirm" FontWeight="Bold" />
 				<TextBlock
 					FontStyle="Italic"
 					Text="{x:Bind ViewModel.SelectedServerFile.AbsolutePath, Mode=OneWay}"
 					TextWrapping="Wrap" />
 				<TextBlock
+					x:Uid="Files_Txt_DeleteWarning"
 					FontSize="12"
-					Text="Esta acción no se puede deshacer y podría afectar el funcionamiento del servidor de Minecraft."
 					TextWrapping="Wrap" />
 			</StackPanel>
 		</ContentDialog>
+
 		<ContentDialog
 			x:Name="successDialog"
-			Title="Operación Completada"
-			CloseButtonText="Entendido"
+			x:Uid="Files_Dialog_Success"
 			DefaultButton="Close" />
 
 		<ContentDialog
 			x:Name="errorDialog"
-			Title="Algo salió mal"
-			CloseButtonText="Cerrar"
+			x:Uid="Files_Dialog_Error"
 			DefaultButton="Close">
 			<StackPanel Margin="0,10,0,0" Spacing="10">
 				<TextBlock
 					x:Name="errorMessageText"
-					Text="No se pudo completar la operación. Inténtalo de nuevo."
+					x:Uid="Files_Txt_ErrorDefault"
 					TextWrapping="Wrap" />
 				<Expander
 					x:Name="detailsExpander"
-					HorizontalAlignment="Stretch"
-					Header="Detalles">
+					x:Uid="Files_Exp_Details"
+					HorizontalAlignment="Stretch">
 					<TextBlock
 						x:Name="errorDetailsText"
+						x:Uid="Files_Txt_NoDetails"
 						FontSize="12"
-						Text="No hay detalles adicionales."
 						TextWrapping="Wrap" />
 				</Expander>
 			</StackPanel>

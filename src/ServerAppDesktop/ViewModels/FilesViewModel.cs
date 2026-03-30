@@ -88,7 +88,10 @@ public sealed partial class FilesViewModel : ObservableRecipient, IRecipient<App
                 StorageFile file = await StorageFile.GetFileFromPathAsync(SelectedServerFile.AbsolutePath);
                 await Launcher.LaunchFileAsync(file);
             }
-            catch (Exception ex) { OnError($"No se pudo abrir '{SelectedServerFile.Name}'", ex.Message); }
+            catch (Exception ex)
+            {
+                OnError(string.Format(ResourceHelper.GetString("Files_Err_Open"), SelectedServerFile.Name), ex.Message);
+            }
         }
     }
 
@@ -109,7 +112,7 @@ public sealed partial class FilesViewModel : ObservableRecipient, IRecipient<App
             CanPaste = true;
             PasteCommand.NotifyCanExecuteChanged();
         }
-        catch (Exception ex) { OnError("Error al copiar al portapapeles", ex.Message); }
+        catch (Exception ex) { OnError(ResourceHelper.GetString("Files_Err_Clipboard"), ex.Message); }
     }
 
     [RelayCommand(CanExecute = nameof(CanPaste))]
@@ -125,13 +128,13 @@ public sealed partial class FilesViewModel : ObservableRecipient, IRecipient<App
             bool isMove = ClipboardHelper.GetDropEffect() == 2;
             await _fileService.CopyAsync(sources, _currentPath, isMove);
             RefreshFileList();
-            OnSuccess(isMove ? "Elementos movidos correctamente" : "Elementos copiados correctamente");
+            OnSuccess(ResourceHelper.GetString(isMove ? "Files_Success_Move" : "Files_Success_Copy"));
         }
-        catch (Exception ex) { OnError("Error al pegar elementos", ex.Message); }
+        catch (Exception ex) { OnError(ResourceHelper.GetString("Files_Err_Paste"), ex.Message); }
     }
 
     [RelayCommand(CanExecute = nameof(CanCut))]
-    private void Cut() { try { Copy(); ClipboardHelper.SetMoveEffect(); } catch (Exception ex) { OnError("Error al preparar para mover", ex.Message); } }
+    private void Cut() { try { Copy(); ClipboardHelper.SetMoveEffect(); } catch (Exception ex) { OnError(ResourceHelper.GetString("Files_Err_MovePrepare"), ex.Message); } }
 
     partial void OnSelectedServerFileChanged(ServerFile? value) { bool state = value != null && IsConfigured; CanCopy = state; CanCut = state; CanModifySelected = state; CanViewPropertiesOfFileOrFolder = state; }
 
@@ -153,15 +156,16 @@ public sealed partial class FilesViewModel : ObservableRecipient, IRecipient<App
         {
             double total = info.TotalSize;
             double free = info.AvailableFreeSpace;
-            DiskLabel = $"{(string.IsNullOrEmpty(info.VolumeLabel) ? "Disco Local" : info.VolumeLabel)} ({info.Name.TrimEnd('\\')})";
-            StorageSizeInfo = $"{_fileService.FormatSize(free)} libres de {_fileService.FormatSize(total)}";
+            string label = string.IsNullOrEmpty(info.VolumeLabel) ? ResourceHelper.GetString("Files_Disk_Local") : info.VolumeLabel;
+            DiskLabel = $"{label} ({info.Name.TrimEnd('\\')})";
+            StorageSizeInfo = string.Format(ResourceHelper.GetString("Files_Disk_StorageInfo"), _fileService.FormatSize(free), _fileService.FormatSize(total));
             StorageValue = (total - free) / total * 100;
         }
         else
             ResetDiskMetrics();
     }
 
-    private void ResetDiskMetrics() { CanPaste = CanRefresh = CanCreateFileOrFolder = CanMakeBackup = false; DiskLabel = "Inaccesible"; StorageSizeInfo = "--"; StorageValue = 0; }
+    private void ResetDiskMetrics() { CanPaste = CanRefresh = CanCreateFileOrFolder = CanMakeBackup = false; DiskLabel = ResourceHelper.GetString("Files_Disk_Inaccessible"); StorageSizeInfo = "--"; StorageValue = 0; }
 
     private async Task UpdateListAsync(string path)
     {
@@ -207,9 +211,9 @@ public sealed partial class FilesViewModel : ObservableRecipient, IRecipient<App
                 string folderName = new DirectoryInfo(s).Name;
                 string dest = Path.Combine(target.Path, folderName + "-backup-" + DateTime.Now.ToString("yyyyMMdd-HHmm"));
                 await _fileService.CopyAsync([s], dest, false);
-                OnSuccess($"Copia de seguridad creada en '{target.Path}'");
+                OnSuccess(string.Format(ResourceHelper.GetString("Files_Success_Backup"), target.Path));
             }
-            catch (Exception ex) { OnError("Error al crear la copia de seguridad", ex.Message); }
+            catch (Exception ex) { OnError(ResourceHelper.GetString("Files_Err_Backup"), ex.Message); }
         }
         CanMakeBackup = true;
     }
@@ -225,9 +229,9 @@ public sealed partial class FilesViewModel : ObservableRecipient, IRecipient<App
         {
             await _fileService.RenameAsync(SelectedServerFile.AbsolutePath, name, SelectedServerFile.IsFile);
             RefreshFileList();
-            OnSuccess($"Se renombró '{oldName}' a '{name}'");
+            OnSuccess(string.Format(ResourceHelper.GetString("Files_Success_Rename"), oldName, name));
         }
-        catch (Exception ex) { OnError($"Error al renombrar '{oldName}'", ex.Message); }
+        catch (Exception ex) { OnError(string.Format(ResourceHelper.GetString("Files_Err_Rename"), oldName), ex.Message); }
     }
 
     [RelayCommand(CanExecute = nameof(CanModifySelected))]
@@ -243,11 +247,11 @@ public sealed partial class FilesViewModel : ObservableRecipient, IRecipient<App
         try
         {
             await _fileService.DeleteAsync(SelectedServerFile.AbsolutePath, SelectedServerFile.IsFile);
-            OnSuccess($"'{itemName}' eliminado correctamente");
+            OnSuccess(string.Format(ResourceHelper.GetString("Files_Success_Delete"), itemName));
             SelectedServerFile = null;
             RefreshFileList();
         }
-        catch (Exception ex) { OnError($"No se pudo eliminar '{itemName}'", ex.Message); }
+        catch (Exception ex) { OnError(string.Format(ResourceHelper.GetString("Files_Err_Delete"), itemName), ex.Message); }
     }
 
     [RelayCommand]
@@ -258,10 +262,10 @@ public sealed partial class FilesViewModel : ObservableRecipient, IRecipient<App
         try
         {
             await _fileService.CreateItemAsync(_currentPath, name, true);
-            OnSuccess($"Archivo '{name}' creado");
+            OnSuccess(string.Format(ResourceHelper.GetString("Files_Success_CreateFile"), name));
             RefreshFileList();
         }
-        catch (Exception ex) { OnError($"Error al crear el archivo '{name}'", ex.Message); }
+        catch (Exception ex) { OnError(string.Format(ResourceHelper.GetString("Files_Err_CreateFile"), name), ex.Message); }
     }
 
     [RelayCommand]
@@ -272,10 +276,10 @@ public sealed partial class FilesViewModel : ObservableRecipient, IRecipient<App
         try
         {
             await _fileService.CreateItemAsync(_currentPath, name, false);
-            OnSuccess($"Carpeta '{name}' creada");
+            OnSuccess(string.Format(ResourceHelper.GetString("Files_Success_CreateFolder"), name));
             RefreshFileList();
         }
-        catch (Exception ex) { OnError($"Error al crear la carpeta '{name}'", ex.Message); }
+        catch (Exception ex) { OnError(string.Format(ResourceHelper.GetString("Files_Err_CreateFolder"), name), ex.Message); }
     }
 
     public void Receive(AppSettingsChangedMessage m) { _currentPath = DataHelper.Settings?.Server?.Path ?? ""; IsConfigured = !string.IsNullOrEmpty(_currentPath) && Directory.Exists(_currentPath); OnPathChanged(_currentPath); }

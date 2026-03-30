@@ -1,6 +1,4 @@
-﻿
-
-namespace ServerAppDesktop.ViewModels;
+﻿namespace ServerAppDesktop.ViewModels;
 
 public sealed partial class MainViewModel : ObservableObject
 {
@@ -48,7 +46,7 @@ public sealed partial class MainViewModel : ObservableObject
     [RelayCommand]
     private static void RestartApp()
     {
-        string exePath = Process.GetCurrentProcess().MainModule?.FileName ?? string.Empty;
+        string exePath = Environment.ProcessPath ?? string.Empty;
         ProcessStartInfo startInfo = new(exePath)
         {
             UseShellExecute = true,
@@ -99,21 +97,32 @@ public sealed partial class MainViewModel : ObservableObject
     {
         DownloadingAnUpdate = true;
         bool sucessDownload = await UpdateHelper.DownloadUpdateAsync(ReleaseInfo?.Assets.FirstOrDefault(a => a.Name.EndsWith(".exe")) ?? new Asset());
+
         if (sucessDownload)
         {
             UpdateDownloadProgress = ResourceHelper.GetString("UpdateInfoBar_PreparedToApply");
+
+            string title = ResourceHelper.GetString("Main_UpdateReady_Title");
+            string msg = string.Format(ResourceHelper.GetString("Main_UpdateReady_Msg"), ReleaseInfo?.Version);
+            string btnText = ResourceHelper.GetString("Main_Update_RestartNow");
+
             WindowsNotification updateReadyToInstallNotification = new()
             {
-                Title = "Actualización lista para instalar",
-                Message = $"La versión {ReleaseInfo?.Version} está lista para instalarse, se instalará al cerrar.",
+                Title = title,
+                Message = msg,
                 SoundEvent = AppNotificationSoundEvent.IM,
                 NotificationScenario = AppNotificationScenario.Urgent,
                 AppLogoUri = new Uri(Path.Combine(AppContext.BaseDirectory, "Assets", "Update.png")),
                 Duration = AppNotificationDuration.Long,
                 TimeStamp = DateTime.Now
             };
-            AppNotification notification = updateReadyToInstallNotification.NotificationToBuild.AddButton(new AppNotificationButton("Reiniciar ahora").AddArgument("action", "restartToInstallUpdate")).BuildNotification();
+
+            AppNotification notification = updateReadyToInstallNotification.NotificationToBuild
+                .AddButton(new AppNotificationButton(btnText).AddArgument("action", "restartToInstallUpdate"))
+                .BuildNotification();
+
             AppNotificationManager.Default.Show(notification);
+
             await Task.Delay(10000);
             DownloadingAnUpdate = !sucessDownload;
         }

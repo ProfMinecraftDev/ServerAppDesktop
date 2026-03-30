@@ -23,7 +23,7 @@ public sealed partial class SystemInfoViewModel(ISystemService systemService) : 
 
         CpuName = GpuName = MemoryInfo = PcModel = WindowsVersion =
         LicenseType = StorageType = StorageSize = ActiveUser =
-        ActiveProcessName = ActiveProcessId = "Cargando...";
+        ActiveProcessName = ActiveProcessId = ResourceHelper.GetString("Process_Loading");
 
         await Task.Run(() =>
         {

@@ -26,13 +26,13 @@ public sealed class WindowsNotification
     {
         get;
         set { field = value; RebuildNotification(); }
-    } = "";
+    } = ResourceHelper.GetString("Notify_Default_Title");
 
     public string Message
     {
         get;
         set { field = value; RebuildNotification(); }
-    } = "";
+    } = ResourceHelper.GetString("Notify_Default_Msg");
 
     public string AttributionText
     {
@@ -58,8 +58,8 @@ public sealed class WindowsNotification
         set { field = value; RebuildNotification(); }
     } = DateTime.Now;
 
-    public AppNotification Notification => notification ?? throw new InvalidOperationException("La notificación no ha sido construida.");
-    public AppNotificationBuilder NotificationToBuild { get => field ?? throw new InvalidOperationException("La notificación no ha sido construida."); private set; }
+    public AppNotification Notification => notification ?? throw new InvalidOperationException(ResourceHelper.GetString("Err_NotificationNotBuilt"));
+    public AppNotificationBuilder NotificationToBuild { get => field ?? throw new InvalidOperationException(ResourceHelper.GetString("Err_NotificationNotBuilt")); private set; }
 
     private void RebuildNotification()
     {

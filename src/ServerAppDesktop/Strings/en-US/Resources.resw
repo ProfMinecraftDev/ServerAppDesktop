@@ -118,112 +118,112 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="AdminDebugModeIndicator" xml:space="preserve">
-    <value>Depuración (Desarrollador) y Administrador</value>
+    <value>Debug (Developer) and Administrator</value>
   </data>
   <data name="AdminModeIndicator" xml:space="preserve">
-    <value>Administrador</value>
+    <value>Administrator</value>
   </data>
   <data name="DebugModeIndicator" xml:space="preserve">
-    <value>Depuración (Desarrollador)</value>
+    <value>Debug (Developer)</value>
   </data>
   <data name="FeedbackDialog.CloseButtonText" xml:space="preserve">
-    <value>Listo</value>
+    <value>OK</value>
   </data>
   <data name="FeedbackDialog.Content" xml:space="preserve">
-    <value>Nos gustaría recibir tus comentarios. Cuéntanos tu opinión sobre Server App Desktop y cómo mejorarlo.</value>
+    <value>We want your feedback about Server App Desktop and how we can improve it.</value>
   </data>
   <data name="FeedbackDialog.PrimaryButtonText" xml:space="preserve">
-    <value>Enviar comentarios</value>
+    <value>Send feedback</value>
   </data>
   <data name="FeedbackDialog.Title" xml:space="preserve">
-    <value>Enviar comentario</value>
+    <value>Send feedback</value>
   </data>
   <data name="MenuFlyoutItem_Administator.Text" xml:space="preserve">
-    <value>Ejecutando como administrador</value>
+    <value>Running as administrator</value>
   </data>
   <data name="MenuFlyoutItem_StartServer.Text" xml:space="preserve">
-    <value>Iniciar servidor</value>
+    <value>Start server</value>
   </data>
   <data name="MenuFlyoutItem_RestartServer.Text" xml:space="preserve">
-    <value>Reiniciar servidor</value>
+    <value>Restart server</value>
   </data>
   <data name="MenuFlyoutItem_ExitApp.Text" xml:space="preserve">
-    <value>Salir</value>
+    <value>Exit</value>
   </data>
   <data name="MenuFlyoutItem_ShowWindow.Text" xml:space="preserve">
-    <value>Mostrar ventana</value>
+    <value>Show window</value>
   </data>
   <data name="MenuFlyoutItem_StopServer.Text" xml:space="preserve">
-    <value>Detener servidor</value>
+    <value>Stop server</value>
   </data>
   <data name="MenuFlyoutItem_RestartApp.Text" xml:space="preserve">
-    <value>Reiniciar aplicación</value>
+    <value>Restart app</value>
   </data>
   <data name="MenuFlyoutItem_SendFeedback.Text" xml:space="preserve">
-    <value>Enviar comentarios</value>
+    <value>Send feedback</value>
   </data>
   <data name="MenuFlyoutItem_Warning.Text" xml:space="preserve">
-    <value>Advertencia de funciones</value>
+    <value>Feature Warning</value>
   </data>
   <data name="WarningDialog.CloseButtonText" xml:space="preserve">
-    <value>Listo</value>
+    <value>OK</value>
   </data>
   <data name="WarningDialog.Title" xml:space="preserve">
-    <value>Advertencia</value>
+    <value>Warning</value>
   </data>
   <data name="WarningDialog.Content" xml:space="preserve">
-    <value>Estamos trabajando en nuevas funciones. Algunas opciones de Server App Desktop siguen en desarrollo y pueden cambiar pronto.</value>
+    <value>We are developing new features. Some options are still in progress and may change soon.</value>
   </data>
   <data name="AdminDialog.Title" xml:space="preserve">
-    <value>Ejecutando como administrador</value>
+    <value>Running as administrator</value>
   </data>
   <data name="AdminDialog.Content" xml:space="preserve">
-    <value>Server App Desktop tiene permisos de administrador. Ciertas funciones pueden afectar el sistema.</value>
+    <value>Server App Desktop is running with administrator privileges. Some actions may affect your system.</value>
   </data>
   <data name="AdminDialog.CloseButtonText" xml:space="preserve">
-    <value>Listo</value>
+    <value>OK</value>
   </data>
   <data name="DebugBannerMessage.Text" xml:space="preserve">
-    <value>Modo de depuración (Desarrollador)</value>
+    <value>Debug mode (Developer)</value>
   </data>
   <data name="OOBEView_WelcomeText.Text" xml:space="preserve">
-    <value>Bienvenido a Server App Desktop</value>
+    <value>Welcome to Server App Desktop</value>
   </data>
   <data name="AppearanceHeader.Text" xml:space="preserve">
-    <value>Apariencia</value>
+    <value>Appearance</value>
   </data>
   <data name="BackdropSettingsCard.Header" xml:space="preserve">
-    <value>Fondo</value>
+    <value>Background</value>
   </data>
   <data name="MicaBackdropItem" xml:space="preserve">
     <value>Mica</value>
   </data>
   <data name="MicaAltBackdropItem" xml:space="preserve">
-    <value>Mica alternativa</value>
+    <value>Mica (Alt)</value>
   </data>
   <data name="DesktopAcrylicBackdropItem" xml:space="preserve">
-    <value>Acrílico de escritorio</value>
+    <value>Desktop Acrylic</value>
   </data>
   <data name="ThemeSettingsCard.Header" xml:space="preserve">
-    <value>Tema</value>
+    <value>Theme</value>
   </data>
   <data name="SystemThemeItem" xml:space="preserve">
-    <value>Sistema</value>
+    <value>System</value>
   </data>
   <data name="LightThemeItem" xml:space="preserve">
-    <value>Claro</value>
+    <value>Light</value>
   </data>
   <data name="DarkThemeItem" xml:space="preserve">
-    <value>Oscuro</value>
+    <value>Dark</value>
   </data>
   <data name="ServerHeader.Text" xml:space="preserve">
-    <value>Servidor</value>
+    <value>Server</value>
   </data>
   <data name="EditionSettingsCard.Header" xml:space="preserve">
-    <value>Edición de Minecraft</value>
+    <value>Minecraft Edition</value>
   </data>
   <data name="EditionSettingsCard.Description" xml:space="preserve">
-    <value>Ajusta la edición del servidor de Minecraft.</value>
+    <value>Set up your Minecraft server edition.</value>
   </data>
   <data name="BedrockEditionItem" xml:space="preserve">
     <value>Minecraft Bedrock</value>
@@ -232,115 +232,115 @@
     <value>Minecraft Java</value>
   </data>
   <data name="PathSettingsCard.Header" xml:space="preserve">
-    <value>Ruta del servidor</value>
+    <value>Server folder</value>
   </data>
   <data name="PathSettingsCard.Description" xml:space="preserve">
-    <value>Selecciona la carpeta del servidor.</value>
+    <value>Select the server folder.</value>
   </data>
   <data name="BrowsePathButtonText.Text" xml:space="preserve">
-    <value>Examinar</value>
+    <value>Browse</value>
   </data>
   <data name="ExecutableSettingsCard.Header" xml:space="preserve">
-    <value>Archivo ejecutable</value>
+    <value>Executable file</value>
   </data>
   <data name="ExecutableSettingsCard.Description" xml:space="preserve">
-    <value>Elige el ejecutable del servidor para iniciarlo.</value>
+    <value>Select the executable to launch your server.</value>
   </data>
   <data name="NoFileSelectedText" xml:space="preserve">
-    <value>No se seleccionó archivo.</value>
+    <value>No file selected.</value>
   </data>
   <data name="NoPathSelectedText" xml:space="preserve">
-    <value>No se seleccionó carpeta</value>
+    <value>No folder selected.</value>
   </data>
   <data name="FileSelectedText" xml:space="preserve">
-    <value>No se seleccionó archivo.</value>
+    <value>No file selected.</value>
   </data>
   <data name="BrowseExeButtonText.Text" xml:space="preserve">
-    <value>Examinar</value>
+    <value>Browse</value>
   </data>
   <data name="PortSettingsCard.Header" xml:space="preserve">
-    <value>Puerto</value>
+    <value>Port</value>
   </data>
   <data name="PortSettingsCard.Description" xml:space="preserve">
-    <value>Elige el puerto del servidor</value>
+    <value>Enter the server port.</value>
   </data>
   <data name="UsePropertiesCheckBox.Content" xml:space="preserve">
-    <value>Usar el del archivo .properties</value>
+    <value>Use .properties file</value>
   </data>
   <data name="ServerPortNumberBox.PlaceholderText" xml:space="preserve">
-    <value>Puerto del servidor</value>
+    <value>Server port</value>
   </data>
   <data name="DescriptionSettingsCard.Header" xml:space="preserve">
-    <value>Descripción del servidor</value>
+    <value>Server description</value>
   </data>
   <data name="DescriptionSettingsCard.Description" xml:space="preserve">
-    <value>Ingresa una descripción para que aparezca en la lista de servidores.</value>
+    <value>Add a description to appear in the server list.</value>
   </data>
   <data name="ServerDescriptionTextBox.PlaceholderText" xml:space="preserve">
-    <value>Descripción del servidor</value>
+    <value>Server description</value>
   </data>
   <data name="StartupHeader.Text" xml:space="preserve">
-    <value>Inicio</value>
+    <value>Startup</value>
   </data>
   <data name="AutoStartSettingsCard.Header" xml:space="preserve">
-    <value>Inicio automático</value>
+    <value>Auto start</value>
   </data>
   <data name="AutoStartSettingsCard.Description" xml:space="preserve">
-    <value>Inicia el servidor al abrir la app (en desarrollo)</value>
+    <value>Start your server when the app loads (feature in development)</value>
   </data>
   <data name="AutoStartToggleSwitch.OnContent" xml:space="preserve">
-    <value>Activado</value>
+    <value>On</value>
   </data>
   <data name="AutoStartToggleSwitch.OffContent" xml:space="preserve">
-    <value>Desactivado</value>
+    <value>Off</value>
   </data>
   <data name="AttentionInfoBar.Title" xml:space="preserve">
-    <value>Atención</value>
+    <value>Attention</value>
   </data>
   <data name="AttentionInfoBar.Message" xml:space="preserve">
-    <value>Completa todos los campos antes de iniciar</value>
+    <value>Please fill in all fields before starting</value>
   </data>
   <data name="GoButton.Content" xml:space="preserve">
-    <value>Iniciar</value>
+    <value>Go</value>
   </data>
   <data name="WelcomeOOBEDialog.CloseButtonText" xml:space="preserve">
-    <value>¡Comencemos!</value>
+    <value>Let's start!</value>
   </data>
   <data name="BackdropSettingsCard.Description" xml:space="preserve">
-    <value>Elige el fondo de la ventana para mejorar los efectos visuales.</value>
+    <value>Select a background for better visual effects.</value>
   </data>
   <data name="ThemeSettingsCard.Description" xml:space="preserve">
-    <value>Elige el tema de la app para personalizar la apariencia.</value>
+    <value>Select a theme for a unique app appearance.</value>
   </data>
   <data name="InternetInfoBar_Warning_Title" xml:space="preserve">
-    <value>Sin conexión</value>
+    <value>No connection</value>
   </data>
   <data name="InternetInfoBar_Warning_Message" xml:space="preserve">
-    <value>No se detectó conexión a Internet.</value>
+    <value>No Internet connection detected.</value>
   </data>
   <data name="SettingsNavItem.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Configuración</value>
+    <value>Settings</value>
   </data>
   <data name="AboutNavItem.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Acerca de la aplicación</value>
+    <value>About the app</value>
   </data>
   <data name="SystemInfoNavItem.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Información del sistema</value>
+    <value>System information</value>
   </data>
   <data name="WhatsNewNavItem.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Novedades de Server App Desktop</value>
+    <value>What's new in Server App Desktop</value>
   </data>
   <data name="HomeNavItem.Content" xml:space="preserve">
-    <value>Inicio</value>
+    <value>Home</value>
   </data>
   <data name="HomeNavItem.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Inicio</value>
+    <value>Home</value>
   </data>
   <data name="PerformanceNavItem.Content" xml:space="preserve">
-    <value>Rendimiento</value>
+    <value>Performance</value>
   </data>
   <data name="PerformanceNavItem.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Rendimiento</value>
+    <value>Performance</value>
   </data>
   <data name="TerminalNavItem.Content" xml:space="preserve">
     <value>Terminal</value>
@@ -349,226 +349,226 @@
     <value>Terminal</value>
   </data>
   <data name="FilesNavItem.Content" xml:space="preserve">
-    <value>Archivos</value>
+    <value>Files</value>
   </data>
   <data name="FilesNavItem.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Archivos</value>
+    <value>Files</value>
   </data>
   <data name="Page_Home_Title.Text" xml:space="preserve">
-    <value>Inicio</value>
+    <value>Home</value>
   </data>
   <data name="Page_Performance_Title.Text" xml:space="preserve">
-    <value>Rendimiento</value>
+    <value>Performance</value>
   </data>
   <data name="Page_Terminal_Title.Text" xml:space="preserve">
     <value>Terminal</value>
   </data>
   <data name="Page_Files_Title.Text" xml:space="preserve">
-    <value>Archivos</value>
+    <value>Files</value>
   </data>
   <data name="Page_WhatsNew_Title.Text" xml:space="preserve">
-    <value>Novedades de Server App Desktop</value>
+    <value>What's new in Server App Desktop</value>
   </data>
   <data name="Page_SystemInfo_Title.Text" xml:space="preserve">
-    <value>Información del sistema</value>
+    <value>System Information</value>
   </data>
   <data name="Page_About_Title.Text" xml:space="preserve">
-    <value>Acerca de la aplicación</value>
+    <value>About the Application</value>
   </data>
   <data name="Page_Settings_Title.Text" xml:space="preserve">
-    <value>Configuración</value>
+    <value>Settings</value>
   </data>
   <data name="UpdateDialog.Title" xml:space="preserve">
-    <value>Nueva actualización disponible</value>
+    <value>New update available</value>
   </data>
   <data name="UpdateDialog.CloseButtonText" xml:space="preserve">
-    <value>Recordar más tarde</value>
+    <value>Remind me later</value>
   </data>
   <data name="UpdateDialog.PrimaryButtonText" xml:space="preserve">
-    <value>Descargar e instalar</value>
+    <value>Download and install</value>
   </data>
   <data name="UpdateInfoBar_PreparedToApply" xml:space="preserve">
-    <value>Actualización descargada; se instalará al cerrar la aplicación</value>
+    <value>Update downloaded, it will be installed when you close the app</value>
   </data>
   <data name="UpdateInfoBar.Title" xml:space="preserve">
-    <value>Descargando actualización, esto puede tardar unos minutos</value>
+    <value>An update is downloading, it may take a few minutes</value>
   </data>
   <data name="String_Yes" xml:space="preserve">
-    <value>Sí</value>
+    <value>Yes</value>
   </data>
   <data name="String_No" xml:space="preserve">
     <value>No</value>
   </data>
   <data name="StartServerText.Text" xml:space="preserve">
-    <value>Iniciar</value>
+    <value>Start</value>
   </data>
   <data name="RestartServerText.Text" xml:space="preserve">
-    <value>Reiniciar</value>
+    <value>Restart</value>
   </data>
   <data name="StopServerText.Text" xml:space="preserve">
-    <value>Detener</value>
+    <value>Stop</value>
   </data>
   <data name="StartServerButton.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Inicia el servidor</value>
+    <value>Start the server</value>
   </data>
   <data name="RestartServerButton.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Reinicia el servidor</value>
+    <value>Restart the server</value>
   </data>
   <data name="StopServerButton.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Detiene el servidor</value>
+    <value>Stop the server</value>
   </data>
   <data name="ServerEditionCard.Title" xml:space="preserve">
-    <value>Edición del servidor</value>
+    <value>Server Edition</value>
   </data>
   <data name="ServerStateCard.Title" xml:space="preserve">
-    <value>Estado del servidor</value>
+    <value>Server Status</value>
   </data>
   <data name="ServerPathCard.Title" xml:space="preserve">
-    <value>Ruta del servidor</value>
+    <value>Server Path</value>
   </data>
   <data name="ServerExecutableCard.Title" xml:space="preserve">
-    <value>Archivo ejecutable del servidor</value>
+    <value>Server Executable</value>
   </data>
   <data name="ServerIPCard.Header" xml:space="preserve">
-    <value>IP del servidor</value>
+    <value>Server IP</value>
   </data>
   <data name="ServerPortCard.Header" xml:space="preserve">
-    <value>Puerto</value>
+    <value>Port</value>
   </data>
   <data name="ActiveWorldCard.Title" xml:space="preserve">
-    <value>Mundo activo</value>
+    <value>Active World</value>
   </data>
   <data name="CPUCard.Title" xml:space="preserve">
     <value>CPU</value>
   </data>
   <data name="RAMCard.Title" xml:space="preserve">
-    <value>Memoria RAM</value>
+    <value>RAM</value>
   </data>
   <data name="NetworkCard.Title" xml:space="preserve">
-    <value>Red</value>
+    <value>Network</value>
   </data>
   <data name="DiskCard.Title" xml:space="preserve">
-    <value>Disco</value>
+    <value>Disk</value>
   </data>
   <data name="PlayersCard.Header" xml:space="preserve">
-    <value>Jugadores</value>
+    <value>Players</value>
   </data>
   <data name="PlayersCard.Subtitle" xml:space="preserve">
-    <value>En desarrollo</value>
+    <value>In development</value>
   </data>
   <data name="OutputTitle.Text" xml:space="preserve">
-    <value>Salida</value>
+    <value>Output</value>
   </data>
   <data name="CopyOutputBtn.Label" xml:space="preserve">
-    <value>Copiar salida</value>
+    <value>Copy output</value>
   </data>
   <data name="CopyOutputBtn.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Copia la salida al portapapeles</value>
+    <value>Copy output to clipboard</value>
   </data>
   <data name="ClearOutputBtn.Label" xml:space="preserve">
-    <value>Limpiar salida</value>
+    <value>Clear output</value>
   </data>
   <data name="ClearOutputBtn.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Limpia la salida si es muy extensa</value>
+    <value>Clear output (useful when it is very long)</value>
   </data>
   <data name="CommandInput.PlaceholderText" xml:space="preserve">
-    <value>Escribe un comando</value>
+    <value>Type a command</value>
   </data>
   <data name="CommandInput.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Ejemplo: say Hola</value>
+    <value>Type a command, e.g.: say Hello</value>
   </data>
   <data name="SendCommandText.Text" xml:space="preserve">
-    <value>Enviar</value>
+    <value>Send</value>
   </data>
   <data name="SendCommandBtn.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Envía el comando al servidor</value>
+    <value>Send command to the server</value>
   </data>
   <data name="DiskLabel.Text" xml:space="preserve">
-    <value>Disco local ({0})</value>
+    <value>Local disk ({0})</value>
   </data>
   <data name="DiskAvailableText.Text" xml:space="preserve">
-    <value>{0} disponibles de {1}</value>
+    <value>{0} available out of {1}</value>
   </data>
   <data name="NewFileBtn.Label" xml:space="preserve">
-    <value>Nuevo</value>
+    <value>New</value>
   </data>
   <data name="NewFolderItem.Text" xml:space="preserve">
-    <value>Carpeta</value>
+    <value>Folder</value>
   </data>
   <data name="NewFileItem.Text" xml:space="preserve">
-    <value>Archivo</value>
+    <value>File</value>
   </data>
   <data name="RefreshBtn.Label" xml:space="preserve">
-    <value>Actualizar</value>
+    <value>Refresh</value>
   </data>
   <data name="BackupBtn.Label" xml:space="preserve">
-    <value>Respaldo</value>
+    <value>Backup</value>
   </data>
   <data name="OpenFolderBtn.Label" xml:space="preserve">
-    <value>Abrir carpeta</value>
+    <value>Open folder</value>
   </data>
   <data name="ColName.Content" xml:space="preserve">
-    <value>Nombre</value>
+    <value>Name</value>
   </data>
   <data name="ColSize.Content" xml:space="preserve">
-    <value>Tamaño</value>
+    <value>Size</value>
   </data>
   <data name="ColDate.Content" xml:space="preserve">
-    <value>Fecha de modificación</value>
+    <value>Modified date</value>
   </data>
   <data name="ColEditable.Content" xml:space="preserve">
     <value>Editable</value>
   </data>
   <data name="CutBtn.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Cortar</value>
+    <value>Cut</value>
   </data>
   <data name="CopyBtn.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Copiar</value>
+    <value>Copy</value>
   </data>
   <data name="PasteBtn.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Pegar</value>
+    <value>Paste</value>
   </data>
   <data name="RenameBtn.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Renombrar</value>
+    <value>Rename</value>
   </data>
   <data name="DeleteBtn.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Eliminar</value>
+    <value>Delete</value>
   </data>
   <data name="PropertiesBtn.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Propiedades</value>
+    <value>Properties</value>
   </data>
   <data name="FlyoutCut.Text" xml:space="preserve">
-    <value>Cortar</value>
+    <value>Cut</value>
   </data>
   <data name="FlyoutCopy.Text" xml:space="preserve">
-    <value>Copiar</value>
+    <value>Copy</value>
   </data>
   <data name="FlyoutPaste.Text" xml:space="preserve">
-    <value>Pegar</value>
+    <value>Paste</value>
   </data>
   <data name="FlyoutRename.Text" xml:space="preserve">
-    <value>Renombrar</value>
+    <value>Rename</value>
   </data>
   <data name="FlyoutDelete.Text" xml:space="preserve">
-    <value>Eliminar</value>
+    <value>Delete</value>
   </data>
   <data name="FlyoutProps.Text" xml:space="preserve">
-    <value>Propiedades</value>
+    <value>Properties</value>
   </data>
   <data name="WhatsNew_NoInternetTitle.Text" xml:space="preserve">
-    <value>No hay conexión a internet</value>
+    <value>No internet connection</value>
   </data>
   <data name="WhatsNew_NoInternetDesc.Text" xml:space="preserve">
-    <value>No se pudo cargar la sección de novedades</value>
+    <value>Could not load Server App Desktop news</value>
   </data>
   <data name="RefreshNewsBtn.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Intentar cargar las novedades de nuevo</value>
+    <value>Try loading news again</value>
   </data>
   <data name="RefreshNewsText.Text" xml:space="preserve">
-    <value>Actualizar</value>
+    <value>Refresh</value>
   </data>
   <data name="LoadingNewsText.Text" xml:space="preserve">
-    <value>Cargando novedades</value>
+    <value>Loading news</value>
   </data>
   <data name="SysCPU.Title" xml:space="preserve">
     <value>CPU</value>
@@ -577,622 +577,622 @@
     <value>GPU</value>
   </data>
   <data name="SysMemory.Title" xml:space="preserve">
-    <value>Memoria</value>
+    <value>Memory</value>
   </data>
   <data name="SysModel.Title" xml:space="preserve">
-    <value>Equipo</value>
+    <value>Device</value>
   </data>
   <data name="SysOS.Title" xml:space="preserve">
-    <value>Versión de Windows</value>
+    <value>Windows version</value>
   </data>
   <data name="SysLicense.Title" xml:space="preserve">
-    <value>Licencia</value>
+    <value>License</value>
   </data>
   <data name="ActiveProcess.Header" xml:space="preserve">
-    <value>Proceso activo</value>
+    <value>Active process</value>
   </data>
   <data name="ActiveProcess.Subtitle" xml:space="preserve">
     <value>PID 0000</value>
   </data>
   <data name="SysStorage.Header" xml:space="preserve">
-    <value>Almacenamiento</value>
+    <value>Storage</value>
   </data>
   <data name="SysStorage.Subtitle" xml:space="preserve">
     <value>SSD</value>
   </data>
   <data name="ActiveUser.Title" xml:space="preserve">
-    <value>Usuario activo</value>
+    <value>Active user</value>
   </data>
   <data name="AboutAppItem.Text" xml:space="preserve">
-    <value>Acerca de</value>
+    <value>About</value>
   </data>
   <data name="AboutLicensesItem.Text" xml:space="preserve">
-    <value>Licencias de terceros</value>
+    <value>Third-party licenses</value>
   </data>
   <data name="AppDescription1.Text" xml:space="preserve">
-    <value>Server App Desktop es una aplicación avanzada para Windows, desarrollada con precisión y alto rendimiento. Creada, depurada y empaquetada manualmente; probada en entornos virtuales con VMware Workstation.</value>
+    <value>Server App Desktop is an advanced Windows application, built with precision and high performance. Developed, debugged, and packaged manually, tested on virtual environments with VMware Workstation.</value>
   </data>
   <data name="AppDescription2.Text" xml:space="preserve">
-    <value>Cada línea fue escrita por Prof Minecraft: ingeniero de alto rendimiento, explorador de entornos virtuales y entusiasta del desarrollo. Este proyecto es más que código, es el resultado de dedicación y pasión por la ingeniería de software.</value>
+    <value>Every line was written by Prof Minecraft—high performance engineer, virtual environments explorer, and software enthusiast. This project is more than code; it reflects dedication and a passion for software engineering.</value>
   </data>
   <data name="AppDescription3.Text" xml:space="preserve">
-    <value>Construida con WinUI 3, C# y Visual Studio. Integra GitHub para control de versiones y despliegue continuo.</value>
+    <value>Built with WinUI 3, C#, and Visual Studio. Integrated with GitHub for version control and continuous deployment.</value>
   </data>
   <data name="AppDescription4.Text" xml:space="preserve">
-    <value>No es solo software, es el reflejo de ingeniería y mejora constante. Cada error corregido es una nueva historia en el desarrollo.</value>
+    <value>Not just software—it's engineering and continuous improvement. Fixing each bug is a new story of development.</value>
   </data>
   <data name="GitHubLink.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Ver el repositorio oficial en GitHub</value>
+    <value>View official repository on GitHub</value>
   </data>
   <data name="GitHubLinkText.Text" xml:space="preserve">
-    <value>Código fuente</value>
+    <value>Source code</value>
   </data>
   <data name="LicensesHeader.Text" xml:space="preserve">
-    <value>Licencias de terceros</value>
+    <value>Third-party licenses</value>
   </data>
   <data name="LicensesSubheader.Text" xml:space="preserve">
-    <value>Server App Desktop utiliza las siguientes bibliotecas:</value>
+    <value>Server App Desktop uses the following libraries</value>
   </data>
   <data name="LanguageCard.Header" xml:space="preserve">
-    <value>Idioma</value>
+    <value>Language</value>
   </data>
   <data name="LanguageCard.Description" xml:space="preserve">
-    <value>¡Traduce Server App Desktop al idioma que prefieras!</value>
+    <value>Translate Server App Desktop to your preferred language!</value>
   </data>
   <data name="HelpTranslateBar.Title" xml:space="preserve">
-    <value>Ayuda a traducir</value>
+    <value>Help translate</value>
   </data>
   <data name="HelpTranslateBar.Message" xml:space="preserve">
-    <value>Haz que Server App Desktop llegue a más personas.</value>
+    <value>Help Server App Desktop reach more people.</value>
   </data>
   <data name="RamLimitCard.Header" xml:space="preserve">
-    <value>Límite de RAM</value>
+    <value>RAM limit</value>
   </data>
   <data name="RamLimitCard.Description" xml:space="preserve">
-    <value>Define el límite de memoria RAM (en MB).</value>
+    <value>This limits the amount of RAM used (measured in MB)</value>
   </data>
   <data name="DifficultyCard.Header" xml:space="preserve">
-    <value>Dificultad</value>
+    <value>Game difficulty</value>
   </data>
   <data name="DifficultyCard.Description" xml:space="preserve">
-    <value>Selecciona entre pacífico y difícil.</value>
+    <value>Choose from peaceful to hard</value>
   </data>
   <data name="AllowCommandsCard.Header" xml:space="preserve">
-    <value>Permitir comandos</value>
+    <value>Allow commands</value>
   </data>
   <data name="AllowCommandsCard.Description" xml:space="preserve">
-    <value>Permite activar los comandos (trucos) en el servidor.</value>
+    <value>Enable commands (cheats) on the server</value>
   </data>
   <data name="MaxPlayersCard.Header" xml:space="preserve">
-    <value>Máximo de jugadores</value>
+    <value>Max players</value>
   </data>
   <data name="MaxPlayersCard.Description" xml:space="preserve">
-    <value>Cantidad máxima de jugadores en el servidor.</value>
+    <value>Maximum number of allowed players on the server.</value>
   </data>
   <data name="OnlineModeCard.Header" xml:space="preserve">
-    <value>Modo en línea</value>
+    <value>Online mode</value>
   </data>
   <data name="OnlineModeCard.Description" xml:space="preserve">
-    <value>Requiere autenticación en Xbox Live (Bedrock) o Mojang (Java).</value>
+    <value>Requires authentication with Xbox Live (Bedrock) or Mojang (Java).</value>
   </data>
   <data name="LanVisibilityCard.Header" xml:space="preserve">
-    <value>Visibilidad LAN</value>
+    <value>LAN visibility</value>
   </data>
   <data name="LanVisibilityCard.Description" xml:space="preserve">
-    <value>Permite encontrar el servidor en la red local.</value>
+    <value>Let the server appear on your local network.</value>
   </data>
   <data name="ViewDistanceCard.Header" xml:space="preserve">
-    <value>Distancia de visión</value>
+    <value>View distance</value>
   </data>
   <data name="ViewDistanceCard.Description" xml:space="preserve">
-    <value>Cantidad máxima de chunks visibles.</value>
+    <value>Maximum number of visible chunks.</value>
   </data>
   <data name="TickDistanceCard.Header" xml:space="preserve">
-    <value>Distancia de actualización</value>
+    <value>Tick distance</value>
   </data>
   <data name="TickDistanceCard.Description" xml:space="preserve">
-    <value>Chunks alrededor del jugador que reciben actualizaciones (Bedrock).</value>
+    <value>Chunks around the player updated each tick (Bedrock).</value>
   </data>
   <data name="LevelNameCard.Header" xml:space="preserve">
-    <value>Nombre del mundo</value>
+    <value>World name</value>
   </data>
   <data name="LevelNameCard.Description" xml:space="preserve">
-    <value>Nombre del mundo o nivel.</value>
+    <value>Level or world name.</value>
   </data>
   <data name="TextureRequiredCard.Header" xml:space="preserve">
-    <value>Textura obligatoria</value>
+    <value>Required texture</value>
   </data>
   <data name="TextureRequiredCard.Description" xml:space="preserve">
-    <value>Obliga a usar paquetes de texturas.</value>
+    <value>Force texture pack usage.</value>
   </data>
   <data name="ChatRestrictionCard.Header" xml:space="preserve">
-    <value>Restricción de chat</value>
+    <value>Chat restriction</value>
   </data>
   <data name="ChatRestrictionCard.Description" xml:space="preserve">
-    <value>Define el nivel de restricción en el chat.</value>
+    <value>Level of restriction for chat.</value>
   </data>
   <data name="PlayerInteractionCard.Header" xml:space="preserve">
-    <value>Interacción de jugadores</value>
+    <value>Player interaction</value>
   </data>
   <data name="PlayerInteractionCard.Description" xml:space="preserve">
-    <value>Ignorar interacciones entre jugadores.</value>
+    <value>Ignore player interactions.</value>
   </data>
   <data name="ForceGamemodeCard.Header" xml:space="preserve">
-    <value>Forzar modo de juego</value>
+    <value>Force gamemode</value>
   </data>
   <data name="ForceGamemodeCard.Description" xml:space="preserve">
-    <value>Forzar un modo diferente al guardado en el mundo.</value>
+    <value>Force a gamemode other than the one saved on the world.</value>
   </data>
   <data name="StartupWindowsCard.Header" xml:space="preserve">
-    <value>Iniciar con Windows</value>
+    <value>Start with Windows</value>
   </data>
   <data name="StartupWindowsCard.Description" xml:space="preserve">
-    <value>Permite que la aplicación se ejecute automáticamente al iniciar el sistema.</value>
+    <value>Allows the app to run automatically when Windows starts.</value>
   </data>
   <data name="CloseTrayCard.Header" xml:space="preserve">
-    <value>Cerrar a la bandeja</value>
+    <value>Close to tray</value>
   </data>
   <data name="CloseTrayCard.Description" xml:space="preserve">
-    <value>Al cerrar, la aplicación se minimiza a la bandeja del sistema.</value>
+    <value>When closing, the app minimizes to the system tray.</value>
   </data>
   <data name="RamLimitCard.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Asigna memoria RAM al proceso</value>
+    <value>Assign RAM for the process</value>
   </data>
   <data name="WorldNameCard.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Debe coincidir con la carpeta del mundo</value>
+    <value>This must match the folder name</value>
   </data>
   <data name="InternetInfoBar_Reconnected_Title" xml:space="preserve">
-    <value>Conectado</value>
+    <value>Connected</value>
   </data>
   <data name="InternetInfoBar_Reconnected_Message" xml:space="preserve">
-    <value>La conexión a Internet se ha restablecido.</value>
+    <value>Internet connection restored.</value>
   </data>
   <data name="WelcomeOOBEDialog.Title" xml:space="preserve">
-    <value>Bienvenido</value>
+    <value>Welcome</value>
   </data>
   <data name="WelcomeOOBEDialog.Content" xml:space="preserve">
-    <value>¡Bienvenido a Server App Desktop!
-Esta aplicación te ayuda a administrar tu servidor de Minecraft fácilmente, ya sea Bedrock o Java. 
-Aquí puedes configurar la apariencia, la carpeta y el ejecutable del servidor, el puerto de conexión y la descripción. Todo está organizado en pasos simples para que avances con facilidad.
-También tienes funciones como inicio automático del servidor y opciones de personalización para una mejor experiencia. Al terminar, tendrás tu entorno funcionando y listo para tu comunidad.
-Este es el inicio de tu aventura: donde cada configuración forma tu espacio digital. Explora, disfruta y prepárate para hacer crecer tu servidor.</value>
+    <value>Welcome to Server App Desktop!
+This app helps you manage your Minecraft server clearly and easily, whether it is Bedrock or Java. Here you can set up the interface appearance, server folder and executable, connection port, and description.
+Everything is organized in simple steps so you can move forward without complications.
+You also have features like auto start and customization for a better experience. When you finish this initial setup, your environment will be ready for you and your community.
+This is the beginning of your journey: each setting becomes part of your digital space. Explore, enjoy, and get ready to run your server with confidence.</value>
   </data>
   <data name="PathSelectedText" xml:space="preserve">
-    <value>No se ha seleccionado ninguna carpeta.</value>
+    <value>No folder selected.</value>
   </data>
   <data name="MenuFlyoutItem_StartWithWindows.Text" xml:space="preserve">
-    <value>Iniciar con Windows</value>
+    <value>Start with Windows</value>
   </data>
   <data name="MenuFlyoutItem_OpenSettingsFile.Text" xml:space="preserve">
-    <value>Abrir archivo de configuración</value>
+    <value>Open settings file</value>
   </data>
   <data name="NoneItem" xml:space="preserve">
-    <value>Ninguno</value>
+    <value>None</value>
   </data>
   <data name="TrayTooltip_ServerStarting" xml:space="preserve">
-    <value>Server App Desktop (Vista previa) - Servidor iniciando</value>
+    <value>Server App Desktop (Preview) - Server Starting</value>
   </data>
   <data name="TrayTooltip_ServerRunning" xml:space="preserve">
-    <value>Server App Desktop (Vista previa) - Servidor en ejecución</value>
+    <value>Server App Desktop (Preview) - Server Running</value>
   </data>
   <data name="TrayTooltip_ServerStopping" xml:space="preserve">
-    <value>Server App Desktop (Vista previa) - Servidor deteniéndose</value>
+    <value>Server App Desktop (Preview) - Server Stopping</value>
   </data>
   <data name="TrayTooltip_ServerStopped" xml:space="preserve">
-    <value>Server App Desktop (Vista previa) - Servidor detenido</value>
+    <value>Server App Desktop (Preview) - Server Stopped</value>
   </data>
   <data name="TrayTooltip_ServerRestarting" xml:space="preserve">
-    <value>Server App Desktop (Vista previa) - Servidor reiniciando</value>
+    <value>Server App Desktop (Preview) - Server Restarting</value>
   </data>
   <data name="DisconnectedString" xml:space="preserve">
-    <value>Desconectado</value>
+    <value>Disconnected</value>
   </data>
   <data name="GamemodeCard.Header" xml:space="preserve">
-    <value>Modo de juego</value>
+    <value>Game mode</value>
   </data>
   <data name="GamemodeCard.Description" xml:space="preserve">
-    <value>Elige entre supervivencia, creativo o aventura.</value>
+    <value>Choose between survival, creative, and adventure.</value>
   </data>
   <data name="UnknownString" xml:space="preserve">
-    <value>Desconocido</value>
+    <value>Unknown</value>
   </data>
   <data name="ServerFailedToStart" xml:space="preserve">
-    <value>No se pudo iniciar el servidor. Verifica la consola.</value>
+    <value>The server failed to start. Check the console.</value>
   </data>
   <data name="ErrorToLinkToJob" xml:space="preserve">
-    <value>Error al vincular con el trabajo: {0}</value>
+    <value>Error linking to Job: {0}</value>
   </data>
   <data name="ErrorToGetDiskHandle" xml:space="preserve">
-    <value>No fue posible obtener el controlador del disco físico.</value>
+    <value>Could not get physical disk handle.</value>
   </data>
   <data name="ErrorToQueryFormat" xml:space="preserve">
-    <value>Error al consultar el formato: {0}</value>
+    <value>Error querying format: {0}</value>
   </data>
   <data name="NativeError" xml:space="preserve">
-    <value>Error nativo: {0}</value>
+    <value>Native Error: {0}</value>
   </data>
   <data name="ClipboardError" xml:space="preserve">
-    <value>Error en el portapapeles: {0}</value>
+    <value>Clipboard error: {0}</value>
   </data>
   <data name="InvalidUpdateChannel" xml:space="preserve">
-    <value>Canal de actualización no válido</value>
+    <value>Invalid update channel</value>
   </data>
   <data name="ShellError" xml:space="preserve">
-    <value>Error de shell: {0}</value>
+    <value>Shell error: {0}</value>
   </data>
   <data name="ServerState_Starting" xml:space="preserve">
-    <value>Iniciando...</value>
+    <value>Starting...</value>
   </data>
   <data name="ServerState_Running" xml:space="preserve">
-    <value>En ejecución</value>
+    <value>Running</value>
   </data>
   <data name="ServerState_Restarting" xml:space="preserve">
-    <value>Reiniciando...</value>
+    <value>Restarting...</value>
   </data>
   <data name="ServerState_Stopping" xml:space="preserve">
-    <value>Deteniendo...</value>
+    <value>Stopping...</value>
   </data>
   <data name="ServerState_Stopped" xml:space="preserve">
-    <value>Detenido</value>
+    <value>Stopped</value>
   </data>
   <data name="Reset_Success_Title" xml:space="preserve">
-    <value>Éxito</value>
+    <value>Success</value>
   </data>
   <data name="Reset_Success_Msg" xml:space="preserve">
-    <value>La configuración se ha restablecido correctamente.
-La aplicación se reiniciará para aplicar los cambios.</value>
+    <value>Settings were reset successfully.
+The app will restart to apply changes.</value>
   </data>
   <data name="Reset_Error_Title" xml:space="preserve">
-    <value>Error al restablecer</value>
+    <value>Reset error</value>
   </data>
   <data name="Reset_Error_Msg" xml:space="preserve">
-    <value>No fue posible restablecer la configuración.
+    <value>Could not reset settings.
 Error: {0}</value>
   </data>
   <data name="Notify_Default_Title" xml:space="preserve">
-    <value>Notificación del servidor</value>
+    <value>Server notification</value>
   </data>
   <data name="Notify_Default_Msg" xml:space="preserve">
-    <value>No hay detalles adicionales.</value>
+    <value>No additional details.</value>
   </data>
   <data name="Err_NotificationNotBuilt" xml:space="preserve">
-    <value>La notificación no fue generada.</value>
+    <value>The notification was not built.</value>
   </data>
   <data name="Err_ImageSourceEmpty" xml:space="preserve">
-    <value>La imagen está vacía.</value>
+    <value>ImageSource is empty.</value>
   </data>
   <data name="Err_UriSchemeNotSupported" xml:space="preserve">
-    <value>Esquema {0} no soportado.</value>
+    <value>Scheme {0} not supported.</value>
   </data>
   <data name="Err_MainWindowNotInitialized" xml:space="preserve">
-    <value>No se ha inicializado la ventana principal. Ejecuta Initialize primero.</value>
+    <value>MainWindow has not been initialized. Please call Initialize first.</value>
   </data>
   <data name="FilesPage_NoDetails" xml:space="preserve">
-    <value>No hay detalles adicionales.</value>
+    <value>No additional details.</value>
   </data>
   <data name="FilesPage_DialogError" xml:space="preserve">
-    <value>Error al mostrar el diálogo: {0}</value>
+    <value>Error showing dialog: {0}</value>
   </data>
   <data name="Files_Disk_Local" xml:space="preserve">
-    <value>Disco local</value>
+    <value>Local Disk</value>
   </data>
   <data name="Files_Disk_Inaccessible" xml:space="preserve">
-    <value>Inaccesible</value>
+    <value>Inaccessible</value>
   </data>
   <data name="Files_Disk_StorageInfo" xml:space="preserve">
-    <value>{0} libres de {1}</value>
+    <value>{0} free of {1}</value>
   </data>
   <data name="Files_Err_Open" xml:space="preserve">
-    <value>No se pudo abrir '{0}'</value>
+    <value>Could not open '{0}'</value>
   </data>
   <data name="Files_Err_Clipboard" xml:space="preserve">
-    <value>Error al copiar al portapapeles</value>
+    <value>Error copying to clipboard</value>
   </data>
   <data name="Files_Err_Paste" xml:space="preserve">
-    <value>Error al pegar elementos</value>
+    <value>Error pasting items</value>
   </data>
   <data name="Files_Err_MovePrepare" xml:space="preserve">
-    <value>Error al preparar el movimiento</value>
+    <value>Error preparing to move</value>
   </data>
   <data name="Files_Err_Backup" xml:space="preserve">
-    <value>Error al crear el respaldo</value>
+    <value>Error creating backup</value>
   </data>
   <data name="Files_Err_Rename" xml:space="preserve">
-    <value>Error al renombrar '{0}'</value>
+    <value>Error renaming '{0}'</value>
   </data>
   <data name="Files_Err_Delete" xml:space="preserve">
-    <value>No se pudo eliminar '{0}'</value>
+    <value>Could not delete '{0}'</value>
   </data>
   <data name="Files_Err_CreateFile" xml:space="preserve">
-    <value>Error al crear el archivo '{0}'</value>
+    <value>Error creating file '{0}'</value>
   </data>
   <data name="Files_Err_CreateFolder" xml:space="preserve">
-    <value>Error al crear la carpeta '{0}'</value>
+    <value>Error creating folder '{0}'</value>
   </data>
   <data name="Files_Success_Move" xml:space="preserve">
-    <value>Elementos movidos exitosamente</value>
+    <value>Items moved successfully</value>
   </data>
   <data name="Files_Success_Copy" xml:space="preserve">
-    <value>Elementos copiados exitosamente</value>
+    <value>Items copied successfully</value>
   </data>
   <data name="Files_Success_Backup" xml:space="preserve">
-    <value>Respaldo creado en '{0}'</value>
+    <value>Backup created in '{0}'</value>
   </data>
   <data name="Files_Success_Rename" xml:space="preserve">
-    <value>Se renombró '{0}' a '{1}'</value>
+    <value>Renamed '{0}' to '{1}'</value>
   </data>
   <data name="Files_Success_Delete" xml:space="preserve">
-    <value>'{0}' eliminado exitosamente</value>
+    <value>'{0}' successfully deleted</value>
   </data>
   <data name="Files_Success_CreateFile" xml:space="preserve">
-    <value>Archivo '{0}' creado</value>
+    <value>File '{0}' created</value>
   </data>
   <data name="Files_Success_CreateFolder" xml:space="preserve">
-    <value>Carpeta '{0}' creada</value>
+    <value>Folder '{0}' created</value>
   </data>
   <data name="Home_Notify_Start_Title" xml:space="preserve">
-    <value>Servidor iniciado</value>
+    <value>Server Started</value>
   </data>
   <data name="Home_Notify_Start_Msg" xml:space="preserve">
-    <value>El servidor se inició correctamente.</value>
+    <value>The server started successfully.</value>
   </data>
   <data name="Home_Notify_Stop_Title" xml:space="preserve">
-    <value>Servidor detenido</value>
+    <value>Server Stopped</value>
   </data>
   <data name="Home_Notify_Stop_Msg" xml:space="preserve">
-    <value>El servidor se detuvo correctamente.</value>
+    <value>The server stopped successfully.</value>
   </data>
   <data name="Home_Notify_Exit_Title" xml:space="preserve">
-    <value>Servidor cerrado</value>
+    <value>Server Closed</value>
   </data>
   <data name="Home_Notify_Exit_Msg" xml:space="preserve">
-    <value>El servidor se apagó desde la aplicación correctamente.</value>
+    <value>The server shut down successfully from the app.</value>
   </data>
   <data name="Home_Notify_Critical_Title" xml:space="preserve">
-    <value>Error crítico</value>
+    <value>Critical Error</value>
   </data>
   <data name="Home_Notify_Critical_Msg" xml:space="preserve">
-    <value>El servidor se detuvo de forma inesperada.</value>
+    <value>The server stopped unexpectedly.</value>
   </data>
   <data name="Home_IP_Local" xml:space="preserve">
     <value>Local</value>
   </data>
   <data name="Home_IP_Public" xml:space="preserve">
-    <value>Pública</value>
+    <value>Public</value>
   </data>
   <data name="Home_Log_TrayError" xml:space="preserve">
-    <value>Error al actualizar la bandeja: {0}</value>
+    <value>Error updating tray: {0}</value>
   </data>
   <data name="Main_UpdateReady_Title" xml:space="preserve">
-    <value>Actualización lista para instalar</value>
+    <value>Update ready to install</value>
   </data>
   <data name="Main_UpdateReady_Msg" xml:space="preserve">
-    <value>La versión {0} está lista para instalarse, se instalará cuando cierres la aplicación.</value>
+    <value>Version {0} is ready to install, it will be applied after closing.</value>
   </data>
   <data name="Main_Update_RestartNow" xml:space="preserve">
-    <value>Reiniciar ahora</value>
+    <value>Restart now</value>
   </data>
   <data name="OOBE_Error_Title" xml:space="preserve">
     <value>Error</value>
   </data>
   <data name="OOBE_Error_Msg" xml:space="preserve">
-    <value>Selecciona una carpeta o ejecutable de servidor. Es obligatorio.</value>
+    <value>Select a server folder or executable (required).</value>
   </data>
   <data name="OOBE_Java_Title" xml:space="preserve">
-    <value>Se recomienda instalar Java</value>
+    <value>Java installation recommended</value>
   </data>
   <data name="OOBE_Java_Msg" xml:space="preserve">
-    <value>Has elegido Minecraft Java. Asegúrate de tener Java en tu PATH.</value>
+    <value>You selected Minecraft Java. Make sure Java is installed and available in your PATH.</value>
   </data>
   <data name="OOBE_Default_MOTD" xml:space="preserve">
-    <value>Servidor de Minecraft</value>
+    <value>A Minecraft Server</value>
   </data>
   <data name="Settings_Diff_Peaceful" xml:space="preserve">
-    <value>Pacífico</value>
+    <value>Peaceful</value>
   </data>
   <data name="Settings_Diff_Easy" xml:space="preserve">
-    <value>Fácil</value>
+    <value>Easy</value>
   </data>
   <data name="Settings_Diff_Normal" xml:space="preserve">
     <value>Normal</value>
   </data>
   <data name="Settings_Diff_Hard" xml:space="preserve">
-    <value>Difícil</value>
+    <value>Hard</value>
   </data>
   <data name="Settings_GM_Survival" xml:space="preserve">
-    <value>Supervivencia</value>
+    <value>Survival</value>
   </data>
   <data name="Settings_GM_Creative" xml:space="preserve">
-    <value>Creativo</value>
+    <value>Creative</value>
   </data>
   <data name="Settings_GM_Adventure" xml:space="preserve">
-    <value>Aventura</value>
+    <value>Adventure</value>
   </data>
   <data name="Settings_Lang_System" xml:space="preserve">
-    <value>Sistema</value>
+    <value>System</value>
   </data>
   <data name="Settings_Chat_None" xml:space="preserve">
-    <value>Ninguno</value>
+    <value>None</value>
   </data>
   <data name="Settings_Chat_Dropped" xml:space="preserve">
-    <value>No entregado</value>
+    <value>Dropped</value>
   </data>
   <data name="Settings_Chat_Disabled" xml:space="preserve">
-    <value>Desactivado</value>
+    <value>Disabled</value>
   </data>
   <data name="Process_Loading" xml:space="preserve">
-    <value>Cargando...</value>
+    <value>Loading...</value>
   </data>
   <data name="Update_Notify_Title" xml:space="preserve">
-    <value>Nueva actualización</value>
+    <value>New update</value>
   </data>
   <data name="Update_Notify_Msg" xml:space="preserve">
-    <value>La versión {0} está disponible</value>
+    <value>Version {0} is ready</value>
   </data>
   <data name="Update_Notify_BtnDownload" xml:space="preserve">
-    <value>Descargar</value>
+    <value>Download</value>
   </data>
   <data name="Cmd_Error_Title" xml:space="preserve">
     <value>Error</value>
   </data>
   <data name="Cmd_Error_Unknown" xml:space="preserve">
-    <value>Argumento no reconocido: {0}</value>
+    <value>Unrecognized argument: {0}</value>
   </data>
   <data name="Cmd_Info_Title" xml:space="preserve">
-    <value>Información de la versión</value>
+    <value>Version info</value>
   </data>
   <data name="Cmd_Info_Msg" xml:space="preserve">
-    <value>{0} versión {1}</value>
+    <value>{0} Version {1}</value>
   </data>
   <data name="Cmd_Help_Title" xml:space="preserve">
-    <value>Ayuda de argumentos</value>
+    <value>Argument help</value>
   </data>
   <data name="Cmd_Help_Msg" xml:space="preserve">
-    <value>Opciones de argumentos:
---help, -h        : Muestra esta ayuda.
---version, -v     : Muestra la versión de la aplicación.
---reset-settings  : Restablece la configuración.
---tray-only       : Inicia en la bandeja del sistema.</value>
+    <value>Argument help:
+--help, -h          : Show this help.
+--version, -v       : Show the app version.
+--reset-settings    : Reset the app settings.
+--tray-only         : The app starts minimized in the system tray.</value>
   </data>
   <data name="Window_FullScreen_Enter" xml:space="preserve">
-    <value>Pantalla completa (F11)</value>
+    <value>Enter full screen (F11)</value>
   </data>
   <data name="Window_FullScreen_Exit" xml:space="preserve">
-    <value>Salir de pantalla completa (ESC o F11)</value>
+    <value>Exit full screen (ESC or F11)</value>
   </data>
   <data name="Files_Dialog_Backup.Title" xml:space="preserve">
-    <value>Crear respaldo</value>
+    <value>Create backup</value>
   </data>
   <data name="Files_Dialog_Backup.Content" xml:space="preserve">
-    <value>¿Quieres respaldar el servidor? Así evitarás pérdida de archivos en el futuro. ¡Buena elección!</value>
+    <value>Do you want to create a backup of the server? This will help you avoid losing files in the future. Good choice!</value>
   </data>
   <data name="Files_Dialog_Backup.PrimaryButtonText" xml:space="preserve">
-    <value>¡Vamos!</value>
+    <value>Let's go!</value>
   </data>
   <data name="Files_Dialog_Backup.CloseButtonText" xml:space="preserve">
-    <value>No, gracias</value>
+    <value>No, thanks</value>
   </data>
   <data name="Files_Dialog_CreateFile.Title" xml:space="preserve">
-    <value>Crear archivo</value>
+    <value>Create file</value>
   </data>
   <data name="Files_Dialog_CreateFile.PrimaryButtonText" xml:space="preserve">
-    <value>Crear archivo</value>
+    <value>Create file</value>
   </data>
   <data name="Files_Dialog_CreateFile.CloseButtonText" xml:space="preserve">
-    <value>Cancelar</value>
+    <value>Cancel</value>
   </data>
   <data name="Files_Txt_FileName.PlaceholderText" xml:space="preserve">
-    <value>Nombre del archivo</value>
+    <value>File name</value>
   </data>
   <data name="Files_Dialog_CreateFolder.Title" xml:space="preserve">
-    <value>Nueva carpeta</value>
+    <value>New Folder</value>
   </data>
   <data name="Files_Dialog_CreateFolder.PrimaryButtonText" xml:space="preserve">
-    <value>Crear carpeta</value>
+    <value>Create folder</value>
   </data>
   <data name="Files_Dialog_CreateFolder.CloseButtonText" xml:space="preserve">
-    <value>Cancelar</value>
+    <value>Cancel</value>
   </data>
   <data name="Files_Txt_FolderName.PlaceholderText" xml:space="preserve">
-    <value>Nombre de la carpeta</value>
+    <value>Folder name</value>
   </data>
   <data name="Files_Dialog_Rename.Title" xml:space="preserve">
-    <value>Renombrar archivo o carpeta</value>
+    <value>Rename File or Folder</value>
   </data>
   <data name="Files_Dialog_Rename.PrimaryButtonText" xml:space="preserve">
-    <value>Renombrar</value>
+    <value>Rename</value>
   </data>
   <data name="Files_Dialog_Rename.CloseButtonText" xml:space="preserve">
-    <value>Cancelar</value>
+    <value>Cancel</value>
   </data>
   <data name="Files_Txt_RenameDescription.Text" xml:space="preserve">
-    <value>Introduce el nuevo nombre para el elemento seleccionado:</value>
+    <value>Enter the new name for the selected item:</value>
   </data>
   <data name="Files_Txt_NewName.PlaceholderText" xml:space="preserve">
-    <value>Nuevo nombre...</value>
+    <value>New name...</value>
   </data>
   <data name="Files_Dialog_Delete.Title" xml:space="preserve">
-    <value>Confirmar eliminación</value>
+    <value>Confirm Deletion</value>
   </data>
   <data name="Files_Dialog_Delete.PrimaryButtonText" xml:space="preserve">
-    <value>Eliminar permanentemente</value>
+    <value>Delete Permanently</value>
   </data>
   <data name="Files_Dialog_Delete.CloseButtonText" xml:space="preserve">
-    <value>Conservar</value>
+    <value>Keep</value>
   </data>
   <data name="Files_Txt_DeleteConfirm.Text" xml:space="preserve">
-    <value>¿Estás seguro que deseas eliminar este elemento?</value>
+    <value>Are you sure you want to delete this item?</value>
   </data>
   <data name="Files_Txt_DeleteWarning.Text" xml:space="preserve">
-    <value>Esta acción no se puede deshacer y puede afectar el funcionamiento del servidor.</value>
+    <value>This action cannot be undone and could affect how Minecraft Server works.</value>
   </data>
   <data name="Files_Dialog_Success.Title" xml:space="preserve">
-    <value>Operación completada</value>
+    <value>Operation Completed</value>
   </data>
   <data name="Files_Dialog_Success.CloseButtonText" xml:space="preserve">
-    <value>Listo</value>
+    <value>OK</value>
   </data>
   <data name="Files_Dialog_Error.Title" xml:space="preserve">
-    <value>Hubo un problema</value>
+    <value>Something went wrong</value>
   </data>
   <data name="Files_Dialog_Error.CloseButtonText" xml:space="preserve">
-    <value>Cerrar</value>
+    <value>Close</value>
   </data>
   <data name="Files_Txt_ErrorDefault.Text" xml:space="preserve">
-    <value>No fue posible completar la operación. Intenta de nuevo.</value>
+    <value>Could not complete the operation. Please try again.</value>
   </data>
   <data name="Files_Exp_Details.Header" xml:space="preserve">
-    <value>Detalles</value>
+    <value>Details</value>
   </data>
   <data name="Files_Txt_NoDetails.Text" xml:space="preserve">
-    <value>No hay detalles adicionales.</value>
+    <value>No additional details.</value>
   </data>
   <data name="Files_Cmd_Rename.Label" xml:space="preserve">
-    <value>Renombrar</value>
+    <value>Rename</value>
   </data>
   <data name="Files_Cmd_Rename.Description" xml:space="preserve">
-    <value>Renombrar el archivo o carpeta seleccionado</value>
+    <value>Rename the selected file or folder</value>
   </data>
   <data name="Files_Cmd_Refresh.Label" xml:space="preserve">
-    <value>Actualizar</value>
+    <value>Refresh</value>
   </data>
   <data name="Files_Cmd_Refresh.Description" xml:space="preserve">
-    <value>Actualizar la lista de archivos</value>
+    <value>Refresh the file list</value>
   </data>
   <data name="Files_Cmd_Properties.Label" xml:space="preserve">
-    <value>Propiedades</value>
+    <value>Properties</value>
   </data>
   <data name="Files_Cmd_Properties.Description" xml:space="preserve">
-    <value>Ver propiedades del elemento</value>
+    <value>View item properties</value>
   </data>
   <data name="Files_Cmd_GoBack.Label" xml:space="preserve">
-    <value>Atrás</value>
+    <value>Back</value>
   </data>
   <data name="Files_Cmd_GoBack.Description" xml:space="preserve">
-    <value>Ir a la carpeta anterior</value>
+    <value>Go to the previous folder</value>
   </data>
   <data name="Files_Cmd_GoForward.Label" xml:space="preserve">
-    <value>Siguiente</value>
+    <value>Next</value>
   </data>
   <data name="Files_Cmd_GoForward.Description" xml:space="preserve">
-    <value>Ir a la carpeta siguiente</value>
+    <value>Go to the next folder</value>
   </data>
   <data name="Settings_InfoBar_Running_Title" xml:space="preserve">
-    <value>Algunas configuraciones no se pueden modificar</value>
+    <value>Some settings cannot be changed</value>
   </data>
   <data name="Settings_InfoBar_Running_Msg" xml:space="preserve">
-    <value>No es posible cambiar ciertos ajustes mientras el servidor está activo.</value>
+    <value>Some settings can't be changed while the server is running.</value>
   </data>
   <data name="Settings_InfoBar_Restart.Title" xml:space="preserve">
-    <value>Reinicia la aplicación</value>
+    <value>Restart the app</value>
   </data>
   <data name="Settings_InfoBar_Restart.Message" xml:space="preserve">
-    <value>Reinicia Server App Desktop para aplicar los cambios.</value>
+    <value>Restart Server App Desktop to apply changes.</value>
   </data>
   <data name="Settings_Btn_RestartNow.Content" xml:space="preserve">
-    <value>Reiniciar ahora</value>
+    <value>Restart now</value>
   </data>
   <data name="MenuFlyoutItem_Status.Text" xml:space="preserve">
-    <value>Estado del servidor</value>
+    <value>Server status</value>
   </data>
 </root>

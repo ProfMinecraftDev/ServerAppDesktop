@@ -1,5 +1,4 @@
-﻿
-namespace ServerAppDesktop.Helpers;
+﻿namespace ServerAppDesktop.Helpers;
 
 public static class SettingsHelper
 {
@@ -64,6 +63,15 @@ public static class SettingsHelper
         if (!string.IsNullOrEmpty(DataHelper.Settings?.UI.Language))
         {
             ApplicationLanguages.PrimaryLanguageOverride = DataHelper.Settings.UI.Language;
+            var manager = new Microsoft.Windows.ApplicationModel.Resources.ResourceManager();
+            ResourceContext context = manager.CreateResourceContext();
+
+            context.QualifierValues["Language"] = DataHelper.Settings.UI.Language;
+            var ci = new System.Globalization.CultureInfo(DataHelper.Settings.UI.Language);
+            System.Globalization.CultureInfo.CurrentCulture = ci;
+            System.Globalization.CultureInfo.CurrentUICulture = ci;
+            System.Globalization.CultureInfo.DefaultThreadCurrentCulture = ci;
+            System.Globalization.CultureInfo.DefaultThreadCurrentUICulture = ci;
         }
     }
 
@@ -89,7 +97,6 @@ public static class SettingsHelper
 
         File.WriteAllText(jsonFilePath, jsonString);
     }
-
     public static void ResetSettings()
     {
         try
@@ -101,8 +108,8 @@ public static class SettingsHelper
 
             _ = PInvoke.MessageBox(
                 HWND.Null,
-                "Se restableció la configuración con éxito.\nLa aplicación se reiniciará para aplicar los cambios.",
-                "Éxito",
+                ResourceHelper.GetString("Reset_Success_Msg"),
+                ResourceHelper.GetString("Reset_Success_Title"),
                 MESSAGEBOX_STYLE.MB_ICONINFORMATION | MESSAGEBOX_STYLE.MB_OK | MESSAGEBOX_STYLE.MB_TOPMOST
             );
 
@@ -110,15 +117,17 @@ public static class SettingsHelper
         }
         catch (Exception ex)
         {
+            string errorMsg = string.Format(ResourceHelper.GetString("Reset_Error_Msg"), ex.Message);
+
             _ = PInvoke.MessageBox(
                 HWND.Null,
-                $"No se pudo restablecer la configuración.\nError: {ex.Message}",
-                "Error al limpiar",
+                errorMsg,
+                ResourceHelper.GetString("Reset_Error_Title"),
                 MESSAGEBOX_STYLE.MB_ICONERROR | MESSAGEBOX_STYLE.MB_OK | MESSAGEBOX_STYLE.MB_TOPMOST
             );
         }
 
-        string exePath = Process.GetCurrentProcess().MainModule?.FileName ?? string.Empty;
+        string exePath = Environment.ProcessPath ?? string.Empty;
         ProcessStartInfo startInfo = new(exePath)
         {
             UseShellExecute = true,

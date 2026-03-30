@@ -17,8 +17,6 @@ public sealed partial class HomeViewModel : ObservableRecipient, IRecipient<AppS
     [NotifyCanExecuteChangedFor(nameof(RestartServerCommand))]
     private bool _isConfigured = false;
 
-
-
     [ObservableProperty]
     [NotifyPropertyChangedFor(nameof(CanStartServer))]
     [NotifyPropertyChangedFor(nameof(CanStopServer))]
@@ -38,8 +36,6 @@ public sealed partial class HomeViewModel : ObservableRecipient, IRecipient<AppS
     [ObservableProperty] private string _serverPortType = "IPv4";
     [ObservableProperty] private string _activeWorld = DefaultValue;
 
-
-
     public bool CanStartServer => IsConfigured && (ServerState is ServerStateType.Stopped);
     public bool CanStopServer => IsConfigured && (ServerState is ServerStateType.Running);
     public bool CanRestartServer => IsConfigured && (ServerState is ServerStateType.Running);
@@ -49,11 +45,9 @@ public sealed partial class HomeViewModel : ObservableRecipient, IRecipient<AppS
         IProcessService processService,
         INetworkService networkService,
         IServerPropertiesService serverPropertiesService,
-        IWindowHandler windowHandler
-        )
+        IWindowHandler windowHandler)
     {
         IsActive = true;
-
         _oobeService = oobeService;
         _processService = processService;
         _networkService = networkService;
@@ -64,7 +58,6 @@ public sealed partial class HomeViewModel : ObservableRecipient, IRecipient<AppS
         _ = App.GetRequiredService<TerminalViewModel>();
 
         _processService.ProcessExited += (_, args) => UpdateState(ServerStateType.Stopped, !args.IsSuccess && args.ExitCode != 0, true);
-
         _oobeService.OOBEFinished += (_, args) => IsConfigured = args.IsSuccess;
     }
 
@@ -73,16 +66,12 @@ public sealed partial class HomeViewModel : ObservableRecipient, IRecipient<AppS
     {
         ServerSettings? s = DataHelper.Settings?.Server;
         if (s == null)
-        {
             return;
-        }
 
         if (needsToUpdatePropety)
             UpdateState(ServerStateType.Starting);
 
-
         string fileName = s.Edition == 1 ? "java.exe" : s.Executable;
-
 
         string[] args = s.Edition == 1
             ? [
@@ -122,7 +111,7 @@ public sealed partial class HomeViewModel : ObservableRecipient, IRecipient<AppS
         if (success)
         {
             UpdateState(ServerStateType.Running);
-            Notify("Servidor Iniciado", "El proceso arrancó con éxito.");
+            Notify(ResourceHelper.GetString("Home_Notify_Start_Title"), ResourceHelper.GetString("Home_Notify_Start_Msg"));
         }
         else
         {
@@ -136,17 +125,15 @@ public sealed partial class HomeViewModel : ObservableRecipient, IRecipient<AppS
     private async Task StopServerAsync()
     {
         UpdateState(ServerStateType.Stopping);
-
         bool stopped = await _processService.StopProcessAsync();
 
         if (stopped)
         {
             UpdateState(ServerStateType.Stopped);
-            Notify("Servidor Detenido", "El proceso se cerró correctamente.");
+            Notify(ResourceHelper.GetString("Home_Notify_Stop_Title"), ResourceHelper.GetString("Home_Notify_Stop_Msg"));
         }
         else
         {
-
             UpdateState(ServerStateType.Stopped, true);
         }
     }
@@ -165,17 +152,12 @@ public sealed partial class HomeViewModel : ObservableRecipient, IRecipient<AppS
     {
         DispatcherQueue? dispatcher = MainWindow.Instance?.DispatcherQueue;
         if (dispatcher == null)
-        {
             return;
-        }
 
         _ = dispatcher.TryEnqueue(() =>
         {
-
             if (ServerState == state)
-            {
                 return;
-            }
 
             ServerState = state;
 
@@ -184,14 +166,12 @@ public sealed partial class HomeViewModel : ObservableRecipient, IRecipient<AppS
 
             if (isError)
             {
-                Notify("Error Crítico", "El servidor se detuvo de forma inesperada.", AppNotificationScenario.Urgent);
+                Notify(ResourceHelper.GetString("Home_Notify_Critical_Title"), ResourceHelper.GetString("Home_Notify_Critical_Msg"), AppNotificationScenario.Urgent);
                 WindowHelper.FlashTaskbarIcon(MainWindow.Instance);
             }
             else if (byProcess && state == ServerStateType.Stopped)
             {
-
-
-                Notify("Servidor Cerrado", "El servidor se apagó correctamente desde el proceso.");
+                Notify(ResourceHelper.GetString("Home_Notify_Exit_Title"), ResourceHelper.GetString("Home_Notify_Exit_Msg"));
             }
         });
     }
@@ -215,18 +195,15 @@ public sealed partial class HomeViewModel : ObservableRecipient, IRecipient<AppS
         {
             try
             {
-
                 StartServerCommand.NotifyCanExecuteChanged();
                 StopServerCommand.NotifyCanExecuteChanged();
                 RestartServerCommand.NotifyCanExecuteChanged();
-
                 _ = Messenger.Send(new ServerStateChangedMessage(value));
-
                 _windowHandler.SetBadgeIcon(ServerUIHelper.GetBadgeIconPath(value));
             }
             catch (Exception ex)
             {
-                Debug.WriteLine($"Error actualizando Tray: {ex.Message}");
+                Debug.WriteLine(string.Format(ResourceHelper.GetString("Home_Log_TrayError"), ex.Message));
             }
         });
     }
@@ -255,11 +232,10 @@ public sealed partial class HomeViewModel : ObservableRecipient, IRecipient<AppS
             {
                 string publicIP = await _networkService.GetPublicIPAsync();
                 string localIP = _networkService.GetLocalIP();
+                string tagLocal = ResourceHelper.GetString("Home_IP_Local");
+                string tagPublic = ResourceHelper.GetString("Home_IP_Public");
 
-                ServerIP = $"""
-                {localIP} (Local)
-                {publicIP} (Pública)
-                """;
+                ServerIP = $"{localIP} ({tagLocal}){Environment.NewLine}{publicIP} ({tagPublic})";
             });
         }
         else

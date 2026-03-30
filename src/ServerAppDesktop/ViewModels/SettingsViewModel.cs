@@ -18,7 +18,7 @@ public sealed partial class SettingsViewModel : ObservableRecipient, IRecipient<
     [ObservableProperty] private bool _canSelectFolder = true;
     [ObservableProperty] private bool _canSelectExecutable = true;
 
-    #region Collections (DRY: Inicialización simplificada)
+    #region Collections
     [ObservableProperty] private ObservableCollection<WindowBackdrop> _windowBackdrops = [];
     [ObservableProperty] private ObservableCollection<WindowTheme> _windowThemes = [];
     [ObservableProperty] private ObservableCollection<MinecraftEdition> _minecraftEditions = [];
@@ -90,13 +90,32 @@ public sealed partial class SettingsViewModel : ObservableRecipient, IRecipient<
             new() { Name = ResourceHelper.GetString("JavaEditionItem"), Value = 1 }
         ];
 
-        MinecraftDifficulties = [new("Pacífico", "peaceful"), new("Fácil", "easy"), new("Normal", "normal"), new("Difícil", "hard")];
-        MinecraftGamemodes = [new("Supervivencia", "survival"), new("Creativo", "creative"), new("Aventura", "adventure")];
-        Languages = [new("Sistema", ""), new("Español (América latina)", "es-419")];
-        ChatRestrictions = [new("Ninguno", "None"), new("Descartado", "Dropped"), new("Deshabilitado", "Disabled")];
+        MinecraftDifficulties = [
+            new(ResourceHelper.GetString("Settings_Diff_Peaceful"), "peaceful"),
+            new(ResourceHelper.GetString("Settings_Diff_Easy"), "easy"),
+            new(ResourceHelper.GetString("Settings_Diff_Normal"), "normal"),
+            new(ResourceHelper.GetString("Settings_Diff_Hard"), "hard")
+        ];
+
+        MinecraftGamemodes = [
+            new(ResourceHelper.GetString("Settings_GM_Survival"), "survival"),
+            new(ResourceHelper.GetString("Settings_GM_Creative"), "creative"),
+            new(ResourceHelper.GetString("Settings_GM_Adventure"), "adventure")
+        ];
+
+        Languages = [
+            new(ResourceHelper.GetString("Settings_Lang_System"), ""),
+            new("Español (América Latina)", "es-419"),
+            new("English (United States)", "en-US")
+        ];
+
+        ChatRestrictions = [
+            new(ResourceHelper.GetString("Settings_Chat_None"), "None"),
+            new(ResourceHelper.GetString("Settings_Chat_Dropped"), "Dropped"),
+            new(ResourceHelper.GetString("Settings_Chat_Disabled"), "Disabled")
+        ];
     }
 
-    #region Reducción de Lógica (DRY Methods)
     private void SaveAndNotify()
     {
         _settingsService.Save();
@@ -109,9 +128,6 @@ public sealed partial class SettingsViewModel : ObservableRecipient, IRecipient<
         int index = map.TryGetValue(val, out int i) ? i : 0;
         return collection[index];
     }
-    #endregion
-
-    #region Partial Methods - Config Sync
 
     partial void OnIsConfiguredChanged(bool value)
     {
@@ -141,6 +157,7 @@ public sealed partial class SettingsViewModel : ObservableRecipient, IRecipient<
             SaveAndNotify();
         }
     }
+
     partial void OnSelectedThemeChanged(WindowTheme? value)
     {
         if (MainWindow.Instance != null && value?.Value != null)
@@ -226,20 +243,29 @@ public sealed partial class SettingsViewModel : ObservableRecipient, IRecipient<
     {
         if (value == null)
             return;
-        if (value.Code != DataHelper.Settings!.UI.Language)
+        if (value.Code.ToLowerInvariant() != DataHelper.Settings!.UI.Language.ToLowerInvariant())
         {
             DataHelper.Settings!.UI.Language = value.Code;
             _mainViewModel.NeedsToRestart = true;
+            SaveAndNotify();
+            if (string.IsNullOrEmpty(value.Code))
+                return;
+            ApplicationLanguages.PrimaryLanguageOverride = value.Code;
+            var manager = new ResourceManager();
+            ResourceContext context = manager.CreateResourceContext();
+            var ci = new CultureInfo(value.Code);
+
+            context.QualifierValues["Language"] = value.Code;
+            CultureInfo.CurrentCulture = ci;
+            CultureInfo.CurrentUICulture = ci;
+            CultureInfo.DefaultThreadCurrentCulture = ci;
+            CultureInfo.DefaultThreadCurrentUICulture = ci;
         }
 
-        SaveAndNotify();
     }
 
     partial void OnStartWithWindowsChanged(bool value) => _settingsService.SetStartWithWindows(value);
 
-    #endregion
-
-    #region Partial Methods - Server Properties
     partial void OnServerPortChanged(int value) => _serverPropertiesService.SetValue("server-port", value);
 
     partial void OnServerDescriptionChanged(string value)
@@ -307,14 +333,9 @@ public sealed partial class SettingsViewModel : ObservableRecipient, IRecipient<
         else
         {
             _serverPropertiesService.SetValue("op-permission-level", value ? 2 : 1);
-
             _serverPropertiesService.SetValue("enable-command-block", value);
         }
     }
-
-    #endregion
-
-    #region Picker Logic (Generic & DRY)
 
     [RelayCommand]
     private async Task SelectServerPathAsync()
@@ -359,7 +380,6 @@ public sealed partial class SettingsViewModel : ObservableRecipient, IRecipient<
     Action<string> onResult,
     string[]? filters = null) where TPicker : class
     {
-
         if (picker is FolderPicker fp)
         {
             fp.SuggestedStartLocation = PickerLocationId.ComputerFolder;
@@ -372,15 +392,13 @@ public sealed partial class SettingsViewModel : ObservableRecipient, IRecipient<
                 fop.FileTypeFilter.Add(f);
         }
 
-        TResult result = await pickAction(picker);
+        TResult? result = await pickAction(picker);
 
         if (result is PickFileResult pfr)
             onResult(pfr.Path);
         else if (result is PickFolderResult pfor)
             onResult(pfor.Path);
     }
-
-    #endregion
 
     public void Receive(ServerStateChangedMessage message)
     {

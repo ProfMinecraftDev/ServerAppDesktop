@@ -8,7 +8,7 @@ public static class ImageSourceExtensions
     public static async Task<Icon> ToIconAsync(this ImageSource imageSource, bool usingWindowsDPI = true)
     {
         if (imageSource is not BitmapImage bitmapImage || bitmapImage.UriSource == null)
-            throw new ArgumentException("El ImageSource está vacío, toche.");
+            throw new ArgumentException(ResourceHelper.GetString("Err_ImageSourceEmpty"));
 
         byte[] rawBytes = await GetImageBytesAsync(bitmapImage.UriSource);
 
@@ -50,7 +50,9 @@ public static class ImageSourceExtensions
             "ms-appx" or "ms-appx-web" => await GetMsAppxBytes(uri),
             "http" or "https" => await new HttpClient().GetByteArrayAsync(uri),
             "file" or _ when Path.IsPathRooted(uri.LocalPath) || uri.IsFile => await File.ReadAllBytesAsync(uri.IsFile ? uri.LocalPath : uri.ToString()),
-            _ => throw new NotSupportedException($"Esquema {uri.Scheme} no soportado.")
+            _ => throw new NotSupportedException(
+                    string.Format(ResourceHelper.GetString("Err_UriSchemeNotSupported"), uri.Scheme)
+                 )
         };
     }
 

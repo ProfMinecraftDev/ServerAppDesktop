@@ -15,7 +15,7 @@ public static class ClipboardHelper
         }
         catch (Exception ex)
         {
-            System.Diagnostics.Debug.WriteLine($"Error al consultar formato: {ex.Message}");
+            System.Diagnostics.Debug.WriteLine(string.Format(ResourceHelper.GetString("ErrorToQueryFormat"), ex.Message));
             return false;
         }
         finally
@@ -72,7 +72,7 @@ public static class ClipboardHelper
             }
             catch (Exception ex)
             {
-                System.Diagnostics.Debug.WriteLine($"Error nativo: {ex.Message}");
+                System.Diagnostics.Debug.WriteLine(string.Format(ResourceHelper.GetString("NativeError"), ex.Message));
             }
             finally
             {
@@ -134,7 +134,7 @@ public static class ClipboardHelper
         }
         catch (Exception ex)
         {
-            System.Diagnostics.Debug.WriteLine($"Error en Clipboard HDROP: {ex.Message}");
+            System.Diagnostics.Debug.WriteLine(string.Format(ResourceHelper.GetString("ClipboardError"), ex.Message));
         }
         finally
         {

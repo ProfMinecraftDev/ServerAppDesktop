@@ -20,11 +20,10 @@
 		<StackPanel Grid.Row="0">
 			<TextBlock x:Uid="Page_Settings_Title" Style="{StaticResource PageTitleTextBlockStyle}" />
 			<InfoBar
-				Title="Configuraciones no modificables"
+				x:Uid="Settings_InfoBar_Running"
 				Margin="36,8,36,0"
 				IsClosable="False"
 				IsOpen="{x:Bind ViewModel.ServerRunning, Mode=OneWay}"
-				Message="Algunas configuraciones no se pueden modificar mientras el servidor esté activo."
 				Severity="Warning" />
 		</StackPanel>
 

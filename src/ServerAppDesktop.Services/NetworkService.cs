@@ -29,6 +29,6 @@ public class NetworkService : INetworkService
             using HttpClient client = new();
             return await client.GetStringAsync("https://api.ipify.org/");
         }
-        catch { return "Desconocida"; }
+        catch { return ResourceHelper.GetString("UnknownString"); }
     }
 }

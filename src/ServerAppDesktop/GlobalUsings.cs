@@ -3,6 +3,7 @@ global using global::System.Collections.ObjectModel;
 global using global::System.Diagnostics;
 global using global::System.Runtime.InteropServices;
 global using global::System.Collections;
+global using global::System.Globalization;
 global using global::System.Diagnostics.CodeAnalysis;
 global using global::System.Text.Json.Nodes;
 #endregion
@@ -12,6 +13,8 @@ global using global::Windows.System;
 global using global::Windows.Storage;
 global using global::Windows.Foundation;
 global using global::WinRT;
+global using global::Microsoft.Windows.ApplicationModel.Resources;
+global using global::Microsoft.Windows.Globalization;
 global using global::Windows.Win32;
 global using global::Windows.Win32.Foundation;
 global using global::Windows.Win32.UI.WindowsAndMessaging;

@@ -5,6 +5,7 @@ global using global::System.Drawing;
 global using global::System.IO;
 global using global::System.Runtime.InteropServices;
 global using global::System.Windows.Input;
+global using ResourceHelper = global::ServerAppDesktop.Helpers.ResourceHelper;
 #endregion
 
 #region Microsoft Windows App SDK (AppModel)

@@ -8,14 +8,14 @@ public static partial class DataHelper
     {
         0 => "ServerAppDesktop_3e2b8f4a-1c4e-4d3b-9f7a-2f4e5d6c7b8a",
         1 => "ServerAppDesktop_74af9644-d6d0-4762-84ab-c54826171600",
-        _ => throw new IndexOutOfRangeException($"Canal inválido: {UpdateChannel}")
+        _ => throw new IndexOutOfRangeException($"{ResourceHelper.GetString("InvalidUpdateChannel")}: {UpdateChannel}")
     };
 
     public static string AppUserModelID => UpdateChannel switch
     {
         0 => "ProfMinecraftDev.ServerAppDesktop",
         1 => "ProfMinecraftDev.ServerAppDesktop.Preview",
-        _ => throw new IndexOutOfRangeException($"Canal inválido: {UpdateChannel}")
+        _ => throw new IndexOutOfRangeException($"{ResourceHelper.GetString("InvalidUpdateChannel")}: {UpdateChannel}")
     };
 
     public static AppSettings? Settings { get; set; }
@@ -27,7 +27,7 @@ public static partial class DataHelper
     {
         0 => AppName,
         1 => $"{AppName} (Preview)",
-        _ => throw new IndexOutOfRangeException($"Canal inválido: {UpdateChannel}")
+        _ => throw new IndexOutOfRangeException($"{ResourceHelper.GetString("InvalidUpdateChannel")}: {UpdateChannel}")
     };
 
     public static string WindowSubtitle { get; private set; } = string.Empty;
@@ -57,6 +57,10 @@ public static partial class DataHelper
     {
         WindowPersistenceFile = !DebugMode ? "windowpersistence.json" : "windowpersistence.Debug.json";
         SettingsFile = !DebugMode ? "appsettings.json" : "appsettings.Debug.json";
+    }
+
+    public static void Initialize()
+    {
         using var identity = WindowsIdentity.GetCurrent();
         WindowsPrincipal principal = new(identity);
         RunAsAdmin = principal.IsInRole(WindowsBuiltInRole.Administrator);
@@ -68,6 +72,5 @@ public static partial class DataHelper
             (true, false) => ResourceHelper.GetString("AdminModeIndicator"),
             _ => string.Empty
         };
-
     }
 }

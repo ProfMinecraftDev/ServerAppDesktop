@@ -154,7 +154,7 @@ public sealed partial class ProcessService : IProcessService, IDisposable
                      cleanData.Contains("Exception in thread", StringComparison.OrdinalIgnoreCase)))
                 {
 
-                    _ = _tcs.TrySetException(new Exception("El servidor falló al iniciar. Revisa la consola."));
+                    _ = _tcs.TrySetException(new Exception(ResourceHelper.GetString("ServerFailedToStart")));
                 }
                 DataReceived?.Invoke(this, new ProcessDataReceivedEventArgs(cleanData, isError: true));
             };
@@ -167,7 +167,7 @@ public sealed partial class ProcessService : IProcessService, IDisposable
                     Cleanup();
                     if (!_tcs.Task.IsCompleted && _process?.ExitCode != 0)
                     {
-                        _ = _tcs.TrySetException(new Exception("El servidor falló al iniciar. Revisa la consola."));
+                        _ = _tcs.TrySetException(new Exception(ResourceHelper.GetString("ServerFailedToStart")));
                     }
 
                     ProcessExited?.Invoke(this, new ProcessExitedEventArgs(exitCode == 0, exitCode));
@@ -193,7 +193,7 @@ public sealed partial class ProcessService : IProcessService, IDisposable
                 }
                 catch (Exception ex)
                 {
-                    Debug.WriteLine($"Error vinculando al Job: {ex.Message}");
+                    Debug.WriteLine(string.Format(ResourceHelper.GetString("ErrorToLinkToJob"), ex.Message));
                 }
 
                 _process.BeginOutputReadLine();

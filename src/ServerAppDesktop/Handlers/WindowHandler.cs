@@ -160,14 +160,13 @@ public class WindowHandler : IWindowHandler
     public async Task UpdateFullScreenLogic(bool fullScreen, Button fsButton)
     {
         if (_window == null)
-        {
             return;
-        }
 
         if (fullScreen)
         {
             fsButton.Content = new FontIcon { FontSize = 12, Glyph = "\uE92C" };
-            ToolTipService.SetToolTip(fsButton, "Salir de pantalla completa (ESC o F11)");
+            ToolTipService.SetToolTip(fsButton, ResourceHelper.GetString("Window_FullScreen_Exit"));
+
             _window.PresenterKind = AppWindowPresenterKind.FullScreen;
 
             await Task.Delay(1000);
@@ -179,7 +178,8 @@ public class WindowHandler : IWindowHandler
         else
         {
             fsButton.Content = new FontIcon { FontSize = 12, Glyph = "\uE92D" };
-            ToolTipService.SetToolTip(fsButton, "Pantalla completa (F11)");
+            ToolTipService.SetToolTip(fsButton, ResourceHelper.GetString("Window_FullScreen_Enter"));
+
             _window.PresenterKind = AppWindowPresenterKind.Overlapped;
             _window.TitleBar.Height = 48;
         }

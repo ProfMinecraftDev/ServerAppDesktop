@@ -29,7 +29,7 @@ public static class ServerUIHelper
             if (!PInvoke.ShellExecuteEx(&info))
             {
                 int errorCode = Marshal.GetLastWin32Error();
-                System.Diagnostics.Debug.WriteLine($"Error de Shell: {errorCode}");
+                System.Diagnostics.Debug.WriteLine(string.Format(ResourceHelper.GetString("ShellError"), errorCode));
             }
         }
     }
@@ -75,11 +75,11 @@ public static class ServerUIHelper
     {
         return state switch
         {
-            ServerStateType.Starting => "Iniciando...",
-            ServerStateType.Running => "En ejecución",
-            ServerStateType.Restarting => "Reiniciando...",
-            ServerStateType.Stopping => "Deteniendo...",
-            ServerStateType.Stopped => "Detenido",
+            ServerStateType.Starting => ResourceHelper.GetString("ServerState_Starting"),
+            ServerStateType.Running => ResourceHelper.GetString("ServerState_Running"),
+            ServerStateType.Restarting => ResourceHelper.GetString("ServerState_Restarting"),
+            ServerStateType.Stopping => ResourceHelper.GetString("ServerState_Stopping"),
+            ServerStateType.Stopped => ResourceHelper.GetString("ServerState_Stopped"),
             _ => ResourceHelper.GetString("NoneItem")
         };
     }

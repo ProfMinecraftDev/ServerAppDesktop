@@ -8,7 +8,6 @@ public sealed partial class App : Application
     public App(bool trayOnly = false)
     {
         _trayOnly = trayOnly;
-        InitializeComponent();
 
         if (SettingsHelper.ExistsConfigurationFile())
         {
@@ -18,6 +17,9 @@ public sealed partial class App : Application
         {
             DataHelper.Settings = null;
         }
+
+        DataHelper.Initialize();
+        InitializeComponent();
 
         Host = AppHandler.ConfigureHost();
     }

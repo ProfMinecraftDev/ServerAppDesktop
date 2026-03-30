@@ -3,13 +3,13 @@ namespace ServerAppDesktop.Views.Pages;
 public sealed partial class FilesPage : Page
 {
     public FilesViewModel ViewModel { get; }
-
     private readonly SemaphoreSlim _dialogSemaphore = new(1, 1);
 
     public FilesPage()
     {
         InitializeComponent();
         ViewModel = App.GetRequiredService<FilesViewModel>();
+
         ViewModel.ErrorOccurred += async (s, e) =>
         {
             DispatcherQueue.TryEnqueue(async () =>
@@ -19,6 +19,7 @@ public sealed partial class FilesPage : Page
                 detailsExpander.IsExpanded = true;
             });
         };
+
         ViewModel.OperationSuccess += async (s, e) =>
         {
             DispatcherQueue.TryEnqueue(async () =>
@@ -69,7 +70,8 @@ public sealed partial class FilesPage : Page
         }
         catch (Exception ex)
         {
-            System.Diagnostics.Debug.WriteLine($"Error al mostrar diálogo: {ex.Message}");
+            string errorLog = string.Format(ResourceHelper.GetString("FilesPage_DialogError"), ex.Message);
+            System.Diagnostics.Debug.WriteLine(errorLog);
         }
         finally
         {
@@ -80,7 +82,9 @@ public sealed partial class FilesPage : Page
     private async Task ShowError(string message, string details = "")
     {
         errorMessageText.Text = message;
-        errorDetailsText.Text = string.IsNullOrEmpty(details) ? "Sin detalles adicionales." : details;
+        errorDetailsText.Text = string.IsNullOrEmpty(details)
+            ? ResourceHelper.GetString("FilesPage_NoDetails")
+            : details;
 
         try
         {
@@ -88,7 +92,8 @@ public sealed partial class FilesPage : Page
         }
         catch (Exception ex)
         {
-            Debug.WriteLine($"Error al mostrar el diálogo: {ex.Message}");
+            string errorLog = string.Format(ResourceHelper.GetString("FilesPage_DialogError"), ex.Message);
+            Debug.WriteLine(errorLog);
         }
     }
 

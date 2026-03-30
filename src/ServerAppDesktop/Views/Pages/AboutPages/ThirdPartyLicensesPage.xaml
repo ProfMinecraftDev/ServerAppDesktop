@@ -7,7 +7,6 @@
 	xmlns:local="using:ServerAppDesktop.Views.Pages.AboutPages"
 	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 	xmlns:models="using:ServerAppDesktop.Models"
-	NavigationCacheMode="Required"
 	mc:Ignorable="d">
 
 	<StackPanel HorizontalAlignment="Center">
@@ -27,9 +26,9 @@
 			SelectionMode="None">
 			<ListView.ItemTemplate>
 				<DataTemplate x:DataType="models:ThirdPartyLicense">
-					<Grid>
+					<Grid HorizontalAlignment="Stretch">
 						<Grid.ColumnDefinitions>
-							<ColumnDefinition Width="2*" />
+							<ColumnDefinition Width="*" />
 							<ColumnDefinition Width="*" />
 							<ColumnDefinition Width="*" />
 						</Grid.ColumnDefinitions>

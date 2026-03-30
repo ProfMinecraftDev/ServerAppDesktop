@@ -1,5 +1,4 @@
-﻿
-namespace ServerAppDesktop.Handlers;
+﻿namespace ServerAppDesktop.Handlers;
 
 public static class CommandLineHandler
 {
@@ -14,31 +13,34 @@ public static class CommandLineHandler
         {
             if (!ValidArgs.Any(v => arg.StartsWith(v)))
             {
+                string errorTitle = ResourceHelper.GetString("Cmd_Error_Title");
+                string errorMsg = string.Format(ResourceHelper.GetString("Cmd_Error_Unknown"), arg);
+
                 _ = PInvoke.MessageBox(
                     HWND.Null,
-                    $"Argumento no reconocido: {arg}",
-                    "Error",
+                    errorMsg,
+                    errorTitle,
                     MESSAGEBOX_STYLE.MB_OK | MESSAGEBOX_STYLE.MB_ICONERROR | MESSAGEBOX_STYLE.MB_TOPMOST
-                    );
+                );
                 Environment.Exit(WIN32_ERROR.ERROR_INVALID_PARAMETER.To<int>());
             }
 
             if (arg is "--version" or "-v")
             {
-                PInvoke.MessageBox(HWND.Null, $"{DataHelper.AppName} Versión {DataHelper.AppVersion}", "Información de Versión",
+                string infoTitle = ResourceHelper.GetString("Cmd_Info_Title");
+                string infoMsg = string.Format(ResourceHelper.GetString("Cmd_Info_Msg"), DataHelper.AppName, DataHelper.AppVersion);
+
+                PInvoke.MessageBox(HWND.Null, infoMsg, infoTitle,
                     MESSAGEBOX_STYLE.MB_OK | MESSAGEBOX_STYLE.MB_ICONINFORMATION | MESSAGEBOX_STYLE.MB_TOPMOST);
                 Environment.Exit(WIN32_ERROR.ERROR_SUCCESS.To<int>());
             }
 
             if (arg is "--help" or "-h")
             {
-                string msg = @"
-                Ayuda de argumentos:
-                --help, -h          : Muestra esta ayuda.
-                --version, -v       : Muestra la versión de la app.
-                --reset-settings    : Restablece la configuración de la app,
-                --tray-only         : La app inicia oculta en la bandeja del sistema.";
-                PInvoke.MessageBox(HWND.Null, msg, "Ayuda de argumentos",
+                string helpTitle = ResourceHelper.GetString("Cmd_Help_Title");
+                string helpMsg = ResourceHelper.GetString("Cmd_Help_Msg");
+
+                PInvoke.MessageBox(HWND.Null, helpMsg, helpTitle,
                     MESSAGEBOX_STYLE.MB_OK | MESSAGEBOX_STYLE.MB_ICONHAND | MESSAGEBOX_STYLE.MB_TOPMOST);
                 Environment.Exit(WIN32_ERROR.ERROR_SUCCESS.To<int>());
             }
@@ -50,5 +52,4 @@ public static class CommandLineHandler
         if (args.Any(a => a is "--reset-settings"))
             SettingsHelper.ResetSettings();
     }
-
 }

@@ -1,6 +1,6 @@
 ﻿namespace ServerAppDesktop.ViewModels;
 
-public partial class OOBEViewModel : ObservableObject
+public sealed partial class OOBEViewModel : ObservableObject
 {
     private readonly IOOBEService _service;
     private readonly HomeViewModel _homeViewModel;
@@ -9,7 +9,6 @@ public partial class OOBEViewModel : ObservableObject
     private string serverFolder = "";
     private string serverExe = "";
 
-    #region Collections & Selection
     [ObservableProperty] private ObservableCollection<WindowBackdrop> _windowBackdrops = [];
     [ObservableProperty] private ObservableCollection<WindowTheme> _windowThemes = [];
     [ObservableProperty] private ObservableCollection<MinecraftEdition> _minecraftEditions = [];
@@ -17,9 +16,7 @@ public partial class OOBEViewModel : ObservableObject
     [ObservableProperty] private WindowBackdrop? selectedBackdrop;
     [ObservableProperty] private WindowTheme? selectedTheme;
     [ObservableProperty] private MinecraftEdition? selectedMinecraftEdition;
-    #endregion
 
-    #region Form Properties
     [ObservableProperty] private string serverPath = "";
     [ObservableProperty] private string serverExecutable = "";
     [ObservableProperty] private int serverPort = 0;
@@ -27,7 +24,6 @@ public partial class OOBEViewModel : ObservableObject
     [ObservableProperty] private bool autoStartServer = true;
     [ObservableProperty] private bool canSelectFolder = true;
     [ObservableProperty] private bool canSelectExecutable = true;
-    #endregion
 
     public OOBEViewModel(IOOBEService service, HomeViewModel homeViewModel, IServerPropertiesService serverPropertiesService)
     {
@@ -63,7 +59,6 @@ public partial class OOBEViewModel : ObservableObject
         (SelectedBackdrop, SelectedTheme, SelectedMinecraftEdition) = (WindowBackdrops[0], WindowThemes[0], MinecraftEditions[0]);
     }
 
-    #region UI Logic Sync
     partial void OnSelectedBackdropChanged(WindowBackdrop? value) { if (MainWindow.Instance != null && value?.Value != null) MainWindow.Instance.SystemBackdrop = value.Value; }
     partial void OnSelectedThemeChanged(WindowTheme? value) { if (MainWindow.Instance != null && value?.Value != null) WindowHelper.SetTheme(MainWindow.Instance, value.Value); }
 
@@ -87,11 +82,8 @@ public partial class OOBEViewModel : ObservableObject
             return;
         _serverPropertiesService.SetPath(value);
         ServerPort = _serverPropertiesService.GetValue<int>("server-port");
-        ServerDescription = _serverPropertiesService.GetValue<string>(SelectedMinecraftEdition?.Value == 0 ? "server-name" : "motd") ?? "A Minecraft Server";
+        ServerDescription = _serverPropertiesService.GetValue<string>(SelectedMinecraftEdition?.Value == 0 ? "server-name" : "motd") ?? ResourceHelper.GetString("OOBE_Default_MOTD");
     }
-    #endregion
-
-    #region Picker Logic (Generic & DRY)
 
     [RelayCommand]
     private async Task SelectServerPathAsync()
@@ -136,7 +128,6 @@ public partial class OOBEViewModel : ObservableObject
     Action<string> onResult,
     string[]? filters = null) where TPicker : class
     {
-
         if (picker is FolderPicker fp)
         {
             fp.SuggestedStartLocation = PickerLocationId.ComputerFolder;
@@ -157,14 +148,12 @@ public partial class OOBEViewModel : ObservableObject
             onResult(pfor.Path);
     }
 
-    #endregion
-
     [RelayCommand]
     private void SaveOOBESettings()
     {
         if (string.IsNullOrEmpty(serverExe) || string.IsNullOrEmpty(serverFolder))
         {
-            ShowMsg("Error", "Selecciona una ruta al servidor o ejecutable (necesita ser obligatorio)", MESSAGEBOX_STYLE.MB_ICONERROR);
+            ShowMsg(ResourceHelper.GetString("OOBE_Error_Title"), ResourceHelper.GetString("OOBE_Error_Msg"), MESSAGEBOX_STYLE.MB_ICONERROR);
             return;
         }
 
@@ -179,7 +168,7 @@ public partial class OOBEViewModel : ObservableObject
         OnServerPortChanged(ServerPort);
 
         if (settings.Server.Edition == 1)
-            ShowMsg("Instalación de Java recomendada", "Seleccionaste Minecraft Java. Asegúrate de tener Java instalado en el PATH.", MESSAGEBOX_STYLE.MB_ICONINFORMATION);
+            ShowMsg(ResourceHelper.GetString("OOBE_Java_Title"), ResourceHelper.GetString("OOBE_Java_Msg"), MESSAGEBOX_STYLE.MB_ICONINFORMATION);
 
         _service.SaveUserSettings(settings);
         _service.FinishOOBE();

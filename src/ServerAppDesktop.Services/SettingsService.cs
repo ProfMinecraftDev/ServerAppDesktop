@@ -27,7 +27,13 @@ public sealed class SettingsService : ISettingsService
     public int GetLanguageIndex()
     {
         string code = DataHelper.Settings?.UI.Language?.ToLowerInvariant() ?? "";
-        return code == "es-419" ? 1 : 0;
+        return code switch
+        {
+            "" => 0,
+            "es-419" => 1,
+            "en-us" => 2,
+            _ => 0
+        };
     }
 
     public void SetStartWithWindows(bool enable)

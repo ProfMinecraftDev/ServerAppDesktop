@@ -20,10 +20,9 @@
 			Placement="Top"
 			ShowMode="Transient">
 			<controls:MenuFlyoutItemCard
-				x:Name="menuItemCard"
+				x:Uid="MenuFlyoutItem_Status"
 				Caption="{x:Bind HomeViewModel.ServerState, Mode=OneWay, Converter={StaticResource ServerStateToStringConverter}}"
-				IsEnabled="False"
-				Text="Estado" />
+				IsEnabled="False" />
 			<MenuFlyoutSeparator />
 			<MenuFlyoutItem
 				x:Uid="MenuFlyoutItem_StartServer"

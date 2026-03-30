@@ -61,14 +61,21 @@ public static class AppHandler
 
     private static void ShowUpdateNotification(string version)
     {
+        string title = ResourceHelper.GetString("Update_Notify_Title");
+        string message = string.Format(ResourceHelper.GetString("Update_Notify_Msg"), version);
+        string btnText = ResourceHelper.GetString("Update_Notify_BtnDownload");
+
         var toast = new WindowsNotification
         {
-            Title = "Nueva actualización",
-            Message = $"La versión {version} está lista",
+            Title = title,
+            Message = message,
             NotificationScenario = AppNotificationScenario.Reminder,
             Duration = AppNotificationDuration.Long
         };
+
         AppNotificationManager.Default.Show(toast.NotificationToBuild
-            .AddButton(new AppNotificationButton("Descargar").AddArgument("action", "downloadUpdate")).BuildNotification());
+            .AddButton(new AppNotificationButton(btnText)
+                .AddArgument("action", "downloadUpdate"))
+            .BuildNotification());
     }
 }

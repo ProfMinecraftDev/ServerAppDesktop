@@ -24,7 +24,6 @@ public partial class TrayIcon : IDisposable
         {
             ActualThemeChanged -= OnActualThemeChanged;
             Loaded -= OnLoaded;
-            TrayDelegateHandler.Invoked -= HandleTrayEvents;
         }
 
         _ = PInvoke.Shell_NotifyIcon(NOTIFY_ICON_MESSAGE.NIM_DELETE, in nid);

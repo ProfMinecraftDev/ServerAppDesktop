@@ -24,6 +24,7 @@
 
 	<ItemGroup>
 	  <ProjectReference Include="..\ServerAppDesktop.Converters\ServerAppDesktop.Converters.csproj" />
+	  <ProjectReference Include="..\ServerAppDesktop.Helpers\ServerAppDesktop.Helpers.csproj" />
 	</ItemGroup>
 
 </Project>

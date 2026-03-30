@@ -10,7 +10,7 @@ public sealed partial class MainWindow : WindowEx
     private readonly SettingsViewModel _settingsViewModel;
     private readonly INavigationService _navigationService;
 
-    public static MainWindow Instance => _instance ?? throw new Exception("MainWindow no ha sido inicializada. Llama a Initialize primero.");
+    public static MainWindow Instance => _instance ?? throw new InvalidOperationException(ResourceHelper.GetString("Err_MainWindowNotInitialized"));
     public bool IsMouseOverTitleBar { get; set; } = false;
     public static void Initialize()
     {

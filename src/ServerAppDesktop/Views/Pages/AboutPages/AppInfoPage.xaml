@@ -7,7 +7,6 @@
 	xmlns:local="using:ServerAppDesktop.Views.Pages"
 	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 	xmlns:toolkitExtensions="using:CommunityToolkit.WinUI"
-	NavigationCacheMode="Required"
 	mc:Ignorable="d">
 
 	<StackPanel>

@@ -128,7 +128,7 @@ public sealed class SystemService : ISystemService
 
             LicenseType = productId != null && productId.Contains("OEM")
                 ? "OEM"
-                : editionId != null && editionId.Contains("ENTERPRISE") ? "Volume (KMS/MAK)" : "Retail / Digital";
+                : editionId != null && editionId.Contains("ENTERPRISE") ? "Volume (KMS/MAK)" : "Retail";
         }
         catch
         {
@@ -158,7 +158,7 @@ public sealed class SystemService : ISystemService
                 null);
 
             if (hDisk.IsInvalid)
-                throw new Exception("No se pudo obtener el handle del disco físico.");
+                throw new Exception(ResourceHelper.GetString("ErrorToGetDiskHandle"));
 
             var handle = (HANDLE)hDisk.DangerousGetHandle();
 
@@ -191,13 +191,13 @@ public sealed class SystemService : ISystemService
                         {
                             17 => "SSD NVMe (M.2)",
                             11 => "SSD SATA",
-                            7 => "SSD Externo (USB)",
+                            7 => "SSD (USB)",
                             _ => "SSD"
                         },
                         false => (byte)busType switch
                         {
                             11 => "HDD SATA",
-                            7 => "HDD Externo (USB)",
+                            7 => "HDD (USB)",
                             _ => "HDD"
                         }
                     };
@@ -229,8 +229,8 @@ public sealed class SystemService : ISystemService
         }
         catch (Exception)
         {
-            StorageType = "Desconocido";
-            StorageSize = "Desconocido";
+            StorageType = ResourceHelper.GetString("UnknownString");
+            StorageSize = ResourceHelper.GetString("UnknownString");
         }
     }
 
