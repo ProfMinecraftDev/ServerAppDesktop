@@ -1,4 +1,10 @@
-# Plan de Traducción para Server App Desktop
+<h1 align="center">
+    Plan de Traducción para Server App Desktop
+</h1>
+
+<p align="center">
+  <img src="images/Translate.png" width="800">
+</p>
 
 ## Análisis del Sistema de Traducción
 

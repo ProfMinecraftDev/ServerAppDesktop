@@ -84,7 +84,11 @@
 						CornerRadius="0,0,4,4"
 						IsClosable="False"
 						IsOpen="True"
-						Severity="Informational" />
+						Severity="Informational">
+						<InfoBar.ActionButton>
+							<HyperlinkButton x:Uid="HelpTranslateLink" NavigateUri="https://github.com/ProfMinecraftDev/ServerAppDesktop/blob/master/docs/HowToTranslate.md" />
+						</InfoBar.ActionButton>
+					</InfoBar>
 				</StackPanel>
 
 				<TextBlock x:Uid="ServerHeader" Style="{StaticResource SettingsSectionHeaderTextBlockStyle}" />

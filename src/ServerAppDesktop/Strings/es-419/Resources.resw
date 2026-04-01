@@ -1195,4 +1195,7 @@ Error: {0}</value>
   <data name="MenuFlyoutItem_Status.Text" xml:space="preserve">
     <value>Estado del servidor</value>
   </data>
+  <data name="HelpTranslateLink.Content" xml:space="preserve">
+    <value>Leer más</value>
+  </data>
 </root>
