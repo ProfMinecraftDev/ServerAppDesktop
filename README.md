@@ -8,7 +8,7 @@
 
 <div align="center">
 
-![Server App Desktop](https://img.shields.io/badge/Version-1.0.0.3%20(Preview)-darkblue?style=for-the-badge)
+![Server App Desktop](https://img.shields.io/badge/Versión-1.0.0.3%20(Preview)-darkblue?style=for-the-badge)
 ![.NET](https://img.shields.io/badge/.NET-10.0-purple?style=for-the-badge)
 ![WinUI](https://img.shields.io/badge/WinUI-3-blue?style=for-the-badge)
 ![Windows App SDK](https://img.shields.io/badge/Windows%20App%20SDK-1.8-green?style=for-the-badge)
@@ -21,67 +21,67 @@
 ## Arquitectura de la aplicación
 
 ### Diseño
-- Server App Desktop comenzó desde su actualización 1.0 Preview 2 a utilizar WinUI 3/Windows App SDK, lo cual está ligado al Fluent Design System (Fluent 2) de Windows.
-- Fluent 2 abre las puertas a mejor diseño y animaciones en la UI de la App sin afectar el rendimiento.
-- Se está reconstruyendo todo el código de la Applicación con el patrón Modelo-Vista-VistaModelo (MVVM o Model-View-ViewModel).
-- Se está comenzando a implementar el multilenguaje de la App, necesitamos que nos ayude a contribuir traduciendo los strings según el idioma que gustes.
+- A partir de su actualización 1.0 Preview 2, Server App Desktop comenzó a utilizar WinUI 3/Windows App SDK, lo cual está ligado al Fluent Design System (Fluent 2) de Windows.
+- Fluent 2 abre las puertas a un mejor diseño y animaciones en la interfaz de usuario (UI) de la aplicación sin afectar el rendimiento.
+- Se está reconstruyendo todo el código de la aplicación bajo el patrón **Modelo-Vista-VistaModelo** (MVVM o Model-View-ViewModel).
+- Se ha comenzado a implementar el soporte multiidioma; necesitamos tu ayuda para contribuir traduciendo las cadenas de texto (strings) según el idioma que prefieras.
 
 ### Código fuente
-- Se está utilizando el nuevo SDK .NET 10.0 y C# 14 para mantener la Aplicación compatible con Windows 10 y 11.
-- Se está utilizando la nueva Versión 1.8 de Windows App SDK, con soporte de desempaquetado (no MSIX).
-- Se está organizando la App en proyectos separados (Ejecutable-Librería1-Libreria2-Libreria3) para mejor claridad en pruebas (sobre todo las unitarias).
-- Utilizamos Dependency Injection (DI) del paquete `Microsoft.Extensions.Hosting` para mejor obtención de servicios.
-- Reducimos cantidad de variables para evitar tanta sobrecarga en la memoria.
+- Se está utilizando el nuevo SDK **.NET 10.0** y **C# 14** para mantener la aplicación compatible con Windows 10 y 11.
+- Se utiliza la versión 1.8 de Windows App SDK, con soporte para ejecución sin empaquetar (no MSIX).
+- La aplicación se organiza en proyectos separados (Ejecutable-Librería1-Librería2-Librería3) para una mejor claridad en las pruebas (especialmente las unitarias).
+- Utilizamos Inyección de Dependencias (DI) del paquete `Microsoft.Extensions.Hosting` para una mejor obtención de servicios.
+- Reducimos la cantidad de variables para evitar sobrecarga en la memoria.
 - **Estructura de directorios:**
-    ```
+    ```text
     ServerAppDesktop
     |   ServerAppDesktop.sln            # Solución
     |
     +---installer                       
-    |   \---Assets                      # Archivos de instalador
+    |   \---Assets                      # Archivos del instalador
     \---src
         +---ServerAppDesktop            # Proyecto principal, UI y ViewModels
         +---ServerAppDesktop.Controls   # Controles personalizados
-        +---ServerAppDesktop.Helpers    # Helpers
+        +---ServerAppDesktop.Helpers    # Ayudantes (Helpers)
         +---ServerAppDesktop.Models     # Modelos (datos puros)
-        +---ServerAppDesktop.Converters # Converters
+        +---ServerAppDesktop.Converters # Conversores (Converters)
         \---ServerAppDesktop.Services   # Servicios (Lógica completa)
     ```
 
 ## Características
 
 ### Interfaz unificada
-- Soporte de gestión de servidores Minecraft Bedrock y Minecraft Java.
-- Archivo ejecutable de servidor (`server.jar` o `bedrock_server.exe`) corriendo de forma nativa en tu PC incluso sin conexión a internet.
-- Envío de comandos al servidor (como tu queridísimo `say Hola Mundo!`).
-- Monitoreo de rendimiento (CPU, RAM, Red, I/O del disco).
-- Información de tu computadora a tu alcance sin abrir otras ventanas.
-- Manejo de archivos de tu servidor (Borrar, Copiar, Mover, Renombrar, Backup y Edición).
-- Envío de comentarios (feedback) para mejorar.
-- Cumplimiento de normas Fluent Design.
+- Soporte para la gestión de servidores Minecraft Bedrock y Minecraft Java.
+- Ejecución nativa del archivo ejecutable del servidor (`server.jar` o `bedrock_server.exe`) en tu computadora, incluso sin conexión a internet.
+- Envío de comandos al servidor (como el clásico `say ¡Hola Mundo!`).
+- Monitoreo de rendimiento en tiempo real (CPU, RAM, Red, E/S de disco).
+- Información de tu computadora al alcance de tu mano sin abrir otras ventanas.
+- Gestión de archivos de tu servidor (Eliminar, Copiar, Mover, Renombrar, Respaldos y Edición).
+- Envío de comentarios (feedback) para mejorar la aplicación.
+- Cumplimiento de las normas de Fluent Design.
 
 ### Configuración
-- Todo guardado en JSON con patrón legible.
-- Persistente en `%LocalAppData%\Server App Desktop\Settings\Settings.json` editable.
-- Instalación Per-User y Per-Machine.
+- Todo se guarda en archivos JSON con un formato legible.
+- Configuración persistente en `%LocalAppData%\Server App Desktop\Settings\Settings.json` (editable).
+- Soporte para instalación por usuario (Per-User) y por equipo (Per-Machine).
 
 ## Instalación y Configuración
 
 ### Prerrequisitos
-- **OS**: Windows 10 Version 2004 (19041) o superior
-- **Hardware**: x64, x86, o ARM64
-- **Visual Studio**: 2022 versión 17.8+ con carga de trabajo "WinUI Application Development"
+- **SO**: Windows 10 Versión 2004 (19041) o superior.
+- **Hardware**: Arquitecturas x64, x86 o ARM64.
+- **Visual Studio**: 2022 versión 17.8+ con la carga de trabajo "Desarrollo de aplicaciones WinUI".
 
 ### Instalación desde Release
 1. **Descarga el instalador**: `ServerAppDesktop-Setup-1.0.0.3-Preview.exe`
-2. **Ejecuta como administrador** para una instalación completa **(NO OBLIGATORIO)**
-3. **Sigue el asistente** de configuración inicial al primer arranque
+2. **Ejecuta como administrador** para una instalación completa **(NO ES OBLIGATORIO)**.
+3. **Sigue el asistente** de configuración inicial al arrancar por primera vez.
 
 ### Compilación desde Código Fuente
 
 ```powershell
 # 1. Clonar el repositorio
-git clone https://github.com/ProfMinecraftDev/ServerAppDesktop.git
+git clone [https://github.com/ProfMinecraftDev/ServerAppDesktop.git](https://github.com/ProfMinecraftDev/ServerAppDesktop.git)
 cd ServerAppDesktop
 
 # 2. Restaurar dependencias
@@ -92,4 +92,16 @@ dotnet build ServerAppDesktop.sln -c Debug
 
 # 4. Compilar para Release (con optimizaciones)
 dotnet publish ServerAppDesktop.sln -c Release -r win-x64 --self-contained
+
+---
 ```
+
+## Idiomas de la documentación
+Esta documentación también está disponible en los siguientes idiomas:
+
+| Idioma | Estado | Enlace |
+| :--- | :---: | :--- |
+| ![English](https://img.shields.io/badge/English-en--US-blue) | **Completo** | [docs/en-US/README.md](./docs/en-US/README.md) |
+
+> [!TIP]
+> ¿Quieres ayudar? Si hablas otro idioma, ¡tus contribuciones para traducir la documentación son bienvenidas!
