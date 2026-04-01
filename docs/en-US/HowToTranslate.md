@@ -171,7 +171,7 @@ Keep structure, tables, code, and links. Translate only narrative text.
 
 - **Change language runtime**: Settings → Language
 - **Fallback**: If string missing → Shows `es-419` (master language)
-- **Spanish documentation**: [docs/HowToTranslate.md](docs/HowToTranslate.md)
+- **Spanish documentation**: [docs/HowToTranslate.md](/docs/HowToTranslate.md)
 
 ---
 
