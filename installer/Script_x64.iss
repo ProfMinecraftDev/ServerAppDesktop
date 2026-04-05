@@ -38,9 +38,11 @@ MinVersion=0,10.0.19041
 
 [Languages]
 Name: "spanish"; MessagesFile: "compiler:Languages\Spanish.isl"
+Name: "english"; MessagesFile: "compiler:Default.isl"
 
 [Tasks]
 Name: "desktopicon"; Description: "{cm:CreateDesktopIcon}"; GroupDescription: "{cm:AdditionalIcons}"; Flags: unchecked
+Name: "runatstartup"; Description: "Iniciar {#AppName} con Windows"; GroupDescription: "{cm:AdditionalIcons}"; Flags: unchecked
 
 [Files]
 Source: "..\export\publish\{#AppMainExe}"; DestDir: "{app}"; Flags: ignoreversion
@@ -55,3 +57,8 @@ Name: "{autodesktop}\{#AppName}"; Filename: "{app}\{#AppMainExe}"; Tasks: deskto
 [Run]
 Filename: "{app}\{#AppMainExe}"; Description: "{cm:LaunchProgram,{#StringChange(AppName, '&', '&&')}}"; Flags: nowait postinstall skipifsilent
 
+[Registry]
+Root: HKCU; Subkey: "Software\Microsoft\Windows\CurrentVersion\Run"; \
+    ValueType: string; ValueName: "{#AppName}"; \
+    ValueData: """{app}\{#AppMainExe}"" --tray-only"; \
+    Flags: uninsdeletevalue; Tasks: runatstartup
